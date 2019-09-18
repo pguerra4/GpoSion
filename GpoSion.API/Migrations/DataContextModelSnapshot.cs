@@ -3,7 +3,6 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
@@ -15,15 +14,12 @@ namespace GpoSion.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity("GpoSion.API.Models.Area", b =>
                 {
                     b.Property<int>("AreaId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Abreviatura");
 
@@ -38,8 +34,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.Cliente", b =>
                 {
                     b.Property<int>("ClienteId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Clave");
 
@@ -60,8 +55,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.ExistenciaMaterial", b =>
                 {
                     b.Property<int>("ExistenciaMaterialId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AreaId");
 
@@ -82,8 +76,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.Material", b =>
                 {
                     b.Property<int>("MaterialId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaveMaterial")
                         .HasColumnName("Material");
@@ -114,8 +107,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.Molde", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaveMolde")
                         .HasColumnName("Molde");
@@ -148,8 +140,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.Moldeadora", b =>
                 {
                     b.Property<int>("MoldeadoraId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Clave");
 
@@ -161,8 +152,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.MovimientoMaterial", b =>
                 {
                     b.Property<int>("MovimientoMaterialId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("Cantidad")
                         .HasColumnType("decimal(18, 3)");
@@ -193,8 +183,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.TipoMaterial", b =>
                 {
                     b.Property<int>("TipoMaterialId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Tipo");
 
@@ -206,8 +195,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.UnidadMedida", b =>
                 {
                     b.Property<int>("UnidadMedidaId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Descripcion");
 
@@ -221,8 +209,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Activo");
 
