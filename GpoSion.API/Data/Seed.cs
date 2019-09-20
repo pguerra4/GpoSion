@@ -31,6 +31,16 @@ namespace GpoSion.API.Data
 
                 context.SaveChanges();
             }
+
+            if (!context.Areas.Any())
+            {
+                var area = new Area { NombreArea = "Almacen", Abreviatura = "ALM" };
+                context.Areas.Add(area);
+                area = new Area { NombreArea = "Producción", Abreviatura = "PROD" };
+                context.Areas.Add(area);
+
+                context.SaveChanges();
+            }
         }
 
     }

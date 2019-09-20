@@ -17,6 +17,17 @@ namespace GpoSion.API.Data
         Task<IEnumerable<UnidadMedida>> GetUnidadesMedida();
         Task<UnidadMedida> GetUnidadMedida(int id);
 
+        Task<IEnumerable<Area>> GetAreas();
+        Task<Area> GetArea(int id);
+        Task<IEnumerable<ExistenciaMaterial>> GetExistencias();
+        Task<ExistenciaMaterial> GetExistencia(int id);
+
+        Task<IEnumerable<Material>> GetMateriales();
+        Task<Material> GetMaterial(int id);
+
+
+
+
 
     }
 }

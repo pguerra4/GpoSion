@@ -49,9 +49,46 @@ namespace GpoSion.API.Data
             return unidadMedida;
         }
 
+        public async Task<IEnumerable<Area>> GetAreas()
+        {
+            var areas = await _context.Areas.ToListAsync();
+            return areas;
+        }
+
+        public async Task<Area> GetArea(int id)
+        {
+            var area = await _context.Areas.FindAsync(id);
+
+            return area;
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<IEnumerable<ExistenciaMaterial>> GetExistencias()
+        {
+            var existencias = await _context.ExistenciasMaterial.ToListAsync();
+            return existencias;
+        }
+
+        public async Task<ExistenciaMaterial> GetExistencia(int id)
+        {
+            var existencia = await _context.ExistenciasMaterial.FindAsync(id);
+            return existencia;
+        }
+
+        public async Task<IEnumerable<Material>> GetMateriales()
+        {
+            var materiales = await _context.Materiales.Include(m => m.Cliente).Include(m => m.UnidadMedida).ToListAsync();
+            return materiales;
+        }
+
+        public async Task<Material> GetMaterial(int id)
+        {
+            var material = await _context.Materiales.FindAsync(id);
+            return material;
         }
     }
 }
