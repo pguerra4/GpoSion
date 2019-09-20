@@ -14,5 +14,9 @@ namespace GpoSion.API.Data
         Task<IEnumerable<Cliente>> GetClientes();
         Task<Cliente> GetCliente(int id);
 
+        Task<IEnumerable<UnidadMedida>> GetUnidadesMedida();
+        Task<UnidadMedida> GetUnidadMedida(int id);
+
+
     }
 }

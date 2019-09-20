@@ -19,6 +19,18 @@ namespace GpoSion.API.Data
 
                 context.SaveChanges();
             }
+
+            if (!context.UnidadesMedida.Any())
+            {
+                var unidadMedida = new UnidadMedida { Unidad = "LB", Descripcion = "Libra" };
+                context.UnidadesMedida.Add(unidadMedida);
+                unidadMedida = new UnidadMedida { Unidad = "KG", Descripcion = "Kilogramo" };
+                context.UnidadesMedida.Add(unidadMedida);
+                unidadMedida = new UnidadMedida { Unidad = "PZA", Descripcion = "Pieza" };
+                context.UnidadesMedida.Add(unidadMedida);
+
+                context.SaveChanges();
+            }
         }
 
     }

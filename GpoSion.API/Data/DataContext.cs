@@ -21,7 +21,12 @@ namespace GpoSion.API.Data
         public DbSet<ExistenciaMaterial> ExistenciasMaterial { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
-
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
+        //     modelBuilder.Entity<UnidadMedida>()
+        //         .HasAlternateKey(u => u.Unidad)
+        //         .HasName("AlternateKey_Unidad");
+        // }
 
     }
 }

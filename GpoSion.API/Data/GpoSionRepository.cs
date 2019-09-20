@@ -36,6 +36,19 @@ namespace GpoSion.API.Data
             return clientes;
         }
 
+        public async Task<IEnumerable<UnidadMedida>> GetUnidadesMedida()
+        {
+            var unidadesMedida = await _context.UnidadesMedida.ToListAsync();
+            return unidadesMedida;
+        }
+
+        public async Task<UnidadMedida> GetUnidadMedida(int id)
+        {
+            var unidadMedida = await _context.UnidadesMedida.FindAsync(id);
+
+            return unidadMedida;
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
