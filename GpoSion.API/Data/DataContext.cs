@@ -21,6 +21,12 @@ namespace GpoSion.API.Data
         public DbSet<ExistenciaMaterial> ExistenciasMaterial { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<Recibo> Recibos { get; set; }
+
+        public DbSet<DetalleRecibo> DetalleRecibos { get; set; }
+
+
+
         // protected override void OnModelCreating(ModelBuilder modelBuilder)
         // {
         //     modelBuilder.Entity<UnidadMedida>()

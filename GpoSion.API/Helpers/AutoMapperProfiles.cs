@@ -11,6 +11,8 @@ namespace GpoSion.API.Helpers
             CreateMap<Cliente, ClienteForDetailDto>();
             CreateMap<Cliente, ClienteForListDto>();
             CreateMap<Material, MaterialforPostDto>();
+            CreateMap<ReciboForCreationDto, Recibo>();
+
         }
     }
 }

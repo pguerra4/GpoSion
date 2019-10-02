@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GpoSion.API.Models
@@ -11,6 +12,9 @@ namespace GpoSion.API.Models
 
         [Column(TypeName = "decimal(18, 3)")]
         public decimal Existencia { get; set; }
+
+        public DateTime UltimaModificacion { get; set; }
+
 
     }
 }

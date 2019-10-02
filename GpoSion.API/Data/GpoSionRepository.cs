@@ -90,5 +90,19 @@ namespace GpoSion.API.Data
             var material = await _context.Materiales.FindAsync(id);
             return material;
         }
+
+        public async Task<IEnumerable<Recibo>> GetRecibos()
+        {
+            var recibos = await _context.Recibos.Include(r => r.Cliente).Include(r => r.Detalle).ToListAsync();
+
+            return recibos;
+
+        }
+
+        public async Task<Recibo> GetRecibo(int id)
+        {
+            var recibo = await _context.Recibos.Include(r => r.Detalle).FirstOrDefaultAsync(r => r.ReciboId == id);
+            return recibo;
+        }
     }
 }

@@ -1,0 +1,40 @@
+<div class="container">
+    <form [formGroup]="reciboForm" (ngSubmit)="addRecibo()">
+        <h2 class="text-center text-primary">Nuevo Recibo</h2>
+        <hr>
+        <div class="form-group">
+            <label for="Cliente">Cliente</label>
+            <select class="form-control col-sm-12 col-md-4" id="clienteId" formControlName="clienteId">
+            <option *ngFor="let cliente of clientes" [value]="cliente.clienteId">
+              {{ cliente.nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+            <label for="noRecibo">No. Recibo</label>
+            <input type="text" [ngClass]="{'is-invalid': reciboForm.get('noRecibo').errors && reciboForm.get('noRecibo').touched }" class="form-control col-sm-12 col-md-4" formControlName="noRecibo" placeholder="No. Recibo">
+            <div class="invalid-feedback">Escriba un número de recibo</div>
+        </div>
+
+        <div class="form-group">
+            <label for="fechaEntrada">Fecha Entrada</label>
+            <input class="form-control col-sm-12 col-md-4" placeholder="Fecha entrada" type="text" bsDatepicker [bsConfig]="bsConfig" formControlName="fechaEntrada">
+        </div>
+        <div class="form-group">
+            <label for="transportista">Transportista</label>
+            <input class="form-control col-sm-12 col-md-4" placeholder="Transportista" formControlName="transportista">
+        </div>
+        <div class="form-group">
+            <label for="facturaAduanal">Factura Aduanal</label>
+            <input class="form-control col-sm-12 col-md-4" placeholder="Factura Aduanal" formControlName="facturaAduanal">
+        </div>
+        <div class="form-group">
+            <label for="pedimentoImportacion">Pedimento Importación</label>
+            <input class="form-control col-sm-12 col-md-4" placeholder="Pedimento Importacion" formControlName="pedimentoImportacion">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success mr-2" [disabled]="!reciboForm.valid" type="submit">Guardar</button>
+        </div>
+
+    </form>
+</div>

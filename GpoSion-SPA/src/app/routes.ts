@@ -5,6 +5,8 @@ import { MaterialAddComponent } from "./material-add/material-add.component";
 import { ExistenciasAddComponent } from "./existencias-add/existencias-add.component";
 import { ProduccionListComponent } from "./produccion-list/produccion-list.component";
 import { MaterialProdComponent } from "./material-prod/material-prod.component";
+import { ReciboListComponent } from "./recibo-list/recibo-list.component";
+import { ReciboAddComponent } from "./recibo-add/recibo-add.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -28,6 +30,8 @@ export const appRoutes: Routes = [
   //   ]
   // },
   { path: "materiales", component: MaterialListComponent },
+  { path: "recibos", component: ReciboListComponent },
+  { path: "addRecibo", component: ReciboAddComponent },
   { path: "addAlmacen", component: ExistenciasAddComponent },
   { path: "produccion", component: ProduccionListComponent },
   { path: "solicitarMaterial/:id", component: MaterialProdComponent },

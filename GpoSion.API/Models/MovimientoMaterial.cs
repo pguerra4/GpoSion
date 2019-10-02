@@ -18,9 +18,9 @@ namespace GpoSion.API.Models
 
         public Usuario ModificadoPor { get; set; }
 
-        public string Recibo { get; set; }
+        public Recibo Recibo { get; set; }
 
-        public string Viajero { get; set; }
+        public int Viajero { get; set; }
 
     }
 }

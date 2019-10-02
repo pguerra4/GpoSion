@@ -25,7 +25,8 @@ namespace GpoSion.API.Data
         Task<IEnumerable<Material>> GetMateriales();
         Task<Material> GetMaterial(int id);
 
-
+        Task<IEnumerable<Recibo>> GetRecibos();
+        Task<Recibo> GetRecibo(int id);
 
 
 

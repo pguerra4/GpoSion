@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191001180114_ReAddMovimientosMaterialEntity")]
+    partial class ReAddMovimientosMaterialEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,7 +233,7 @@ namespace GpoSion.API.Migrations
 
                     b.Property<int?>("ClienteId");
 
-                    b.Property<int?>("CreadoPorId");
+                    b.Property<int?>("CredoPorId");
 
                     b.Property<string>("FacturaAduanal");
 
@@ -253,7 +255,7 @@ namespace GpoSion.API.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.HasIndex("CreadoPorId");
+                    b.HasIndex("CredoPorId");
 
                     b.ToTable("Recibos");
                 });
@@ -320,7 +322,7 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("MaterialId");
 
                     b.HasOne("GpoSion.API.Models.Recibo", "Recibo")
-                        .WithMany("Detalle")
+                        .WithMany()
                         .HasForeignKey("ReciboId");
 
                     b.HasOne("GpoSion.API.Models.UnidadMedida", "UnidadMedida")
@@ -402,9 +404,9 @@ namespace GpoSion.API.Migrations
                         .WithMany()
                         .HasForeignKey("ClienteId");
 
-                    b.HasOne("GpoSion.API.Models.Usuario", "CreadoPor")
+                    b.HasOne("GpoSion.API.Models.Usuario", "CredoPor")
                         .WithMany()
-                        .HasForeignKey("CreadoPorId");
+                        .HasForeignKey("CredoPorId");
                 });
 #pragma warning restore 612, 618
         }

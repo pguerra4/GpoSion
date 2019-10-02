@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191001175906_ReciboEntity")]
+    partial class ReciboEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -187,43 +189,6 @@ namespace GpoSion.API.Migrations
                     b.ToTable("Moldeadoras");
                 });
 
-            modelBuilder.Entity("GpoSion.API.Models.MovimientoMaterial", b =>
-                {
-                    b.Property<int>("MovimientoMaterialId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("Cantidad")
-                        .HasColumnType("decimal(18, 3)");
-
-                    b.Property<int?>("DestinoAreaId");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<int?>("MaterialId");
-
-                    b.Property<int?>("ModificadoPorId");
-
-                    b.Property<int?>("OrigenAreaId");
-
-                    b.Property<int?>("ReciboId");
-
-                    b.Property<int>("Viajero");
-
-                    b.HasKey("MovimientoMaterialId");
-
-                    b.HasIndex("DestinoAreaId");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("ModificadoPorId");
-
-                    b.HasIndex("OrigenAreaId");
-
-                    b.HasIndex("ReciboId");
-
-                    b.ToTable("MovimientosMaterial");
-                });
-
             modelBuilder.Entity("GpoSion.API.Models.Recibo", b =>
                 {
                     b.Property<int>("ReciboId")
@@ -231,7 +196,7 @@ namespace GpoSion.API.Migrations
 
                     b.Property<int?>("ClienteId");
 
-                    b.Property<int?>("CreadoPorId");
+                    b.Property<int?>("CredoPorId");
 
                     b.Property<string>("FacturaAduanal");
 
@@ -253,7 +218,7 @@ namespace GpoSion.API.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.HasIndex("CreadoPorId");
+                    b.HasIndex("CredoPorId");
 
                     b.ToTable("Recibos");
                 });
@@ -320,7 +285,7 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("MaterialId");
 
                     b.HasOne("GpoSion.API.Models.Recibo", "Recibo")
-                        .WithMany("Detalle")
+                        .WithMany()
                         .HasForeignKey("ReciboId");
 
                     b.HasOne("GpoSion.API.Models.UnidadMedida", "UnidadMedida")
@@ -373,38 +338,15 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("UbicacionAreaId");
                 });
 
-            modelBuilder.Entity("GpoSion.API.Models.MovimientoMaterial", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.Area", "Destino")
-                        .WithMany()
-                        .HasForeignKey("DestinoAreaId");
-
-                    b.HasOne("GpoSion.API.Models.Material", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId");
-
-                    b.HasOne("GpoSion.API.Models.Usuario", "ModificadoPor")
-                        .WithMany()
-                        .HasForeignKey("ModificadoPorId");
-
-                    b.HasOne("GpoSion.API.Models.Area", "Origen")
-                        .WithMany()
-                        .HasForeignKey("OrigenAreaId");
-
-                    b.HasOne("GpoSion.API.Models.Recibo", "Recibo")
-                        .WithMany()
-                        .HasForeignKey("ReciboId");
-                });
-
             modelBuilder.Entity("GpoSion.API.Models.Recibo", b =>
                 {
                     b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId");
 
-                    b.HasOne("GpoSion.API.Models.Usuario", "CreadoPor")
+                    b.HasOne("GpoSion.API.Models.Usuario", "CredoPor")
                         .WithMany()
-                        .HasForeignKey("CreadoPorId");
+                        .HasForeignKey("CredoPorId");
                 });
 #pragma warning restore 612, 618
         }
