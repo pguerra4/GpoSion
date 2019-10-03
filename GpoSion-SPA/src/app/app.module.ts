@@ -23,31 +23,40 @@ import { ReciboListComponent } from "./recibo-list/recibo-list.component";
 import { ReciboService } from "./_services/recibo.service";
 import { ReciboAddComponent } from "./recibo-add/recibo-add.component";
 import { ClienteService } from "./_services/cliente.service";
+import { AlertifyService } from "./_services/alertify.service";
+import { ReciboDetailComponent } from './recibo-detail/recibo-detail.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavComponent,
-    HomeComponent,
-    MaterialAddComponent,
-    MaterialListComponent,
-    ExistenciasAddComponent,
-    ProduccionListComponent,
-    MaterialProdComponent,
-    ReciboListComponent,
-    ReciboAddComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    BsDropdownModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
-  ],
-  providers: [ReciboService, ClienteService],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent,
+      NavComponent,
+      HomeComponent,
+      MaterialAddComponent,
+      MaterialListComponent,
+      ExistenciasAddComponent,
+      ProduccionListComponent,
+      MaterialProdComponent,
+      ReciboListComponent,
+      ReciboAddComponent,
+      ReciboDetailComponent
+   ],
+   imports: [
+      BrowserModule,
+      BrowserAnimationsModule,
+      HttpClientModule,
+      FormsModule,
+      ReactiveFormsModule,
+      BsDropdownModule.forRoot(),
+      BsDatepickerModule.forRoot(),
+      RouterModule.forRoot(appRoutes)
+   ],
+   providers: [
+      ReciboService,
+      ClienteService,
+      AlertifyService
+   ],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule {}

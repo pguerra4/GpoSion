@@ -10,6 +10,7 @@ export interface Recibo {
   facturaAduanal?: string;
   pedimentoImportacion?: string;
   clienteId: number;
+  clienteNombre: string;
   cliente: Cliente;
   recibio?: string;
   detalle: DetalleRecibo[];

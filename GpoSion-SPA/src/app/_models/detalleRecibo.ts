@@ -1,5 +1,6 @@
 import { Recibo } from "./recibo";
 import { UnidadMedida } from "./unidadMedida";
+import { Material } from "./material";
 
 export interface DetalleRecibo {
   detalleReciboId: number;
@@ -7,11 +8,12 @@ export interface DetalleRecibo {
   cantidadPorCaja: number;
   total: number;
   referencia2?: string;
-  Viajero: number;
+  viajero: number;
   referenciaCliente?: string;
   reciboId: number;
   recibo: Recibo;
   materialId: number;
+  material: string;
   unidadMedidaId: number;
   unidadMedida: UnidadMedida;
 }

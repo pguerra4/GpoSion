@@ -21,9 +21,12 @@ namespace GpoSion.API.Data
         Task<Area> GetArea(int id);
         Task<IEnumerable<ExistenciaMaterial>> GetExistencias();
         Task<ExistenciaMaterial> GetExistencia(int id);
+        Task<ExistenciaMaterial> GetExistenciaPorAreaMaterial(int areaId, int materialId);
 
         Task<IEnumerable<Material>> GetMateriales();
         Task<Material> GetMaterial(int id);
+        Task<Material> GetMaterialByClienteNombre(int clienteId, string nombre);
+
 
         Task<IEnumerable<Recibo>> GetRecibos();
         Task<Recibo> GetRecibo(int id);

@@ -16,6 +16,8 @@ namespace GpoSion.API.Models
         public string FacturaAduanal { get; set; }
         public string PedimentoImportacion { get; set; }
 
+        public bool IsComplete { get; set; }
+
         public int? ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 

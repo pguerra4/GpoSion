@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GpoSion.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -93,7 +94,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Recibo>> GetRecibos()
         {
-            var recibos = await _context.Recibos.Include(r => r.Cliente).Include(r => r.Detalle).ToListAsync();
+            var recibos = await _context.Recibos.Include(r => r.Cliente).Include(r => r.Detalle).OrderByDescending(r => r.FechaEntrada).ToListAsync();
 
             return recibos;
 
@@ -101,8 +102,20 @@ namespace GpoSion.API.Data
 
         public async Task<Recibo> GetRecibo(int id)
         {
-            var recibo = await _context.Recibos.Include(r => r.Detalle).FirstOrDefaultAsync(r => r.ReciboId == id);
+            var recibo = await _context.Recibos.Include(r => r.Detalle).Include(r => r.Cliente).FirstOrDefaultAsync(r => r.ReciboId == id);
             return recibo;
+        }
+
+        public async Task<Material> GetMaterialByClienteNombre(int clienteId, string nombre)
+        {
+            var material = await _context.Materiales.Where(m => m.Cliente.ClienteId == clienteId && m.ClaveMaterial == nombre).FirstOrDefaultAsync();
+            return material;
+        }
+
+        public async Task<ExistenciaMaterial> GetExistenciaPorAreaMaterial(int areaId, int materialId)
+        {
+            var existenciaMaterial = await _context.ExistenciasMaterial.FirstOrDefaultAsync(em => em.Area.AreaId == areaId && em.Material.MaterialId == materialId);
+            return existenciaMaterial;
         }
     }
 }

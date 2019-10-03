@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
@@ -26,8 +27,9 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetRecibos()
         {
             var recibos = await _repo.GetRecibos();
+            var recibostoList = _mapper.Map<ICollection<ReciboToListDto>>(recibos);
 
-            return Ok(recibos);
+            return Ok(recibostoList);
         }
 
 

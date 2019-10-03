@@ -1,0 +1,118 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">Recibo No. {{ recibo.noRecibo }}</div>
+        <div class="card-body">
+            <div class="card-title p-2">Cliente: {{ recibo.cliente.nombre }}</div>
+            <div class="card-text">
+                <form [formGroup]="reciboDetalleForm" (ngSubmit)="addDetalleRecibo()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="material">Material</label>
+                            <input type="text" #material [ngClass]="{
+                  'is-invalid':
+                    reciboDetalleForm.get('material').errors &&
+                    reciboDetalleForm.get('material').touched
+                }" class="form-control" formControlName="material" placeholder="Material" />
+                            <div class="invalid-feedback">El material es requerido</div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="viajero">Viajero</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    reciboDetalleForm.get('viajero').errors &&
+                    reciboDetalleForm.get('viajero').touched
+                }" class="form-control text-right" formControlName="viajero" placeholder="Viajero" />
+                            <div class="invalid-feedback">El viajero es requerido</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="totalCajas">Total cajas</label>
+                            <input type="number" (change)="calculaTotal()" (blur)="calculaTotal()" class="form-control text-right" formControlName="totalCajas" placeholder="Cajas" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="cantidadPorCaja">Cantidad por caja</label>
+                            <input type="text" (blur)="calculaTotal()" class="form-control text-right" formControlName="cantidadPorCaja" placeholder="Cantidad por caja" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="total">Total</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    reciboDetalleForm.get('total').errors &&
+                    reciboDetalleForm.get('total').touched
+                }" class="form-control text-right" formControlName="total" placeholder="Total" />
+                            <div class="invalid-feedback">El total es requerido</div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="unidadMedida">Unidad Medida</label>
+                            <select class="form-control text-right" id="unidadMedidaId" formControlName="unidadMedidaId">
+                <option
+                  *ngFor="let unidadMedida of unidadesMedida"
+                  [value]="unidadMedida.unidadMedidaId"
+                >
+                  {{ unidadMedida.unidad }}
+                </option>
+              </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="referencia2">Referencia 2</label>
+                            <input type="text" class="form-control" formControlName="referencia2" placeholder="Referencia 2/Control PEPS del Cliente" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="referenciaCliente">Referencia del cliente</label>
+                            <input type="text" class="form-control" formControlName="referenciaCliente" placeholder="Referencia del Cliente" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-4">
+                            <button class="btn btn-success" [disabled]="!reciboDetalleForm.valid" type="submit">
+                Agregar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="recibo.detalle.length > 0" class="card border-primary mt-2">
+        <div class="card-header">Detalle</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordred table-striped">
+                    <thead>
+                        <th>Material</th>
+                        <th>Cajas</th>
+                        <th>Cantidad Por Caja</th>
+                        <th>Total</th>
+                        <th>Viajero</th>
+                        <th>Borrar</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of detallesRecibo">
+                            <td>{{ item.material }}</td>
+                            <td>{{ item.totalCajas }}</td>
+                            <td>{{ item.cantidadPorCaja }}</td>
+                            <td>{{ item.total }}</td>
+                            <td>{{ item.viajero }}</td>
+                            <td>
+                                <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMaterial(item.material)">
+                  <span class="fa fa-trash"></span
+                ></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary" (click)="addDetalles()">
+        Guardar Recibo
+      </button>
+        </div>
+    </div>
+</div>

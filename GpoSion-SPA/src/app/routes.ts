@@ -7,6 +7,7 @@ import { ProduccionListComponent } from "./produccion-list/produccion-list.compo
 import { MaterialProdComponent } from "./material-prod/material-prod.component";
 import { ReciboListComponent } from "./recibo-list/recibo-list.component";
 import { ReciboAddComponent } from "./recibo-add/recibo-add.component";
+import { ReciboDetailComponent } from "./recibo-detail/recibo-detail.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -31,6 +32,7 @@ export const appRoutes: Routes = [
   // },
   { path: "materiales", component: MaterialListComponent },
   { path: "recibos", component: ReciboListComponent },
+  { path: "recibos/:id", component: ReciboDetailComponent },
   { path: "addRecibo", component: ReciboAddComponent },
   { path: "addAlmacen", component: ExistenciasAddComponent },
   { path: "produccion", component: ProduccionListComponent },

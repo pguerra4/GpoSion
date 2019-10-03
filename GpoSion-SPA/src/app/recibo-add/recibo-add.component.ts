@@ -4,6 +4,9 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Cliente } from "../_models/cliente";
 import { ClienteService } from "../_services/cliente.service";
 import { BsDatepickerConfig } from "ngx-bootstrap";
+import { Recibo } from "../_models/recibo";
+import { AlertifyService } from "../_services/alertify.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-recibo-add",
@@ -14,10 +17,13 @@ export class ReciboAddComponent implements OnInit {
   reciboForm: FormGroup;
   clientes: Cliente[];
   bsConfig: Partial<BsDatepickerConfig>;
+  recibo: Recibo;
 
   constructor(
     private reciboService: ReciboService,
     private clienteService: ClienteService,
+    private alertify: AlertifyService,
+    private router: Router,
     private fb: FormBuilder
   ) {}
 
@@ -30,13 +36,15 @@ export class ReciboAddComponent implements OnInit {
   }
 
   createReciboForm() {
+    const now = new Date();
     this.reciboForm = this.fb.group({
       noRecibo: ["", Validators.required],
       clienteId: [null, Validators.required],
-      fechaEntrada: [""],
+      fechaEntrada: [now],
       transportista: [null],
       facturaAduanal: [null],
-      pedimentoImportacion: [null]
+      pedimentoImportacion: [null],
+      recibio: [null]
     });
   }
 
@@ -46,12 +54,21 @@ export class ReciboAddComponent implements OnInit {
         this.clientes = res;
       },
       error => {
-        console.log(error);
+        this.alertify.error(error);
       }
     );
   }
 
   addRecibo() {
-    console.log(this.reciboForm.value);
+    this.recibo = Object.assign({}, this.reciboForm.value);
+    this.reciboService.addRecibo(this.recibo).subscribe(
+      (res: Recibo) => {
+        this.alertify.success("Guardado");
+        this.router.navigate(["recibos/" + res.reciboId]);
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
   }
 }
