@@ -37,9 +37,9 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetRecibo(int id)
         {
             var recibo = await _repo.GetRecibo(id);
-            // var clienteToReturn = _mapper.Map<ClienteForDetailDto>(cliente);
+            var reciboToReturn = _mapper.Map<ReciboToDetailDto>(recibo);
 
-            return Ok(recibo);
+            return Ok(reciboToReturn);
         }
 
         [HttpPost()]

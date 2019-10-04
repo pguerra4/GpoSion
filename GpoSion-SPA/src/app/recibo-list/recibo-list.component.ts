@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ReciboService } from "../_services/recibo.service";
 import { Recibo } from "../_models/recibo";
+import { AlertifyService } from "../_services/alertify.service";
 
 @Component({
   selector: "app-recibo-list",
@@ -10,7 +11,10 @@ import { Recibo } from "../_models/recibo";
 export class ReciboListComponent implements OnInit {
   recibos: Recibo[];
 
-  constructor(private reciboService: ReciboService) {}
+  constructor(
+    private reciboService: ReciboService,
+    private alertify: AlertifyService
+  ) {}
 
   ngOnInit() {
     this.loadRecibos();
@@ -20,10 +24,9 @@ export class ReciboListComponent implements OnInit {
     this.reciboService.getRecibos().subscribe(
       (res: Recibo[]) => {
         this.recibos = res;
-        console.log("Cargados");
       },
       error => {
-        console.log(error);
+        this.alertify.error(error);
       }
     );
   }

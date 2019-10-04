@@ -11,9 +11,9 @@ export interface DetalleRecibo {
   viajero: number;
   referenciaCliente?: string;
   reciboId: number;
-  recibo: Recibo;
+  noRecibo: string;
   materialId: number;
   material: string;
   unidadMedidaId: number;
-  unidadMedida: UnidadMedida;
+  unidad: string;
 }

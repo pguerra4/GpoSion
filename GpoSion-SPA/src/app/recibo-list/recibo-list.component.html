@@ -12,6 +12,7 @@
                 <th scope="col">Transportista</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Recibio</th>
+                <th scope="col">Detalle</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,9 @@
                 <td>{{ recibo.transportista }}</td>
                 <td>{{ recibo.clienteNombre }}</td>
                 <td>{{ recibo.recibio }}</td>
+                <td class="text-center">
+                    <a class="fa fa-file-text" [routerLink]="['/recibos/' + recibo.reciboId]"></a>
+                </td>
             </tr>
         </tbody>
     </table>

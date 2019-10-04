@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
+using GpoSion.API.Models;
 
 namespace GpoSion.API.Dtos
 {
-    public class ReciboToListDto
+    public class ReciboToDetailDto
     {
         public int ReciboId { get; set; }
         public int NoRecibo { get; set; }
@@ -20,7 +22,7 @@ namespace GpoSion.API.Dtos
         public int ClienteId { get; set; }
         public string ClienteNombre { get; set; }
 
-
+        public ICollection<DetalleReciboForDetailDto> Detalle { get; set; }
 
     }
 }

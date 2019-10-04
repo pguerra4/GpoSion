@@ -20,7 +20,9 @@ namespace GpoSion.API.Models
 
         public Recibo Recibo { get; set; }
 
-        public int Viajero { get; set; }
+        public int? ViajeroId { get; set; }
+
+        public Viajero Viajero { get; set; }
 
     }
 }

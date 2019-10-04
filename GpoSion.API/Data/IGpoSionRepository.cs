@@ -26,11 +26,18 @@ namespace GpoSion.API.Data
         Task<IEnumerable<Material>> GetMateriales();
         Task<Material> GetMaterial(int id);
         Task<Material> GetMaterialByClienteNombre(int clienteId, string nombre);
+        Task<IEnumerable<int>> GetViajerosPorMaterial(int materialId);
 
 
         Task<IEnumerable<Recibo>> GetRecibos();
         Task<Recibo> GetRecibo(int id);
 
+        Task<IEnumerable<MovimientoMaterial>> GetMovimientoMateriales();
+        Task<MovimientoMaterial> GetMovimientoMaterial(int id);
+
+        Task<IEnumerable<MovimientoMaterial>> GetMovimientoMaterialesPorViajero(int viajero);
+
+        Task<Viajero> GetViajero(int viajeroId);
 
 
     }

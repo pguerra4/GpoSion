@@ -25,8 +25,8 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetExistencias()
         {
             var existencias = await _repo.GetExistencias();
-            // var clientesToReturn = _mapper.Map<IEnumerable<ClienteForListDto>>(clientes);
-            return Ok(existencias);
+            var existenciasToReturn = _mapper.Map<IEnumerable<ExistenciaMaterialToListDto>>(existencias);
+            return Ok(existenciasToReturn);
         }
 
         [HttpGet("{id}")]

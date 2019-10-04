@@ -15,7 +15,9 @@ namespace GpoSion.API.Models
         [Column(TypeName = "decimal(18, 3)")]
         public Decimal Total { get; set; }
         public string Referencia2 { get; set; }
-        public int Viajero { get; set; }
+        public int? ViajeroId { get; set; }
+
+        public Viajero Viajero { get; set; }
         public string ReferenciaCliente { get; set; }
 
         public Recibo Recibo { get; set; }

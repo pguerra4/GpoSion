@@ -4,15 +4,17 @@
 
         <ul *ngIf="loggedIn()" class="nav nav-pills navbar-nav mr-auto">
             <li class="nav-item dropdown" routerLinkActive="active" dropdown>
-                <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Materiales </a>
+                <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Almacén
+        </a>
                 <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                     <a class="dropdown-item" [routerLink]="['/recibos']">Recibos</a>
                     <a class="dropdown-item" [routerLink]="['/materiales']">Materiales</a>
-                    <a class="dropdown-item" [routerLink]="['/addAlmacen']">Entrada a alamacen</a>
-                </div>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['/produccion']">Producción</a>
+                    <a class="dropdown-item" [routerLink]="['/existencias']">Existencias</a
+          >
+        </div>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/produccion']">Producción</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link " [routerLink]="['/messages']">Administración</a>
@@ -26,43 +28,42 @@
 
             <div class="dropdown-menu mt-3" *dropdownMenu>
                 <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Editar Perfil</a
-      >
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" (click)="logout()"
-        ><i class="fa fa-sign-out"></i>Salir</a
-      >
+        >
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()"
+          ><i class="fa fa-sign-out"></i>Salir</a
+        >
+      </div>
     </div>
-  </div>
 
-  <form
-   
-    #loginForm="ngForm"
-    class="form-inline my-2 my-lg-0"
-    (ngSubmit)="login()"
-  >
-    <input
-      class="form-control mr-sm-2"
-      type="text"
-      name="username"
-      placeholder="Usuario"
-      required
-      [(ngModel)]="model.username"
-    />
-    <input
-      class="form-control mr-sm-2"
-      type="password"
-      name="password"
-      placeholder="Contraseña"
-      required
-      [(ngModel)]="model.password"
-    />
-    <button
-      [disabled]="!loginForm.valid"
-      class="btn btn-success my-2 my-sm-0"
-      type="submit"
+    <form
+      #loginForm="ngForm"
+      class="form-inline my-2 my-lg-0"
+      (ngSubmit)="login()"
     >
-      Entrar
-    </button>
-  </form>
-</div>
+      <input
+        class="form-control mr-sm-2"
+        type="text"
+        name="username"
+        placeholder="Usuario"
+        required
+        [(ngModel)]="model.username"
+      />
+      <input
+        class="form-control mr-sm-2"
+        type="password"
+        name="password"
+        placeholder="Contraseña"
+        required
+        [(ngModel)]="model.password"
+      />
+      <button
+        [disabled]="!loginForm.valid"
+        class="btn btn-success my-2 my-sm-0"
+        type="submit"
+      >
+        Entrar
+      </button>
+    </form>
+  </div>
 </nav>

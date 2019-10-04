@@ -46,6 +46,9 @@ namespace GpoSion.API.Controllers
             {
                 var material = await _repo.GetMaterialByClienteNombre(recibo.ClienteId.Value, detalle.Material);
                 var unidadMedida = await _repo.GetUnidadMedida(detalle.UnidadMedidaId);
+
+
+
                 if (material == null)
                 {
 
@@ -54,7 +57,17 @@ namespace GpoSion.API.Controllers
                     await _repo.SaveAll();
                 }
 
-                var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Material = material, Cantidad = detalle.Total, Origen = almacen, Destino = almacen, Recibo = recibo, Viajero = detalle.Viajero };
+                var viajero = await _repo.GetViajero(detalle.Viajero);
+                if (viajero == null)
+                {
+                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material };
+                }
+                else
+                {
+                    viajero.Existencia += detalle.Total;
+                }
+
+                var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Material = material, Cantidad = detalle.Total, Origen = null, Destino = almacen, Recibo = recibo, Viajero = viajero };
                 _repo.Add(movMaterial);
 
 
@@ -81,7 +94,7 @@ namespace GpoSion.API.Controllers
                     CantidadPorCaja = !detalle.CantidadPorCaja.HasValue ? 0 : detalle.CantidadPorCaja.Value,
                     Total = detalle.Total,
                     Referencia2 = detalle.Referencia2,
-                    Viajero = detalle.Viajero,
+                    Viajero = viajero,
                     ReferenciaCliente = detalle.ReferenciaCliente,
                     Recibo = recibo,
                     Material = material,
@@ -90,7 +103,7 @@ namespace GpoSion.API.Controllers
 
                 _repo.Add(detalleRecibo);
             }
-
+            recibo.IsComplete = true;
 
             if (await _repo.SaveAll())
                 return NoContent();

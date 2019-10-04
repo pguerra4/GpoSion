@@ -25,14 +25,18 @@ namespace GpoSion.API.Data
 
         public DbSet<DetalleRecibo> DetalleRecibos { get; set; }
 
+        public DbSet<Viajero> Viajeros { get; set; }
 
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<UnidadMedida>()
-        //         .HasAlternateKey(u => u.Unidad)
-        //         .HasName("AlternateKey_Unidad");
-        // }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // modelBuilder.Entity<UnidadMedida>()
+            //     .HasAlternateKey(u => u.Unidad)
+            //     .HasName("AlternateKey_Unidad");
+
+            // modelBuilder.Entity<Viajero>().HasKey(v => v.ViajeroId);
+        }
 
     }
 }

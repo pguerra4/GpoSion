@@ -14,4 +14,5 @@ export interface Recibo {
   cliente: Cliente;
   recibio?: string;
   detalle: DetalleRecibo[];
+  isComplete: boolean;
 }

@@ -24,7 +24,8 @@ import { ReciboService } from "./_services/recibo.service";
 import { ReciboAddComponent } from "./recibo-add/recibo-add.component";
 import { ClienteService } from "./_services/cliente.service";
 import { AlertifyService } from "./_services/alertify.service";
-import { ReciboDetailComponent } from './recibo-detail/recibo-detail.component';
+import { ReciboDetailComponent } from "./recibo-detail/recibo-detail.component";
+import { ExistenciasMaterialListComponent } from './existenciasMaterial-list/existenciasMaterial-list.component';
 
 @NgModule({
    declarations: [
@@ -38,7 +39,8 @@ import { ReciboDetailComponent } from './recibo-detail/recibo-detail.component';
       MaterialProdComponent,
       ReciboListComponent,
       ReciboAddComponent,
-      ReciboDetailComponent
+      ReciboDetailComponent,
+      ExistenciasMaterialListComponent
    ],
    imports: [
       BrowserModule,
