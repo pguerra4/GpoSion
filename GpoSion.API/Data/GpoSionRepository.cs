@@ -154,7 +154,10 @@ namespace GpoSion.API.Data
         public async Task<Viajero> GetViajero(int viajeroId)
         {
 
-            var viajero = await _context.Viajeros.FindAsync(viajeroId);
+            var viajero = await _context.Viajeros.Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Origen)
+            .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Destino)
+            .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Material)
+            .Include(v => v.Material).FirstOrDefaultAsync(v => v.ViajeroId == viajeroId);
             return viajero;
         }
     }

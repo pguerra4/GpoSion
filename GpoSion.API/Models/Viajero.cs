@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GpoSion.API.Models
@@ -15,5 +16,8 @@ namespace GpoSion.API.Models
         [Column(TypeName = "decimal(18, 3)")]
         public decimal Existencia { get; set; }
         public DateTime Fecha { get; set; }
+
+        public ICollection<MovimientoMaterial> MovimientosMaterial { get; set; }
+
     }
 }

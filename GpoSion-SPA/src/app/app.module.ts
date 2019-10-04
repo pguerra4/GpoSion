@@ -26,6 +26,7 @@ import { ClienteService } from "./_services/cliente.service";
 import { AlertifyService } from "./_services/alertify.service";
 import { ReciboDetailComponent } from "./recibo-detail/recibo-detail.component";
 import { ExistenciasMaterialListComponent } from './existenciasMaterial-list/existenciasMaterial-list.component';
+import { ViajeroDetailComponent } from './viajero-detail/viajero-detail.component';
 
 @NgModule({
    declarations: [
@@ -40,7 +41,8 @@ import { ExistenciasMaterialListComponent } from './existenciasMaterial-list/exi
       ReciboListComponent,
       ReciboAddComponent,
       ReciboDetailComponent,
-      ExistenciasMaterialListComponent
+      ExistenciasMaterialListComponent,
+      ViajeroDetailComponent
    ],
    imports: [
       BrowserModule,
