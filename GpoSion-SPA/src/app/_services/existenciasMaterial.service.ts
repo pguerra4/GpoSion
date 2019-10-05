@@ -17,6 +17,12 @@ export class ExistenciasMaterialService {
     return this.http.get<ExistenciaMaterial[]>(this.baseUrl + "existencias");
   }
 
+  getExistenciasMaterialAlmacen(): Observable<ExistenciaMaterial[]> {
+    return this.http.get<ExistenciaMaterial[]>(
+      this.baseUrl + "existenciasalmacen"
+    );
+  }
+
   getViajero(id: number): Observable<Viajero> {
     return this.http.get<Viajero>(this.baseUrl + "viajeros/" + id);
   }

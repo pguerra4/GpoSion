@@ -41,6 +41,19 @@ namespace GpoSion.API.Data
 
                 context.SaveChanges();
             }
+
+
+            if (!context.Turnos.Any())
+            {
+                var turno = new Turno { NoTurno = 1, Descripcion = "Matutino" };
+                context.Turnos.Add(turno);
+                turno = new Turno { NoTurno = 2, Descripcion = "Vespertino" };
+                context.Turnos.Add(turno);
+                turno = new Turno { NoTurno = 3, Descripcion = "Nocturno" };
+                context.Turnos.Add(turno);
+
+                context.SaveChanges();
+            }
         }
 
     }

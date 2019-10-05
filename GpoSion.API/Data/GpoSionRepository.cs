@@ -160,5 +160,18 @@ namespace GpoSion.API.Data
             .Include(v => v.Material).FirstOrDefaultAsync(v => v.ViajeroId == viajeroId);
             return viajero;
         }
+
+        public async Task<IEnumerable<Turno>> GetTurnos()
+        {
+            var turnos = await _context.Turnos.ToListAsync();
+            return turnos;
+        }
+
+        public async Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen()
+        {
+            var existenciasAlmacen = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
+            .Include(e => e.Material).ThenInclude(m => m.Cliente).Include(e => e.Area).Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0).ToListAsync();
+            return existenciasAlmacen;
+        }
     }
 }

@@ -27,6 +27,11 @@ namespace GpoSion.API.Data
 
         public DbSet<Viajero> Viajeros { get; set; }
 
+        public DbSet<RequerimientoMaterial> RequerimientosMaterial { get; set; }
+
+        public DbSet<RequerimientoMaterialMaterial> RequerimientoMaterialMateriales { get; set; }
+
+        public DbSet<Turno> Turnos { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

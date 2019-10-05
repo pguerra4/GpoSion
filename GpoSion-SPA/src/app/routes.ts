@@ -11,6 +11,7 @@ import { ReciboDetailComponent } from "./recibo-detail/recibo-detail.component";
 import { ExistenciasMaterialListComponent } from "./existenciasMaterial-list/existenciasMaterial-list.component";
 import { ViajeroDetailComponent } from "./viajero-detail/viajero-detail.component";
 import { MaterialViajerosListComponent } from "./material-viajeros-list/material-viajeros-list.component";
+import { RequerimientoMaterialComponent } from "./requerimiento-material/requerimiento-material.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -42,6 +43,7 @@ export const appRoutes: Routes = [
   { path: "existencias", component: ExistenciasMaterialListComponent },
   { path: "addAlmacen", component: ExistenciasAddComponent },
   { path: "produccion", component: ProduccionListComponent },
+  { path: "requerimientoMaterial", component: RequerimientoMaterialComponent },
   { path: "solicitarMaterial/:id", component: MaterialProdComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }

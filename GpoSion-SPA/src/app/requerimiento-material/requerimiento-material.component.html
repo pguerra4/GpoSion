@@ -1,0 +1,118 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card  border-primary mt-4">
+                <div class="card-header text-primary">Materiales en almacén</div>
+                <div class="card-body">
+                    <div class="card-title">
+                        Buscar:
+                    </div>
+                    <div class="card-text">
+                        <div class="table-responsive">
+                            <table id="mytable" class="table table-bordred table-striped">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th>Material</th>
+                                        <th class="text-right">Existencia</th>
+                                        <th>Sol.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of existencias">
+                                        <td scope="row">{{ item.material }}</td>
+                                        <td class="text-right">
+                                            {{ item.existencia | number: "1.3-3" }}
+                                        </td>
+                                        <td>
+                                            <i (click)="
+                          seleccionarMaterial(item.materialId, item.material)
+                        " class="fa fa-arrow-circle-right"></i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card  border-primary mt-4">
+                <div class="card-header text-primary">
+                    Requerimiento de material a almacén
+                </div>
+                <div class="card-body">
+                    <div class="card-title">
+                        <form [formGroup]="requerimientoForm" (ngSubmit)="addRequerimiento()">
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-md-10 col-lg-10">
+                                    <label for="jefaLinea">Jefa de linea</label>
+                                    <input type="text" class="form-control" formControlName="jefaLinea" placeholder="Jefa de línea" />
+                                </div>
+                                <div class="form-group col-sm-12 col-md-2 col-lg-2">
+                                    <label for="turno">Turno</label>
+                                    <select class="form-control" id="turnoId" formControlName="turnoId">
+                    <option
+                      *ngFor="let turno of turnos"
+                      [value]="turno.turnoId"
+                    >
+                      {{ turno.descripcion }}
+                    </option>
+                  </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-md-5 col-lg-5">
+                                    <label for="material">Material</label>
+                                    <input type="text" [readonly]="true" class="form-control" formControlName="material" placeholder="Material" />
+                                    <input type="hidden" value="materialId" formControlName="materialId" />
+                                </div>
+                                <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                                    <label for="cantidad">Cantidad</label>
+                                    <input type="text" class="form-control text-right" formControlName="cantidad" placeholder="Cantidad" />
+                                </div>
+                                <div class="form-group col-sm-12 col-md-2 col-lg-2">
+                                    <label for="turno">UM</label>
+                                    <select class="form-control" id="unidadMedidaId" formControlName="unidadMedida">
+                    <option
+                      *ngFor="let unidadMedida of unidadesMedida"
+                      [value]="unidadMedida.unidadMedidaId"
+                    >
+                      {{ unidadMedida.descripcion }}
+                    </option>
+                  </select>
+                                </div>
+                                <div class="form-group col-sm-12 col-md-2 col-lg-2">
+                                    <label></label>
+                                    <button class="btn btn-success">Agregar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-text">
+                        <div class="table-responsive">
+                            <table id="mytable" class="table table-bordred table-striped">
+                                <thead>
+                                    <tr class="table-primary">
+                                        <th>Material</th>
+                                        <th class="text-right">Cantidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of existencias">
+                                        <td scope="row">{{ item.material }}</td>
+                                        <td class="text-right">
+                                            {{ item.existencia | number: "1.3-3" }}
+                                        </td>
+                                        <td>Del</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,6 +39,10 @@ namespace GpoSion.API.Data
 
         Task<Viajero> GetViajero(int viajeroId);
 
+        Task<IEnumerable<Turno>> GetTurnos();
+
+        Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen();
+
 
     }
 }

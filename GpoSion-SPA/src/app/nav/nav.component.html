@@ -9,15 +9,17 @@
                 <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                     <a class="dropdown-item" [routerLink]="['/recibos']">Recibos</a>
                     <a class="dropdown-item" [routerLink]="['/materiales']">Materiales</a>
-                    <a class="dropdown-item" [routerLink]="['/existencias']">Existencias</a
-          >
+                    <a class="dropdown-item" [routerLink]="['/existencias']">Existencias</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown" routerLinkActive="active" dropdown>
+        <a class="nav-link  dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Producción</a>
+        <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;" >
+          <a class="dropdown-item" [routerLink]="['/requerimientoMaterial']">Requerimientos</a>
         </div>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/produccion']">Producción</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link " [routerLink]="['/messages']">Administración</a>
+        <a class="nav-link " [routerLink]="['/messages']">Administración</a>
             </li>
         </ul>
 
