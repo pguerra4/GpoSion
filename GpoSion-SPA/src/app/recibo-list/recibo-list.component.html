@@ -4,7 +4,7 @@
             <a class="btn btn-success" [routerLink]="['/addRecibo']">Nuevo Recibo</a>
         </div>
     </div>
-    <table class="table table-hover mt-1">
+    <table class="table table-hover table-bordered table-striped mt-1">
         <thead>
             <tr class="table-primary">
                 <th scope="col">No. Recibo</th>
@@ -16,7 +16,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let recibo of recibos" class="table-secondary">
+            <tr *ngFor="let recibo of recibos">
                 <th scope="row">{{ recibo.noRecibo }}</th>
                 <td>{{ recibo.fechaEntrada | date: "MM-dd-yyyy HH:mm" }}</td>
                 <td>{{ recibo.transportista }}</td>

@@ -93,7 +93,7 @@ namespace GpoSion.API.Data
         public async Task<Material> GetMaterial(int id)
         {
 
-            var material = await _context.Materiales.FindAsync(id);
+            var material = await _context.Materiales.Include(m => m.Cliente).Include(m => m.UnidadMedida).FirstOrDefaultAsync(m => m.MaterialId == id);
             return material;
         }
 
@@ -129,10 +129,10 @@ namespace GpoSion.API.Data
             return existenciaMaterial;
         }
 
-        public async Task<IEnumerable<int>> GetViajerosPorMaterial(int materialId)
+        public async Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId)
         {
-
-            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null).Select(mm => mm.ViajeroId.Value).ToListAsync();
+            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null)
+            .Select(mm => mm.Viajero).Include(v => v.MovimientosMaterial).Include(v => v.Material).OrderBy(v => v.Fecha).ToListAsync();
             return viajeros;
         }
 

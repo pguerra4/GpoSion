@@ -27,6 +27,7 @@ import { AlertifyService } from "./_services/alertify.service";
 import { ReciboDetailComponent } from "./recibo-detail/recibo-detail.component";
 import { ExistenciasMaterialListComponent } from './existenciasMaterial-list/existenciasMaterial-list.component';
 import { ViajeroDetailComponent } from './viajero-detail/viajero-detail.component';
+import { MaterialViajerosListComponent } from './material-viajeros-list/material-viajeros-list.component';
 
 @NgModule({
    declarations: [
@@ -42,7 +43,8 @@ import { ViajeroDetailComponent } from './viajero-detail/viajero-detail.componen
       ReciboAddComponent,
       ReciboDetailComponent,
       ExistenciasMaterialListComponent,
-      ViajeroDetailComponent
+      ViajeroDetailComponent,
+      MaterialViajerosListComponent
    ],
    imports: [
       BrowserModule,

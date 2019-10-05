@@ -40,6 +40,15 @@ namespace GpoSion.API.Controllers
             return Ok(material);
         }
 
+        [HttpGet("{id}/viajeros")]
+        public async Task<IActionResult> GetViajerosPorMaterial(int id)
+        {
+            var viajeros = await _repo.GetViajerosPorMaterial(id);
+            var viajerosToReturn = _mapper.Map<IEnumerable<ViajeroForDetailDto>>(viajeros);
+
+            return Ok(viajerosToReturn);
+        }
+
         [HttpPost()]
         public async Task<IActionResult> PostMaterial(MaterialforPostDto materialDto)
         {

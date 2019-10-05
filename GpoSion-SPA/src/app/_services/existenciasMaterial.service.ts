@@ -20,4 +20,10 @@ export class ExistenciasMaterialService {
   getViajero(id: number): Observable<Viajero> {
     return this.http.get<Viajero>(this.baseUrl + "viajeros/" + id);
   }
+
+  getViajerosPorMaterial(materialId: number): Observable<Viajero[]> {
+    return this.http.get<Viajero[]>(
+      this.baseUrl + "materiales/" + materialId + "/viajeros"
+    );
+  }
 }
