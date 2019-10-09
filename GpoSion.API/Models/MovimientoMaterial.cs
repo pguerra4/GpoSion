@@ -24,5 +24,8 @@ namespace GpoSion.API.Models
 
         public Viajero Viajero { get; set; }
 
+        public int? RequerimientoMaterialMaterialId { get; set; }
+        public RequerimientoMaterialMaterial RequerimientoMaterialMaterial { get; set; }
+
     }
 }

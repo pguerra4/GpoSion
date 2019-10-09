@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
+using GpoSion.API.Models;
 
-namespace GpoSion.API.Models
+namespace GpoSion.API.Dtos
 {
-    public class RequerimientoMaterial
+    public class RequerimientoMaterialForDetailDto
     {
         public int RequerimientoMaterialId { get; set; }
         public DateTime FechaSolicitud { get; set; }
 
         public int? TurnoId { get; set; }
-        public Turno Turno { get; set; }
+        public string TurnoDescripcion { get; set; }
 
         public string JefaLinea { get; set; }
 
@@ -23,15 +24,6 @@ namespace GpoSion.API.Models
 
         public bool IsRead { get; set; }
 
-        public ICollection<RequerimientoMaterialMaterial> Materiales { get; set; }
-
-        public RequerimientoMaterial()
-        {
-            FechaSolicitud = DateTime.Now;
-            IsRead = false;
-            Estatus = "Nuevo";
-        }
-
-
+        public ICollection<RequerimientoMaterialMaterialForDetailDto> Materiales { get; set; }
     }
 }

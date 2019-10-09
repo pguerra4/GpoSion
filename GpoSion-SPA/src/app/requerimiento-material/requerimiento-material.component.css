@@ -1,3 +1,7 @@
 td>i {
     cursor: pointer;
 }
+
+input[readonly] {
+    background-color: #dddddd;
+}

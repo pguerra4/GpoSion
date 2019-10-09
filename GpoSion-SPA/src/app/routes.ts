@@ -12,6 +12,9 @@ import { ExistenciasMaterialListComponent } from "./existenciasMaterial-list/exi
 import { ViajeroDetailComponent } from "./viajero-detail/viajero-detail.component";
 import { MaterialViajerosListComponent } from "./material-viajeros-list/material-viajeros-list.component";
 import { RequerimientoMaterialComponent } from "./requerimiento-material/requerimiento-material.component";
+import { RequerimientoMaterialListComponent } from "./requerimientoMaterial-list/requerimientoMaterial-list.component";
+import { RequerimientoProdListComponent } from "./requerimiento-prod-list/requerimiento-prod-list.component";
+import { RequerimientoMaterialProdComponent } from "./requerimiento-material-prod/requerimiento-material-prod.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -44,6 +47,9 @@ export const appRoutes: Routes = [
   { path: "addAlmacen", component: ExistenciasAddComponent },
   { path: "produccion", component: ProduccionListComponent },
   { path: "requerimientoMaterial", component: RequerimientoMaterialComponent },
+  { path: "requerimientos", component: RequerimientoMaterialListComponent },
+  { path: "requerimientosprod", component: RequerimientoProdListComponent },
+  { path: "requerimientos/:id", component: RequerimientoMaterialProdComponent },
   { path: "solicitarMaterial/:id", component: MaterialProdComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }

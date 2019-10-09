@@ -132,7 +132,7 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId)
         {
             var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null)
-            .Select(mm => mm.Viajero).Include(v => v.MovimientosMaterial).Include(v => v.Material).OrderBy(v => v.Fecha).ToListAsync();
+            .Select(mm => mm.Viajero).Include(v => v.MovimientosMaterial).Include(v => v.Material).OrderBy(v => v.Fecha).Distinct().ToListAsync();
             return viajeros;
         }
 
@@ -172,6 +172,25 @@ namespace GpoSion.API.Data
             var existenciasAlmacen = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
             .Include(e => e.Material).ThenInclude(m => m.Cliente).Include(e => e.Area).Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0).ToListAsync();
             return existenciasAlmacen;
+        }
+
+        public async Task<IEnumerable<RequerimientoMaterial>> GetRequerimientosMaterial()
+        {
+            var requerimientos = await _context.RequerimientosMaterial.Include(r => r.Turno)
+            .Include(r => r.Materiales).ThenInclude(m => m.Material)
+            .Include(r => r.Materiales).ThenInclude(m => m.UnidadMedida)
+            .Include(r => r.Materiales).ThenInclude(m => m.Viajero)
+            .ToListAsync();
+            return requerimientos;
+        }
+
+        public async Task<RequerimientoMaterial> GetRequerimientoMaterial(int id)
+        {
+            var requerimiento = await _context.RequerimientosMaterial.Include(r => r.Turno)
+            .Include(r => r.Materiales).ThenInclude(m => m.Material)
+            .Include(r => r.Materiales).ThenInclude(m => m.UnidadMedida)
+            .Include(r => r.Materiales).ThenInclude(m => m.Viajero).FirstOrDefaultAsync(r => r.RequerimientoMaterialId == id);
+            return requerimiento;
         }
     }
 }

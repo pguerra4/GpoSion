@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191009155510_cambioRequerimientoMaterialMaterial")]
+    partial class cambioRequerimientoMaterialMaterial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,8 +211,6 @@ namespace GpoSion.API.Migrations
 
                     b.Property<int?>("ReciboId");
 
-                    b.Property<int?>("RequerimientoMaterialMaterialId");
-
                     b.Property<int?>("ViajeroId");
 
                     b.HasKey("MovimientoMaterialId");
@@ -224,8 +224,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("OrigenAreaId");
 
                     b.HasIndex("ReciboId");
-
-                    b.HasIndex("RequerimientoMaterialMaterialId");
 
                     b.HasIndex("ViajeroId");
 
@@ -504,10 +502,6 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.Recibo", "Recibo")
                         .WithMany()
                         .HasForeignKey("ReciboId");
-
-                    b.HasOne("GpoSion.API.Models.RequerimientoMaterialMaterial", "RequerimientoMaterialMaterial")
-                        .WithMany()
-                        .HasForeignKey("RequerimientoMaterialMaterialId");
 
                     b.HasOne("GpoSion.API.Models.Viajero", "Viajero")
                         .WithMany("MovimientosMaterial")

@@ -12,11 +12,14 @@ namespace GpoSion.API.Models
         public int MaterialId { get; set; }
         public Material Material { get; set; }
 
-        public int ViajeroId { get; set; }
+        public int? ViajeroId { get; set; }
         public Viajero Viajero { get; set; }
 
         [Column(TypeName = "decimal(18, 3)")]
         public Decimal Cantidad { get; set; }
+
+        [Column(TypeName = "decimal(18, 3)")]
+        public Decimal CantidadEntregada { get; set; }
 
         public int UnidadMedidaId { get; set; }
         public UnidadMedida UnidadMedida { get; set; }

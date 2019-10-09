@@ -43,6 +43,9 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen();
 
+        Task<IEnumerable<RequerimientoMaterial>> GetRequerimientosMaterial();
+
+        Task<RequerimientoMaterial> GetRequerimientoMaterial(int id);
 
     }
 }

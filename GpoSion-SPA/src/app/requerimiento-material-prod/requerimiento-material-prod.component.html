@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <h5>No. Requerimiento: {{ requerimiento.requerimientoMaterialId}}</h5>
+        </div>
+        <div class="col-md-4">
+            Fecha Requerimiento: {{requerimiento.fechaSolicitud | date:"dd-MM-yyyy HH:mm"}}
+        </div>
+    </div>
+    <div *ngFor="let item of requerimiento.materiales">
+        <app-requerimiento-material-viajeros [material]="item" *ngIf="item.estatus!=='Surtido' "></app-requerimiento-material-viajeros>
+    </div>
+</div>
