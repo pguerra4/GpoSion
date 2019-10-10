@@ -19,19 +19,24 @@ export class RequerimientoMaterialProdComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadRequerimiento();
+    this.route.data.subscribe(data => {
+      // tslint:disable-next-line: no-string-literal
+      this.requerimiento = data["req"];
+    });
+    console.log(this.requerimiento);
+    // this.loadRequerimiento();
   }
 
-  loadRequerimiento() {
-    this.requerimientoMaterialService
-      .getRequerimiento(+this.route.snapshot.params["id"])
-      .subscribe(
-        (req: RequerimientoMaterial) => {
-          this.requerimiento = req;
-        },
-        error => {
-          this.alertify.error(error);
-        }
-      );
-  }
+  // loadRequerimiento() {
+  //   this.requerimientoMaterialService
+  //     .getRequerimiento(+this.route.snapshot.params["id"])
+  //     .subscribe(
+  //       (req: RequerimientoMaterial) => {
+  //         this.requerimiento = req;
+  //       },
+  //       error => {
+  //         this.alertify.error(error);
+  //       }
+  //     );
+  // }
 }

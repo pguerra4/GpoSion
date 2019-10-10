@@ -32,47 +32,47 @@ import { RequerimientoMaterialComponent } from "./requerimiento-material/requeri
 import { RequerimientoMaterialListComponent } from "./requerimientoMaterial-list/requerimientoMaterial-list.component";
 import { RequerimientoProdListComponent } from "./requerimiento-prod-list/requerimiento-prod-list.component";
 import { RequerimientoMaterialProdComponent } from "./requerimiento-material-prod/requerimiento-material-prod.component";
-import { RequerimientoMaterialViajerosComponent } from './requerimiento-material-viajeros/requerimiento-material-viajeros.component';
+import { RequerimientoMaterialViajerosComponent } from "./requerimiento-material-viajeros/requerimiento-material-viajeros.component";
+import { RequerimientoMaterialProdResolver } from "./_resolvers/requerimiento-material-prod.resolver";
 
 @NgModule({
-   declarations: [
-      AppComponent,
-      NavComponent,
-      HomeComponent,
-      MaterialAddComponent,
-      MaterialListComponent,
-      ExistenciasAddComponent,
-      ProduccionListComponent,
-      MaterialProdComponent,
-      ReciboListComponent,
-      ReciboAddComponent,
-      ReciboDetailComponent,
-      ExistenciasMaterialListComponent,
-      ViajeroDetailComponent,
-      MaterialViajerosListComponent,
-      RequerimientoMaterialComponent,
-      RequerimientoMaterialListComponent,
-      RequerimientoProdListComponent,
-      RequerimientoMaterialProdComponent,
-      RequerimientoMaterialViajerosComponent
-   ],
-   imports: [
-      BrowserModule,
-      BrowserAnimationsModule,
-      HttpClientModule,
-      FormsModule,
-      ReactiveFormsModule,
-      BsDropdownModule.forRoot(),
-      BsDatepickerModule.forRoot(),
-      RouterModule.forRoot(appRoutes)
-   ],
-   providers: [
-      ReciboService,
-      ClienteService,
-      AlertifyService
-   ],
-   bootstrap: [
-      AppComponent
-   ]
+  declarations: [
+    AppComponent,
+    NavComponent,
+    HomeComponent,
+    MaterialAddComponent,
+    MaterialListComponent,
+    ExistenciasAddComponent,
+    ProduccionListComponent,
+    MaterialProdComponent,
+    ReciboListComponent,
+    ReciboAddComponent,
+    ReciboDetailComponent,
+    ExistenciasMaterialListComponent,
+    ViajeroDetailComponent,
+    MaterialViajerosListComponent,
+    RequerimientoMaterialComponent,
+    RequerimientoMaterialListComponent,
+    RequerimientoProdListComponent,
+    RequerimientoMaterialProdComponent,
+    RequerimientoMaterialViajerosComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    RouterModule.forRoot(appRoutes)
+  ],
+  providers: [
+    ReciboService,
+    ClienteService,
+    AlertifyService,
+    RequerimientoMaterialProdResolver
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

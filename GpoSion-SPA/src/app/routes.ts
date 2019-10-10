@@ -15,6 +15,7 @@ import { RequerimientoMaterialComponent } from "./requerimiento-material/requeri
 import { RequerimientoMaterialListComponent } from "./requerimientoMaterial-list/requerimientoMaterial-list.component";
 import { RequerimientoProdListComponent } from "./requerimiento-prod-list/requerimiento-prod-list.component";
 import { RequerimientoMaterialProdComponent } from "./requerimiento-material-prod/requerimiento-material-prod.component";
+import { RequerimientoMaterialProdResolver } from "./_resolvers/requerimiento-material-prod.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -49,7 +50,11 @@ export const appRoutes: Routes = [
   { path: "requerimientoMaterial", component: RequerimientoMaterialComponent },
   { path: "requerimientos", component: RequerimientoMaterialListComponent },
   { path: "requerimientosprod", component: RequerimientoProdListComponent },
-  { path: "requerimientos/:id", component: RequerimientoMaterialProdComponent },
+  {
+    path: "requerimientos/:id",
+    component: RequerimientoMaterialProdComponent,
+    resolve: { req: RequerimientoMaterialProdResolver }
+  },
   { path: "solicitarMaterial/:id", component: MaterialProdComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }

@@ -18,6 +18,7 @@ export class RequerimientoMaterialViajerosComponent implements OnInit {
   surtirMaterialForm: FormGroup;
   items: FormArray;
   viajeros: Viajero[];
+  porSurtir: number;
 
   constructor(
     private existenciasMaterialService: ExistenciasMaterialService,
@@ -29,6 +30,7 @@ export class RequerimientoMaterialViajerosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.porSurtir = this.material.cantidad - this.material.cantidadEntregada;
     this.loadViajeros();
   }
 
@@ -41,17 +43,25 @@ export class RequerimientoMaterialViajerosComponent implements OnInit {
   }
 
   createItem(viajero: Viajero): FormGroup {
-    return this.fb.group({
-      viajero: [viajero.viajero],
-      existencia: [viajero.existencia],
-      id: [this.material.id],
-      asurtir: [
-        this.material.cantidad > viajero.existencia
-          ? viajero.existencia
-          : this.material.cantidad - this.material.cantidadEntregada,
-        Validators.required
-      ]
-    });
+    const maximo: number = this.porSurtir;
+    return this.fb.group(
+      {
+        viajero: [viajero.viajero],
+        existencia: [viajero.existencia],
+        id: [this.material.id],
+        asurtir: [
+          this.porSurtir > viajero.existencia
+            ? viajero.existencia
+            : this.porSurtir,
+          [Validators.required, Validators.max(viajero.existencia)]
+        ]
+      },
+      { validator: this.checkExcedido.bind(this) }
+    );
+  }
+
+  checkExcedido(g: FormGroup) {
+    return g.get("asurtir").value <= this.porSurtir ? null : { excedido: true };
   }
 
   createItems() {

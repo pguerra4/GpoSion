@@ -2,10 +2,20 @@
     <div class="card-header text-primary">Requerimiento de Material</div>
     <div class="card-body">
         <div class="card-title p-2 table-success">
-            <h5>
-                <strong>{{ material.material }} ({{ material.cantidad}})</strong>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>
+                        <strong>{{ material.material }} ({{ material.cantidad}})</strong>
 
-            </h5>
+                    </h5>
+
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        Entregados ({{material.cantidadEntregada}})
+                    </h5>
+                </div>
+            </div>
 
         </div>
         <div class="card-text">
@@ -28,7 +38,11 @@
                                     <input type="hidden" [attr.id]="'existencia'+i" [attr.name]="'existencia'+i" formControlName="existencia">
                                 </td>
                                 <td style="width: 175px">
-                                    <input type="text" class="form-control text-right" [attr.id]="'asurtir'+i" [attr.name]="'asurtir'+i" formControlName="asurtir" placeholder="Cantidad a surtir">
+                                    <input type="text" [ngClass]="{'is-invalid': items.controls[i].get('asurtir').errors && items.controls[i].get('asurtir').touched  ||  items.controls[i].get('asurtir').touched && items.controls[i].hasError('excedido')}" class="form-control text-right"
+                                        [attr.id]="'asurtir'+i" [attr.name]="'asurtir'+i" formControlName="asurtir" placeholder="Cantidad a surtir">
+                                    <div class="invalid-feedback" *ngIf="items.controls[i].get('asurtir').hasError('max') && items.controls[i].get('asurtir').touched">La cantidad sobrepasa la existencia.</div>
+                                    <div class="invalid-feedback" *ngIf="items.controls[i].hasError('excedido') && items.controls[i].get('asurtir').touched">La cantidad sobrepasa lo solicitado.</div>
+                                    <div class="invalid-feedback" *ngIf="items.controls[i].get('asurtir').hasError('required') && items.controls[i].get('asurtir').touched">Debe capturar una cantidad.</div>
                                     <input type="hidden" [attr.id]="'id'+i" [attr.name]="'id'+i" formControlName="id">
                                 </td>
                             </tr>

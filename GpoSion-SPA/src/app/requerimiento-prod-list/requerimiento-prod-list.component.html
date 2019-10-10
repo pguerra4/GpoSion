@@ -22,7 +22,7 @@
                 <td>{{ requerimiento.turnoDescripcion }}</td>
                 <td>{{ requerimiento.estatus }}</td>
                 <td>
-                    <a class="fa fa-shopping-cart" [routerLink]="['/requerimientos/' + requerimiento.requerimientoMaterialId]"></a>
+                    <a *ngIf="requerimiento.estatus!='Surtido'" class="fa fa-shopping-cart" [routerLink]="['/requerimientos/' + requerimiento.requerimientoMaterialId]"></a>
                 </td>
             </tr>
 
