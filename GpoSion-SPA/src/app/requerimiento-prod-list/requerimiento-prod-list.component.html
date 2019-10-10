@@ -4,6 +4,7 @@
             <tr class="table-primary">
                 <th scope="col">Fecha solicitud</th>
                 <th scope="col">Materiales (Cantidad)</th>
+                <th scope="col">Entregados</th>
                 <th scope="col">Fecha entrega</th>
                 <th scope="col">Jefa Linea</th>
                 <th scope="col">Turno</th>
@@ -13,19 +14,36 @@
         </thead>
         <tbody>
             <tr *ngFor="let requerimiento of requerimientos">
-                <td>{{ requerimiento.fechaSolicitud | date: "dd-MM-yyyy HH:mm" }}</td>
-                <th scope="row">
-                    <div *ngFor="let item of requerimiento.materiales">{{ item.material }} ({{item.cantidad | number: "1.2-3"}}) </div>
-                </th>
-                <td>{{ requerimiento.fechaentrega | date: "dd-MM-yyyy HH:mm" }}</td>
-                <td>{{ requerimiento.jefaLinea }}</td>
-                <td>{{ requerimiento.turnoDescripcion }}</td>
-                <td>{{ requerimiento.estatus }}</td>
                 <td>
-                    <a *ngIf="requerimiento.estatus!='Surtido'" class="fa fa-shopping-cart" [routerLink]="['/requerimientos/' + requerimiento.requerimientoMaterialId]"></a>
+                    {{ requerimiento.fechaSolicitud | date: "dd-MM-yyyy HH:mm" }}
                 </td>
-            </tr>
-
-        </tbody>
-    </table>
+                <th scope="row">
+                    <div *ngFor="let item of requerimiento.materiales">
+                        {{ item.material }} ({{ item.cantidad | number: "1.2-3" }})
+                    </div>
+                </th>
+                <td>
+                    <div *ngFor="let item of requerimiento.materiales">
+                        <strong *ngIf="item.cantidadEntregada > 0">{{ item.material }} ({{
+                item.cantidadEntregada | number: "1.2-3"
+              }})</strong
+            >
+          </div>
+        </td>
+        <td>{{ requerimiento.fechaentrega | date: "dd-MM-yyyy HH:mm" }}</td>
+        <td>{{ requerimiento.jefaLinea }}</td>
+        <td>{{ requerimiento.turnoDescripcion }}</td>
+        <td>{{ requerimiento.estatus }}</td>
+        <td>
+          <a
+            *ngIf="requerimiento.estatus != 'Surtido'"
+            class="fa fa-shopping-cart"
+            [routerLink]="[
+              '/requerimientos/' + requerimiento.requerimientoMaterialId
+            ]"
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

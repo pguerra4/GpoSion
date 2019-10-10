@@ -16,13 +16,13 @@ namespace GpoSion.API.Migrations
                 table: "MovimientosMaterial",
                 column: "RequerimientoMaterialMaterialId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_MM_RMM_RMMId",
-                table: "MovimientosMaterial",
-                column: "RequerimientoMaterialMaterialId",
-                principalTable: "RequerimientoMaterialMateriales",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_MM_RMM_RMMId",
+            //     table: "MovimientosMaterial",
+            //     column: "RequerimientoMaterialMaterialId",
+            //     principalTable: "RequerimientoMaterialMateriales",
+            //     principalColumn: "Id",
+            //     onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
