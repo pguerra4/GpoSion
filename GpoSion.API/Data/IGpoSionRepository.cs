@@ -47,5 +47,7 @@ namespace GpoSion.API.Data
 
         Task<RequerimientoMaterial> GetRequerimientoMaterial(int id);
 
+        Task<bool> ExisteRecibo(int noRecibo);
+
     }
 }

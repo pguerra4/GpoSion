@@ -7,6 +7,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { UnidadMedidaService } from "../_services/unidadMedida.service";
 import { UnidadMedida } from "../_models/unidadMedida";
 import { DetalleRecibo } from "../_models/detalleRecibo";
+import { ValidateExistingViajero } from "../_validators/async-viajero-existente.validator";
+import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 
 @Component({
   selector: "app-recibo-detail",
@@ -26,7 +28,8 @@ export class ReciboDetailComponent implements OnInit {
     private alertify: AlertifyService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private existenciasMaterialService: ExistenciasMaterialService
   ) {}
 
   ngOnInit() {
@@ -36,16 +39,27 @@ export class ReciboDetailComponent implements OnInit {
   }
 
   createReciboDetalleForm() {
-    this.reciboDetalleForm = this.fb.group({
-      material: ["", Validators.required],
-      totalCajas: [1.0],
-      cantidadPorCaja: [0.0],
-      total: [0.0, Validators.required],
-      viajero: ["", Validators.required],
-      unidadMedidaId: [1],
-      referencia2: [null],
-      referenciaCliente: [null]
-    });
+    this.reciboDetalleForm = this.fb.group(
+      {
+        material: ["", Validators.required],
+        totalCajas: [1.0],
+        cantidadPorCaja: [0.0],
+        total: [0.0, Validators.required],
+        viajero: [
+          "",
+          [Validators.required],
+          [
+            ValidateExistingViajero.createValidator(
+              this.existenciasMaterialService
+            )
+          ]
+        ],
+        unidadMedidaId: [1],
+        referencia2: [null],
+        referenciaCliente: [null]
+      },
+      { updateOn: "blur" }
+    );
   }
 
   loadUnidadesMedida() {

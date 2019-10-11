@@ -42,6 +42,12 @@ namespace GpoSion.API.Controllers
             return Ok(reciboToReturn);
         }
 
+        [HttpGet("{id}/existe")]
+        public async Task<IActionResult> ExisteRecibo(int id)
+        {
+            return Ok(await _repo.ExisteRecibo(id));
+        }
+
         [HttpPost()]
         public async Task<IActionResult> PostRecibo(ReciboForCreationDto reciboforCreationDto)
         {

@@ -27,7 +27,20 @@
                     reciboDetalleForm.get('viajero').errors &&
                     reciboDetalleForm.get('viajero').touched
                 }" class="form-control text-right" formControlName="viajero" placeholder="Viajero" />
-                            <div class="invalid-feedback">El viajero es requerido</div>
+                            <div class="invalid-feedback" *ngIf="
+                  reciboDetalleForm.get('viajero').hasError('required') &&
+                  reciboDetalleForm.get('viajero').touched
+                ">
+                                El viajero es requerido
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                  reciboDetalleForm
+                    .get('viajero')
+                    .hasError('viajeroExistente') &&
+                  reciboDetalleForm.get('viajero').touched
+                ">
+                                El viajero ya existe.
+                            </div>
                         </div>
                     </div>
                     <div class="row">

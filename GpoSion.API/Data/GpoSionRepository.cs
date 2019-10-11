@@ -192,5 +192,12 @@ namespace GpoSion.API.Data
             .Include(r => r.Materiales).ThenInclude(m => m.Viajero).FirstOrDefaultAsync(r => r.RequerimientoMaterialId == id);
             return requerimiento;
         }
+
+        public async Task<bool> ExisteRecibo(int noRecibo)
+        {
+            var recibo = await _context.Recibos.Where(r => r.NoRecibo == noRecibo).FirstOrDefaultAsync();
+
+            return recibo != null;
+        }
     }
 }

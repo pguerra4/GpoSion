@@ -34,6 +34,8 @@ import { RequerimientoProdListComponent } from "./requerimiento-prod-list/requer
 import { RequerimientoMaterialProdComponent } from "./requerimiento-material-prod/requerimiento-material-prod.component";
 import { RequerimientoMaterialViajerosComponent } from "./requerimiento-material-viajeros/requerimiento-material-viajeros.component";
 import { RequerimientoMaterialProdResolver } from "./_resolvers/requerimiento-material-prod.resolver";
+import { ValidateExistingViajero } from "./_validators/async-viajero-existente.validator";
+import { ValidateExistingRecibo } from "./_validators/async-recibo-existente.validator";
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { RequerimientoMaterialProdResolver } from "./_resolvers/requerimiento-ma
     ReciboService,
     ClienteService,
     AlertifyService,
-    RequerimientoMaterialProdResolver
+    RequerimientoMaterialProdResolver,
+    ValidateExistingViajero,
+    ValidateExistingRecibo
   ],
   bootstrap: [AppComponent]
 })

@@ -8,52 +8,70 @@
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
                             <label for="Cliente">Cliente</label>
                             <select class="form-control" id="clienteId" formControlName="clienteId">
-            <option *ngFor="let cliente of clientes" [value]="cliente.clienteId">
-              {{ cliente.nombre }}
-            </option>
-          </select>
+                <option
+                  *ngFor="let cliente of clientes"
+                  [value]="cliente.clienteId"
+                >
+                  {{ cliente.nombre }}
+                </option>
+              </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
                             <label for="noRecibo">No. Recibo</label>
-                            <input type="text" [ngClass]="{'is-invalid': reciboForm.get('noRecibo').errors && reciboForm.get('noRecibo').touched }" class="form-control" formControlName="noRecibo" placeholder="No. Recibo">
-                            <div class="invalid-feedback">Escriba un número de recibo</div>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    reciboForm.get('noRecibo').errors &&
+                    reciboForm.get('noRecibo').touched
+                }" class="form-control" formControlName="noRecibo" placeholder="No. Recibo" />
+                            <div class="invalid-feedback" *ngIf="
+                  reciboForm.get('noRecibo').hasError('required') &&
+                  reciboForm.get('noRecibo').touched
+                ">
+                                El recibo es requerido
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                  reciboForm.get('noRecibo').hasError('reciboExistente') &&
+                  reciboForm.get('noRecibo').touched
+                ">
+                                El recibo ya existe.
+                            </div>
                         </div>
 
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
                             <label for="fechaEntrada">Fecha Entrada</label>
-                            <input class="form-control" placeholder="Fecha entrada" type="text" bsDatepicker [bsConfig]="bsConfig" formControlName="fechaEntrada">
+                            <input class="form-control" placeholder="Fecha entrada" type="text" bsDatepicker [bsConfig]="bsConfig" formControlName="fechaEntrada" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
                             <label for="transportista">Transportista</label>
-                            <input class="form-control" placeholder="Transportista" formControlName="transportista">
+                            <input class="form-control" placeholder="Transportista" formControlName="transportista" />
                         </div>
 
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
                             <label for="facturaAduanal">Factura Aduanal</label>
-                            <input class="form-control" placeholder="Factura Aduanal" formControlName="facturaAduanal">
+                            <input class="form-control" placeholder="Factura Aduanal" formControlName="facturaAduanal" />
                         </div>
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
                             <label for="pedimentoImportacion">Pedimento Importación</label>
-                            <input class="form-control" placeholder="Pedimento Importacion" formControlName="pedimentoImportacion">
+                            <input class="form-control" placeholder="Pedimento Importacion" formControlName="pedimentoImportacion" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-12">
                             <label for="recibio">Recibió</label>
-                            <input class="form-control" placeholder="Recibió" formControlName="recibio">
+                            <input class="form-control" placeholder="Recibió" formControlName="recibio" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
-                            <button class="btn btn-success" [disabled]="!reciboForm.valid" type="submit">Guardar</button>
+                            <button class="btn btn-success" [disabled]="!reciboForm.valid" type="submit">
+                Guardar
+              </button>
                         </div>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
-
 </div>

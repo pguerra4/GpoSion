@@ -19,6 +19,10 @@ export class ReciboService {
     return this.http.get<Recibo>(this.baseUrl + "recibos/" + id);
   }
 
+  existeRecibo(id): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + "recibos/" + id + "/existe");
+  }
+
   addRecibo(recibo: Recibo) {
     return this.http.post(this.baseUrl + "recibos", recibo);
   }

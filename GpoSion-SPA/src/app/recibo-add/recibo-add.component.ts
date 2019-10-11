@@ -7,6 +7,7 @@ import { BsDatepickerConfig } from "ngx-bootstrap";
 import { Recibo } from "../_models/recibo";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
+import { ValidateExistingRecibo } from "../_validators/async-recibo-existente.validator";
 
 @Component({
   selector: "app-recibo-add",
@@ -37,15 +38,22 @@ export class ReciboAddComponent implements OnInit {
 
   createReciboForm() {
     const now = new Date();
-    this.reciboForm = this.fb.group({
-      noRecibo: ["", Validators.required],
-      clienteId: [null, Validators.required],
-      fechaEntrada: [now],
-      transportista: [null],
-      facturaAduanal: [null],
-      pedimentoImportacion: [null],
-      recibio: [null]
-    });
+    this.reciboForm = this.fb.group(
+      {
+        noRecibo: [
+          "",
+          Validators.required,
+          ValidateExistingRecibo.createValidator(this.reciboService)
+        ],
+        clienteId: [null, Validators.required],
+        fechaEntrada: [now],
+        transportista: [null],
+        facturaAduanal: [null],
+        pedimentoImportacion: [null],
+        recibio: [null]
+      },
+      { updateOn: "blur" }
+    );
   }
 
   loadClientes() {
