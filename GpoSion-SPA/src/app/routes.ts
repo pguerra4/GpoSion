@@ -16,6 +16,8 @@ import { RequerimientoMaterialListComponent } from "./requerimientoMaterial-list
 import { RequerimientoProdListComponent } from "./requerimiento-prod-list/requerimiento-prod-list.component";
 import { RequerimientoMaterialProdComponent } from "./requerimiento-material-prod/requerimiento-material-prod.component";
 import { RequerimientoMaterialProdResolver } from "./_resolvers/requerimiento-material-prod.resolver";
+import { DetalleReciboEditComponent } from "./detalle-recibo-edit/detalle-recibo-edit.component";
+import { DetalleReciboEditResolver } from "./_resolvers/detalle-recibo-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -42,6 +44,11 @@ export const appRoutes: Routes = [
   { path: "materiales/:id/viajeros", component: MaterialViajerosListComponent },
   { path: "recibos", component: ReciboListComponent },
   { path: "recibos/:id", component: ReciboDetailComponent },
+  {
+    path: "detalleRecibo/:id",
+    component: DetalleReciboEditComponent,
+    resolve: { detalleRecibo: DetalleReciboEditResolver }
+  },
   { path: "viajeros/:id", component: ViajeroDetailComponent },
   { path: "addRecibo", component: ReciboAddComponent },
   { path: "existencias", component: ExistenciasMaterialListComponent },

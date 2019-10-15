@@ -10,6 +10,7 @@ import { AlertifyService } from "../_services/alertify.service";
 })
 export class ReciboListComponent implements OnInit {
   recibos: Recibo[];
+  searchText = "";
 
   constructor(
     private reciboService: ReciboService,

@@ -27,6 +27,5 @@ namespace GpoSion.API.Models
         public UnidadMedida UnidadMedida { get; set; }
 
 
-
     }
 }

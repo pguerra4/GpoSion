@@ -1,31 +1,56 @@
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-2">
-            <a class="btn btn-success" [routerLink]="['/addRecibo']">Nuevo Recibo</a>
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">Recibos</div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-2">
+                        <a class="btn btn-success" [routerLink]="['/addRecibo']">Nuevo Recibo</a
+            >
+          </div>
+          <div class="col-md-4">
+            <input
+              type="text"
+              id="searchTextId"
+              [(ngModel)]="searchText"
+              name="searchText"
+              placeholder="Buscar"
+            />
+            <i class="fa fa-search ml-1"></i>
+          </div>
         </div>
-    </div>
-    <table class="table table-hover table-bordered table-striped mt-1">
-        <thead>
-            <tr class="table-primary">
+      </div>
+      <div class="card-text">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped mt-1">
+            <thead>
+              <tr class="table-primary">
                 <th scope="col">No. Recibo</th>
                 <th scope="col">Fecha entrada</th>
                 <th scope="col">Transportista</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Recibio</th>
                 <th scope="col">Detalle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let recibo of recibos">
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let recibo of recibos | searchRecibos: searchText">
                 <th scope="row">{{ recibo.noRecibo }}</th>
                 <td>{{ recibo.fechaEntrada | date: "MM-dd-yyyy HH:mm" }}</td>
                 <td>{{ recibo.transportista }}</td>
                 <td>{{ recibo.clienteNombre }}</td>
                 <td>{{ recibo.recibio }}</td>
                 <td class="text-center">
-                    <a class="fa fa-file-text" [routerLink]="['/recibos/' + recibo.reciboId]"></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                  <a
+                    class="fa fa-file-text"
+                    [routerLink]="['/recibos/' + recibo.reciboId]"
+                  ></a>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

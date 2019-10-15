@@ -16,4 +16,5 @@ export interface DetalleRecibo {
   material: string;
   unidadMedidaId: number;
   unidad: string;
+  localidad: string;
 }

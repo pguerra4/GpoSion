@@ -6,15 +6,15 @@ namespace GpoSion.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "RequerimientoMaterialMaterialId",
-                table: "MovimientosMaterial",
-                nullable: true);
+            // migrationBuilder.AddColumn<int>(
+            //     name: "RequerimientoMaterialMaterialId",
+            //     table: "MovimientosMaterial",
+            //     nullable: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_MovimientosMaterial_RequerimientoMaterialMaterialId",
-                table: "MovimientosMaterial",
-                column: "RequerimientoMaterialMaterialId");
+            // migrationBuilder.CreateIndex(
+            //     name: "IX_MovimientosMaterial_RequerimientoMaterialMaterialId",
+            //     table: "MovimientosMaterial",
+            //     column: "RequerimientoMaterialMaterialId");
 
             // migrationBuilder.AddForeignKey(
             //     name: "FK_MM_RMM_RMMId",

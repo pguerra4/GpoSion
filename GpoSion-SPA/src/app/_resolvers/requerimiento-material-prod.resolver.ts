@@ -21,7 +21,7 @@ export class RequerimientoMaterialProdResolver
       .pipe(
         catchError(error => {
           this.alertify.error("Problema obteniendo información");
-          this.router.navigate(["/members"]);
+          this.router.navigate(["/existencias"]);
           return of(null);
         })
       );

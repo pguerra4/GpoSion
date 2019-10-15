@@ -4,6 +4,9 @@ using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+
+
 
 namespace GpoSion.API.Controllers
 {
@@ -25,8 +28,20 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetExistencias()
         {
             var existencias = await _repo.GetExistencias();
-            var existenciasToReturn = _mapper.Map<IEnumerable<ExistenciaMaterialToListDto>>(existencias);
-            return Ok(existenciasToReturn);
+
+
+            var nuevasExistencias = existencias.GroupBy(e => e.Material).Select(m => new ExistenciasMaterialGroupToListDto
+            {
+                MaterialId = m.Key.MaterialId,
+                Material = m.Key.ClaveMaterial,
+                Almacen = m.Where(e => e.Area.NombreArea.ToLowerInvariant() == "almacen").Sum(e => e.Existencia),
+                Produccion = m.Where(e => e.Area.NombreArea.ToLowerInvariant() == "producción").Sum(e => e.Existencia),
+                Cliente = m.Key.Cliente.Nombre,
+                UltimaModificacion = m.Max(e => e.UltimaModificacion)
+            }).Where(e => e.Almacen > 0 || e.Produccion > 0).OrderBy(e => e.UltimaModificacion);
+
+            // var existenciasToReturn = _mapper.Map<IEnumerable<ExistenciaMaterialToListDto>>(nuevasExistencias);
+            return Ok(nuevasExistencias);
         }
 
         [HttpGet("/api/existenciasalmacen")]

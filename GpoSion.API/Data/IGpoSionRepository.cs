@@ -49,5 +49,7 @@ namespace GpoSion.API.Data
 
         Task<bool> ExisteRecibo(int noRecibo);
 
+        Task<DetalleRecibo> GetDetalleRecibo(int Id);
+
     }
 }

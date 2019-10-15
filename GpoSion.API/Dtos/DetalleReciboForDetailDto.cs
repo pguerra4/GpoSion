@@ -6,7 +6,7 @@ namespace GpoSion.API.Dtos
     public class DetalleReciboForDetailDto
     {
 
-
+        public int DetalleReciboId { get; set; }
         public int? TotalCajas { get; set; }
 
         public Decimal? CantidadPorCaja { get; set; }
@@ -21,13 +21,19 @@ namespace GpoSion.API.Dtos
 
         [JsonProperty(PropertyName = "reciboId")]
         public int ReciboReciboId { get; set; }
+
+        [JsonProperty(PropertyName = "noRecibo")]
         public string ReciboNoRecibo { get; set; }
 
         [JsonProperty(PropertyName = "materialId")]
         public int MaterialMaterialId { get; set; }
         public string Material { get; set; }
 
-        public int UnidadMedidaId { get; set; }
+        [JsonProperty(PropertyName = "unidadMedidaId")]
+        public int UnidadMedidaUnidadMedidaId { get; set; }
         public string Unidad { get; set; }
+
+        public string Localidad { get; set; }
+
     }
 }

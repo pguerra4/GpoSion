@@ -36,6 +36,10 @@ import { RequerimientoMaterialViajerosComponent } from "./requerimiento-material
 import { RequerimientoMaterialProdResolver } from "./_resolvers/requerimiento-material-prod.resolver";
 import { ValidateExistingViajero } from "./_validators/async-viajero-existente.validator";
 import { ValidateExistingRecibo } from "./_validators/async-recibo-existente.validator";
+import { DetalleReciboEditComponent } from "./detalle-recibo-edit/detalle-recibo-edit.component";
+import { DetalleReciboEditResolver } from "./_resolvers/detalle-recibo-edit.resolver";
+import { SearchByMaterialExistenciasGroupPipe } from "./_filters/search-by-material-existencias-group.pipe";
+import { SearchRecibosPipe } from "./_filters/search-recibos.pipe";
 
 @NgModule({
   declarations: [
@@ -57,7 +61,10 @@ import { ValidateExistingRecibo } from "./_validators/async-recibo-existente.val
     RequerimientoMaterialListComponent,
     RequerimientoProdListComponent,
     RequerimientoMaterialProdComponent,
-    RequerimientoMaterialViajerosComponent
+    RequerimientoMaterialViajerosComponent,
+    DetalleReciboEditComponent,
+    SearchByMaterialExistenciasGroupPipe,
+    SearchRecibosPipe
   ],
   imports: [
     BrowserModule,
@@ -75,7 +82,8 @@ import { ValidateExistingRecibo } from "./_validators/async-recibo-existente.val
     AlertifyService,
     RequerimientoMaterialProdResolver,
     ValidateExistingViajero,
-    ValidateExistingRecibo
+    ValidateExistingRecibo,
+    DetalleReciboEditResolver
   ],
   bootstrap: [AppComponent]
 })

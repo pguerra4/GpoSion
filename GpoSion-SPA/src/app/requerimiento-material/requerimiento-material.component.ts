@@ -77,7 +77,7 @@ export class RequerimientoMaterialComponent implements OnInit {
   }
 
   loadExistencias() {
-    this.existenciasMaterialService.getExistenciasMaterial().subscribe(
+    this.existenciasMaterialService.getExistenciasMaterialAlmacen().subscribe(
       (res: ExistenciaMaterial[]) => {
         this.existencias = res;
       },

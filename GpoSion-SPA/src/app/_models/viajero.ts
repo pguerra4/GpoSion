@@ -6,4 +6,5 @@ export interface Viajero {
   existencia: number;
   fecha: Date;
   movimientosMaterial: MovimientoMaterial[];
+  localidad: string;
 }

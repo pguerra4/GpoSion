@@ -14,6 +14,7 @@
                             <tr class="table-primary">
                                 <th>Viajero</th>
                                 <th class="text-right">Existencia</th>
+                                <th>Localización</th>
                                 <th>Fecha</th>
                             </tr>
                         </thead>
@@ -23,6 +24,7 @@
                                 <td class="text-right">
                                     {{ item.existencia | number: "1.3-3" }}
                                 </td>
+                                <td>{{ item.localidad }}</td>
                                 <td>{{ item.fecha | date: "dd-MM-yyyy HH:mm" }}</td>
                             </tr>
                         </tbody>

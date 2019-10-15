@@ -17,7 +17,8 @@ namespace GpoSion.API.Helpers
             CreateMap<Recibo, ReciboToDetailDto>();
             CreateMap<DetalleRecibo, DetalleReciboForDetailDto>()
             .ForMember(dest => dest.Material, opt => opt.MapFrom(src => src.Material.ClaveMaterial))
-             .ForMember(dest => dest.Unidad, opt => opt.MapFrom(src => src.UnidadMedida.Unidad));
+             .ForMember(dest => dest.Unidad, opt => opt.MapFrom(src => src.UnidadMedida.Unidad))
+              .ForMember(dest => dest.Localidad, opt => opt.MapFrom(src => src.Viajero.Localidad));
             CreateMap<ExistenciaMaterial, ExistenciaMaterialToListDto>()
             .ForMember(dest => dest.UnidadMedida, opt => opt.MapFrom(src => src.Material.UnidadMedida.Unidad))
             .ForMember(dest => dest.Cliente, opt => opt.MapFrom(src => src.Material.Cliente.Nombre));

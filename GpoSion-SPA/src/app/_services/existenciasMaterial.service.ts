@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ExistenciaMaterial } from "../_models/existenciaMaterial";
 import { Viajero } from "../_models/viajero";
+import { ExistenciaMaterialGroup } from "../_models/existencia-material-group";
 
 @Injectable({
   providedIn: "root"
@@ -13,8 +14,10 @@ export class ExistenciasMaterialService {
 
   constructor(private http: HttpClient) {}
 
-  getExistenciasMaterial(): Observable<ExistenciaMaterial[]> {
-    return this.http.get<ExistenciaMaterial[]>(this.baseUrl + "existencias");
+  getExistenciasMaterial(): Observable<ExistenciaMaterialGroup[]> {
+    return this.http.get<ExistenciaMaterialGroup[]>(
+      this.baseUrl + "existencias"
+    );
   }
 
   getExistenciasMaterialAlmacen(): Observable<ExistenciaMaterial[]> {

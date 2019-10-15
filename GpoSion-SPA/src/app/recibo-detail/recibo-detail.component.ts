@@ -56,7 +56,8 @@ export class ReciboDetailComponent implements OnInit {
         ],
         unidadMedidaId: [1],
         referencia2: [null],
-        referenciaCliente: [null]
+        referenciaCliente: [null],
+        localidad: [""]
       },
       { updateOn: "blur" }
     );

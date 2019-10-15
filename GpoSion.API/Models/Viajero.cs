@@ -19,5 +19,7 @@ namespace GpoSion.API.Models
 
         public ICollection<MovimientoMaterial> MovimientosMaterial { get; set; }
 
+        public string Localidad { get; set; }
+
     }
 }

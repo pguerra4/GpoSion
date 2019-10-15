@@ -72,8 +72,10 @@ namespace GpoSion.API.Data
         {
 
             var existencias = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
-            .Include(e => e.Material).ThenInclude(m => m.Cliente).Include(e => e.Area).OrderBy(e => e.Material.ClaveMaterial).ThenBy(e => e.UltimaModificacion).ToListAsync();
+            .Include(e => e.Material).ThenInclude(m => m.Cliente).Include(e => e.Area)
+           .OrderBy(e => e.Material.ClaveMaterial).ThenBy(e => e.UltimaModificacion).ToListAsync();
             return existencias;
+
         }
 
         public async Task<ExistenciaMaterial> GetExistencia(int id)
@@ -111,6 +113,7 @@ namespace GpoSion.API.Data
 
             var recibo = await _context.Recibos.Include(r => r.Detalle).ThenInclude(d => d.Material)
             .Include(r => r.Detalle).ThenInclude(d => d.UnidadMedida)
+            .Include(r => r.Detalle).ThenInclude(d => d.Viajero)
             .Include(r => r.Cliente).FirstOrDefaultAsync(r => r.ReciboId == id);
             return recibo;
         }
@@ -146,9 +149,11 @@ namespace GpoSion.API.Data
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<MovimientoMaterial>> GetMovimientoMaterialesPorViajero(int viajero)
+        public async Task<IEnumerable<MovimientoMaterial>> GetMovimientoMaterialesPorViajero(int viajero)
         {
-            throw new System.NotImplementedException();
+            var movs = await _context.MovimientosMaterial.Include(mm => mm.Origen).Include(mm => mm.Destino).Include(mm => mm.Recibo).Where(mm => mm.ViajeroId == viajero).ToListAsync();
+            return movs;
+
         }
 
         public async Task<Viajero> GetViajero(int viajeroId)
@@ -198,6 +203,13 @@ namespace GpoSion.API.Data
             var recibo = await _context.Recibos.Where(r => r.NoRecibo == noRecibo).FirstOrDefaultAsync();
 
             return recibo != null;
+        }
+
+        public async Task<DetalleRecibo> GetDetalleRecibo(int Id)
+        {
+            var detalleRecibo = await _context.DetalleRecibos.Include(dr => dr.Viajero)
+            .Include(dr => dr.Recibo).Include(dr => dr.Material).Include(dr => dr.UnidadMedida).FirstOrDefaultAsync(dr => dr.DetalleReciboId == Id);
+            return detalleRecibo;
         }
     }
 }

@@ -29,4 +29,12 @@ export class ReciboService {
   addDetallesRecibo(detalles: DetalleRecibo[]) {
     return this.http.post(this.baseUrl + "detalleRecibo", detalles);
   }
+
+  editDetallesRecibo(id: number, detalle: DetalleRecibo) {
+    return this.http.put(this.baseUrl + "detalleRecibo/" + id, detalle);
+  }
+
+  getDetalleRecibo(id): Observable<DetalleRecibo> {
+    return this.http.get<DetalleRecibo>(this.baseUrl + "detalleRecibo/" + id);
+  }
 }

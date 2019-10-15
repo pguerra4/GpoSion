@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ExistenciaMaterial } from "../_models/existenciaMaterial";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
-import * as alertify from "alertifyjs";
 import { AlertifyService } from "../_services/alertify.service";
+import { ExistenciaMaterialGroup } from "../_models/existencia-material-group";
 
 @Component({
   selector: "app-existenciasmaterial-list",
@@ -10,7 +9,8 @@ import { AlertifyService } from "../_services/alertify.service";
   styleUrls: ["./existenciasMaterial-list.component.css"]
 })
 export class ExistenciasMaterialListComponent implements OnInit {
-  existencias: ExistenciaMaterial[];
+  existencias: ExistenciaMaterialGroup[];
+  searchText = "";
 
   constructor(
     private existenciasService: ExistenciasMaterialService,
@@ -23,11 +23,11 @@ export class ExistenciasMaterialListComponent implements OnInit {
 
   loadExistencias() {
     this.existenciasService.getExistenciasMaterial().subscribe(
-      (res: ExistenciaMaterial[]) => {
+      (res: ExistenciaMaterialGroup[]) => {
         this.existencias = res;
       },
       error => {
-        alertify.error(error);
+        this.alertify.error(error);
       }
     );
   }

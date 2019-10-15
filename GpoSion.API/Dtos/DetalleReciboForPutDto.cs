@@ -2,10 +2,9 @@ using System;
 
 namespace GpoSion.API.Dtos
 {
-    public class DetalleReciboForPostDto
+    public class DetalleReciboForPutDto
     {
-
-
+        public int DetalleReciboId { get; set; }
         public int? TotalCajas { get; set; }
 
         public Decimal? CantidadPorCaja { get; set; }
@@ -18,7 +17,7 @@ namespace GpoSion.API.Dtos
 
         public int ReciboId { get; set; }
 
-        public string Material { get; set; }
+        public int MaterialId { get; set; }
 
         public int UnidadMedidaId { get; set; }
 

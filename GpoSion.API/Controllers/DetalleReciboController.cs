@@ -23,6 +23,17 @@ namespace GpoSion.API.Controllers
             _repo = repo;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDetalleRecibo(int Id)
+        {
+            var detalleRecibo = await _repo.GetDetalleRecibo(Id);
+            if (detalleRecibo == null)
+                return BadRequest();
+
+            var detalleReciboToReturn = _mapper.Map<DetalleReciboForDetailDto>(detalleRecibo);
+            return Ok(detalleReciboToReturn);
+        }
+
         [HttpPost()]
         public async Task<IActionResult> PostDetalleRecibo(ICollection<DetalleReciboForPostDto> detallesRecibo)
         {
@@ -60,7 +71,7 @@ namespace GpoSion.API.Controllers
                 var viajero = await _repo.GetViajero(detalle.Viajero);
                 if (viajero == null)
                 {
-                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material };
+                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, Localidad = detalle.Localidad };
                 }
                 else
                 {
@@ -110,5 +121,60 @@ namespace GpoSion.API.Controllers
 
             throw new Exception("Recibo no guardado");
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutDetalleRecibo(int Id, DetalleReciboForPutDto detalleReciboForEdit)
+        {
+
+            var detalleRecibo = await _repo.GetDetalleRecibo(Id);
+
+            if (detalleRecibo == null)
+                return BadRequest();
+
+
+            var almacenes = await _repo.GetAreas();
+            var almacen = almacenes.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
+
+
+
+            var unidadMedida = await _repo.GetUnidadMedida(detalleReciboForEdit.UnidadMedidaId);
+
+
+            var viajero = await _repo.GetViajero(detalleReciboForEdit.Viajero);
+            viajero.Localidad = detalleReciboForEdit.Localidad;
+
+            var diferencia = detalleReciboForEdit.Total - detalleRecibo.Total;
+
+
+            viajero.Existencia += diferencia;
+
+
+            var movsMaterial = await _repo.GetMovimientoMaterialesPorViajero(viajero.ViajeroId);
+            var movMaterial = movsMaterial.Where(mm => mm.Destino == almacen && mm.Origen == null && mm.Recibo == detalleRecibo.Recibo).FirstOrDefault();
+            movMaterial.Cantidad = detalleReciboForEdit.Total;
+
+            var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, detalleRecibo.Material.MaterialId);
+
+            existenciaMaterial.Existencia += diferencia;
+
+
+
+            detalleRecibo.TotalCajas = !detalleReciboForEdit.TotalCajas.HasValue ? 0 : detalleReciboForEdit.TotalCajas.Value;
+            detalleRecibo.CantidadPorCaja = !detalleReciboForEdit.CantidadPorCaja.HasValue ? 0 : detalleReciboForEdit.CantidadPorCaja.Value;
+            detalleRecibo.Total = detalleReciboForEdit.Total;
+            detalleRecibo.Referencia2 = detalleReciboForEdit.Referencia2;
+            detalleRecibo.ReferenciaCliente = detalleReciboForEdit.ReferenciaCliente;
+            detalleRecibo.UnidadMedida = unidadMedida;
+
+
+
+
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception("Recibo no guardado");
+        }
+
     }
 }

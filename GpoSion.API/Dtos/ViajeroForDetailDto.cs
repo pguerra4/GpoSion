@@ -17,8 +17,11 @@ namespace GpoSion.API.Dtos
         public string MaterialClaveMaterial { get; set; }
 
         public decimal Existencia { get; set; }
+
+        public string Localidad { get; set; }
         public DateTime Fecha { get; set; }
 
         public ICollection<MovimientoMaterialForViajeroDetailDto> MovimientosMaterial { get; set; }
+
     }
 }
