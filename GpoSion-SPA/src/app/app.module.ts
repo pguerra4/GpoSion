@@ -40,6 +40,7 @@ import { DetalleReciboEditComponent } from "./detalle-recibo-edit/detalle-recibo
 import { DetalleReciboEditResolver } from "./_resolvers/detalle-recibo-edit.resolver";
 import { SearchByMaterialExistenciasGroupPipe } from "./_filters/search-by-material-existencias-group.pipe";
 import { SearchRecibosPipe } from "./_filters/search-recibos.pipe";
+import { SearchRequerimientosProdPipe } from "./_filters/search-requerimientos-prod.pipe";
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { SearchRecibosPipe } from "./_filters/search-recibos.pipe";
     RequerimientoMaterialViajerosComponent,
     DetalleReciboEditComponent,
     SearchByMaterialExistenciasGroupPipe,
-    SearchRecibosPipe
+    SearchRecibosPipe,
+    SearchRequerimientosProdPipe
   ],
   imports: [
     BrowserModule,

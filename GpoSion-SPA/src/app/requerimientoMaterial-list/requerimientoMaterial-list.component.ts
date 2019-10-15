@@ -10,6 +10,7 @@ import { RequerimientoMaterial } from "../_models/requerimientoMaterial";
 })
 export class RequerimientoMaterialListComponent implements OnInit {
   requerimientos: RequerimientoMaterial[];
+  searchText = "";
 
   constructor(
     private requerimientoMaterialService: RequerimientoMaterialService,

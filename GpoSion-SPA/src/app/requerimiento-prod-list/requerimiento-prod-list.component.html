@@ -1,49 +1,74 @@
-<div class="container mt-5">
-    <table class="table table-hover table-bordered table-striped mt-1">
-        <thead>
-            <tr class="table-primary">
-                <th scope="col">Fecha solicitud</th>
-                <th scope="col">Materiales (Cantidad)</th>
-                <th scope="col">Entregados</th>
-                <th scope="col">Fecha entrega</th>
-                <th scope="col">Jefa Linea</th>
-                <th scope="col">Turno</th>
-                <th scope="col">Estatus</th>
-                <th scope="col">Surtir</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let requerimiento of requerimientos">
-                <td>
-                    {{ requerimiento.fechaSolicitud | date: "dd-MM-yyyy HH:mm" }}
-                </td>
-                <th scope="row">
-                    <div *ngFor="let item of requerimiento.materiales">
-                        {{ item.material }} ({{ item.cantidad | number: "1.2-3" }})
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">
+            Requerimientos de material por producción
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <input type="text" id="searchTextId" [(ngModel)]="searchText" name="searchText" placeholder="Buscar" />
+                        <i class="fa fa-search ml-1"></i>
                     </div>
-                </th>
+                </div>
+            </div>
+            <div class="card-text">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped mt-1">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col">Fecha solicitud</th>
+                                <th scope="col">Materiales (Cantidad)</th>
+                                <th scope="col">Entregados</th>
+                                <th scope="col">Fecha entrega</th>
+                                <th scope="col">Jefa Linea</th>
+                                <th scope="col">Turno</th>
+                                <th scope="col">Estatus</th>
+                                <th scope="col">Surtir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="
+                  let requerimiento of requerimientos
+                    | searchRequerimientosProd: searchText
+                ">
+                                <td>
+                                    {{ requerimiento.fechaSolicitud | date: "dd-MM-yyyy HH:mm" }}
+                                </td>
+                                <th scope="row">
+                                    <div *ngFor="let item of requerimiento.materiales">
+                                        {{ item.material }} ({{ item.cantidad | number: "1.2-3" }})
+                                    </div>
+                                </th>
+                                <td>
+                                    <div *ngFor="let item of requerimiento.materiales">
+                                        <strong *ngIf="item.cantidadEntregada > 0">{{ item.material }} ({{
+                        item.cantidadEntregada | number: "1.2-3"
+                      }})</strong
+                    >
+                  </div>
+                </td>
                 <td>
-                    <div *ngFor="let item of requerimiento.materiales">
-                        <strong *ngIf="item.cantidadEntregada > 0">{{ item.material }} ({{
-                item.cantidadEntregada | number: "1.2-3"
-              }})</strong
-            >
-          </div>
-        </td>
-        <td>{{ requerimiento.fechaentrega | date: "dd-MM-yyyy HH:mm" }}</td>
-        <td>{{ requerimiento.jefaLinea }}</td>
-        <td>{{ requerimiento.turnoDescripcion }}</td>
-        <td>{{ requerimiento.estatus }}</td>
-        <td>
-          <a
-            *ngIf="requerimiento.estatus != 'Surtido'"
-            class="fa fa-shopping-cart"
-            [routerLink]="[
-              '/requerimientos/' + requerimiento.requerimientoMaterialId
-            ]"
-          ></a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+                  {{ requerimiento.fechaentrega | date: "dd-MM-yyyy HH:mm" }}
+                </td>
+                <td>{{ requerimiento.jefaLinea }}</td>
+                <td>{{ requerimiento.turnoDescripcion }}</td>
+                <td>{{ requerimiento.estatus }}</td>
+                <td>
+                  <a
+                    *ngIf="requerimiento.estatus != 'Surtido'"
+                    class="fa fa-shopping-cart"
+                    [routerLink]="[
+                      '/requerimientos/' + requerimiento.requerimientoMaterialId
+                    ]"
+                  ></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
