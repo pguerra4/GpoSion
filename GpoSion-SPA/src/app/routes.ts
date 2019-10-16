@@ -18,6 +18,9 @@ import { RequerimientoMaterialProdComponent } from "./requerimiento-material-pro
 import { RequerimientoMaterialProdResolver } from "./_resolvers/requerimiento-material-prod.resolver";
 import { DetalleReciboEditComponent } from "./detalle-recibo-edit/detalle-recibo-edit.component";
 import { DetalleReciboEditResolver } from "./_resolvers/detalle-recibo-edit.resolver";
+import { ViajeroListComponent } from "./viajero-list/viajero-list.component";
+import { ViajeroEditComponent } from "./viajero-edit/viajero-edit.component";
+import { ViajeroEditResolver } from "./_resolvers/viajero-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -50,6 +53,12 @@ export const appRoutes: Routes = [
     resolve: { detalleRecibo: DetalleReciboEditResolver }
   },
   { path: "viajeros/:id", component: ViajeroDetailComponent },
+  {
+    path: "viajeroedit/:id",
+    component: ViajeroEditComponent,
+    resolve: { viajero: ViajeroEditResolver }
+  },
+  { path: "viajeros", component: ViajeroListComponent },
   { path: "addRecibo", component: ReciboAddComponent },
   { path: "existencias", component: ExistenciasMaterialListComponent },
   { path: "addAlmacen", component: ExistenciasAddComponent },

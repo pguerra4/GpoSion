@@ -30,9 +30,17 @@ export class ExistenciasMaterialService {
     return this.http.get<Viajero>(this.baseUrl + "viajeros/" + id);
   }
 
+  getViajeros(): Observable<Viajero[]> {
+    return this.http.get<Viajero[]>(this.baseUrl + "viajeros/");
+  }
+
   getViajerosPorMaterial(materialId: number): Observable<Viajero[]> {
     return this.http.get<Viajero[]>(
       this.baseUrl + "materiales/" + materialId + "/viajeros"
     );
+  }
+
+  editViajero(id: number, viajero: Viajero) {
+    return this.http.put(this.baseUrl + "viajeros/" + id, viajero);
   }
 }

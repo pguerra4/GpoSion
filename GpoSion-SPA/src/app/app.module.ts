@@ -41,6 +41,10 @@ import { DetalleReciboEditResolver } from "./_resolvers/detalle-recibo-edit.reso
 import { SearchByMaterialExistenciasGroupPipe } from "./_filters/search-by-material-existencias-group.pipe";
 import { SearchRecibosPipe } from "./_filters/search-recibos.pipe";
 import { SearchRequerimientosProdPipe } from "./_filters/search-requerimientos-prod.pipe";
+import { ViajeroListComponent } from "./viajero-list/viajero-list.component";
+import { SearchByViajeroPipe } from "./_filters/search-by-viajero.pipe";
+import { ViajeroEditComponent } from "./viajero-edit/viajero-edit.component";
+import { ViajeroEditResolver } from "./_resolvers/viajero-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -66,7 +70,10 @@ import { SearchRequerimientosProdPipe } from "./_filters/search-requerimientos-p
     DetalleReciboEditComponent,
     SearchByMaterialExistenciasGroupPipe,
     SearchRecibosPipe,
-    SearchRequerimientosProdPipe
+    SearchRequerimientosProdPipe,
+    ViajeroListComponent,
+    SearchByViajeroPipe,
+    ViajeroEditComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +92,8 @@ import { SearchRequerimientosProdPipe } from "./_filters/search-requerimientos-p
     RequerimientoMaterialProdResolver,
     ValidateExistingViajero,
     ValidateExistingRecibo,
-    DetalleReciboEditResolver
+    DetalleReciboEditResolver,
+    ViajeroEditResolver
   ],
   bootstrap: [AppComponent]
 })

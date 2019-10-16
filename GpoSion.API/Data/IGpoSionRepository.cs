@@ -51,5 +51,7 @@ namespace GpoSion.API.Data
 
         Task<DetalleRecibo> GetDetalleRecibo(int Id);
 
+        Task<IEnumerable<Viajero>> GetViajeros();
+
     }
 }

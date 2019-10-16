@@ -211,5 +211,11 @@ namespace GpoSion.API.Data
             .Include(dr => dr.Recibo).Include(dr => dr.Material).Include(dr => dr.UnidadMedida).FirstOrDefaultAsync(dr => dr.DetalleReciboId == Id);
             return detalleRecibo;
         }
+
+        public async Task<IEnumerable<Viajero>> GetViajeros()
+        {
+            var viajeros = await _context.Viajeros.Include(v => v.Material).Where(v => v.Existencia > 0).OrderBy(v => v.Fecha).ToListAsync();
+            return viajeros;
+        }
     }
 }

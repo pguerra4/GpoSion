@@ -24,6 +24,8 @@ namespace GpoSion.API.Helpers
             .ForMember(dest => dest.Cliente, opt => opt.MapFrom(src => src.Material.Cliente.Nombre));
             CreateMap<MovimientoMaterial, MovimientoMaterialForViajeroDetailDto>();
             CreateMap<Viajero, ViajeroForDetailDto>();
+            CreateMap<Viajero, ViajeroToListDto>();
+            CreateMap<ViajeroForPutDto, Viajero>();
             CreateMap<RequerimientoMaterialMaterialForCreationDto, RequerimientoMaterialMaterial>();
             CreateMap<RequerimientoforCreationDto, RequerimientoMaterial>();
             CreateMap<RequerimientoMaterialMaterial, RequerimientoMaterialMaterialForDetailDto>();

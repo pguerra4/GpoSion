@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary d-flex justify-content-between">
+            <span>Viajero: {{ viajero.viajero }}</span>
+        </div>
+        <div class="card-body">
+            <div class="card-title p-2 table-success">
+                <div class="row">
+                    <div class="col-md-3">
+                        Viajero: <strong> {{ viajero.viajero }}</strong>
+                    </div>
+                    <div class="col-md-6">Material: {{ viajero.material }}</div>
+                    <div class="col-md-3">
+                        Fecha: {{ viajero.fecha | date: "dd-MM-yyyy" }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-text">
+                <form [formGroup]="viajeroForm" (ngSubmit)="editViajero()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="localidad">Localización</label>
+                            <input class="form-control" placeholder="Localización" formControlName="localidad" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="existencia">Existencia</label>
+                            <input [ngClass]="{'is-invalid': viajeroForm.get('existencia').errors && viajeroForm.get('existencia').touched }" class="form-control text-right" placeholder="Existencia" formControlName="existencia" />
+                            <div class="invalid-feedback" *ngIf="viajeroForm.get('existencia').hasError('required') && viajeroForm.get('existencia').touched">La existencia es requerida.</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                          <button class="btn btn-success">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

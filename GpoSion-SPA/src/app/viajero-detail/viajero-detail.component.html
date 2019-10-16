@@ -1,51 +1,56 @@
 <div class="container">
     <div class="card border-primary mt-4">
-        <div class="card-header text-primary">Movimientos Viajero</div>
-        <div class="card-body">
-            <div class="card-title p-2 table-success">
-                <div class="row">
-                    <div class="col-md-2">
-                        Viajero: <strong> {{ viajero.viajero }}</strong>
-                    </div>
-                    <div class="col-md-3">Material: {{ viajero.material }}</div>
-                    <div class="col-md-3">Existencia: {{ viajero.existencia }}</div>
-                    <div class="col-md-2">Localización: {{ viajero.localidad }}</div>
-                    <div class="col-md-2">
-                        Fecha: {{ viajero.fecha | date: "dd-MM-yyyy" }}
-                    </div>
-                </div>
-            </div>
-            <div class="card-text">
-                <div class="card-subtitle">
-                    Movimientos
-                </div>
-                <div class="table-responsive">
-                    <table id="mytable" class="table table-bordred table-striped">
-                        <thead>
-                            <tr class="table-primary">
-                                <th>Material</th>
-                                <th>Origen</th>
-                                <th>Destino</th>
-                                <th class="text-right">Cantidad</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of viajero.movimientosMaterial">
-                                <td scope="row">{{ item.material }}</td>
-                                <td>{{ item.origen === null ? "Entrada" : item.origen }}</td>
-                                <td>
-                                    {{ item.destino }}
-                                </td>
-                                <td class="text-right">
-                                    {{ item.cantidad | number: "1.3-3" }}
-                                </td>
-                                <td>{{ item.fecha | date: "dd-MM-yyyy HH:mm" }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <div class="card-header text-primary d-flex justify-content-between">
+            <span> Movimientos Viajero</span>
+            <a class="fa fa-edit" [routerLink]="['/viajeroedit/' + viajero.viajero]">
+        Editar</a
+      >
     </div>
+    <div class="card-body">
+      <div class="card-title p-2 table-success">
+        <div class="row">
+          <div class="col-md-2">
+            Viajero: <strong> {{ viajero.viajero }}</strong>
+          </div>
+          <div class="col-md-3">Material: {{ viajero.material }}</div>
+          <div class="col-md-3">Existencia: {{ viajero.existencia }}</div>
+          <div class="col-md-2">Localización: {{ viajero.localidad }}</div>
+          <div class="col-md-2">
+            Fecha: {{ viajero.fecha | date: "dd-MM-yyyy" }}
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="card-subtitle">
+          Movimientos
+        </div>
+        <div class="table-responsive">
+          <table id="mytable" class="table table-bordred table-striped">
+            <thead>
+              <tr class="table-primary">
+                <th>Material</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th class="text-right">Cantidad</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of viajero.movimientosMaterial">
+                <td scope="row">{{ item.material }}</td>
+                <td>{{ item.origen === null ? "Entrada" : item.origen }}</td>
+                <td>
+                  {{ item.destino }}
+                </td>
+                <td class="text-right">
+                  {{ item.cantidad | number: "1.3-3" }}
+                </td>
+                <td>{{ item.fecha | date: "dd-MM-yyyy HH:mm" }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

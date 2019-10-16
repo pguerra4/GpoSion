@@ -23,7 +23,6 @@ export class RequerimientoMaterialProdComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       this.requerimiento = data["req"];
     });
-    console.log(this.requerimiento);
     // this.loadRequerimiento();
   }
 
