@@ -45,6 +45,12 @@ import { ViajeroListComponent } from "./viajero-list/viajero-list.component";
 import { SearchByViajeroPipe } from "./_filters/search-by-viajero.pipe";
 import { ViajeroEditComponent } from "./viajero-edit/viajero-edit.component";
 import { ViajeroEditResolver } from "./_resolvers/viajero-edit.resolver";
+import { MoldeListComponent } from "./molde-list/molde-list.component";
+import { MoldeService } from "./_services/molde.service";
+import { MoldeAddComponent } from "./molde-add/molde-add.component";
+import { AreaService } from "./_services/area.service";
+import { MoldeEditComponent } from "./molde-edit/molde-edit.component";
+import { MoldeEditResolver } from "./_resolvers/molde-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -73,7 +79,10 @@ import { ViajeroEditResolver } from "./_resolvers/viajero-edit.resolver";
     SearchRequerimientosProdPipe,
     ViajeroListComponent,
     SearchByViajeroPipe,
-    ViajeroEditComponent
+    ViajeroEditComponent,
+    MoldeListComponent,
+    MoldeAddComponent,
+    MoldeEditComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +102,10 @@ import { ViajeroEditResolver } from "./_resolvers/viajero-edit.resolver";
     ValidateExistingViajero,
     ValidateExistingRecibo,
     DetalleReciboEditResolver,
-    ViajeroEditResolver
+    ViajeroEditResolver,
+    MoldeService,
+    AreaService,
+    MoldeEditResolver
   ],
   bootstrap: [AppComponent]
 })

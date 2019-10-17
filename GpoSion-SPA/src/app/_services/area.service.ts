@@ -1,16 +1,18 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
-import { Cliente } from "../_models/cliente";
 import { Observable } from "rxjs";
+import { Area } from "../_models/area";
 
-@Injectable()
-export class ClienteService {
+@Injectable({
+  providedIn: "root"
+})
+export class AreaService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  getClientes(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.baseUrl + "clientes");
+  getAreas(): Observable<Area[]> {
+    return this.http.get<Area[]>(this.baseUrl + "areas");
   }
 }

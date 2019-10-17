@@ -57,7 +57,7 @@ export class ReciboAddComponent implements OnInit {
   }
 
   loadClientes() {
-    this.clienteService.getClienttes().subscribe(
+    this.clienteService.getClientes().subscribe(
       (res: Cliente[]) => {
         this.clientes = res;
       },

@@ -30,7 +30,10 @@ namespace GpoSion.API.Helpers
             CreateMap<RequerimientoforCreationDto, RequerimientoMaterial>();
             CreateMap<RequerimientoMaterialMaterial, RequerimientoMaterialMaterialForDetailDto>();
             CreateMap<RequerimientoMaterial, RequerimientoMaterialForDetailDto>();
-
+            CreateMap<Molde, MoldeToListDto>();
+            CreateMap<Molde, MoldeForDetailDto>();
+            CreateMap<MoldeForCreationDto, Molde>();
+            CreateMap<MoldeForPutDto, Molde>();
         }
     }
 }

@@ -21,6 +21,10 @@ import { DetalleReciboEditResolver } from "./_resolvers/detalle-recibo-edit.reso
 import { ViajeroListComponent } from "./viajero-list/viajero-list.component";
 import { ViajeroEditComponent } from "./viajero-edit/viajero-edit.component";
 import { ViajeroEditResolver } from "./_resolvers/viajero-edit.resolver";
+import { MoldeListComponent } from "./molde-list/molde-list.component";
+import { MoldeAddComponent } from "./molde-add/molde-add.component";
+import { MoldeEditResolver } from "./_resolvers/molde-edit.resolver";
+import { MoldeEditComponent } from "./molde-edit/molde-edit.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -72,6 +76,13 @@ export const appRoutes: Routes = [
     resolve: { req: RequerimientoMaterialProdResolver }
   },
   { path: "solicitarMaterial/:id", component: MaterialProdComponent },
+  { path: "moldes", component: MoldeListComponent },
+  {
+    path: "moldes/:id",
+    component: MoldeEditComponent,
+    resolve: { molde: MoldeEditResolver }
+  },
+  { path: "addMolde", component: MoldeAddComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Nuevo Molde</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="moldeForm" (ngSubmit)="editMolde()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="Cliente">Cliente</label>
+                            <select class="form-control" id="clienteId" formControlName="clienteId">
+            <option
+              *ngFor="let cliente of clientes"
+              [value]="cliente.clienteId"
+            >
+              {{ cliente.nombre }}
+            </option>
+          </select>
+                        </div>
+
+
+
+                    </div>
+                    <div class="row">
+                        <input type="hidden" formControlName="id" />
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="molde">Molde</label>
+                            <input type="text" [ngClass]="{
+          'is-invalid':
+            moldeForm.get('molde').errors &&
+            moldeForm.get('molde').touched
+        }" class="form-control" formControlName="molde" placeholder="Molde" />
+                            <div class="invalid-feedback" *ngIf="
+          moldeForm.get('molde').hasError('required') &&
+          moldeForm.get('molde').touched
+        ">
+                                El molde es requerido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="ubicacionId">Ubicación</label>
+                            <select class="form-control" id="ubicacionId" formControlName="ubicacionId">
+        <option
+          *ngFor="let area of areas"
+          [value]="area.areaId"
+        >
+          {{ area.nombreArea }}
+        </option>
+      </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="moldeadoraId">Moldeadora</label>
+                            <select class="form-control" id="moldeadoraId" formControlName="moldeadoraId">
+      <option
+        *ngFor="let moldeadora of moldeadoras"
+        [value]="moldeadora.moldeadoraId"
+      >
+        {{ moldeadora.moldeadora }}
+      </option>
+    </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!moldeForm.valid" type="submit">
+            Guardar
+          </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

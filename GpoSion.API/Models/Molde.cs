@@ -5,16 +5,19 @@ namespace GpoSion.API.Models
 {
     public class Molde
     {
-        private Area ubicacion;
 
         public int Id { get; set; }
 
         [Column("Molde")]
         public string ClaveMolde { get; set; }
+
+        public int? ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
+        public int? UbicacionAreaId { get; set; }
         public Area Ubicacion { get; set; }
 
+        public int? MaquinaMoldeadoraId { get; set; }
         public Moldeadora Maquina { get; set; }
 
         public DateTime FechaCreacion { get; set; }

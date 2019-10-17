@@ -217,5 +217,17 @@ namespace GpoSion.API.Data
             var viajeros = await _context.Viajeros.Include(v => v.Material).Where(v => v.Existencia > 0).OrderBy(v => v.Fecha).ToListAsync();
             return viajeros;
         }
+
+        public async Task<IEnumerable<Molde>> GetMoldes()
+        {
+            var moldes = await _context.Moldes.Include(m => m.Cliente).Include(m => m.Ubicacion).Include(m => m.Maquina).ToListAsync();
+            return moldes;
+        }
+
+        public async Task<Molde> GetMolde(int Id)
+        {
+            var molde = await _context.Moldes.Include(m => m.Cliente).Include(m => m.Ubicacion).Include(m => m.Maquina).FirstOrDefaultAsync(m => m.Id == Id);
+            return molde;
+        }
     }
 }
