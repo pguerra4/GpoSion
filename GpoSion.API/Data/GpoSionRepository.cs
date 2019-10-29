@@ -229,5 +229,29 @@ namespace GpoSion.API.Data
             var molde = await _context.Moldes.Include(m => m.Cliente).Include(m => m.Ubicacion).Include(m => m.Maquina).FirstOrDefaultAsync(m => m.Id == Id);
             return molde;
         }
+
+        public async Task<OrdenCompra> GetOrdenCompra(int Id)
+        {
+            var ordenCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).FirstOrDefaultAsync(oc => oc.NoOrden == Id);
+            return ordenCompra;
+        }
+
+        public async Task<IEnumerable<OrdenCompra>> GetOrdenesCompra()
+        {
+            var ordenesCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).ToListAsync();
+            return ordenesCompra;
+        }
+
+        public async Task<NumeroParte> GetNumeroParte(string NoParte)
+        {
+            var numeroParte = await _context.NumerosParte.Include(np => np.Cliente).FirstOrDefaultAsync(np => np.NoParte == NoParte);
+            return numeroParte;
+        }
+
+        public async Task<IEnumerable<NumeroParte>> GetNumerosParte()
+        {
+            var numerosParte = await _context.NumerosParte.Include(np => np.Cliente).ToListAsync();
+            return numerosParte;
+        }
     }
 }

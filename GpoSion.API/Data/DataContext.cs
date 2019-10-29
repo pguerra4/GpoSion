@@ -33,6 +33,12 @@ namespace GpoSion.API.Data
 
         public DbSet<Turno> Turnos { get; set; }
 
+        public DbSet<OrdenCompra> OrdenesCompra { get; set; }
+
+        public DbSet<OrdenCompraDetalle> OrdenCompraDetalles { get; set; }
+
+        public DbSet<NumeroParte> NumerosParte { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

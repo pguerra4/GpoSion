@@ -57,5 +57,14 @@ namespace GpoSion.API.Data
 
         Task<Molde> GetMolde(int Id);
 
+        Task<OrdenCompra> GetOrdenCompra(int Id);
+
+        Task<IEnumerable<OrdenCompra>> GetOrdenesCompra();
+
+        Task<NumeroParte> GetNumeroParte(string NoParte);
+
+        Task<IEnumerable<NumeroParte>> GetNumerosParte();
+
+
     }
 }
