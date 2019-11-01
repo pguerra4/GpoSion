@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GpoSion.API.Models
@@ -20,5 +21,8 @@ namespace GpoSion.API.Models
 
         public DateTime FechaCreacion { get; set; }
         public DateTime UltimaModificacion { get; set; }
+
+        public ICollection<NumeroParte> NumerosParte { get; set; }
+
     }
 }

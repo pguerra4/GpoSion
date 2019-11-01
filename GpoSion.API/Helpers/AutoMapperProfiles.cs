@@ -34,6 +34,7 @@ namespace GpoSion.API.Helpers
             CreateMap<Molde, MoldeForDetailDto>();
             CreateMap<MoldeForCreationDto, Molde>();
             CreateMap<MoldeForPutDto, Molde>();
+            CreateMap<NumeroParte, NumeroParteToListDto>();
         }
     }
 }

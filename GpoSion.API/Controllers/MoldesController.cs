@@ -69,7 +69,7 @@ namespace GpoSion.API.Controllers
             molde.ClaveMolde = moldeFP.ClaveMolde;
             molde.ClienteId = moldeFP.ClienteId;
             molde.UbicacionAreaId = moldeFP.UbicacionAreaId;
-            molde.MaquinaMoldeadoraId = moldeFP.MaquinaMoldeadoraId;
+            // molde.MaquinaMoldeadoraId = moldeFP.MaquinaMoldeadoraId;
             molde.UltimaModificacion = moldeFP.UltimaModificacion;
 
 

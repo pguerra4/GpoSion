@@ -54,6 +54,18 @@ namespace GpoSion.API.Data
 
                 context.SaveChanges();
             }
+            if (!context.Moldeadoras.Any())
+            {
+                var moldeadora = new Moldeadora { Clave = "Moldeadora 1", Estatus = "Detenida" };
+                context.Moldeadoras.Add(moldeadora);
+                moldeadora = new Moldeadora { Clave = "Moldeadora 2", Estatus = "Detenida" };
+                context.Moldeadoras.Add(moldeadora);
+                moldeadora = new Moldeadora { Clave = "Moldeadora 3", Estatus = "Detenida" };
+                context.Moldeadoras.Add(moldeadora);
+
+                context.SaveChanges();
+            }
+
         }
 
     }
