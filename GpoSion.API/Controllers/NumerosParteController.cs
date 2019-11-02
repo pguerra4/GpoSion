@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -44,6 +45,21 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> PostNumeroParte(NumeroParteToCreateDto numeroParteforCreationDto)
         {
 
+            // var file = numeroParteforCreationDto.File;
+
+            // if (file.Length > 0)
+            // {
+            //     var filePath = Path.Combine("Data/Photos/",
+            //         Path.GetRandomFileName());
+
+            //     numeroParteforCreationDto.UrlImagenPieza = filePath;
+            //     using (var stream = System.IO.File.Create(filePath))
+            //     {
+            //         await file.CopyToAsync(stream);
+            //     }
+            // }
+
+
 
             var numeroParte = _mapper.Map<NumeroParte>(numeroParteforCreationDto);
 
@@ -58,7 +74,7 @@ namespace GpoSion.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNumeroParte(string id, NumeroParteToCreateDto numeroParteFP)
+        public async Task<IActionResult> PutNumeroParte(string id, [FromForm]  NumeroParteToCreateDto numeroParteFP)
         {
             var numeroParte = await _repo.GetNumeroParte(id);
             if (numeroParte == null)
@@ -79,5 +95,39 @@ namespace GpoSion.API.Controllers
 
             throw new Exception("Numero de parte no guardado");
         }
+
+
+        [HttpPost("{id}/Photo")]
+        public async Task<IActionResult> PostImagenNumeroParte(string id, [FromForm] ImagenNumeroParteDto imagen)
+        {
+            var numeroParte = await _repo.GetNumeroParte(id);
+            if (numeroParte == null)
+                return NotFound();
+
+            var file = imagen.File;
+
+            if (file.Length > 0)
+            {
+                var filePath = Path.Combine("Data/Photos/",
+                    id + ".jpg");
+
+                numeroParte.UrlImagenPieza = filePath;
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+
+
+
+            await _repo.SaveAll();
+
+            return NoContent();
+
+
+        }
+
+
+
     }
 }
