@@ -3,3 +3,4 @@ bin
 obj
 *.db
 Data/Photos/*
+!Data/Photos/.gitkeep

@@ -127,6 +127,19 @@ namespace GpoSion.API.Controllers
 
         }
 
+ [HttpGet("{id}/Photo")]
+        public async Task<IActionResult> GetImagenNumeroParte(string id)
+        {
+            var numeroParte = await _repo.GetNumeroParte(id);
+            if (numeroParte == null)
+                return NotFound();
+
+           var file = Path.Combine(Directory.GetCurrentDirectory(), 
+                           numeroParte.UrlImagenPieza);
+
+           return PhysicalFile(file, "image/jpg");
+
+        }
 
 
     }
