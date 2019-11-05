@@ -25,6 +25,10 @@ import { MoldeListComponent } from "./molde-list/molde-list.component";
 import { MoldeAddComponent } from "./molde-add/molde-add.component";
 import { MoldeEditResolver } from "./_resolvers/molde-edit.resolver";
 import { MoldeEditComponent } from "./molde-edit/molde-edit.component";
+import { NumerosParteListComponent } from "./numeros-parte-list/numeros-parte-list.component";
+import { NumeroParteAddComponent } from "./numero-parte-add/numero-parte-add.component";
+import { NumeroParteEditComponent } from "./numero-parte-edit/numero-parte-edit.component";
+import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -83,6 +87,13 @@ export const appRoutes: Routes = [
     resolve: { molde: MoldeEditResolver }
   },
   { path: "addMolde", component: MoldeAddComponent },
+  { path: "numerosParte", component: NumerosParteListComponent },
+  {
+    path: "numerosParte/:id",
+    component: NumeroParteEditComponent,
+    resolve: { numeroParte: NumeroParteEditResolver }
+  },
+  { path: "addNumeroParte", component: NumeroParteAddComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

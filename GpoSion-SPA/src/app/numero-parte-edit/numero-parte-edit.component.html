@@ -1,0 +1,107 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-sm-4">
+            <h1>{{ numeroParte.noParte }}</h1>
+        </div>
+    </div>
+    <div class="card">
+        <div class="row">
+            <div class="col-sm-4">
+                <img ng2FileDrop [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="card-img-left img-thumbnail  my-drop-zone" [src]="urlImagenPieza" alt="{{ numeroParte.noParte }}" />
+            </div>
+            <div class="col-sm-8">
+                <div class="card-body">
+                    <div class="card-text">
+                        <form [formGroup]="numeroParteForm" (ngSubmit)="editNumeroParte()">
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                    <label for="Cliente">Cliente</label>
+                                    <select class="form-control" id="clienteId" formControlName="clienteId">
+                    <option
+                      *ngFor="let cliente of clientes"
+                      [value]="cliente.clienteId"
+                    >
+                      {{ cliente.nombre }}
+                    </option>
+                  </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                    <input type="hidden" formControlName="noParte" />
+                                    <label for="descripcion">Descripción</label>
+                                    <input type="text" class="form-control" formControlName="descripcion" placeholder="Descripción" />
+                                </div>
+                                <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                    <label for="descripcion">Leyenda Pieza</label>
+                                    <input type="text" class="form-control" formControlName="leyendaPieza" placeholder="Leyenda" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                    <label for="descripcion">Peso</label>
+                                    <input type="number" class="form-control" formControlName="peso" placeholder="Peso" />
+                                </div>
+                                <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                    <label for="descripcion">Costo</label>
+                                    <input type="number" class="form-control" formControlName="costo" placeholder="Costo" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12  col-md-6 col-lg-6">
+                                    <label for="urlImagenPieza">Imagen</label>
+                                    <input type="file" ng2FileSelect [uploader]="uploader" />
+                                </div>
+                                <div class="col-md-9" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th width="50%">Nombre</th>
+                                                <th>Tamaño</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of uploader.queue">
+                                                <td>
+                                                    <strong>{{ item?.file?.name }}</strong>
+                                                </td>
+                                                <td *ngIf="uploader.options.isHTML5" nowrap>
+                                                    {{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div>
+                                        <div>
+                                            Progreso:
+                                            <div class="progress mb-4">
+                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ width: uploader.progress + '%' }"></div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                      <span class="fa fa-upload"></span> Subir
+                    </button>
+                                        <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                      <span class="fa fa-ban"></span> Cancelar
+                    </button>
+                                        <button type="button" class="btn btn-danger btn-s" (click)="removerImagen()" [disabled]="!uploader.queue.length">
+                      <span class="fa fa-trash"></span> Borrar
+                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                    <button class="btn btn-success" [disabled]="!numeroParteForm.valid" type="submit">
+                    Guardar
+                  </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

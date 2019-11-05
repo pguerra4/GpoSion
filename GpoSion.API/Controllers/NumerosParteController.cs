@@ -74,7 +74,7 @@ namespace GpoSion.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutNumeroParte(string id, [FromForm]  NumeroParteToCreateDto numeroParteFP)
+        public async Task<IActionResult> PutNumeroParte(string id, NumeroParteToCreateDto numeroParteFP)
         {
             var numeroParte = await _repo.GetNumeroParte(id);
             if (numeroParte == null)
@@ -127,17 +127,17 @@ namespace GpoSion.API.Controllers
 
         }
 
- [HttpGet("{id}/Photo")]
+        [HttpGet("{id}/Photo")]
         public async Task<IActionResult> GetImagenNumeroParte(string id)
         {
             var numeroParte = await _repo.GetNumeroParte(id);
             if (numeroParte == null)
                 return NotFound();
 
-           var file = Path.Combine(Directory.GetCurrentDirectory(), 
-                           numeroParte.UrlImagenPieza);
+            var file = Path.Combine(Directory.GetCurrentDirectory(),
+                            numeroParte.UrlImagenPieza);
 
-           return PhysicalFile(file, "image/jpg");
+            return PhysicalFile(file, "image/jpg");
 
         }
 

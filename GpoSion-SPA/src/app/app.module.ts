@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FileUploadModule } from "ng2-file-upload";
 import {
   BsDropdownModule,
   TabsModule,
@@ -51,6 +52,12 @@ import { MoldeAddComponent } from "./molde-add/molde-add.component";
 import { AreaService } from "./_services/area.service";
 import { MoldeEditComponent } from "./molde-edit/molde-edit.component";
 import { MoldeEditResolver } from "./_resolvers/molde-edit.resolver";
+import { NumerosParteListComponent } from "./numeros-parte-list/numeros-parte-list.component";
+import { NumeroParteService } from "./_services/numeroParte.service";
+import { SearchByNumeroPartePipe } from "./_filters/search-by-numero-parte.pipe";
+import { NumeroParteAddComponent } from "./numero-parte-add/numero-parte-add.component";
+import { NumeroParteEditComponent } from "./numero-parte-edit/numero-parte-edit.component";
+import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -82,7 +89,11 @@ import { MoldeEditResolver } from "./_resolvers/molde-edit.resolver";
     ViajeroEditComponent,
     MoldeListComponent,
     MoldeAddComponent,
-    MoldeEditComponent
+    MoldeEditComponent,
+    NumerosParteListComponent,
+    SearchByNumeroPartePipe,
+    NumeroParteAddComponent,
+    NumeroParteEditComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +103,8 @@ import { MoldeEditResolver } from "./_resolvers/molde-edit.resolver";
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FileUploadModule
   ],
   providers: [
     ReciboService,
@@ -105,7 +117,9 @@ import { MoldeEditResolver } from "./_resolvers/molde-edit.resolver";
     ViajeroEditResolver,
     MoldeService,
     AreaService,
-    MoldeEditResolver
+    MoldeEditResolver,
+    NumeroParteService,
+    NumeroParteEditResolver
   ],
   bootstrap: [AppComponent]
 })
