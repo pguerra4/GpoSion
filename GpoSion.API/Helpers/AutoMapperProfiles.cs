@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
@@ -36,6 +37,10 @@ namespace GpoSion.API.Helpers
             CreateMap<MoldeForPutDto, Molde>();
             CreateMap<NumeroParte, NumeroParteToListDto>();
             CreateMap<NumeroParteToCreateDto, NumeroParte>();
+            CreateMap<Moldeadora, MoldeadoraToListDto>()
+            .ForMember(dest => dest.NumerosParte, opt => opt.MapFrom(src => src.MoldeadoraNumerosParte.Select(mnp => mnp.NoParte)));
+            CreateMap<MoldeadoraToCreateDto, Moldeadora>();
+
         }
     }
 }

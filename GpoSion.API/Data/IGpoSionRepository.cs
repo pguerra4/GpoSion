@@ -65,6 +65,10 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<NumeroParte>> GetNumerosParte();
 
+        Task<Moldeadora> GetMoldeadora(int Id);
+
+        Task<IEnumerable<Moldeadora>> GetMoldeadoras();
+
 
     }
 }

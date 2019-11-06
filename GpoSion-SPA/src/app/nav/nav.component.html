@@ -15,11 +15,19 @@
           >
           <a class="dropdown-item" [routerLink]="['/viajeros']">Viajeros</a>
                     <a class="dropdown-item" [routerLink]="['/moldes']">Moldes</a>
-                    <a class="dropdown-item" [routerLink]="['/numerosParte']">Números Parte</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown" routerLinkActive="active" dropdown>
-                <a class="nav-link  dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Producción</a
+                    <a class="dropdown-item" [routerLink]="['/numerosParte']">Números Parte</a
+          >
+        </div>
+      </li>
+      <li class="nav-item dropdown" routerLinkActive="active" dropdown>
+        <a
+          class="nav-link  dropdown-toggle"
+          dropdownToggle
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Producción</a
         >
         <div
           class="dropdown-menu"
@@ -27,23 +35,28 @@
           x-placement="bottom-start"
           style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"
         >
-          <a class="dropdown-item" [routerLink]="['/requerimientos']">Requerimientos</a>
-    </div>
-    </li>
-    <li class="nav-item" routerLinkActive="active">
+          <a class="dropdown-item" [routerLink]="['/requerimientos']"
+            >Requerimientos</a
+          >
+          <a class="dropdown-item" [routerLink]="['/moldeadoras']"
+            >Moldeadoras</a
+          >
+        </div>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
         <a class="nav-link " [routerLink]="['/messages']">Administración</a>
-    </li>
-    </ul>
-    <button class="btn btn-link nav-item">
+            </li>
+        </ul>
+        <button class="btn btn-link nav-item">
       <span class="fa fa-bell dropdown-title" title="notifications"></span>
     </button>
-    <div *ngIf="loggedIn()" class="dropdown" dropdown>
-        <a class="dropdown-toggle text-light" dropdownToggle>
+        <div *ngIf="loggedIn()" class="dropdown" dropdown>
+            <a class="dropdown-toggle text-light" dropdownToggle>
         Usuario<!-- Welcome {{ authService.decodedToken?.unique_name | titlecase }} -->
       </a>
 
-        <div class="dropdown-menu mt-3" *dropdownMenu>
-            <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Editar Perfil</a
+            <div class="dropdown-menu mt-3" *dropdownMenu>
+                <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Editar Perfil</a
         >
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="logout()"

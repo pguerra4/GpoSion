@@ -1,0 +1,8 @@
+<div class="container mt-4">
+  <h4>Moldeadoras</h4>
+    <div class="row">
+        <div *ngFor="let moldeadora of moldeadoras" class="col-lg-4 col-md-6 col-sm-6">
+            <app-moldeadora-card [moldeadora]="moldeadora"></app-moldeadora-card>
+        </div>
+    </div>
+</div>

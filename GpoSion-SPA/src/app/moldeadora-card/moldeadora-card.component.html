@@ -1,0 +1,34 @@
+<div class="card mb-2" [ngClass]="
+    moldeadora.estatus == 'Operando' ? 'border-success' : 'border-danger'
+  ">
+    <div class="card-header">
+        {{ moldeadora.moldeadora }} {{ moldeadora.estatus }}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Material: {{ moldeadora.material }}</h5>
+        <h5 class="card-subtitle mb-2">Molde: {{ moldeadora.molde }}</h5>
+        <h6 class="text-muted">Números de Parte:</h6>
+        <div class="card-text">
+            <div class="row">
+                <div *ngFor="let noParte of moldeadora.numerosParte">
+                    <img class="card-img-top img-thumbnail" src="{{ baseUrl + 'numerosparte/' + noParte + '/Photo' }} " /> {{ noParte }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="btn-group d-flex">
+            <button class="btn btn-success w-100" [routerLink]="['/moldeadoras/' + moldeadora.moldeadoraId]">
+        Setup
+      </button>
+            <button *ngIf="moldeadora.estatus == 'Operando'" class="btn btn-danger w-100">
+        Detener
+      </button>
+            <button *ngIf="
+          moldeadora.estatus == 'Detenida' && moldeadora.numerosParte.length > 0
+        " class="btn btn-danger w-100">
+        Arrancar
+      </button>
+        </div>
+    </div>
+</div>

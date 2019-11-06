@@ -253,5 +253,19 @@ namespace GpoSion.API.Data
             var numerosParte = await _context.NumerosParte.Include(np => np.Cliente).ToListAsync();
             return numerosParte;
         }
+
+        public async Task<Moldeadora> GetMoldeadora(int Id)
+        {
+            var moldeadora = await _context.Moldeadoras.Include(m => m.MoldeadoraNumerosParte)
+            .Include(m => m.Molde).Include(m => m.Material).FirstOrDefaultAsync(m => m.MoldeadoraId == Id);
+            return moldeadora;
+        }
+
+        public async Task<IEnumerable<Moldeadora>> GetMoldeadoras()
+        {
+            var moldeadoras = await _context.Moldeadoras.Include(m => m.MoldeadoraNumerosParte)
+            .Include(m => m.Molde).Include(m => m.Material).ToListAsync();
+            return moldeadoras;
+        }
     }
 }

@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Setup Moldeadora</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="moldeadoraForm" (ngSubmit)="editMoldeadora()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="materialId">Material</label>
+                            <input  [typeahead]="materiales" typeaheadOptionField="claveMaterial" [isAnimated]="true" class="form-control" id="materialId" formControlName="materialId" placeholder="Material" (typeaheadOnSelect)="onSelect($event)"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="hidden" formControlName="moldeadoraId" />
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="moldeId">Molde</label>
+                            <select class="form-control" id="moldeId" formControlName="moldeId">
+                <option *ngFor="let molde of moldes" [value]="molde.id">
+                  {{ molde.molde }}
+                </option>
+              </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="numeroParte">Número Parte</label>
+                            <select class="form-control" id="numeroParte" formControlName="numeroParte">
+                <option
+                  *ngFor="let numeroParte of numerosParte"
+                  [value]="numeroParte"
+                >
+                  {{ numeroParte.noParte}
+                </option>
+              </select>
+                            <div class="form-inline mt-3">
+                                <button class="btn btn-success btn-xs" type="button" (click)="addMaterial()">
+                  <span class="fa fa-plus-circle "> </span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive ">
+                        <table id="mytable " class="table table-bordred table-striped ">
+                            <thead>
+                                <tr class="table-primary ">
+                                    <th>No. Parte</th>
+
+                                    <th>Borrar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let noParte of numerosParteSolicitados">
+                                    <td scope="row ">{{ noParte }}</td>
+                                    <td>
+                                        <span class="btn btn-danger btn-xs " (click)="$event.stopPropagation()" (click)="deleteNumeroParte(noParte)">
+                      <span class="fa fa-trash "></span
+                    ></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success"  type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

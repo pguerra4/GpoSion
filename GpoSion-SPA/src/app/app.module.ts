@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FileUploadModule } from "ng2-file-upload";
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import {
   BsDropdownModule,
   TabsModule,
@@ -58,6 +59,11 @@ import { SearchByNumeroPartePipe } from "./_filters/search-by-numero-parte.pipe"
 import { NumeroParteAddComponent } from "./numero-parte-add/numero-parte-add.component";
 import { NumeroParteEditComponent } from "./numero-parte-edit/numero-parte-edit.component";
 import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver";
+import { MoldeadoraCardComponent } from "./moldeadora-card/moldeadora-card.component";
+import { MoldeadoraListComponent } from "./moldeadora-list/moldeadora-list.component";
+import { MoldeadoraService } from "./_services/moldeadora.service";
+import { MoldeadoraSetupComponent } from "./moldeadora-setup/moldeadora-setup.component";
+
 
 @NgModule({
   declarations: [
@@ -93,7 +99,10 @@ import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver
     NumerosParteListComponent,
     SearchByNumeroPartePipe,
     NumeroParteAddComponent,
-    NumeroParteEditComponent
+    NumeroParteEditComponent,
+    MoldeadoraCardComponent,
+    MoldeadoraListComponent,
+    MoldeadoraSetupComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +113,8 @@ import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    FileUploadModule
+    FileUploadModule,
+    TypeaheadModule.forRoot()
   ],
   providers: [
     ReciboService,
@@ -119,7 +129,8 @@ import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver
     AreaService,
     MoldeEditResolver,
     NumeroParteService,
-    NumeroParteEditResolver
+    NumeroParteEditResolver,
+    MoldeadoraService
   ],
   bootstrap: [AppComponent]
 })

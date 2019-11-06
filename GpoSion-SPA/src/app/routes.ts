@@ -29,6 +29,8 @@ import { NumerosParteListComponent } from "./numeros-parte-list/numeros-parte-li
 import { NumeroParteAddComponent } from "./numero-parte-add/numero-parte-add.component";
 import { NumeroParteEditComponent } from "./numero-parte-edit/numero-parte-edit.component";
 import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver";
+import { MoldeadoraListComponent } from "./moldeadora-list/moldeadora-list.component";
+import { MoldeadoraSetupComponent } from "./moldeadora-setup/moldeadora-setup.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -94,6 +96,8 @@ export const appRoutes: Routes = [
     resolve: { numeroParte: NumeroParteEditResolver }
   },
   { path: "addNumeroParte", component: NumeroParteAddComponent },
+  { path: "moldeadoras", component: MoldeadoraListComponent },
+  { path: "moldeadoras/:id", component: MoldeadoraSetupComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];
