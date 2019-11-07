@@ -4,7 +4,7 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FileUploadModule } from "ng2-file-upload";
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 import {
   BsDropdownModule,
   TabsModule,
@@ -63,7 +63,7 @@ import { MoldeadoraCardComponent } from "./moldeadora-card/moldeadora-card.compo
 import { MoldeadoraListComponent } from "./moldeadora-list/moldeadora-list.component";
 import { MoldeadoraService } from "./_services/moldeadora.service";
 import { MoldeadoraSetupComponent } from "./moldeadora-setup/moldeadora-setup.component";
-
+import { MoldeadoraEditResolver } from "./_resolvers/moldeadora-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -130,7 +130,8 @@ import { MoldeadoraSetupComponent } from "./moldeadora-setup/moldeadora-setup.co
     MoldeEditResolver,
     NumeroParteService,
     NumeroParteEditResolver,
-    MoldeadoraService
+    MoldeadoraService,
+    MoldeadoraEditResolver
   ],
   bootstrap: [AppComponent]
 })
