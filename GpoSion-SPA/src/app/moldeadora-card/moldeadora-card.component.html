@@ -21,12 +21,13 @@
             <button class="btn btn-success w-100" [routerLink]="['/moldeadoras/' + moldeadora.moldeadoraId]">
         Setup
       </button>
-            <button *ngIf="moldeadora.estatus == 'Operando'" class="btn btn-danger w-100">
+
+            <button *ngIf="moldeadora.estatus == 'Operando'" class="btn btn-danger w-100" (click)="detenerMoldeadora()">
         Detener
       </button>
             <button *ngIf="
           moldeadora.estatus == 'Detenida' && moldeadora.numerosParte.length > 0
-        " class="btn btn-danger w-100">
+        " class="btn btn-primary w-100" (click)="arrancarMoldeadora()">
         Arrancar
       </button>
         </div>

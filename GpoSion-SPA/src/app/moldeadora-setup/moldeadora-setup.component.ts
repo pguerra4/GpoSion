@@ -9,7 +9,7 @@ import { ExistenciasMaterialService } from "../_services/existenciasMaterial.ser
 import { MoldeService } from "../_services/molde.service";
 import { NumeroParteService } from "../_services/numeroParte.service";
 import { Moldeadora } from "../_models/moldeadora";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-moldeadora-setup",
@@ -26,13 +26,14 @@ export class MoldeadoraSetupComponent implements OnInit {
   selectedNumeroParte: NumeroParte;
 
   constructor(
-    private moldeadoraservice: MoldeadoraService,
+    private moldeadoraService: MoldeadoraService,
     private existenciasMaterialService: ExistenciasMaterialService,
     private moldeService: MoldeService,
     private numeroParteService: NumeroParteService,
     private alertify: AlertifyService,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -52,7 +53,7 @@ export class MoldeadoraSetupComponent implements OnInit {
       moldeadoraId: [this.moldeadora.moldeadoraId, Validators.required],
       materialId: [this.moldeadora.materialId, Validators.required],
       material: [this.moldeadora.material],
-      moldeId: [this.moldeadora.moldeId],
+      moldeId: [this.moldeadora.moldeId, Validators.required],
       molde: [this.moldeadora.molde],
       numeroParte: [null],
       estatus: [
@@ -62,7 +63,6 @@ export class MoldeadoraSetupComponent implements OnInit {
   }
   addNumeroParte() {
     this.numerosParteSolicitados.push(this.selectedNumeroParte.noParte);
-    console.log(this.numerosParteSolicitados);
   }
 
   loadMateriales() {
@@ -85,21 +85,32 @@ export class MoldeadoraSetupComponent implements OnInit {
 
   onSelectMaterial(item: any) {
     this.moldeadoraForm.get("materialId").setValue(item.item.materialId);
-    console.log(this.moldeadoraForm.value);
   }
 
   onSelectMolde(item: any) {
-    console.log(item);
     this.moldeadoraForm.get("moldeId").setValue(item.item.id);
-    console.log(this.moldeadoraForm.value);
   }
 
   onSelectNumeroParte(item: any) {
     this.selectedNumeroParte = item.item;
-    console.log(this.selectedNumeroParte);
   }
 
-  editMoldeadora() {}
+  editMoldeadora() {
+    this.moldeadora = Object.assign({}, this.moldeadoraForm.value);
+    console.log(this.moldeadora);
+    this.moldeadora.numerosParte = this.numerosParteSolicitados;
+    this.moldeadoraService
+      .editMoldeadora(+this.route.snapshot.params["id"], this.moldeadora)
+      .subscribe(
+        (res: Molde) => {
+          this.alertify.success("Guardado");
+          this.router.navigate(["moldeadoras"]);
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
+  }
 
   deleteNumeroParte(id: string) {
     this.numerosParteSolicitados.splice(

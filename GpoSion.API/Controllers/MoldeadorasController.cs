@@ -41,7 +41,7 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpPost()]
-        public async Task<IActionResult> PostMolde(MoldeadoraToCreateDto moldeadoraToCreateDto)
+        public async Task<IActionResult> PostMoldeadora(MoldeadoraToCreateDto moldeadoraToCreateDto)
         {
 
 
@@ -58,7 +58,7 @@ namespace GpoSion.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMolde(int id, MoldeadoraForPutDto moldeadoraFP)
+        public async Task<IActionResult> PutMoldeadora(int id, MoldeadoraForPutDto moldeadoraFP)
         {
             var moldeadora = await _repo.GetMoldeadora(id);
             if (moldeadora == null)
@@ -84,6 +84,34 @@ namespace GpoSion.API.Controllers
                 return NoContent();
 
             throw new Exception("Moldeadora no guardada");
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> ArrancarMoldeadora(int id)
+        {
+
+
+            var moldeadora = await _repo.GetMoldeadora(id);
+            if (moldeadora == null)
+                return BadRequest();
+            moldeadora.Estatus = "Operando";
+
+            await _repo.SaveAll();
+            return NoContent();
+        }
+
+        [HttpPost("{id}/stop")]
+        public async Task<IActionResult> DetenerMoldeadora(int id)
+        {
+
+
+            var moldeadora = await _repo.GetMoldeadora(id);
+            if (moldeadora == null)
+                return BadRequest();
+            moldeadora.Estatus = "Detenida";
+
+            await _repo.SaveAll();
+            return NoContent();
         }
     }
 }
