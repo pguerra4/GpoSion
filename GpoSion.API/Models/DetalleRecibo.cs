@@ -22,6 +22,8 @@ namespace GpoSion.API.Models
 
         public Recibo Recibo { get; set; }
 
+        public int MaterialId { get; set; }
+
         public Material Material { get; set; }
 
         public UnidadMedida UnidadMedida { get; set; }

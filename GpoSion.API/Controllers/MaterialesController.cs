@@ -27,17 +27,17 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetMateriales()
         {
             var materiales = await _repo.GetMateriales();
-            // var clientesToReturn = _mapper.Map<IEnumerable<ClienteForListDto>>(clientes);
-            return Ok(materiales);
+            var materialesToReturn = _mapper.Map<IEnumerable<MaterialtoListDto>>(materiales);
+            return Ok(materialesToReturn);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMaterial(int id)
         {
             var material = await _repo.GetMaterial(id);
-            // var clienteToReturn = _mapper.Map<ClienteForDetailDto>(cliente);
+            var materialToReturn = _mapper.Map<MaterialtoListDto>(material);
 
-            return Ok(material);
+            return Ok(materialToReturn);
         }
 
         [HttpGet("{id}/viajeros")]
@@ -52,10 +52,10 @@ namespace GpoSion.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> PostMaterial(MaterialforPostDto materialDto)
         {
-            var cliente = await _repo.GetCliente(materialDto.ClienteId);
+
             var um = await _repo.GetUnidadMedida(materialDto.UnidadMedidaId);
 
-            var material = new Material { Cliente = cliente, UnidadMedida = um, FechaCreacion = DateTime.Now, ClaveMaterial = materialDto.ClaveMaterial, Descripcion = materialDto.Descripcion };
+            var material = new Material { UnidadMedida = um, FechaCreacion = DateTime.Now, ClaveMaterial = materialDto.ClaveMaterial, Descripcion = materialDto.Descripcion, TipoMaterialId = materialDto.TipoMaterialId };
             // _mapper.Map(materialDto, material);
 
             _repo.Add(material);
@@ -65,6 +65,27 @@ namespace GpoSion.API.Controllers
 
             throw new Exception("Material no guardado");
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMaterial(int id, MaterialForPutDto materialDto)
+        {
+
+            var material = await _repo.GetMaterial(id);
+            if (material == null)
+                return BadRequest();
+
+            var um = await _repo.GetUnidadMedida(materialDto.UnidadMedidaId);
+            material.ClaveMaterial = materialDto.ClaveMaterial;
+            material.Descripcion = materialDto.Descripcion;
+            material.TipoMaterialId = materialDto.TipoMaterialId;
+            material.UltimaModificacion = DateTime.Now;
+            material.UnidadMedida = um;
+
+            await _repo.SaveAll();
+
+            return NoContent();
+        }
+
 
     }
 }

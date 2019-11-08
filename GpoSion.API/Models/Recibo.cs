@@ -16,10 +16,11 @@ namespace GpoSion.API.Models
         public string FacturaAduanal { get; set; }
         public string PedimentoImportacion { get; set; }
 
+        public string NoLote { get; set; }
         public bool IsComplete { get; set; }
 
-        public int? ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
+        public int? ProveedorId { get; set; }
+        public Proveedor Proveedor { get; set; }
 
         public string Recibio { get; set; }
 

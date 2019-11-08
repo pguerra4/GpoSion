@@ -17,7 +17,9 @@ namespace GpoSion.API.Dtos
 
         public string Recibio { get; set; }
 
-        public int ClienteId { get; set; }
+        public string NoLote { get; set; }
+
+        public int ProveedorId { get; set; }
 
         public int? CreadoPorId { get; set; }
 

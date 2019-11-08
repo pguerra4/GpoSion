@@ -6,6 +6,7 @@ import { ExistenciaMaterial } from "../_models/existenciaMaterial";
 import { Viajero } from "../_models/viajero";
 import { ExistenciaMaterialGroup } from "../_models/existencia-material-group";
 import { Material } from "../_models/material";
+import { TipoMaterial } from "../_models/tipo-material";
 
 @Injectable({
   providedIn: "root"
@@ -47,5 +48,21 @@ export class ExistenciasMaterialService {
 
   getMateriales() {
     return this.http.get<Material[]>(this.baseUrl + "materiales");
+  }
+
+  getTiposMaterial() {
+    return this.http.get<TipoMaterial[]>(this.baseUrl + "tiposmaterial");
+  }
+
+  getTipoMaterial(id: number) {
+    return this.http.get<TipoMaterial>(this.baseUrl + "tiposmaterial/" + id);
+  }
+
+  addTipoMaterial(tipoMaterial: TipoMaterial) {
+    return this.http.post(this.baseUrl + "tiposmaterial", tipoMaterial);
+  }
+
+  editTipoMaterial(id: number, tipoMaterial: TipoMaterial) {
+    return this.http.put(this.baseUrl + "tiposmaterial/" + id, tipoMaterial);
   }
 }

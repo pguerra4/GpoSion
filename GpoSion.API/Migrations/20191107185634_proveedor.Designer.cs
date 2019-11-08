@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191107185634_proveedor")]
+    partial class proveedor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,19 +144,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("UnidadMedidaId");
 
                     b.ToTable("Materiales");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.MaterialNumeroParte", b =>
-                {
-                    b.Property<int>("MaterialId");
-
-                    b.Property<string>("NoParte");
-
-                    b.HasKey("MaterialId", "NoParte");
-
-                    b.HasIndex("NoParte");
-
-                    b.ToTable("MaterialesNumerosParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Molde", b =>
@@ -632,19 +621,6 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("UnidadMedidaId");
                 });
 
-            modelBuilder.Entity("GpoSion.API.Models.MaterialNumeroParte", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.Material", "Material")
-                        .WithMany("MaterialNumerosParte")
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
-                        .WithMany("MaterialesNumeroParte")
-                        .HasForeignKey("NoParte")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("GpoSion.API.Models.Molde", b =>
                 {
                     b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
@@ -755,7 +731,7 @@ namespace GpoSion.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("GpoSion.API.Models.Material", "Material")
-                        .WithMany()
+                        .WithMany("NumerosParte")
                         .HasForeignKey("MaterialId");
                 });
 

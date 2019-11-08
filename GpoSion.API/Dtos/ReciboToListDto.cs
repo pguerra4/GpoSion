@@ -17,8 +17,10 @@ namespace GpoSion.API.Dtos
 
         public bool IsComplete { get; set; }
 
-        public int ClienteId { get; set; }
-        public string ClienteNombre { get; set; }
+        public string NoLote { get; set; }
+
+        public int ProveedorId { get; set; }
+        public string ProveedorNombre { get; set; }
 
 
 

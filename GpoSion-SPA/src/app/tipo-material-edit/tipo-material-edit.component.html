@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Tipo Material</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="tipoMaterialForm" (ngSubmit)="editTipoMaterial()">
+                    <div class="row">
+                        <input type="hidden" formControlName="tipoMaterialId" />
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="tipo">Tipo Material</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    tipoMaterialForm.get('tipo').errors &&
+                    tipoMaterialForm.get('tipo').touched
+                }" class="form-control" formControlName="tipo" placeholder="Tipo Material" />
+                            <div class="invalid-feedback" *ngIf="
+                  tipoMaterialForm.get('tipo').hasError('required') &&
+                  tipoMaterialForm.get('tipo').touched
+                ">
+                                El tipo es requerido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!tipoMaterialForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

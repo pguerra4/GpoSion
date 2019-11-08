@@ -18,6 +18,8 @@ namespace GpoSion.API.Dtos
 
         public int ReciboId { get; set; }
 
+        public int MaterialId { get; set; }
+
         public string Material { get; set; }
 
         public int UnidadMedidaId { get; set; }

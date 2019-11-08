@@ -43,7 +43,7 @@ namespace GpoSion.API.Controllers
             if (recibo == null)
                 return BadRequest();
 
-            var cliente = await _repo.GetCliente(recibo.ClienteId.Value);
+            // var cliente = await _repo.GetCliente(recibo.ClienteId.Value);
             var almacenes = await _repo.GetAreas();
             var almacen = almacenes.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
 
@@ -55,18 +55,19 @@ namespace GpoSion.API.Controllers
 
             foreach (DetalleReciboForPostDto detalle in detallesRecibo)
             {
-                var material = await _repo.GetMaterialByClienteNombre(recibo.ClienteId.Value, detalle.Material);
+                // var material = await _repo.GetMaterialByClienteNombre(recibo.ClienteId.Value, detalle.Material);
+                var material = await _repo.GetMaterial(detalle.MaterialId);
                 var unidadMedida = await _repo.GetUnidadMedida(detalle.UnidadMedidaId);
 
 
 
-                if (material == null)
-                {
+                // if (material == null)
+                // {
 
-                    material = new Material { ClaveMaterial = detalle.Material, Cliente = cliente, UnidadMedida = unidadMedida, FechaCreacion = DateTime.Now };
-                    _repo.Add(material);
-                    await _repo.SaveAll();
-                }
+                //     material = new Material { ClaveMaterial = detalle.Material, Cliente = cliente, UnidadMedida = unidadMedida, FechaCreacion = DateTime.Now };
+                //     _repo.Add(material);
+                //     await _repo.SaveAll();
+                // }
 
                 var viajero = await _repo.GetViajero(detalle.Viajero);
                 if (viajero == null)
@@ -108,6 +109,7 @@ namespace GpoSion.API.Controllers
                     Viajero = viajero,
                     ReferenciaCliente = detalle.ReferenciaCliente,
                     Recibo = recibo,
+                    MaterialId = material.MaterialId,
                     Material = material,
                     UnidadMedida = unidadMedida
                 };

@@ -72,7 +72,7 @@ namespace GpoSion.API.Data
         {
 
             var existencias = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
-            .Include(e => e.Material).ThenInclude(m => m.Cliente).Include(e => e.Area)
+            .Include(e => e.Material).Include(e => e.Area)
            .OrderBy(e => e.Material.ClaveMaterial).ThenBy(e => e.UltimaModificacion).ToListAsync();
             return existencias;
 
@@ -88,21 +88,21 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<Material>> GetMateriales()
         {
 
-            var materiales = await _context.Materiales.Include(m => m.Cliente).Include(m => m.UnidadMedida).ToListAsync();
+            var materiales = await _context.Materiales.Include(m => m.UnidadMedida).ToListAsync();
             return materiales;
         }
 
         public async Task<Material> GetMaterial(int id)
         {
 
-            var material = await _context.Materiales.Include(m => m.Cliente).Include(m => m.UnidadMedida).FirstOrDefaultAsync(m => m.MaterialId == id);
+            var material = await _context.Materiales.Include(m => m.UnidadMedida).FirstOrDefaultAsync(m => m.MaterialId == id);
             return material;
         }
 
         public async Task<IEnumerable<Recibo>> GetRecibos()
         {
 
-            var recibos = await _context.Recibos.Include(r => r.Cliente).Include(r => r.Detalle).OrderByDescending(r => r.FechaEntrada).ToListAsync();
+            var recibos = await _context.Recibos.Include(r => r.Proveedor).Include(r => r.Detalle).OrderByDescending(r => r.FechaEntrada).ToListAsync();
 
             return recibos;
 
@@ -114,14 +114,14 @@ namespace GpoSion.API.Data
             var recibo = await _context.Recibos.Include(r => r.Detalle).ThenInclude(d => d.Material)
             .Include(r => r.Detalle).ThenInclude(d => d.UnidadMedida)
             .Include(r => r.Detalle).ThenInclude(d => d.Viajero)
-            .Include(r => r.Cliente).FirstOrDefaultAsync(r => r.ReciboId == id);
+            .Include(r => r.Proveedor).FirstOrDefaultAsync(r => r.ReciboId == id);
             return recibo;
         }
 
         public async Task<Material> GetMaterialByClienteNombre(int clienteId, string nombre)
         {
 
-            var material = await _context.Materiales.Where(m => m.Cliente.ClienteId == clienteId && m.ClaveMaterial.ToLower() == nombre.ToLower()).FirstOrDefaultAsync();
+            var material = await _context.Materiales.Where(m => m.ClaveMaterial.ToLower() == nombre.ToLower()).FirstOrDefaultAsync();
             return material;
         }
 
@@ -175,7 +175,7 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen()
         {
             var existenciasAlmacen = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
-            .Include(e => e.Material).ThenInclude(m => m.Cliente).Include(e => e.Area).Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0).ToListAsync();
+            .Include(e => e.Material).Include(e => e.Area).Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0).ToListAsync();
             return existenciasAlmacen;
         }
 
@@ -266,6 +266,25 @@ namespace GpoSion.API.Data
             var moldeadoras = await _context.Moldeadoras.Include(m => m.MoldeadoraNumerosParte)
             .Include(m => m.Molde).Include(m => m.Material).ToListAsync();
             return moldeadoras;
+        }
+
+        public async Task<TipoMaterial> GetTipoMaterial(int id)
+        {
+            var tipoMaterial = await _context.TiposMaterial.FindAsync(id);
+            return tipoMaterial;
+        }
+
+        public async Task<IEnumerable<TipoMaterial>> GetTiposMaterial()
+        {
+            var tiposMaterial = await _context.TiposMaterial.ToListAsync();
+            return tiposMaterial;
+        }
+
+        public async Task<bool> ExisteTipoMaterial(string tipo)
+        {
+            var tipoMaterial = await _context.TiposMaterial.Where(tp => tp.Tipo == tipo).FirstOrDefaultAsync();
+
+            return tipoMaterial != null;
         }
     }
 }

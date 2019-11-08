@@ -10,8 +10,6 @@ namespace GpoSion.API.Dtos
 
         public decimal Produccion { get; set; }
 
-        public string Cliente { get; set; }
-
         public DateTime UltimaModificacion { get; set; }
     }
 }

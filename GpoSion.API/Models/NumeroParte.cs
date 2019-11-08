@@ -30,6 +30,6 @@ namespace GpoSion.API.Models
 
         public ICollection<MoldeNumeroParte> MoldesNumeroParte { get; set; }
 
-
+        public ICollection<MaterialNumeroParte> MaterialesNumeroParte { get; set; }
     }
 }

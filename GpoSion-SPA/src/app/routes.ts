@@ -32,6 +32,10 @@ import { NumeroParteEditResolver } from "./_resolvers/numero-parte-edit.resolver
 import { MoldeadoraListComponent } from "./moldeadora-list/moldeadora-list.component";
 import { MoldeadoraSetupComponent } from "./moldeadora-setup/moldeadora-setup.component";
 import { MoldeadoraEditResolver } from "./_resolvers/moldeadora-edit.resolver";
+import { TipoMaterialListComponent } from "./tipo-material-list/tipo-material-list.component";
+import { TipoMaterialAddComponent } from "./tipo-material-add/tipo-material-add.component";
+import { TipoMaterialEditComponent } from "./tipo-material-edit/tipo-material-edit.component";
+import { TipoMaterialEditResolver } from "./_resolvers/tipo-material-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -102,6 +106,13 @@ export const appRoutes: Routes = [
     path: "moldeadoras/:id",
     component: MoldeadoraSetupComponent,
     resolve: { moldeadora: MoldeadoraEditResolver }
+  },
+  { path: "tiposmaterial", component: TipoMaterialListComponent },
+  { path: "addTipoMaterial", component: TipoMaterialAddComponent },
+  {
+    path: "tiposmaterial/:id",
+    component: TipoMaterialEditComponent,
+    resolve: { tipoMaterial: TipoMaterialEditResolver }
   },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }

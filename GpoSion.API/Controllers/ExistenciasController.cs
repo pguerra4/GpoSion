@@ -36,7 +36,6 @@ namespace GpoSion.API.Controllers
                 Material = m.Key.ClaveMaterial,
                 Almacen = m.Where(e => e.Area.NombreArea.ToLowerInvariant() == "almacen").Sum(e => e.Existencia),
                 Produccion = m.Where(e => e.Area.NombreArea.ToLowerInvariant() == "producción").Sum(e => e.Existencia),
-                Cliente = m.Key.Cliente.Nombre,
                 UltimaModificacion = m.Max(e => e.UltimaModificacion)
             }).Where(e => e.Almacen > 0 || e.Produccion > 0).OrderBy(e => e.UltimaModificacion);
 

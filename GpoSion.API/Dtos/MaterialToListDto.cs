@@ -2,8 +2,10 @@ using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
 {
-    public class MaterialforPostDto
+    public class MaterialtoListDto
     {
+        public int MaterialId { get; set; }
+
         [JsonProperty(PropertyName = "material")]
         public string ClaveMaterial { get; set; }
 
@@ -11,7 +13,13 @@ namespace GpoSion.API.Dtos
 
         public int UnidadMedidaId { get; set; }
 
+        [JsonProperty(PropertyName = "unidadMedida")]
+        public string UnidadMedidaUnidad { get; set; }
+
         public int TipoMaterialId { get; set; }
+
+        [JsonProperty(PropertyName = "tipoMaterial")]
+        public string TipoMaterialTipo { get; set; }
 
     }
 }

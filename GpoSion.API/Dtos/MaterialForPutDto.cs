@@ -2,8 +2,10 @@ using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
 {
-    public class MaterialforPostDto
+    public class MaterialForPutDto
     {
+        public int MaterialId { get; set; }
+
         [JsonProperty(PropertyName = "material")]
         public string ClaveMaterial { get; set; }
 

@@ -23,8 +23,6 @@ namespace GpoSion.API.Dtos
 
         public string UnidadMedida { get; set; }
 
-        public string Cliente { get; set; }
-
         public DateTime UltimaModificacion { get; set; }
 
     }

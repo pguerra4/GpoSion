@@ -69,6 +69,11 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<Moldeadora>> GetMoldeadoras();
 
+        Task<TipoMaterial> GetTipoMaterial(int id);
+
+        Task<IEnumerable<TipoMaterial>> GetTiposMaterial();
+
+        Task<bool> ExisteTipoMaterial(string tipo);
 
     }
 }

@@ -64,6 +64,10 @@ import { MoldeadoraListComponent } from "./moldeadora-list/moldeadora-list.compo
 import { MoldeadoraService } from "./_services/moldeadora.service";
 import { MoldeadoraSetupComponent } from "./moldeadora-setup/moldeadora-setup.component";
 import { MoldeadoraEditResolver } from "./_resolvers/moldeadora-edit.resolver";
+import { TipoMaterialListComponent } from "./tipo-material-list/tipo-material-list.component";
+import { TipoMaterialAddComponent } from "./tipo-material-add/tipo-material-add.component";
+import { TipoMaterialEditComponent } from "./tipo-material-edit/tipo-material-edit.component";
+import { TipoMaterialEditResolver } from "./_resolvers/tipo-material-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -102,7 +106,10 @@ import { MoldeadoraEditResolver } from "./_resolvers/moldeadora-edit.resolver";
     NumeroParteEditComponent,
     MoldeadoraCardComponent,
     MoldeadoraListComponent,
-    MoldeadoraSetupComponent
+    MoldeadoraSetupComponent,
+    TipoMaterialListComponent,
+    TipoMaterialAddComponent,
+    TipoMaterialEditComponent
   ],
   imports: [
     BrowserModule,
@@ -131,7 +138,8 @@ import { MoldeadoraEditResolver } from "./_resolvers/moldeadora-edit.resolver";
     NumeroParteService,
     NumeroParteEditResolver,
     MoldeadoraService,
-    MoldeadoraEditResolver
+    MoldeadoraEditResolver,
+    TipoMaterialEditResolver
   ],
   bootstrap: [AppComponent]
 })

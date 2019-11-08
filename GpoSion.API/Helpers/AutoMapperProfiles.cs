@@ -11,7 +11,8 @@ namespace GpoSion.API.Helpers
         {
             CreateMap<Cliente, ClienteForDetailDto>();
             CreateMap<Cliente, ClienteForListDto>();
-            CreateMap<Material, MaterialforPostDto>();
+            CreateMap<MaterialforPostDto, Material>();
+            CreateMap<Material, MaterialtoListDto>();
             CreateMap<ReciboForCreationDto, Recibo>();
             CreateMap<DetalleReciboForPostDto, DetalleRecibo>();
             CreateMap<Recibo, ReciboToListDto>();
@@ -21,8 +22,7 @@ namespace GpoSion.API.Helpers
              .ForMember(dest => dest.Unidad, opt => opt.MapFrom(src => src.UnidadMedida.Unidad))
               .ForMember(dest => dest.Localidad, opt => opt.MapFrom(src => src.Viajero.Localidad));
             CreateMap<ExistenciaMaterial, ExistenciaMaterialToListDto>()
-            .ForMember(dest => dest.UnidadMedida, opt => opt.MapFrom(src => src.Material.UnidadMedida.Unidad))
-            .ForMember(dest => dest.Cliente, opt => opt.MapFrom(src => src.Material.Cliente.Nombre));
+            .ForMember(dest => dest.UnidadMedida, opt => opt.MapFrom(src => src.Material.UnidadMedida.Unidad));
             CreateMap<MovimientoMaterial, MovimientoMaterialForViajeroDetailDto>();
             CreateMap<Viajero, ViajeroForDetailDto>();
             CreateMap<Viajero, ViajeroToListDto>();
@@ -40,7 +40,8 @@ namespace GpoSion.API.Helpers
             CreateMap<Moldeadora, MoldeadoraToListDto>()
             .ForMember(dest => dest.NumerosParte, opt => opt.MapFrom(src => src.MoldeadoraNumerosParte.Select(mnp => mnp.NoParte)));
             CreateMap<MoldeadoraToCreateDto, Moldeadora>();
-
+            CreateMap<TipoMaterialToCreateDto, TipoMaterial>();
+            CreateMap<TipoMaterialToEditDto, TipoMaterial>();
         }
     }
 }

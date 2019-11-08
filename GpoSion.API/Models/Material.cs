@@ -15,14 +15,14 @@ namespace GpoSion.API.Models
 
         public UnidadMedida UnidadMedida { get; set; }
 
-        public TipoMaterial TipoMaterial { get; set; }
 
-        public Cliente Cliente { get; set; }
+        public int? TipoMaterialId { get; set; }
+        public TipoMaterial TipoMaterial { get; set; }
 
         public DateTime FechaCreacion { get; set; }
         public DateTime UltimaModificacion { get; set; }
 
-        public ICollection<NumeroParte> NumerosParte { get; set; }
+        public ICollection<MaterialNumeroParte> MaterialNumerosParte { get; set; }
 
     }
 }
