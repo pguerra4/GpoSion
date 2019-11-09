@@ -50,6 +50,10 @@ export class ExistenciasMaterialService {
     return this.http.get<Material[]>(this.baseUrl + "materiales");
   }
 
+  getMaterial(id: number) {
+    return this.http.get<Material[]>(this.baseUrl + "materiales/" + id);
+  }
+
   getTiposMaterial() {
     return this.http.get<TipoMaterial[]>(this.baseUrl + "tiposmaterial");
   }
@@ -64,5 +68,19 @@ export class ExistenciasMaterialService {
 
   editTipoMaterial(id: number, tipoMaterial: TipoMaterial) {
     return this.http.put(this.baseUrl + "tiposmaterial/" + id, tipoMaterial);
+  }
+
+  addMaterial(material: Material) {
+    return this.http.post(this.baseUrl + "materiales", material);
+  }
+
+  editMaterial(id: number, material: Material) {
+    return this.http.put(this.baseUrl + "materiales/" + id, material);
+  }
+
+  existeMaterial(id: number, material: string) {
+    return this.http.get(
+      this.baseUrl + "materiales/" + material + "/existe/" + id
+    );
   }
 }

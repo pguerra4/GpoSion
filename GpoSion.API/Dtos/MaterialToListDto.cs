@@ -11,7 +11,8 @@ namespace GpoSion.API.Dtos
 
         public string Descripcion { get; set; }
 
-        public int UnidadMedidaId { get; set; }
+        [JsonProperty(PropertyName = "unidadMedidaId")]
+        public int UnidadMedidaUnidadMedidaId { get; set; }
 
         [JsonProperty(PropertyName = "unidadMedida")]
         public string UnidadMedidaUnidad { get; set; }

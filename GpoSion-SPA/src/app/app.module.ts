@@ -68,6 +68,10 @@ import { TipoMaterialListComponent } from "./tipo-material-list/tipo-material-li
 import { TipoMaterialAddComponent } from "./tipo-material-add/tipo-material-add.component";
 import { TipoMaterialEditComponent } from "./tipo-material-edit/tipo-material-edit.component";
 import { TipoMaterialEditResolver } from "./_resolvers/tipo-material-edit.resolver";
+import { SearchByMaterialPipe } from "./_filters/search-by-material.pipe";
+import { ValidateExistingMaterial } from "./_validators/async-material-existente.validator";
+import { MaterialEditComponent } from "./material-edit/material-edit.component";
+import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -109,7 +113,9 @@ import { TipoMaterialEditResolver } from "./_resolvers/tipo-material-edit.resolv
     MoldeadoraSetupComponent,
     TipoMaterialListComponent,
     TipoMaterialAddComponent,
-    TipoMaterialEditComponent
+    TipoMaterialEditComponent,
+    SearchByMaterialPipe,
+    MaterialEditComponent
   ],
   imports: [
     BrowserModule,
@@ -139,7 +145,9 @@ import { TipoMaterialEditResolver } from "./_resolvers/tipo-material-edit.resolv
     NumeroParteEditResolver,
     MoldeadoraService,
     MoldeadoraEditResolver,
-    TipoMaterialEditResolver
+    TipoMaterialEditResolver,
+    ValidateExistingMaterial,
+    MaterialEditResolver
   ],
   bootstrap: [AppComponent]
 })

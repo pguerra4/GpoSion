@@ -75,5 +75,7 @@ namespace GpoSion.API.Data
 
         Task<bool> ExisteTipoMaterial(string tipo);
 
+        Task<bool> ExisteMaterial(string material, int id);
+
     }
 }

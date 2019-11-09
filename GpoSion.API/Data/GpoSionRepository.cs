@@ -88,14 +88,14 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<Material>> GetMateriales()
         {
 
-            var materiales = await _context.Materiales.Include(m => m.UnidadMedida).ToListAsync();
+            var materiales = await _context.Materiales.Include(m => m.UnidadMedida).Include(m => m.TipoMaterial).ToListAsync();
             return materiales;
         }
 
         public async Task<Material> GetMaterial(int id)
         {
 
-            var material = await _context.Materiales.Include(m => m.UnidadMedida).FirstOrDefaultAsync(m => m.MaterialId == id);
+            var material = await _context.Materiales.Include(m => m.UnidadMedida).Include(m => m.TipoMaterial).FirstOrDefaultAsync(m => m.MaterialId == id);
             return material;
         }
 
@@ -285,6 +285,13 @@ namespace GpoSion.API.Data
             var tipoMaterial = await _context.TiposMaterial.Where(tp => tp.Tipo == tipo).FirstOrDefaultAsync();
 
             return tipoMaterial != null;
+        }
+
+        public async Task<bool> ExisteMaterial(string material, int id)
+        {
+            var materialFromRepo = await _context.Materiales.Where(m => m.ClaveMaterial == material && m.MaterialId != id).FirstOrDefaultAsync();
+
+            return materialFromRepo != null;
         }
     }
 }

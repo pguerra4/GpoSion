@@ -36,6 +36,8 @@ import { TipoMaterialListComponent } from "./tipo-material-list/tipo-material-li
 import { TipoMaterialAddComponent } from "./tipo-material-add/tipo-material-add.component";
 import { TipoMaterialEditComponent } from "./tipo-material-edit/tipo-material-edit.component";
 import { TipoMaterialEditResolver } from "./_resolvers/tipo-material-edit.resolver";
+import { MaterialEditComponent } from "./material-edit/material-edit.component";
+import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -59,6 +61,12 @@ export const appRoutes: Routes = [
   //   ]
   // },
   { path: "materiales", component: MaterialListComponent },
+  { path: "addMaterial", component: MaterialAddComponent },
+  {
+    path: "materiales/:id",
+    component: MaterialEditComponent,
+    resolve: { material: MaterialEditResolver }
+  },
   { path: "materiales/:id/viajeros", component: MaterialViajerosListComponent },
   { path: "recibos", component: ReciboListComponent },
   { path: "recibos/:id", component: ReciboDetailComponent },

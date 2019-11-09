@@ -1,20 +1,20 @@
 import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Material } from "../_models/material";
 import { UnidadMedida } from "../_models/unidadMedida";
 import { TipoMaterial } from "../_models/tipo-material";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { UnidadMedidaService } from "../_services/unidadMedida.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { ValidateExistingMaterial } from "../_validators/async-material-existente.validator";
 
 @Component({
-  selector: "app-material-add",
-  templateUrl: "./material-add.component.html",
-  styleUrls: ["./material-add.component.css"]
+  selector: "app-material-edit",
+  templateUrl: "./material-edit.component.html",
+  styleUrls: ["./material-edit.component.css"]
 })
-export class MaterialAddComponent implements OnInit {
+export class MaterialEditComponent implements OnInit {
   materialForm: FormGroup;
   material: Material;
   unidadesMedida: UnidadMedida[];
@@ -25,10 +25,15 @@ export class MaterialAddComponent implements OnInit {
     private alertify: AlertifyService,
     private unidadMedidaService: UnidadMedidaService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.route.data.subscribe(data => {
+      // tslint:disable-next-line: no-string-literal
+      this.material = data["material"];
+    });
     this.loadUnidadesMedida();
     this.loadTiposMaterial();
     this.createMateriaForm();
@@ -37,14 +42,18 @@ export class MaterialAddComponent implements OnInit {
   createMateriaForm() {
     this.materialForm = this.fb.group(
       {
+        materialId: [this.material.materialId, Validators.required],
         material: [
-          "",
+          this.material.material,
           Validators.required,
-          ValidateExistingMaterial.createValidator(this.existenciasService, 0)
+          ValidateExistingMaterial.createValidator(
+            this.existenciasService,
+            this.material.materialId
+          )
         ],
-        descripcion: [""],
-        unidadMedidaId: [1, Validators.required],
-        tipoMaterialId: [1, Validators.required]
+        descripcion: [this.material.descripcion],
+        unidadMedidaId: [this.material.unidadMedidaId, Validators.required],
+        tipoMaterialId: [this.material.tipoMaterialId, Validators.required]
       },
       { updateOn: "blur" }
     );
@@ -71,16 +80,18 @@ export class MaterialAddComponent implements OnInit {
       }
     );
   }
-  addMaterial() {
+  editMaterial() {
     this.material = Object.assign({}, this.materialForm.value);
-    this.existenciasService.addMaterial(this.material).subscribe(
-      (res: Material) => {
-        this.alertify.success("Guardado");
-        this.router.navigate(["materiales"]);
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
+    this.existenciasService
+      .editMaterial(+this.route.snapshot.params["id"], this.material)
+      .subscribe(
+        (res: Material) => {
+          this.alertify.success("Guardado");
+          this.router.navigate(["materiales"]);
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
   }
 }
