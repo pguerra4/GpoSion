@@ -36,7 +36,7 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetNumeroParte(string id)
         {
             var numeroParte = await _repo.GetNumeroParte(id);
-            var numeroParteToReturn = _mapper.Map<NumeroParteToListDto>(numeroParte);
+            var numeroParteToReturn = _mapper.Map<NumeroParteForDetailDto>(numeroParte);
 
             return Ok(numeroParteToReturn);
         }
@@ -62,11 +62,38 @@ namespace GpoSion.API.Controllers
 
 
             var numeroParte = _mapper.Map<NumeroParte>(numeroParteforCreationDto);
+            if (numeroParteforCreationDto.Materiales.Count > 0)
+            {
+                var materiales = new List<MaterialNumeroParte>();
+
+                foreach (MaterialForPutDto material in numeroParteforCreationDto.Materiales)
+                {
+                    materiales.Add(new MaterialNumeroParte { MaterialId = material.MaterialId });
+                }
+                numeroParte.MaterialesNumeroParte = materiales;
+            }
+
+            if (numeroParteforCreationDto.Moldes.Count > 0)
+            {
+                var moldes = new List<MoldeNumeroParte>();
+                foreach (MoldeForPutDto molde in numeroParteforCreationDto.Moldes)
+                {
+                    moldes.Add(new MoldeNumeroParte { MoldeId = molde.Id });
+                }
+                numeroParte.MoldesNumeroParte = moldes;
+            }
+
 
             _repo.Add(numeroParte);
 
+
+
             if (await _repo.SaveAll())
-                return CreatedAtAction("GetNumeroParte", new { id = numeroParte.NoParte }, numeroParte);
+            {
+                var numeroParteToReturn = _mapper.Map<NumeroParteForDetailDto>(numeroParte);
+                return CreatedAtAction("GetNumeroParte", new { id = numeroParte.NoParte }, numeroParteToReturn);
+            }
+
 
             throw new Exception("Numero de parte no guardado");
         }
@@ -84,16 +111,48 @@ namespace GpoSion.API.Controllers
 
 
             numeroParte.ClienteId = numeroParteFP.ClienteId;
-            numeroParte.MaterialId = numeroParteFP.MaterialId;
+            // numeroParte.MaterialId = numeroParteFP.MaterialId;
             numeroParte.Peso = numeroParteFP.Peso;
             numeroParte.Costo = numeroParteFP.Costo;
             numeroParte.Descripcion = numeroParteFP.Descripcion;
             numeroParte.LeyendaPieza = numeroParteFP.LeyendaPieza;
 
-            if (await _repo.SaveAll())
-                return NoContent();
 
-            throw new Exception("Numero de parte no guardado");
+            if (numeroParteFP.Materiales.Count > 0)
+            {
+
+                if (numeroParte.MaterialesNumeroParte != null)
+                {
+                    numeroParte.MaterialesNumeroParte.Clear();
+                }
+                var materiales = new List<MaterialNumeroParte>();
+
+                foreach (MaterialForPutDto material in numeroParteFP.Materiales)
+                {
+                    materiales.Add(new MaterialNumeroParte { MaterialId = material.MaterialId });
+                }
+                numeroParte.MaterialesNumeroParte = materiales;
+            }
+
+            if (numeroParteFP.Moldes.Count > 0)
+            {
+                if (numeroParte.MoldesNumeroParte != null)
+                {
+                    numeroParte.MoldesNumeroParte.Clear();
+                }
+                var moldes = new List<MoldeNumeroParte>();
+                foreach (MoldeForPutDto molde in numeroParteFP.Moldes)
+                {
+                    moldes.Add(new MoldeNumeroParte { MoldeId = molde.Id });
+                }
+                numeroParte.MoldesNumeroParte = moldes;
+            }
+
+
+            await _repo.SaveAll();
+            return NoContent();
+
+
         }
 
 
@@ -140,6 +199,15 @@ namespace GpoSion.API.Controllers
             return PhysicalFile(file, "image/jpg");
 
         }
+
+        [HttpGet("{id}/Existe")]
+        public async Task<IActionResult> ExisteNumeroParte(string id)
+        {
+
+            return Ok(await _repo.ExisteNumeroParte(id));
+
+        }
+
 
 
     }

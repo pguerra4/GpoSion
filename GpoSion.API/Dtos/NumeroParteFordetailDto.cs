@@ -1,15 +1,16 @@
 using System.Collections.Generic;
-using GpoSion.API.Models;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
 {
-    public class NumeroParteToCreateDto
+    public class NumeroParteForDetailDto
     {
 
         public string NoParte { get; set; }
         public int ClienteId { get; set; }
+
+        [JsonProperty(PropertyName = "cliente")]
+        public string ClienteNombre { get; set; }
 
         public decimal Peso { get; set; }
 
@@ -21,12 +22,9 @@ namespace GpoSion.API.Dtos
 
         public string UrlImagenPieza { get; set; }
 
-        public int? MaterialId { get; set; }
+        public ICollection<MaterialtoListDto> Materiales { get; set; }
 
-        public ICollection<MaterialForPutDto> Materiales { get; set; }
-
-        public ICollection<MoldeForPutDto> Moldes { get; set; }
-
+        public ICollection<MoldeToListDto> Moldes { get; set; }
 
     }
 }

@@ -244,13 +244,20 @@ namespace GpoSion.API.Data
 
         public async Task<NumeroParte> GetNumeroParte(string NoParte)
         {
-            var numeroParte = await _context.NumerosParte.Include(np => np.Cliente).FirstOrDefaultAsync(np => np.NoParte == NoParte);
+            var numeroParte = await _context.NumerosParte.Include(np => np.Cliente)
+            .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material).ThenInclude(m => m.UnidadMedida)
+            .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material).ThenInclude(m => m.TipoMaterial)
+            .Include(np => np.MoldesNumeroParte).ThenInclude(mnp => mnp.Molde)
+            .Include(np => np.MoldeadorasNumeroParte).ThenInclude(mnp => mnp.Moldeadora).FirstOrDefaultAsync(np => np.NoParte == NoParte);
             return numeroParte;
         }
 
         public async Task<IEnumerable<NumeroParte>> GetNumerosParte()
         {
-            var numerosParte = await _context.NumerosParte.Include(np => np.Cliente).ToListAsync();
+            var numerosParte = await _context.NumerosParte.Include(np => np.Cliente)
+            .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material)
+            .Include(np => np.MoldesNumeroParte).ThenInclude(mnp => mnp.Molde)
+            .Include(np => np.MoldeadorasNumeroParte).ThenInclude(mnp => mnp.Moldeadora).ToListAsync();
             return numerosParte;
         }
 
@@ -292,6 +299,12 @@ namespace GpoSion.API.Data
             var materialFromRepo = await _context.Materiales.Where(m => m.ClaveMaterial == material && m.MaterialId != id).FirstOrDefaultAsync();
 
             return materialFromRepo != null;
+        }
+
+        public async Task<bool> ExisteNumeroParte(string NoParte)
+        {
+            var numeroParte = await _context.NumerosParte.FindAsync(NoParte);
+            return numeroParte != null;
         }
     }
 }

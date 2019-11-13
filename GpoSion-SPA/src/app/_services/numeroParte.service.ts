@@ -27,4 +27,10 @@ export class NumeroParteService {
   editNumeroParte(id: string, numeroParte: NumeroParte) {
     return this.http.put(this.baseUrl + "numerosParte/" + id, numeroParte);
   }
+
+  existeNumeroParte(id: string): Observable<boolean> {
+    return this.http.get<boolean>(
+      this.baseUrl + "numerosParte/" + id + "/existe"
+    );
+  }
 }

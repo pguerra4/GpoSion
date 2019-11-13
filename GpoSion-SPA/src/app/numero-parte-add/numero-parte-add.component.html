@@ -8,31 +8,36 @@
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="noParte">No. Parte</label>
                             <input type="text" [ngClass]="{
-            'is-invalid':
-            numeroParteForm.get('noParte').errors &&
-            numeroParteForm.get('noParte').touched
-          }" class="form-control" formControlName="noParte" placeholder="No. Parte" />
+                  'is-invalid':
+                    numeroParteForm.get('noParte').errors &&
+                    numeroParteForm.get('noParte').touched
+                }" class="form-control" formControlName="noParte" placeholder="No. Parte" />
                             <div class="invalid-feedback" *ngIf="
-                            numeroParteForm.get('noParte').hasError('required') &&
-                            numeroParteForm.get('noParte').touched
-          ">
+                  numeroParteForm.get('noParte').hasError('required') &&
+                  numeroParteForm.get('noParte').touched
+                ">
                                 El No. Parte es requerido
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                  numeroParteForm
+                    .get('noParte')
+                    .hasError('numeroParteExistente') &&
+                  numeroParteForm.get('noParte').touched
+                ">
+                                El No. Parte ya existe.
                             </div>
                         </div>
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="Cliente">Cliente</label>
                             <select class="form-control" id="clienteId" formControlName="clienteId">
-              <option
-                *ngFor="let cliente of clientes"
-                [value]="cliente.clienteId"
-              >
-                {{ cliente.nombre }}
-              </option>
-            </select>
+                <option
+                  *ngFor="let cliente of clientes"
+                  [value]="cliente.clienteId"
+                >
+                  {{ cliente.nombre }}
+                </option>
+              </select>
                         </div>
-
-
-
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
@@ -55,10 +60,68 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-header text-primary">Materiales</div>
+                                <div class="card-body">
+                                    <input autocomplete="off" [typeahead]="materialesCat" typeaheadOptionField="material" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                                    <div class="table-responsive mt-2">
+                                        <table id="materialesTable" class="table table-hover table-bordered table-striped">
+                                            <thead>
+                                                <tr class="table-primary">
+                                                    <th>Material</th>
+                                                    <th>Borrar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let material of materiales">
+                                                    <td scope="row">{{ material.material }}</td>
+                                                    <td>
+                                                        <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMaterial(material.materialId)">
+                              <span class="fa fa-trash"></span
+                            ></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <div class="card">
+                                <div class="card-header text-primary">Moldes</div>
+                                <div class="card-body">
+                                    <input autocomplete="off" [typeahead]="moldesCat" typeaheadOptionField="molde" [isAnimated]="true" class="form-control" id="molde" formControlName="molde" placeholder="Molde" (typeaheadOnSelect)="onSelectMolde($event)" />
+                                    <div class="table-responsive mt-2">
+                                        <table id="moldesTable" class="table table-hover table-bordered table-striped">
+                                            <thead>
+                                                <tr class="table-primary">
+                                                    <th>Molde</th>
+                                                    <th>Borrar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let molde of moldes">
+                                                    <td scope="row">{{ molde.molde }}</td>
+                                                    <td>
+                                                        <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMolde(molde.id)">
+                              <span class="fa fa-trash"></span
+                            ></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-12">
                             <button class="btn btn-success" [disabled]="!numeroParteForm.valid" type="submit">
-              Guardar
-            </button>
+                Guardar
+              </button>
                         </div>
                     </div>
                 </form>

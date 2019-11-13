@@ -1,3 +1,6 @@
+import { Material } from "./material";
+import { Molde } from "./molde";
+
 export interface NumeroParte {
   noParte: string;
   clienteId: number;
@@ -7,5 +10,6 @@ export interface NumeroParte {
   descripcion: string;
   leyendaPieza: string;
   urlImagenPieza: string;
-  materialId?: number;
+  materiales: Material[];
+  moldes: Molde[];
 }

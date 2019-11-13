@@ -9,6 +9,10 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { environment } from "src/environments/environment";
 import { FileUploader } from "ng2-file-upload";
 import { DomSanitizer } from "@angular/platform-browser";
+import { Material } from "../_models/material";
+import { Molde } from "../_models/molde";
+import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
+import { MoldeService } from "../_services/molde.service";
 
 @Component({
   selector: "app-numero-parte-edit",
@@ -23,10 +27,16 @@ export class NumeroParteEditComponent implements OnInit {
   baseUrl = environment.apiUrl;
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
+  materialesCat: Material[];
+  materiales: Material[] = new Array();
+  moldesCat: Molde[];
+  moldes: Molde[] = new Array();
 
   constructor(
     private clienteService: ClienteService,
     private numeroParteService: NumeroParteService,
+    private existenciaMaterialesService: ExistenciasMaterialService,
+    private moldeService: MoldeService,
     private alertify: AlertifyService,
     private router: Router,
     private fb: FormBuilder,
@@ -38,6 +48,9 @@ export class NumeroParteEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       // tslint:disable-next-line: no-string-literal
       this.numeroParte = data["numeroParte"];
+      this.moldes = this.numeroParte.moldes;
+      this.materiales = this.numeroParte.materiales;
+
       if (this.numeroParte.urlImagenPieza) {
         this.urlImagenPieza =
           this.baseUrl + "numerosParte/" + this.numeroParte.noParte + "/Photo";
@@ -46,7 +59,8 @@ export class NumeroParteEditComponent implements OnInit {
       }
     });
     this.loadClientes();
-
+    this.loadMateriales();
+    this.loadMoldes();
     this.createNumeroParteForm();
     this.initializeUploader();
   }
@@ -62,7 +76,9 @@ export class NumeroParteEditComponent implements OnInit {
       descripcion: [this.numeroParte.descripcion],
       leyendaPieza: [this.numeroParte.leyendaPieza],
       peso: [this.numeroParte.peso, Validators.required],
-      costo: [this.numeroParte.costo, Validators.required]
+      costo: [this.numeroParte.costo, Validators.required],
+      material: [null],
+      molde: [null]
     });
   }
 
@@ -77,8 +93,66 @@ export class NumeroParteEditComponent implements OnInit {
     );
   }
 
+  loadMateriales() {
+    this.existenciaMaterialesService.getMateriales().subscribe(
+      (res: Material[]) => {
+        this.materialesCat = res;
+        console.log(this.materialesCat);
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
+  }
+
+  loadMoldes() {
+    this.moldeService.getMoldes().subscribe(
+      (res: Molde[]) => {
+        this.moldesCat = res;
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
+  }
+
+  onSelectMaterial(item: any) {
+    if (
+      this.materiales.find(m => m.materialId === item.item.materialId) ===
+      undefined
+    ) {
+      this.materiales.push(item.item);
+    }
+    this.numeroParteForm.get("material").setValue(null);
+  }
+
+  onSelectMolde(item: any) {
+    if (this.moldes.find(m => m.id === item.item.id) === undefined) {
+      this.moldes.push(item.item);
+    }
+
+    this.numeroParteForm.get("molde").setValue(null);
+  }
+
+  deleteMaterial(materialId: number) {
+    this.materiales.splice(
+      this.materiales.findIndex(m => m.materialId === materialId),
+      1
+    );
+  }
+
+  deleteMolde(id: number) {
+    this.moldes.splice(
+      this.moldes.findIndex(m => m.id === id),
+      1
+    );
+  }
+
   editNumeroParte() {
     this.numeroParte = Object.assign({}, this.numeroParteForm.value);
+    this.numeroParte.moldes = this.moldes;
+    this.numeroParte.materiales = this.materiales;
+
     console.log(this.numeroParte);
     this.numeroParteService
       .editNumeroParte(this.route.snapshot.params["id"], this.numeroParte)

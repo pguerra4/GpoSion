@@ -5,14 +5,14 @@
         </div>
     </div>
     <div class="card">
-        <div class="row">
-            <div class="col-sm-4">
-                <img ng2FileDrop [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="card-img-left img-thumbnail  my-drop-zone" [src]="urlImagenPieza" alt="{{ numeroParte.noParte }}" />
-            </div>
-            <div class="col-sm-8">
-                <div class="card-body">
-                    <div class="card-text">
-                        <form [formGroup]="numeroParteForm" (ngSubmit)="editNumeroParte()">
+        <form [formGroup]="numeroParteForm" (ngSubmit)="editNumeroParte()">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img ng2FileDrop [ngClass]="{ 'nv-file-over': hasBaseDropZoneOver }" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="card-img-left img-thumbnail  my-drop-zone" [src]="urlImagenPieza" alt="{{ numeroParte.noParte }}" />
+                </div>
+                <div class="col-sm-8">
+                    <div class="card-body">
+                        <div class="card-text">
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-6 col-lg-6">
                                     <label for="Cliente">Cliente</label>
@@ -91,17 +91,81 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                    <button class="btn btn-success" [disabled]="!numeroParteForm.valid" type="submit">
-                    Guardar
-                  </button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header text-primary">Materiales</div>
+                            <div class="card-body">
+                                <input autocomplete="off" [typeahead]="materialesCat" typeaheadOptionField="material" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                                <div class="table-responsive mt-2">
+                                    <table id="materialesTable" class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th>Material</th>
+                                                <th>Borrar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let material of materiales">
+                                                <td scope="row">{{ material.material }}</td>
+                                                <td>
+                                                    <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMaterial(material.materialId)">
+                            <span class="fa fa-trash"></span
+                          ></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header text-primary">Moldes</div>
+                            <div class="card-body">
+                                <input autocomplete="off" [typeahead]="moldesCat" typeaheadOptionField="molde" [isAnimated]="true" class="form-control" id="molde" formControlName="molde" placeholder="Molde" (typeaheadOnSelect)="onSelectMolde($event)" />
+                                <div class="table-responsive mt-2">
+                                    <table id="moldesTable" class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th>Molde</th>
+                                                <th>Borrar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let molde of moldes">
+                                                <td scope="row">{{ molde.molde }}</td>
+                                                <td>
+                                                    <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMolde(molde.id)">
+                            <span class="fa fa-trash"></span
+                          ></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                    <div class="card-body">
+                        <button class="btn btn-success" [disabled]="!numeroParteForm.valid" type="submit">
+              Guardar
+            </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
