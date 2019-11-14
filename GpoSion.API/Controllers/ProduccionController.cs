@@ -49,6 +49,28 @@ namespace GpoSion.API.Controllers
 
             _repo.Add(prod);
 
+            var moldeadora = await _repo.GetMoldeadora(prod.MoldeadoraId.Value);
+            var material = moldeadora.Material;
+
+            var areas = await _repo.GetAreas();
+
+            var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
+            var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, material.MaterialId);
+            decimal total = 0;
+            foreach (ProduccionNumeroParte pnp in prod.ProduccionNumerosParte)
+            {
+                var np = await _repo.GetNumeroParte(pnp.NoParte);
+                total += pnp.Piezas * np.Peso;
+                total += pnp.Scrap * np.Peso;
+            }
+
+            total += prod.Colada.Value + prod.Purga.Value;
+
+            existenciaProduccion.Existencia -= total;
+
+            var mm = new MovimientoMaterial { Fecha = prod.Fecha, Material = material, Cantidad = total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null };
+            _repo.Add(mm);
+
             if (await _repo.SaveAll())
             {
                 var prodtoReturn = _mapper.Map<ProduccionForDetailDto>(prod);
