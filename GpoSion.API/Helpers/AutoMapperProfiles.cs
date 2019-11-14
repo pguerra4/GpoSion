@@ -32,7 +32,8 @@ namespace GpoSion.API.Helpers
             CreateMap<RequerimientoMaterialMaterial, RequerimientoMaterialMaterialForDetailDto>();
             CreateMap<RequerimientoMaterial, RequerimientoMaterialForDetailDto>();
             CreateMap<Molde, MoldeToListDto>();
-            CreateMap<Molde, MoldeForDetailDto>();
+            CreateMap<Molde, MoldeForDetailDto>()
+            .ForMember(dest => dest.NumerosParte, opt => opt.MapFrom(src => src.MoldeNumerosParte.Select(mnp => mnp.NoParte)));
             CreateMap<MoldeForCreationDto, Molde>();
             CreateMap<MoldeForPutDto, Molde>();
             CreateMap<NumeroParte, NumeroParteToListDto>();
@@ -45,6 +46,9 @@ namespace GpoSion.API.Helpers
             CreateMap<MoldeadoraToCreateDto, Moldeadora>();
             CreateMap<TipoMaterialToCreateDto, TipoMaterial>();
             CreateMap<TipoMaterialToEditDto, TipoMaterial>();
+            CreateMap<ProduccionToCreateDto, Produccion>();
+            CreateMap<ProduccionNumeroParteToCreateDto, ProduccionNumeroParte>().ReverseMap();
+            CreateMap<Produccion, ProduccionForDetailDto>();
         }
     }
 }

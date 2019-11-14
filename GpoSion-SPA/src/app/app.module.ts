@@ -6,6 +6,11 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FileUploadModule } from "ng2-file-upload";
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
 import {
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule,
+  OWL_DATE_TIME_LOCALE
+} from "ng-pick-datetime";
+import {
   BsDropdownModule,
   TabsModule,
   BsDatepickerModule
@@ -72,6 +77,8 @@ import { SearchByMaterialPipe } from "./_filters/search-by-material.pipe";
 import { ValidateExistingMaterial } from "./_validators/async-material-existente.validator";
 import { MaterialEditComponent } from "./material-edit/material-edit.component";
 import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
+import { ProduccionAddComponent } from "./produccion-add/produccion-add.component";
+import { ProveedorService } from "./_services/proveedor.service";
 
 @NgModule({
   declarations: [
@@ -115,7 +122,8 @@ import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
     TipoMaterialAddComponent,
     TipoMaterialEditComponent,
     SearchByMaterialPipe,
-    MaterialEditComponent
+    MaterialEditComponent,
+    ProduccionAddComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +135,9 @@ import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     FileUploadModule,
-    TypeaheadModule.forRoot()
+    TypeaheadModule.forRoot(),
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   providers: [
     ReciboService,
@@ -147,7 +157,9 @@ import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
     MoldeadoraEditResolver,
     TipoMaterialEditResolver,
     ValidateExistingMaterial,
-    MaterialEditResolver
+    MaterialEditResolver,
+    { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" },
+    ProveedorService
   ],
   bootstrap: [AppComponent]
 })

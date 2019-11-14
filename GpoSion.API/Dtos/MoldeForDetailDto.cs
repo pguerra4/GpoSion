@@ -33,7 +33,7 @@ namespace GpoSion.API.Dtos
         public DateTime FechaCreacion { get; set; }
         public DateTime UltimaModificacion { get; set; }
 
-
+        public string[] NumerosParte { get; set; }
 
 
     }

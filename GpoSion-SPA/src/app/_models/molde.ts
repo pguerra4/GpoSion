@@ -9,4 +9,5 @@ export interface Molde {
   moldeadora?: string;
   fechaCreacion: Date;
   ultimaModificacion: Date;
+  numerosParte: string[];
 }

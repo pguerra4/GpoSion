@@ -28,7 +28,7 @@
                 <th scope="col">No. Recibo</th>
                 <th scope="col">Fecha entrada</th>
                 <th scope="col">Transportista</th>
-                <th scope="col">Cliente</th>
+                <th scope="col">Proveedor</th>
                 <th scope="col">Recibio</th>
                 <th scope="col">Detalle</th>
               </tr>
@@ -38,7 +38,7 @@
                 <th scope="row">{{ recibo.noRecibo }}</th>
                 <td>{{ recibo.fechaEntrada | date: "MM-dd-yyyy HH:mm" }}</td>
                 <td>{{ recibo.transportista }}</td>
-                <td>{{ recibo.clienteNombre }}</td>
+                <td>{{ recibo.proveedorNombre }}</td>
                 <td>{{ recibo.recibio }}</td>
                 <td class="text-center">
                   <a

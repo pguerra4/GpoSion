@@ -50,6 +50,10 @@ namespace GpoSion.API.Data
 
         public DbSet<MaterialNumeroParte> MaterialesNumerosParte { get; set; }
 
+        public DbSet<Produccion> Produccion { get; set; }
+
+        public DbSet<ProduccionNumeroParte> ProduccionNumerosParte { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

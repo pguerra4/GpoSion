@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Captura Producción</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="produccionForm" (ngSubmit)="addProduccion()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="moldeadoraId">Moldeadora</label>
+                            <select class="form-control" id="moldeadoraId" formControlName="moldeadoraId" (change)="loadNumerosParte()">
+                <option
+                  *ngFor="let moldeadora of moldeadoras"
+                  [value]="moldeadora.moldeadoraId"
+                >
+                  {{ moldeadora.moldeadora }}
+                </option>
+              </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="fecha">Fecha</label>
+                            <input type="text" [max]="max" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" [ngClass]="{
+                  'is-invalid':
+                    produccionForm.get('fecha').errors &&
+                    produccionForm.get('fecha').touched
+                }" class="form-control" formControlName="fecha" placeholder="Fecha" />
+                            <owl-date-time #dt1></owl-date-time>
+                            <div class="invalid-feedback" *ngIf="
+                  produccionForm.get('fecha').hasError('required') &&
+                  produccionForm.get('fecha').touched
+                ">
+                                La fecha es requerida
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="purga">Purga</label>
+                            <input type="text" class="form-control text-right" formControlName="purga" placeholder="Purga" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="colada">Colada</label>
+                            <input type="text" class="form-control text-right" formControlName="colada" placeholder="Colada" />
+                        </div>
+                    </div>
+                    <div *ngIf="items.length > 0" class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <div class="table-responsive">
+                                <table id="numerosParte" class="table table-hover table-bordered table-striped">
+                                    <thead>
+                                        <tr class="table-primary">
+                                            <th>Numero Parte</th>
+                                            <th class="text-right">Piezas</th>
+                                            <th class="text-right">Scrap</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="produccionNumerosParte">
+                                        <tr *ngFor="
+                        let item of produccionForm.get('produccionNumerosParte')
+                          .value;
+                        let i = index;
+                        trackBy: trackByFn
+                      " [formGroupName]="i">
+                                            <td scope="row">
+                                                {{ item.noParte }}
+                                                <input type="hidden" [attr.id]="'noParte' + i" [attr.name]="'noParte' + i" formControlName="noParte" />
+                                            </td>
+                                            <td class="text-right">
+                                                <input type="text" class="form-control text-right" [attr.id]="'piezas' + i" [attr.name]="'piezas' + i" formControlName="piezas" placeholder="Piezas" />
+                                            </td>
+                                            <td class="text-right">
+                                                <input type="text" class="form-control text-right" [attr.id]="'scrap' + i" [attr.name]="'scrap' + i" formControlName="scrap" placeholder="Scrap" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!produccionForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

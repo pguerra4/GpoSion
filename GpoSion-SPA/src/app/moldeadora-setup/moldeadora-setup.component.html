@@ -7,13 +7,6 @@
             <div class="card-text">
                 <form [formGroup]="moldeadoraForm" (ngSubmit)="editMoldeadora()">
                     <div class="row">
-                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <input type="hidden" formControlName="materialId" />
-                            <label for="material">Material</label>
-                            <input autocomplete="off" [typeahead]="materiales" typeaheadOptionField="claveMaterial" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
-                        </div>
-                    </div>
-                    <div class="row">
                         <input type="hidden" formControlName="moldeadoraId" />
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <input type="hidden" formControlName="moldeId" />
@@ -21,28 +14,13 @@
                             <input autocomplete="off" [typeahead]="moldes" typeaheadOptionField="molde" [isAnimated]="true" class="form-control" id="molde" formControlName="molde" placeholder="Molde" (typeaheadOnSelect)="onSelectMolde($event)" />
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-sm-10 col-md-8 col-lg-8">
-                            <label for="numeroParte">Número Parte</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-10 col-md-6 col-lg-6">
-                            <input autocomplete="off" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" formControlName="numeroParte" placeholder="Numero Parte" (typeaheadOnSelect)="onSelectNumeroParte($event)" />
-                        </div>
-                        <div class="col-sm-2 col-md-4 col-lg-4">
-                            <button class="btn btn-success btn-xs" type="button" (click)="addNumeroParte()">
-                <span class="fa fa-plus-circle "> </span>
-              </button>
-                        </div>
-                    </div>
-                    <div class="table-responsive mt-2 ">
+                    <div *ngIf="numerosParteSolicitados.length > 0" class="table-responsive mt-2 ">
                         <table id="mytable " class="table table-bordred table-striped ">
                             <thead>
                                 <tr class="table-primary ">
                                     <th>No. Parte</th>
 
-                                    <th>Borrar</th>
+                                    <th>Bloquear</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,12 +28,19 @@
                                     <td scope="row ">{{ noParte }}</td>
                                     <td>
                                         <span class="btn btn-danger btn-xs " (click)="$event.stopPropagation()" (click)="deleteNumeroParte(noParte)">
-                      <span class="fa fa-trash "></span
+                      <span class="fa fa-ban "></span
                     ></span>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <input type="hidden" formControlName="materialId" />
+                            <label for="material">Material</label>
+                            <input autocomplete="off" [typeahead]="materiales" typeaheadOptionField="material" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                        </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
@@ -81,4 +66,4 @@
             </div>
         </div>
     </div>
-</div>cd
+</div>

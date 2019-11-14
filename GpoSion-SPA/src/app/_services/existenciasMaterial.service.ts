@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ExistenciaMaterial } from "../_models/existenciaMaterial";
 import { Viajero } from "../_models/viajero";
@@ -46,8 +46,12 @@ export class ExistenciasMaterialService {
     return this.http.put(this.baseUrl + "viajeros/" + id, viajero);
   }
 
-  getMateriales() {
-    return this.http.get<Material[]>(this.baseUrl + "materiales");
+  getMateriales(materialParams?) {
+    let params = new HttpParams();
+    if (materialParams != null) {
+      params = params.append("Tipo", materialParams.tipo);
+    }
+    return this.http.get<Material[]>(this.baseUrl + "materiales", { params });
   }
 
   getMaterial(id: number) {

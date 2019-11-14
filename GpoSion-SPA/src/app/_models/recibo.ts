@@ -1,5 +1,5 @@
 import { DetalleRecibo } from "./detalleRecibo";
-import { Cliente } from "./cliente";
+import { Proveedor } from "./proveedor";
 
 export interface Recibo {
   reciboId: number;
@@ -9,9 +9,9 @@ export interface Recibo {
   transportista?: string;
   facturaAduanal?: string;
   pedimentoImportacion?: string;
-  clienteId: number;
-  clienteNombre: string;
-  cliente: Cliente;
+  proveedorId: number;
+  proveedorNombre: string;
+  proveedor: Proveedor;
   recibio?: string;
   detalle: DetalleRecibo[];
   isComplete: boolean;

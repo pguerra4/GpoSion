@@ -9,6 +9,7 @@ import { UnidadMedida } from "../_models/unidadMedida";
 import { DetalleRecibo } from "../_models/detalleRecibo";
 import { ValidateExistingViajero } from "../_validators/async-viajero-existente.validator";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
+import { Material } from "../_models/material";
 
 @Component({
   selector: "app-recibo-detail",
@@ -21,6 +22,7 @@ export class ReciboDetailComponent implements OnInit {
   recibo: Recibo;
   unidadesMedida: UnidadMedida[];
   detallesRecibo: DetalleRecibo[];
+  materiales: Material[];
 
   constructor(
     private reciboService: ReciboService,
@@ -33,6 +35,7 @@ export class ReciboDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loadMateriales();
     this.createReciboDetalleForm();
     this.loadUnidadesMedida();
     this.loadRecibo();
@@ -41,7 +44,8 @@ export class ReciboDetailComponent implements OnInit {
   createReciboDetalleForm() {
     this.reciboDetalleForm = this.fb.group(
       {
-        material: ["", Validators.required],
+        material: [""],
+        materialId: [null, Validators.required],
         totalCajas: [1.0],
         cantidadPorCaja: [0.0],
         total: [0.0, Validators.required],
@@ -74,6 +78,12 @@ export class ReciboDetailComponent implements OnInit {
     );
   }
 
+  loadMateriales() {
+    this.existenciasMaterialService.getMateriales().subscribe(res => {
+      this.materiales = res;
+    });
+  }
+
   loadRecibo() {
     this.reciboService.getRecibo(+this.route.snapshot.params["id"]).subscribe(
       (recibo: Recibo) => {
@@ -84,6 +94,10 @@ export class ReciboDetailComponent implements OnInit {
         this.alertify.error(error);
       }
     );
+  }
+
+  onSelectMaterial(item: any) {
+    this.reciboDetalleForm.get("materialId").setValue(item.item.materialId);
   }
 
   addDetalleRecibo() {

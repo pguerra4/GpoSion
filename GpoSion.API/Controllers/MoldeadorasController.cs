@@ -80,10 +80,9 @@ namespace GpoSion.API.Controllers
 
 
 
-            if (await _repo.SaveAll())
-                return NoContent();
+            await _repo.SaveAll();
+            return NoContent();
 
-            throw new Exception("Moldeadora no guardada");
         }
 
         [HttpPost("{id}")]

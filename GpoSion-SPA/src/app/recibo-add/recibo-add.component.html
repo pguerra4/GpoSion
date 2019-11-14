@@ -6,13 +6,13 @@
                 <form [formGroup]="reciboForm" (ngSubmit)="addRecibo()">
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
-                            <label for="Cliente">Cliente</label>
-                            <select class="form-control" id="clienteId" formControlName="clienteId">
+                            <label for="Cliente">Proveedor</label>
+                            <select class="form-control" id="proveedorId" formControlName="proveedorId">
                 <option
-                  *ngFor="let cliente of clientes"
-                  [value]="cliente.clienteId"
+                  *ngFor="let proveedor of proveedores"
+                  [value]="proveedor.proveedorId"
                 >
-                  {{ cliente.nombre }}
+                  {{ proveedor.nombre }}
                 </option>
               </select>
                         </div>

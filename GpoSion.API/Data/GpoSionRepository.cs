@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GpoSion.API.Helpers;
 using GpoSion.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -85,10 +86,14 @@ namespace GpoSion.API.Data
             return existencia;
         }
 
-        public async Task<IEnumerable<Material>> GetMateriales()
+        public async Task<IEnumerable<Material>> GetMateriales(MaterialParams materialParams)
         {
 
             var materiales = await _context.Materiales.Include(m => m.UnidadMedida).Include(m => m.TipoMaterial).ToListAsync();
+            if (materialParams.Tipo.HasValue)
+            {
+                materiales = materiales.Where(m => m.TipoMaterialId == materialParams.Tipo.Value).ToList();
+            }
             return materiales;
         }
 
@@ -226,7 +231,8 @@ namespace GpoSion.API.Data
 
         public async Task<Molde> GetMolde(int Id)
         {
-            var molde = await _context.Moldes.Include(m => m.Cliente).Include(m => m.Ubicacion).FirstOrDefaultAsync(m => m.Id == Id);
+            var molde = await _context.Moldes.Include(m => m.Cliente).Include(m => m.Ubicacion)
+            .Include(m => m.MoldeNumerosParte).FirstOrDefaultAsync(m => m.Id == Id);
             return molde;
         }
 
@@ -305,6 +311,12 @@ namespace GpoSion.API.Data
         {
             var numeroParte = await _context.NumerosParte.FindAsync(NoParte);
             return numeroParte != null;
+        }
+
+        public async Task<IEnumerable<Proveedor>> GetProveedores()
+        {
+            var proveedores = await _context.Proveedores.ToListAsync();
+            return proveedores;
         }
     }
 }

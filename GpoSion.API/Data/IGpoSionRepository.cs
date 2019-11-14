@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GpoSion.API.Helpers;
 using GpoSion.API.Models;
 
 namespace GpoSion.API.Data
@@ -23,7 +24,7 @@ namespace GpoSion.API.Data
         Task<ExistenciaMaterial> GetExistencia(int id);
         Task<ExistenciaMaterial> GetExistenciaPorAreaMaterial(int areaId, int materialId);
 
-        Task<IEnumerable<Material>> GetMateriales();
+        Task<IEnumerable<Material>> GetMateriales(MaterialParams materialParams);
         Task<Material> GetMaterial(int id);
         Task<Material> GetMaterialByClienteNombre(int clienteId, string nombre);
         Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId);
@@ -78,6 +79,8 @@ namespace GpoSion.API.Data
         Task<bool> ExisteMaterial(string material, int id);
 
         Task<bool> ExisteNumeroParte(string NoParte);
+
+        Task<IEnumerable<Proveedor>> GetProveedores();
 
     }
 }

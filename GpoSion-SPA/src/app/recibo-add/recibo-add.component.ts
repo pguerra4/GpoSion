@@ -1,13 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ReciboService } from "../_services/recibo.service";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Cliente } from "../_models/cliente";
-import { ClienteService } from "../_services/cliente.service";
 import { BsDatepickerConfig } from "ngx-bootstrap";
 import { Recibo } from "../_models/recibo";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
 import { ValidateExistingRecibo } from "../_validators/async-recibo-existente.validator";
+import { Proveedor } from "../_models/proveedor";
+import { ProveedorService } from "../_services/proveedor.service";
 
 @Component({
   selector: "app-recibo-add",
@@ -16,13 +16,13 @@ import { ValidateExistingRecibo } from "../_validators/async-recibo-existente.va
 })
 export class ReciboAddComponent implements OnInit {
   reciboForm: FormGroup;
-  clientes: Cliente[];
+  proveedores: Proveedor[];
   bsConfig: Partial<BsDatepickerConfig>;
   recibo: Recibo;
 
   constructor(
     private reciboService: ReciboService,
-    private clienteService: ClienteService,
+    private proveedorService: ProveedorService,
     private alertify: AlertifyService,
     private router: Router,
     private fb: FormBuilder
@@ -33,7 +33,7 @@ export class ReciboAddComponent implements OnInit {
       containerClass: "theme-orange"
     }),
       this.createReciboForm();
-    this.loadClientes();
+    this.loadProveedores();
   }
 
   createReciboForm() {
@@ -45,7 +45,7 @@ export class ReciboAddComponent implements OnInit {
           Validators.required,
           ValidateExistingRecibo.createValidator(this.reciboService)
         ],
-        clienteId: [null, Validators.required],
+        proveedorId: [null, Validators.required],
         fechaEntrada: [now],
         transportista: [null],
         facturaAduanal: [null],
@@ -56,10 +56,10 @@ export class ReciboAddComponent implements OnInit {
     );
   }
 
-  loadClientes() {
-    this.clienteService.getClientes().subscribe(
-      (res: Cliente[]) => {
-        this.clientes = res;
+  loadProveedores() {
+    this.proveedorService.getProveedores().subscribe(
+      (res: Proveedor[]) => {
+        this.proveedores = res;
       },
       error => {
         this.alertify.error(error);

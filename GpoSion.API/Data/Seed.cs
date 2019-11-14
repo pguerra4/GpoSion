@@ -19,6 +19,17 @@ namespace GpoSion.API.Data
 
                 context.SaveChanges();
             }
+            if (!context.Proveedores.Any())
+            {
+                var proveedor = new Proveedor { Nombre = "NOVARES" };
+                context.Proveedores.Add(proveedor);
+                proveedor = new Proveedor { Nombre = "FAWN" };
+                context.Proveedores.Add(proveedor);
+                proveedor = new Proveedor { Nombre = "CARLISLE" };
+                context.Proveedores.Add(proveedor);
+
+                context.SaveChanges();
+            }
 
             if (!context.UnidadesMedida.Any())
             {
