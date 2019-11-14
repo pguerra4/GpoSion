@@ -13,9 +13,6 @@ export class SearchByMaterialExistenciasGroupPipe implements PipeTransform {
       existencia =>
         existencia.material
           .toLocaleLowerCase()
-          .indexOf(searchText.toLocaleLowerCase()) !== -1 ||
-        existencia.cliente
-          .toLocaleLowerCase()
           .indexOf(searchText.toLocaleLowerCase()) !== -1
     );
   }

@@ -12,7 +12,7 @@ export class SearchRecibosPipe implements PipeTransform {
           .toString()
           .toLocaleLowerCase()
           .indexOf(searchText.toLocaleLowerCase()) !== -1 ||
-        recibo.clienteNombre
+        recibo.proveedorNombre
           .toLocaleLowerCase()
           .indexOf(searchText.toLocaleLowerCase()) !== -1 ||
         (recibo.recibio == null

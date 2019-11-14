@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191009155510_cambioRequerimientoMaterialMaterial")]
-    partial class cambioRequerimientoMaterialMaterial
+    [Migration("20191114014135_SegundaInicializacion")]
+    partial class SegundaInicializacion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,7 +62,7 @@ namespace GpoSion.API.Migrations
                     b.Property<decimal>("CantidadPorCaja")
                         .HasColumnType("decimal(18, 3)");
 
-                    b.Property<int?>("MaterialId");
+                    b.Property<int>("MaterialId");
 
                     b.Property<int?>("ReciboId");
 
@@ -123,8 +123,6 @@ namespace GpoSion.API.Migrations
                     b.Property<string>("ClaveMaterial")
                         .HasColumnName("Material");
 
-                    b.Property<int?>("ClienteId");
-
                     b.Property<string>("Descripcion");
 
                     b.Property<DateTime>("FechaCreacion");
@@ -137,13 +135,24 @@ namespace GpoSion.API.Migrations
 
                     b.HasKey("MaterialId");
 
-                    b.HasIndex("ClienteId");
-
                     b.HasIndex("TipoMaterialId");
 
                     b.HasIndex("UnidadMedidaId");
 
                     b.ToTable("Materiales");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.MaterialNumeroParte", b =>
+                {
+                    b.Property<int>("MaterialId");
+
+                    b.Property<string>("NoParte");
+
+                    b.HasKey("MaterialId", "NoParte");
+
+                    b.HasIndex("NoParte");
+
+                    b.ToTable("MaterialesNumerosParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Molde", b =>
@@ -158,8 +167,6 @@ namespace GpoSion.API.Migrations
 
                     b.Property<DateTime>("FechaCreacion");
 
-                    b.Property<int?>("MaquinaMoldeadoraId");
-
                     b.Property<int?>("ModificadoPorId");
 
                     b.Property<int?>("UbicacionAreaId");
@@ -170,13 +177,24 @@ namespace GpoSion.API.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.HasIndex("MaquinaMoldeadoraId");
-
                     b.HasIndex("ModificadoPorId");
 
                     b.HasIndex("UbicacionAreaId");
 
                     b.ToTable("Moldes");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.MoldeNumeroParte", b =>
+                {
+                    b.Property<int>("MoldeId");
+
+                    b.Property<string>("NoParte");
+
+                    b.HasKey("MoldeId", "NoParte");
+
+                    b.HasIndex("NoParte");
+
+                    b.ToTable("MoldeNumerosParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Moldeadora", b =>
@@ -186,9 +204,32 @@ namespace GpoSion.API.Migrations
 
                     b.Property<string>("Clave");
 
+                    b.Property<string>("Estatus");
+
+                    b.Property<int?>("MaterialId");
+
+                    b.Property<int?>("MoldeId");
+
                     b.HasKey("MoldeadoraId");
 
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("MoldeId");
+
                     b.ToTable("Moldeadoras");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.MoldeadoraNumeroParte", b =>
+                {
+                    b.Property<int>("MoldeadoraId");
+
+                    b.Property<string>("NoParte");
+
+                    b.HasKey("MoldeadoraId", "NoParte");
+
+                    b.HasIndex("NoParte");
+
+                    b.ToTable("MoldeadoraNumerosParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.MovimientoMaterial", b =>
@@ -211,6 +252,8 @@ namespace GpoSion.API.Migrations
 
                     b.Property<int?>("ReciboId");
 
+                    b.Property<int?>("RequerimientoMaterialMaterialId");
+
                     b.Property<int?>("ViajeroId");
 
                     b.HasKey("MovimientoMaterialId");
@@ -225,17 +268,181 @@ namespace GpoSion.API.Migrations
 
                     b.HasIndex("ReciboId");
 
+                    b.HasIndex("RequerimientoMaterialMaterialId");
+
                     b.HasIndex("ViajeroId");
 
                     b.ToTable("MovimientosMaterial");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.MovimientoMoldeadora", b =>
+                {
+                    b.Property<int>("MovimientoMoldeadoraId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Estatus");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<int?>("MaterialId");
+
+                    b.Property<int?>("ModificadoPorId");
+
+                    b.Property<int?>("MoldeId");
+
+                    b.Property<string>("Movimiento");
+
+                    b.Property<string>("NumeroParteId");
+
+                    b.Property<string>("Observaciones");
+
+                    b.HasKey("MovimientoMoldeadoraId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("ModificadoPorId");
+
+                    b.HasIndex("MoldeId");
+
+                    b.HasIndex("NumeroParteId");
+
+                    b.ToTable("MovimientosMoldeadora");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.NumeroParte", b =>
+                {
+                    b.Property<string>("NoParte")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<decimal>("Costo")
+                        .HasColumnType("decimal(18, 3)");
+
+                    b.Property<string>("Descripcion");
+
+                    b.Property<string>("LeyendaPieza");
+
+                    b.Property<int?>("MaterialId");
+
+                    b.Property<decimal>("Peso")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.Property<string>("UrlImagenPieza");
+
+                    b.HasKey("NoParte");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.ToTable("NumerosParte");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.OrdenCompra", b =>
+                {
+                    b.Property<int>("NoOrden");
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.HasKey("NoOrden");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("OrdenesCompra");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraDetalle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("NoOrden");
+
+                    b.Property<string>("NoParte1");
+
+                    b.Property<int>("PiezasAutorizadas");
+
+                    b.Property<int>("PiezasSurtidas");
+
+                    b.Property<decimal>("Precio")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.Property<DateTime>("UltimaModificacion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NoOrden");
+
+                    b.HasIndex("NoParte1");
+
+                    b.ToTable("OrdenCompraDetalles");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>
+                {
+                    b.Property<int>("ProduccionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal?>("Colada")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.Property<DateTime>("Fecha");
+
+                    b.Property<DateTime>("FechaCreacion");
+
+                    b.Property<int?>("MoldeadoraId");
+
+                    b.Property<decimal?>("Purga")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.HasKey("ProduccionId");
+
+                    b.HasIndex("MoldeadoraId");
+
+                    b.ToTable("Produccion");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.ProduccionNumeroParte", b =>
+                {
+                    b.Property<int>("ProduccionNumeroParteId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("NoParte");
+
+                    b.Property<int>("Piezas");
+
+                    b.Property<int>("ProduccionId");
+
+                    b.Property<int>("Scrap");
+
+                    b.HasKey("ProduccionNumeroParteId");
+
+                    b.HasIndex("NoParte");
+
+                    b.HasIndex("ProduccionId");
+
+                    b.ToTable("ProduccionNumerosParte");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.Proveedor", b =>
+                {
+                    b.Property<int>("ProveedorId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Nombre");
+
+                    b.HasKey("ProveedorId");
+
+                    b.ToTable("Proveedores");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Recibo", b =>
                 {
                     b.Property<int>("ReciboId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ClienteId");
 
                     b.Property<int?>("CreadoPorId");
 
@@ -249,9 +456,13 @@ namespace GpoSion.API.Migrations
 
                     b.Property<bool>("IsComplete");
 
+                    b.Property<string>("NoLote");
+
                     b.Property<int>("NoRecibo");
 
                     b.Property<string>("PedimentoImportacion");
+
+                    b.Property<int?>("ProveedorId");
 
                     b.Property<string>("Recibio");
 
@@ -259,9 +470,9 @@ namespace GpoSion.API.Migrations
 
                     b.HasKey("ReciboId");
 
-                    b.HasIndex("ClienteId");
-
                     b.HasIndex("CreadoPorId");
+
+                    b.HasIndex("ProveedorId");
 
                     b.ToTable("Recibos");
                 });
@@ -408,6 +619,8 @@ namespace GpoSion.API.Migrations
 
                     b.Property<DateTime>("Fecha");
 
+                    b.Property<string>("Localidad");
+
                     b.Property<int>("MaterialId");
 
                     b.HasKey("ViajeroId");
@@ -421,7 +634,8 @@ namespace GpoSion.API.Migrations
                 {
                     b.HasOne("GpoSion.API.Models.Material", "Material")
                         .WithMany()
-                        .HasForeignKey("MaterialId");
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("GpoSion.API.Models.Recibo", "Recibo")
                         .WithMany("Detalle")
@@ -449,10 +663,6 @@ namespace GpoSion.API.Migrations
 
             modelBuilder.Entity("GpoSion.API.Models.Material", b =>
                 {
-                    b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId");
-
                     b.HasOne("GpoSion.API.Models.TipoMaterial", "TipoMaterial")
                         .WithMany()
                         .HasForeignKey("TipoMaterialId");
@@ -462,15 +672,24 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("UnidadMedidaId");
                 });
 
+            modelBuilder.Entity("GpoSion.API.Models.MaterialNumeroParte", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.Material", "Material")
+                        .WithMany("MaterialNumerosParte")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
+                        .WithMany("MaterialesNumeroParte")
+                        .HasForeignKey("NoParte")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("GpoSion.API.Models.Molde", b =>
                 {
                     b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId");
-
-                    b.HasOne("GpoSion.API.Models.Moldeadora", "Maquina")
-                        .WithMany()
-                        .HasForeignKey("MaquinaMoldeadoraId");
 
                     b.HasOne("GpoSion.API.Models.Usuario", "ModificadoPor")
                         .WithMany()
@@ -479,6 +698,43 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.Area", "Ubicacion")
                         .WithMany()
                         .HasForeignKey("UbicacionAreaId");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.MoldeNumeroParte", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.Molde", "Molde")
+                        .WithMany("MoldeNumerosParte")
+                        .HasForeignKey("MoldeId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
+                        .WithMany("MoldesNumeroParte")
+                        .HasForeignKey("NoParte")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.Moldeadora", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId");
+
+                    b.HasOne("GpoSion.API.Models.Molde", "Molde")
+                        .WithMany()
+                        .HasForeignKey("MoldeId");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.MoldeadoraNumeroParte", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.Moldeadora", "Moldeadora")
+                        .WithMany("MoldeadoraNumerosParte")
+                        .HasForeignKey("MoldeadoraId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
+                        .WithMany("MoldeadorasNumeroParte")
+                        .HasForeignKey("NoParte")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.MovimientoMaterial", b =>
@@ -503,20 +759,94 @@ namespace GpoSion.API.Migrations
                         .WithMany()
                         .HasForeignKey("ReciboId");
 
+                    b.HasOne("GpoSion.API.Models.RequerimientoMaterialMaterial", "RequerimientoMaterialMaterial")
+                        .WithMany()
+                        .HasForeignKey("RequerimientoMaterialMaterialId");
+
                     b.HasOne("GpoSion.API.Models.Viajero", "Viajero")
                         .WithMany("MovimientosMaterial")
                         .HasForeignKey("ViajeroId");
                 });
 
-            modelBuilder.Entity("GpoSion.API.Models.Recibo", b =>
+            modelBuilder.Entity("GpoSion.API.Models.MovimientoMoldeadora", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId");
+
+                    b.HasOne("GpoSion.API.Models.Usuario", "ModificadoPor")
+                        .WithMany()
+                        .HasForeignKey("ModificadoPorId");
+
+                    b.HasOne("GpoSion.API.Models.Molde", "Molde")
+                        .WithMany()
+                        .HasForeignKey("MoldeId");
+
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
+                        .WithMany()
+                        .HasForeignKey("NumeroParteId");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.NumeroParte", b =>
                 {
                     b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("ClienteId");
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("GpoSion.API.Models.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.OrdenCompra", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraDetalle", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.OrdenCompra")
+                        .WithMany("NumerosParte")
+                        .HasForeignKey("NoOrden")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NoParte")
+                        .WithMany()
+                        .HasForeignKey("NoParte1");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.Moldeadora", "Moldeadora")
+                        .WithMany()
+                        .HasForeignKey("MoldeadoraId");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.ProduccionNumeroParte", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
+                        .WithMany()
+                        .HasForeignKey("NoParte");
+
+                    b.HasOne("GpoSion.API.Models.Produccion", "Produccion")
+                        .WithMany("ProduccionNumerosParte")
+                        .HasForeignKey("ProduccionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.Recibo", b =>
+                {
                     b.HasOne("GpoSion.API.Models.Usuario", "CreadoPor")
                         .WithMany()
                         .HasForeignKey("CreadoPorId");
+
+                    b.HasOne("GpoSion.API.Models.Proveedor", "Proveedor")
+                        .WithMany()
+                        .HasForeignKey("ProveedorId");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.RequerimientoMaterial", b =>

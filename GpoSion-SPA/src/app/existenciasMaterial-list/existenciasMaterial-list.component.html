@@ -19,7 +19,6 @@
                                 <th scope="col">Material</th>
                                 <th scope="col" class="text-right">Almacen</th>
                                 <th scope="col" class="text-right">Producción</th>
-                                <th scope="col">Cliente</th>
                                 <th scope="col">Última Modificación</th>
                             </tr>
                         </thead>
@@ -36,7 +35,6 @@
                 <td class="text-right">
                   {{ em.produccion | number: "1.2-3" }}
                 </td>
-                <td>{{ em.cliente }}</td>
                 <td>{{ em.ultimaModificacion | date: "dd-MM-yyyy HH:mm" }}</td>
               </tr>
             </tbody>

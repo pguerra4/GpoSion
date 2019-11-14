@@ -831,7 +831,7 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("NoParte");
 
                     b.HasOne("GpoSion.API.Models.Produccion", "Produccion")
-                        .WithMany()
+                        .WithMany("ProduccionNumerosParte")
                         .HasForeignKey("ProduccionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
