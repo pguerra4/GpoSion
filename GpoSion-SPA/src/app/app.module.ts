@@ -83,6 +83,10 @@ import { OrdenCompraService } from "./_services/orden-compra.service";
 import { OrdenCompraListComponent } from "./orden-compra-list/orden-compra-list.component";
 import { SearchOrdenesCompraPipe } from "./_filters/search-ordenes-compra.pipe";
 import { OrdenCompraAddComponent } from "./orden-compra-add/orden-compra-add.component";
+import { OrdenCompraEditComponent } from "./orden-compra-edit/orden-compra-edit.component";
+import { OrdenCompraEditResolver } from "./_resolvers/orden-compra-edit.resolver";
+import { DetalleOrdenCompraEditComponent } from "./detalle-orden-compra-edit/detalle-orden-compra-edit.component";
+import { DetalleOrdenCompraEditResolver } from "./_resolvers/detalle-orden-compra-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -130,7 +134,9 @@ import { OrdenCompraAddComponent } from "./orden-compra-add/orden-compra-add.com
     ProduccionAddComponent,
     OrdenCompraListComponent,
     SearchOrdenesCompraPipe,
-    OrdenCompraAddComponent
+    OrdenCompraAddComponent,
+    OrdenCompraEditComponent,
+    DetalleOrdenCompraEditComponent
   ],
   imports: [
     BrowserModule,
@@ -167,7 +173,9 @@ import { OrdenCompraAddComponent } from "./orden-compra-add/orden-compra-add.com
     MaterialEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" },
     ProveedorService,
-    OrdenCompraService
+    OrdenCompraService,
+    OrdenCompraEditResolver,
+    DetalleOrdenCompraEditResolver
   ],
   bootstrap: [AppComponent]
 })

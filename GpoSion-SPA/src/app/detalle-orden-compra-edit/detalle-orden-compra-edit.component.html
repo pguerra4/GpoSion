@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Detalle Orden de Compra</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="detalleOrdenCompraForm" (ngSubmit)="editDetalleOrdenCompra()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noOrden">No. Orden: </label>
+                            <span>{{ detalle.noOrden }}</span>
+                            <input type="hidden" id="noOrden" formControlName="noOrden">
+                            <input type="hidden" id="id" formControlName="id">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="noParte">No. Parte: </label>
+                            <span>{{ detalle.noParte }}</span>
+                            <input type="hidden" id="noParte" formControlName="noOrden">
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <label for="piezasAutorizadas">Cantidad </label>
+                            <input type="text" class="form-control" id="piezasAutorizadas" formControlName="piezasAutorizadas" placeholder="Cantidad" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="precio">Precio </label>
+                            <input type="text" class="form-control" id="precio" formControlName="precio" placeholder="Precio" />
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Inicio </label>
+                            <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaInicio" formControlName="fechaInicio" placeholder="Fecha Inicio" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fechaInicio">Fecha Fin: </label>
+                            <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaFin" formControlName="fechaFin" placeholder="Fecha Fin" />
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+
+                            <button class="btn btn-success" [disabled]="!detalleOrdenCompraForm.valid" type="submit">
+                      Guardar
+                    </button>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

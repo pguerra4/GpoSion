@@ -204,7 +204,6 @@ export class NumeroParteEditComponent implements OnInit {
     this.numeroParte.moldes = this.moldes;
     this.numeroParte.materiales = this.materiales;
 
-    console.log(this.numeroParte);
     this.numeroParteService
       .editNumeroParte(this.route.snapshot.params["id"], this.numeroParte)
       .subscribe(

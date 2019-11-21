@@ -95,7 +95,6 @@ namespace GpoSion.API.Controllers
                 return BadRequest("Este número de parte ya tiene piezas surtidas.");
             _repo.Delete(ordenDFromRepo);
 
-            await _repo.SaveAll();
 
 
             if (await _repo.SaveAll())

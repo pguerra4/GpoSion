@@ -41,6 +41,10 @@ import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
 import { ProduccionAddComponent } from "./produccion-add/produccion-add.component";
 import { OrdenCompraListComponent } from "./orden-compra-list/orden-compra-list.component";
 import { OrdenCompraAddComponent } from "./orden-compra-add/orden-compra-add.component";
+import { OrdenCompraEditComponent } from "./orden-compra-edit/orden-compra-edit.component";
+import { OrdenCompraEditResolver } from "./_resolvers/orden-compra-edit.resolver";
+import { DetalleOrdenCompraEditComponent } from "./detalle-orden-compra-edit/detalle-orden-compra-edit.component";
+import { DetalleOrdenCompraEditResolver } from "./_resolvers/detalle-orden-compra-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -127,6 +131,16 @@ export const appRoutes: Routes = [
   },
   { path: "ordenescompra", component: OrdenCompraListComponent },
   { path: "addOrdenCompra", component: OrdenCompraAddComponent },
+  {
+    path: "ordenescompra/:id",
+    component: OrdenCompraEditComponent,
+    resolve: { ordenCompra: OrdenCompraEditResolver }
+  },
+  {
+    path: "detallesordencompra/:id",
+    component: DetalleOrdenCompraEditComponent,
+    resolve: { detalleOrdenCompra: DetalleOrdenCompraEditResolver }
+  },
   { path: "addProduccion", component: ProduccionAddComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }
