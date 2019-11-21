@@ -87,6 +87,7 @@ import { OrdenCompraEditComponent } from "./orden-compra-edit/orden-compra-edit.
 import { OrdenCompraEditResolver } from "./_resolvers/orden-compra-edit.resolver";
 import { DetalleOrdenCompraEditComponent } from "./detalle-orden-compra-edit/detalle-orden-compra-edit.component";
 import { DetalleOrdenCompraEditResolver } from "./_resolvers/detalle-orden-compra-edit.resolver";
+import { ErrorInterceptorProvider } from "./_services/error.interceptor";
 
 @NgModule({
   declarations: [
@@ -153,6 +154,7 @@ import { DetalleOrdenCompraEditResolver } from "./_resolvers/detalle-orden-compr
     OwlNativeDateTimeModule
   ],
   providers: [
+    ErrorInterceptorProvider,
     ReciboService,
     ClienteService,
     AlertifyService,

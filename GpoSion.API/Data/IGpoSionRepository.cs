@@ -84,5 +84,7 @@ namespace GpoSion.API.Data
 
         Task<OrdenCompraDetalle> GetOrdenCompraDetalle(int id);
 
+        Task<bool> ExisteOrdenCompraActiva(string noParte);
+
     }
 }

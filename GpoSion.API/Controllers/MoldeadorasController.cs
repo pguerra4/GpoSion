@@ -62,9 +62,18 @@ namespace GpoSion.API.Controllers
         {
             var moldeadora = await _repo.GetMoldeadora(id);
             if (moldeadora == null)
-                return BadRequest();
+                return NotFound();
             if (moldeadora.MoldeadoraId != moldeadoraFP.MoldeadoraId)
-                return BadRequest();
+                return BadRequest("Ids no coinciden");
+
+
+            foreach (var item in moldeadoraFP.NumerosParte)
+            {
+                if (!await _repo.ExisteOrdenCompraActiva(item))
+                {
+                    return BadRequest("El No. Parte " + item + " no tiene ordenes de compra activa");
+                }
+            }
 
             moldeadora.MoldeId = moldeadoraFP.MoldeId;
             moldeadora.MaterialId = moldeadoraFP.MaterialId;
@@ -92,7 +101,16 @@ namespace GpoSion.API.Controllers
 
             var moldeadora = await _repo.GetMoldeadora(id);
             if (moldeadora == null)
-                return BadRequest();
+                return NotFound();
+
+            foreach (var item in moldeadora.MoldeadoraNumerosParte)
+            {
+                if (!await _repo.ExisteOrdenCompraActiva(item.NoParte))
+                {
+                    return BadRequest("El No. Parte " + item.NoParte + " no tiene ordenes de compra activa");
+                }
+            }
+
             moldeadora.Estatus = "Operando";
 
             await _repo.SaveAll();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -323,6 +324,12 @@ namespace GpoSion.API.Data
         {
             var ordenCompraDetalle = await _context.OrdenCompraDetalles.Include(ocd => ocd.NumeroParte).FirstOrDefaultAsync(ocd => ocd.Id == id);
             return ordenCompraDetalle;
+        }
+
+        public async Task<bool> ExisteOrdenCompraActiva(string noParte)
+        {
+            var existe = await _context.OrdenCompraDetalles.AnyAsync(ocd => ocd.NoParte == noParte && ocd.PiezasAutorizadas > ocd.PiezasSurtidas && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date));
+            return existe;
         }
     }
 }
