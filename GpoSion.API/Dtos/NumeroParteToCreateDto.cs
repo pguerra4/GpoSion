@@ -23,7 +23,7 @@ namespace GpoSion.API.Dtos
 
         public int? MaterialId { get; set; }
 
-        public ICollection<MaterialForPutDto> Materiales { get; set; }
+        public ICollection<MaterialNumeroParteToListDto> Materiales { get; set; }
 
         public ICollection<MoldeForPutDto> Moldes { get; set; }
 

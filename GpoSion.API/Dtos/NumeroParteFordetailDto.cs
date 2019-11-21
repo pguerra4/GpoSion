@@ -22,7 +22,7 @@ namespace GpoSion.API.Dtos
 
         public string UrlImagenPieza { get; set; }
 
-        public ICollection<MaterialtoListDto> Materiales { get; set; }
+        public ICollection<MaterialNumeroParteToListDto> Materiales { get; set; }
 
         public ICollection<MoldeToListDto> Moldes { get; set; }
 

@@ -238,13 +238,13 @@ namespace GpoSion.API.Data
 
         public async Task<OrdenCompra> GetOrdenCompra(int Id)
         {
-            var ordenCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).FirstOrDefaultAsync(oc => oc.NoOrden == Id);
+            var ordenCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).ThenInclude(np => np.NumeroParte).FirstOrDefaultAsync(oc => oc.NoOrden == Id);
             return ordenCompra;
         }
 
         public async Task<IEnumerable<OrdenCompra>> GetOrdenesCompra()
         {
-            var ordenesCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).ToListAsync();
+            var ordenesCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).ThenInclude(np => np.NumeroParte).ToListAsync();
             return ordenesCompra;
         }
 
@@ -317,6 +317,12 @@ namespace GpoSion.API.Data
         {
             var proveedores = await _context.Proveedores.ToListAsync();
             return proveedores;
+        }
+
+        public async Task<OrdenCompraDetalle> GetOrdenCompraDetalle(int id)
+        {
+            var ordenCompraDetalle = await _context.OrdenCompraDetalles.Include(ocd => ocd.NumeroParte).FirstOrDefaultAsync(ocd => ocd.Id == id);
+            return ordenCompraDetalle;
         }
     }
 }

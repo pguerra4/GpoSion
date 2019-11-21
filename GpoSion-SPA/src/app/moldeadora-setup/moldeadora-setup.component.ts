@@ -108,11 +108,12 @@ export class MoldeadoraSetupComponent implements OnInit {
         res => {
           res.materiales.forEach(mat => {
             if (
-              this.materiales.find(m => m.materialId === mat.materialId) ===
-              undefined
+              this.materiales.find(
+                m => m.materialId === mat.material.materialId
+              ) === undefined
             ) {
-              if (mat.tipoMaterialId === 1) {
-                this.materiales.push(mat);
+              if (mat.material.tipoMaterialId === 1) {
+                this.materiales.push(mat.material);
               }
             }
           });

@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">
+            Ordenes de compra
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-2">
+                        <a class="btn btn-success" [routerLink]="['/addOrdenCompra']">Nueva Orden Compra</a
+            >
+          </div>
+          <div class="col-md-4">
+            <input
+              type="text"
+              id="searchTextId"
+              [(ngModel)]="searchText"
+              name="searchText"
+              placeholder="Buscar"
+            />
+            <i class="fa fa-search ml-1"></i>
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped mt-1">
+            <thead>
+              <tr class="table-primary">
+                <th scope="col">No. Orden</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">No. Parte</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Ver</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let orden of ordenes | searchOrdenesCompra: searchText"
+              >
+                <td>
+                  {{ orden.noOrden }}
+                </td>
+                <td>
+                  {{ orden.cliente }}
+                </td>
+                <th scope="row">
+                  <div *ngFor="let item of orden.numerosParte">
+                    {{ item.noParte }}
+                  </div>
+                </th>
+
+                <td>
+                  {{ orden.fecha | date: "dd-MM-yyyy" }}
+                </td>
+                <td>
+                  <a
+                    class="fa fa-edit"
+                    [routerLink]="['/ordenescompra/' + orden.noOrden]"
+                  ></a>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

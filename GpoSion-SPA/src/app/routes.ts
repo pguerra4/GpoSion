@@ -39,6 +39,8 @@ import { TipoMaterialEditResolver } from "./_resolvers/tipo-material-edit.resolv
 import { MaterialEditComponent } from "./material-edit/material-edit.component";
 import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
 import { ProduccionAddComponent } from "./produccion-add/produccion-add.component";
+import { OrdenCompraListComponent } from "./orden-compra-list/orden-compra-list.component";
+import { OrdenCompraAddComponent } from "./orden-compra-add/orden-compra-add.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -123,6 +125,8 @@ export const appRoutes: Routes = [
     component: TipoMaterialEditComponent,
     resolve: { tipoMaterial: TipoMaterialEditResolver }
   },
+  { path: "ordenescompra", component: OrdenCompraListComponent },
+  { path: "addOrdenCompra", component: OrdenCompraAddComponent },
   { path: "addProduccion", component: ProduccionAddComponent },
   { path: "lists", component: MaterialAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }

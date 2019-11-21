@@ -79,6 +79,10 @@ import { MaterialEditComponent } from "./material-edit/material-edit.component";
 import { MaterialEditResolver } from "./_resolvers/material-edit.resolver";
 import { ProduccionAddComponent } from "./produccion-add/produccion-add.component";
 import { ProveedorService } from "./_services/proveedor.service";
+import { OrdenCompraService } from "./_services/orden-compra.service";
+import { OrdenCompraListComponent } from "./orden-compra-list/orden-compra-list.component";
+import { SearchOrdenesCompraPipe } from "./_filters/search-ordenes-compra.pipe";
+import { OrdenCompraAddComponent } from "./orden-compra-add/orden-compra-add.component";
 
 @NgModule({
   declarations: [
@@ -123,7 +127,10 @@ import { ProveedorService } from "./_services/proveedor.service";
     TipoMaterialEditComponent,
     SearchByMaterialPipe,
     MaterialEditComponent,
-    ProduccionAddComponent
+    ProduccionAddComponent,
+    OrdenCompraListComponent,
+    SearchOrdenesCompraPipe,
+    OrdenCompraAddComponent
   ],
   imports: [
     BrowserModule,
@@ -159,7 +166,8 @@ import { ProveedorService } from "./_services/proveedor.service";
     ValidateExistingMaterial,
     MaterialEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" },
-    ProveedorService
+    ProveedorService,
+    OrdenCompraService
   ],
   bootstrap: [AppComponent]
 })

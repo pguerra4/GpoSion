@@ -82,5 +82,7 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<Proveedor>> GetProveedores();
 
+        Task<OrdenCompraDetalle> GetOrdenCompraDetalle(int id);
+
     }
 }

@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191120163932_CantidadMaterialNumeroParte")]
+    partial class CantidadMaterialNumeroParte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,13 +362,9 @@ namespace GpoSion.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("FechaFin");
-
-                    b.Property<DateTime?>("FechaInicio");
-
                     b.Property<int>("NoOrden");
 
-                    b.Property<string>("NoParte");
+                    b.Property<string>("NoParte1");
 
                     b.Property<int>("PiezasAutorizadas");
 
@@ -381,7 +379,7 @@ namespace GpoSion.API.Migrations
 
                     b.HasIndex("NoOrden");
 
-                    b.HasIndex("NoParte");
+                    b.HasIndex("NoParte1");
 
                     b.ToTable("OrdenCompraDetalles");
                 });
@@ -807,7 +805,7 @@ namespace GpoSion.API.Migrations
             modelBuilder.Entity("GpoSion.API.Models.OrdenCompra", b =>
                 {
                     b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
-                        .WithMany("OrdenesCompra")
+                        .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -819,9 +817,9 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("NoOrden")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NoParte")
                         .WithMany()
-                        .HasForeignKey("NoParte");
+                        .HasForeignKey("NoParte1");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>

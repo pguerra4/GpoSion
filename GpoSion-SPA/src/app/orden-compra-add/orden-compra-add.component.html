@@ -1,0 +1,129 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Nueva Orden de Compra</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="ordenCompraForm" (ngSubmit)="addOrdenCompra()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="noOrden">No. Orden</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    ordenCompraForm.get('noOrden').errors &&
+                    ordenCompraForm.get('noOrden').touched
+                }" class="form-control" formControlName="noOrden" placeholder="No. Orden" />
+                            <div class="invalid-feedback" *ngIf="
+                  ordenCompraForm.get('noOrden').hasError('required') &&
+                  ordenCompraForm.get('noOrden').touched
+                ">
+                                El No. Orden es requerido
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                  ordenCompraForm
+                    .get('noOrden')
+                    .hasError('numeroOrdenExistente') &&
+                  ordenCompraForm.get('noOrden').touched
+                ">
+                                El No. Orden ya existe.
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="Cliente">Cliente</label>
+                            <select class="form-control" id="clienteId" formControlName="clienteId" (change)="filterNumerosParte($event.target.value)">
+                <option
+                  *ngFor="let cliente of clientes"
+                  [value]="cliente.clienteId"
+                >
+                  {{ cliente.nombre }}
+                </option>
+              </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="fecha">Fecha</label>
+                            <input type="text" bsDatepicker [bsConfig]="bsConfig" class="form-control" formControlName="fecha" placeholder="Fecha" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-header text-primary">Numeros de parte</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input autocomplete="off" [typeahead]="numerosParteCat" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" id="noParte" formControlName="noParte" placeholder="Número Parte" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" id="cantidad" formControlName="cantidad" placeholder="Cantidad" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" id="precio" formControlName="precio" placeholder="Precio" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaInicio" formControlName="fechaInicio" placeholder="Fecha Inicio" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaFin" formControlName="fechaFin" placeholder="Fecha Fin" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-success btn-xs" type="button" [disabled]="
+                          !ordenCompraForm.get('noParte').value ||
+                          !ordenCompraForm.get('cantidad').value
+                        " (click)="addNumeroParte()">
+                        <span class="fa fa-plus-circle "> </span>
+                      </button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="detalles.length > 0" class="table-responsive mt-2">
+                                        <table id="materialesTable" class="table table-hover table-bordered table-striped">
+                                            <thead>
+                                                <tr class="table-primary">
+                                                    <th>No. Parte</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio</th>
+                                                    <th>Inicio</th>
+                                                    <th>Fin</th>
+                                                    <th>Borrar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let detalle of detalles">
+                                                    <td scope="row">{{ detalle.noParte }}</td>
+                                                    <td>
+                                                        {{ detalle.piezasAutorizadas }}
+                                                    </td>
+                                                    <td>
+                                                        {{ detalle.precio }}
+                                                    </td>
+                                                    <td>
+                                                        {{ detalle.fechaInicio | date: "dd-MM-yyyy" }}
+                                                    </td>
+                                                    <td>
+                                                        {{ detalle.fechaFin | date: "dd-MM-yyyy" }}
+                                                    </td>
+                                                    <td>
+                                                        <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteNumeroParte(detalle.noParte)">
+                              <span class="fa fa-trash"></span
+                            ></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 mt-1">
+                            <button class="btn btn-success" [disabled]="!ordenCompraForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

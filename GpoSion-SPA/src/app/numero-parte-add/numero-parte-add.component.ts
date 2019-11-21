@@ -11,6 +11,7 @@ import { Molde } from "../_models/molde";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 import { MoldeService } from "../_services/molde.service";
 import { ValidateExistingNumeroParte } from "../_validators/async-numero-parte-existente.validator";
+import { MaterialNumeroParte } from "../_models/materialNumeroParte";
 
 @Component({
   selector: "app-numero-parte-add",
@@ -22,7 +23,7 @@ export class NumeroParteAddComponent implements OnInit {
   numeroParte: NumeroParte;
   clientes: Cliente[];
   materialesCat: Material[];
-  materiales: Material[] = new Array();
+  materiales: MaterialNumeroParte[] = new Array();
   moldesCat: Molde[];
   moldes: Molde[] = new Array();
 
@@ -57,6 +58,8 @@ export class NumeroParteAddComponent implements OnInit {
         peso: [0.0, Validators.required],
         costo: [0.0, Validators.required],
         material: [null],
+        materialId: [null],
+        cantidad: [null],
         molde: [null]
       },
       { updateOn: "blur" }
@@ -98,10 +101,24 @@ export class NumeroParteAddComponent implements OnInit {
   }
 
   onSelectMaterial(item: any) {
-    if (this.materiales.indexOf(item.item) < 0) {
-      this.materiales.push(item.item);
+    this.numeroParteForm.get("materialId").setValue(item.item.materialId);
+  }
+
+  addMaterial() {
+    const mat = this.materialesCat.find(
+      m => m.materialId === this.numeroParteForm.get("materialId").value
+    );
+    const matnp: MaterialNumeroParte = {
+      material: mat,
+      cantidad: +this.numeroParteForm.get("cantidad").value
+    };
+
+    if (this.materiales.indexOf(matnp) < 0) {
+      this.materiales.push(matnp);
     }
     this.numeroParteForm.get("material").setValue(null);
+    this.numeroParteForm.get("materialId").setValue(null);
+    this.numeroParteForm.get("cantidad").setValue(null);
   }
 
   onSelectMolde(item: any) {
@@ -114,7 +131,7 @@ export class NumeroParteAddComponent implements OnInit {
 
   deleteMaterial(materialId: number) {
     this.materiales.splice(
-      this.materiales.findIndex(m => m.materialId === materialId),
+      this.materiales.findIndex(m => m.material.materialId === materialId),
       1
     );
   }
@@ -136,6 +153,7 @@ export class NumeroParteAddComponent implements OnInit {
     this.moldes.forEach(molde => {
       this.numeroParte.moldes.push(molde);
     });
+
     this.numeroParteService.addNumeroParte(this.numeroParte).subscribe(
       (res: NumeroParte) => {
         this.alertify.success("Guardado");

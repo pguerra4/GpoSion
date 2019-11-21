@@ -1,17 +1,17 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
-namespace GpoSion.API.Models
+namespace GpoSion.API.Dtos
 {
-    public class OrdenCompraDetalle
+    public class OrdenCompraDetalleToListDto
     {
         public int Id { get; set; }
 
-        public string NoParte { get; set; }
-        public NumeroParte NumeroParte { get; set; }
+        [JsonProperty(PropertyName = "noParte")]
+        public string NumeroParteNoParte { get; set; }
+
         public int NoOrden { get; set; }
 
-        [Column(TypeName = "decimal(18, 4)")]
         public Decimal Precio { get; set; }
 
         public int PiezasAutorizadas { get; set; }
@@ -26,4 +26,6 @@ namespace GpoSion.API.Models
 
 
     }
+
+
 }

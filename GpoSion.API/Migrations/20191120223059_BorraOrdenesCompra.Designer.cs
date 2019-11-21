@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191120223059_BorraOrdenesCompra")]
+    partial class BorraOrdenesCompra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,52 +340,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("MaterialId");
 
                     b.ToTable("NumerosParte");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompra", b =>
-                {
-                    b.Property<int>("NoOrden");
-
-                    b.Property<int>("ClienteId");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.HasKey("NoOrden");
-
-                    b.HasIndex("ClienteId");
-
-                    b.ToTable("OrdenesCompra");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraDetalle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("FechaFin");
-
-                    b.Property<DateTime?>("FechaInicio");
-
-                    b.Property<int>("NoOrden");
-
-                    b.Property<string>("NoParte");
-
-                    b.Property<int>("PiezasAutorizadas");
-
-                    b.Property<int>("PiezasSurtidas");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18, 4)");
-
-                    b.Property<DateTime>("UltimaModificacion");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NoOrden");
-
-                    b.HasIndex("NoParte");
-
-                    b.ToTable("OrdenCompraDetalles");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>
@@ -802,26 +758,6 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.Material", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompra", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.Cliente", "Cliente")
-                        .WithMany("OrdenesCompra")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraDetalle", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.OrdenCompra")
-                        .WithMany("NumerosParte")
-                        .HasForeignKey("NoOrden")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
-                        .WithMany()
-                        .HasForeignKey("NoParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>

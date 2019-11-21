@@ -13,6 +13,7 @@ import { Material } from "../_models/material";
 import { Molde } from "../_models/molde";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 import { MoldeService } from "../_services/molde.service";
+import { MaterialNumeroParte } from "../_models/materialNumeroParte";
 
 @Component({
   selector: "app-numero-parte-edit",
@@ -28,7 +29,7 @@ export class NumeroParteEditComponent implements OnInit {
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   materialesCat: Material[];
-  materiales: Material[] = new Array();
+  materiales: MaterialNumeroParte[] = new Array();
   moldesCat: Molde[];
   moldes: Molde[] = new Array();
 
@@ -78,6 +79,8 @@ export class NumeroParteEditComponent implements OnInit {
       peso: [this.numeroParte.peso, Validators.required],
       costo: [this.numeroParte.costo, Validators.required],
       material: [null],
+      materialId: [null],
+      cantidad: [null],
       molde: [null]
     });
   }
@@ -116,14 +119,57 @@ export class NumeroParteEditComponent implements OnInit {
     );
   }
 
+  // onSelectMaterial(item: any) {
+  //   if (
+  //     this.materiales.find(m => m.materialId === item.item.materialId) ===
+  //     undefined
+  //   ) {
+  //     this.materiales.push(item.item);
+  //   }
+  //   this.numeroParteForm.get("material").setValue(null);
+  // }
+
   onSelectMaterial(item: any) {
-    if (
-      this.materiales.find(m => m.materialId === item.item.materialId) ===
-      undefined
-    ) {
-      this.materiales.push(item.item);
+    this.numeroParteForm.get("materialId").setValue(item.item.materialId);
+  }
+
+  addMaterial() {
+    const mat = this.materialesCat.find(
+      m => m.materialId === this.numeroParteForm.get("materialId").value
+    );
+    const matnp: MaterialNumeroParte = {
+      material: mat,
+      cantidad: +this.numeroParteForm.get("cantidad").value
+    };
+
+    if (this.materiales.indexOf(matnp) < 0) {
+      this.materiales.push(matnp);
     }
     this.numeroParteForm.get("material").setValue(null);
+    this.numeroParteForm.get("materialId").setValue(null);
+    this.numeroParteForm.get("cantidad").setValue(null);
+  }
+
+  addNumeroParte() {
+    this.numeroParte = Object.assign({}, this.numeroParteForm.value);
+    this.numeroParte.materiales = new Array();
+    this.materiales.forEach(material => {
+      this.numeroParte.materiales.push(material);
+    });
+    this.numeroParte.moldes = new Array();
+    this.moldes.forEach(molde => {
+      this.numeroParte.moldes.push(molde);
+    });
+
+    this.numeroParteService.addNumeroParte(this.numeroParte).subscribe(
+      (res: NumeroParte) => {
+        this.alertify.success("Guardado");
+        this.router.navigate(["numerosParte"]);
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
   }
 
   onSelectMolde(item: any) {
@@ -135,8 +181,13 @@ export class NumeroParteEditComponent implements OnInit {
   }
 
   deleteMaterial(materialId: number) {
+    console.log(this.materiales);
+    console.log(materialId);
+    console.log(
+      this.materiales.findIndex(m => m.material.materialId === materialId)
+    );
     this.materiales.splice(
-      this.materiales.findIndex(m => m.materialId === materialId),
+      this.materiales.findIndex(m => m.material.materialId === materialId),
       1
     );
   }

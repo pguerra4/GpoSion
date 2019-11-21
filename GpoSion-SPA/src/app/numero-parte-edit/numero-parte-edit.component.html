@@ -43,8 +43,8 @@
                                     <input type="number" class="form-control" formControlName="peso" placeholder="Peso" />
                                 </div>
                                 <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                                    <label for="descripcion">Costo</label>
-                                    <input type="number" class="form-control" formControlName="costo" placeholder="Costo" />
+                                    <label for="descripcion">Precio</label>
+                                    <input type="number" class="form-control" formControlName="costo" placeholder="Precio" />
                                 </div>
                             </div>
                             <div class="row">
@@ -101,20 +101,39 @@
                         <div class="card">
                             <div class="card-header text-primary">Materiales</div>
                             <div class="card-body">
-                                <input autocomplete="off" [typeahead]="materialesCat" typeaheadOptionField="material" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input autocomplete="off" [typeahead]="materialesCat" typeaheadOptionField="material" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                                        <input type="hidden" id="materialId" formControlName="materialId" />
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" id="cantidad" formControlName="cantidad" placeholder="Cantidad" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-success btn-xs" type="button" [disabled]="!numeroParteForm.get('materialId').value" (click)="addMaterial()">
+                      <span class="fa fa-plus-circle "> </span>
+                    </button>
+                                    </div>
+                                </div>
                                 <div class="table-responsive mt-2">
                                     <table id="materialesTable" class="table table-hover table-bordered table-striped">
                                         <thead>
                                             <tr class="table-primary">
                                                 <th>Material</th>
+                                                <th>Cantidad</th>
                                                 <th>Borrar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let material of materiales">
-                                                <td scope="row">{{ material.material }}</td>
+                                                <td scope="row">{{ material.material.material }}</td>
+                                                <td scope="row">
+                                                    {{ material.cantidad }}
+                                                </td>
                                                 <td>
-                                                    <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMaterial(material.materialId)">
+                                                    <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="
+                              deleteMaterial(material.material.materialId)
+                            ">
                             <span class="fa fa-trash"></span
                           ></span>
                                                 </td>

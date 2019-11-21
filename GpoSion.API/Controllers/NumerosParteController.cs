@@ -66,9 +66,9 @@ namespace GpoSion.API.Controllers
             {
                 var materiales = new List<MaterialNumeroParte>();
 
-                foreach (MaterialForPutDto material in numeroParteforCreationDto.Materiales)
+                foreach (MaterialNumeroParteToListDto material in numeroParteforCreationDto.Materiales)
                 {
-                    materiales.Add(new MaterialNumeroParte { MaterialId = material.MaterialId });
+                    materiales.Add(new MaterialNumeroParte { MaterialId = material.Material.MaterialId, Cantidad = material.Cantidad });
                 }
                 numeroParte.MaterialesNumeroParte = materiales;
             }
@@ -127,9 +127,9 @@ namespace GpoSion.API.Controllers
                 }
                 var materiales = new List<MaterialNumeroParte>();
 
-                foreach (MaterialForPutDto material in numeroParteFP.Materiales)
+                foreach (MaterialNumeroParteToListDto material in numeroParteFP.Materiales)
                 {
-                    materiales.Add(new MaterialNumeroParte { MaterialId = material.MaterialId });
+                    materiales.Add(new MaterialNumeroParte { MaterialId = material.Material.MaterialId, Cantidad = material.Cantidad });
                 }
                 numeroParte.MaterialesNumeroParte = materiales;
             }

@@ -15,5 +15,7 @@ namespace GpoSion.API.Dtos
 
         public int TipoMaterialId { get; set; }
 
+        public decimal Cantidad { get; set; }
+
     }
 }
