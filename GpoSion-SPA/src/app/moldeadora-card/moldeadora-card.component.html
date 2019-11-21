@@ -20,7 +20,7 @@
         Setup
       </button>
 
-            <button *ngIf="moldeadora.estatus == 'Operando'" class="btn btn-danger w-100" (click)="detenerMoldeadora()">
+            <button *ngIf="moldeadora.estatus == 'Operando'" class="btn btn-danger w-100" (click)="openModal(template)">
         Detener
       </button>
             <button *ngIf="
@@ -31,3 +31,29 @@
         </div>
     </div>
 </div>
+<ng-template #template>
+    <div class="modal-body text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Observaciones</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <textarea name="observaciones" id="observaciones" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-success" (click)="confirm()">
+          Guardar
+        </button>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-danger" (click)="decline()">
+          Cancelar
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

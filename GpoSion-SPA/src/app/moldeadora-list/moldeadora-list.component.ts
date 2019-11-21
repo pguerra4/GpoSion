@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { Moldeadora } from "../_models/moldeadora";
 import { MoldeadoraService } from "../_services/moldeadora.service";
 import { AlertifyService } from "../_services/alertify.service";

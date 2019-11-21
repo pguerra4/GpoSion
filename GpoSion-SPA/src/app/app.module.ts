@@ -12,7 +12,7 @@ import {
 } from "ng-pick-datetime";
 import {
   BsDropdownModule,
-  TabsModule,
+  ModalModule,
   BsDatepickerModule
 } from "ngx-bootstrap";
 
@@ -147,6 +147,7 @@ import { ErrorInterceptorProvider } from "./_services/error.interceptor";
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     FileUploadModule,
     TypeaheadModule.forRoot(),
