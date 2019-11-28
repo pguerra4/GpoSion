@@ -54,6 +54,10 @@ namespace GpoSion.API.Data
 
         public DbSet<ProduccionNumeroParte> ProduccionNumerosParte { get; set; }
 
+        public DbSet<MotivoTiempoMuerto> MotivosTiempoMuerto { get; set; }
+
+        public DbSet<MovimientoMoldeadoraNumeroParte> MovimientosMoldeadoraNumerosParte { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -75,6 +79,11 @@ namespace GpoSion.API.Data
             modelBuilder.Entity<MaterialNumeroParte>().HasKey(mn => new { mn.MaterialId, mn.NoParte });
             modelBuilder.Entity<MaterialNumeroParte>().HasOne(mn => mn.Material).WithMany(m => m.MaterialNumerosParte).HasForeignKey(mn => mn.MaterialId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<MaterialNumeroParte>().HasOne(mn => mn.NumeroParte).WithMany(n => n.MaterialesNumeroParte).HasForeignKey(mn => mn.NoParte).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MovimientoMoldeadoraNumeroParte>().HasKey(mmnp => new { mmnp.MovimientoMoldeadoraId, mmnp.NoParte });
+            modelBuilder.Entity<MovimientoMoldeadoraNumeroParte>().HasOne(mmnp => mmnp.MovimientoMoldeadora).WithMany(m => m.MovimientoMoldeadoraNumerosParte).HasForeignKey(mn => mn.MovimientoMoldeadoraId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<MovimientoMoldeadoraNumeroParte>().HasOne(mmnp => mmnp.NumeroParte).WithMany(n => n.MovimientosMoldeadoraNumeroParte).HasForeignKey(mn => mn.NoParte).OnDelete(DeleteBehavior.Restrict);
+
 
         }
 

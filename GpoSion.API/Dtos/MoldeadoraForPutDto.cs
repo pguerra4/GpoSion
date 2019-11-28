@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GpoSion.API.Models;
 using Newtonsoft.Json;
@@ -14,6 +15,13 @@ namespace GpoSion.API.Dtos
 
         public int? MaterialId { get; set; }
 
+        public DateTime? UltimaModificacion { get; set; }
+
         public ICollection<string> NumerosParte { get; set; }
+        public MoldeadoraForPutDto()
+        {
+            UltimaModificacion = DateTime.Now;
+        }
+
     }
 }

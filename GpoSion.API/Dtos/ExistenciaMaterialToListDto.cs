@@ -25,5 +25,7 @@ namespace GpoSion.API.Dtos
 
         public DateTime UltimaModificacion { get; set; }
 
+        public string[] NumerosParte { get; set; }
+
     }
 }

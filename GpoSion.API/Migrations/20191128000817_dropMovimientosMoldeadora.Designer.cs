@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191128000817_dropMovimientosMoldeadora")]
+    partial class dropMovimientosMoldeadora
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,18 +237,6 @@ namespace GpoSion.API.Migrations
                     b.ToTable("MoldeadoraNumerosParte");
                 });
 
-            modelBuilder.Entity("GpoSion.API.Models.MotivoTiempoMuerto", b =>
-                {
-                    b.Property<int>("MotivoTiempoMuertoId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Motivo");
-
-                    b.HasKey("MotivoTiempoMuertoId");
-
-                    b.ToTable("MotivosTiempoMuerto");
-                });
-
             modelBuilder.Entity("GpoSion.API.Models.MovimientoMaterial", b =>
                 {
                     b.Property<int>("MovimientoMaterialId")
@@ -288,57 +278,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("ViajeroId");
 
                     b.ToTable("MovimientosMaterial");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.MovimientoMoldeadora", b =>
-                {
-                    b.Property<int>("MovimientoMoldeadoraId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Estatus");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<int?>("MaterialId");
-
-                    b.Property<int?>("ModificadoPorId");
-
-                    b.Property<int?>("MoldeId");
-
-                    b.Property<int>("MoldeadoraId");
-
-                    b.Property<int?>("MotivoTiempoMuertoId");
-
-                    b.Property<string>("Movimiento");
-
-                    b.Property<string>("Observaciones");
-
-                    b.HasKey("MovimientoMoldeadoraId");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("ModificadoPorId");
-
-                    b.HasIndex("MoldeId");
-
-                    b.HasIndex("MoldeadoraId");
-
-                    b.HasIndex("MotivoTiempoMuertoId");
-
-                    b.ToTable("MovimientosMoldeadora");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.MovimientoMoldeadoraNumeroParte", b =>
-                {
-                    b.Property<int>("MovimientoMoldeadoraId");
-
-                    b.Property<string>("NoParte");
-
-                    b.HasKey("MovimientoMoldeadoraId", "NoParte");
-
-                    b.HasIndex("NoParte");
-
-                    b.ToTable("MovimientosMoldeadoraNumerosParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.NumeroParte", b =>
@@ -802,43 +741,6 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.Viajero", "Viajero")
                         .WithMany("MovimientosMaterial")
                         .HasForeignKey("ViajeroId");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.MovimientoMoldeadora", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.Material", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId");
-
-                    b.HasOne("GpoSion.API.Models.Usuario", "ModificadoPor")
-                        .WithMany()
-                        .HasForeignKey("ModificadoPorId");
-
-                    b.HasOne("GpoSion.API.Models.Molde", "Molde")
-                        .WithMany()
-                        .HasForeignKey("MoldeId");
-
-                    b.HasOne("GpoSion.API.Models.Moldeadora", "Moldeadora")
-                        .WithMany("MovimientosMoldeadora")
-                        .HasForeignKey("MoldeadoraId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GpoSion.API.Models.MotivoTiempoMuerto", "MotivoTiempoMuerto")
-                        .WithMany()
-                        .HasForeignKey("MotivoTiempoMuertoId");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.MovimientoMoldeadoraNumeroParte", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.MovimientoMoldeadora", "MovimientoMoldeadora")
-                        .WithMany("MovimientoMoldeadoraNumerosParte")
-                        .HasForeignKey("MovimientoMoldeadoraId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
-                        .WithMany("MovimientosMoldeadoraNumeroParte")
-                        .HasForeignKey("NoParte")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.NumeroParte", b =>

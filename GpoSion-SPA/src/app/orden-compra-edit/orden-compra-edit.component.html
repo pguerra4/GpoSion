@@ -8,7 +8,7 @@
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="noOrden">No. Orden: </label>
                             <span>{{ ordenCompra.noOrden }}</span>
-                            <input type="hidden" id="noOrden" formControlName="noOrden">
+                            <input type="hidden" id="noOrden" formControlName="noOrden" />
                         </div>
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="Cliente">Cliente: </label>
@@ -16,7 +16,7 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="fecha">Fecha: </label>
-                            <span>{{ ordenCompra.fecha | date:"dd/MM/yyyy" }}</span>
+                            <span>{{ ordenCompra.fecha | date: "dd/MM/yyyy" }}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -43,12 +43,9 @@
                                             <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaFin" formControlName="fechaFin" placeholder="Fecha Fin" />
                                         </div>
                                         <div class="col-md-2">
-                                            <button class="btn btn-success btn-xs" type="button" [disabled]="
-                        !ordenCompraForm.get('noParte').value ||
-                        !ordenCompraForm.get('cantidad').value
-                      " (click)="addNumeroParte()">
-                      <span class="fa fa-plus-circle "> </span>
-                    </button>
+                                            <button class="btn btn-success btn-xs" type="button" [disabled]="!ordenCompraForm.get('noParte').value" (click)="addNumeroParte()">
+                        <span class="fa fa-plus-circle "> </span>
+                      </button>
                                         </div>
                                     </div>
                                     <div *ngIf="detalles.length > 0" class="table-responsive mt-2">
@@ -80,14 +77,18 @@
                                                         {{ detalle.fechaFin | date: "dd-MM-yyyy" }}
                                                     </td>
                                                     <td>
-                                                        <span class="btn btn-default btn-xs"><a [routerLink]="['/detallesordencompra/' + detalle.id]" >
-                          <span class="fa fa-edit"></span
-                        ></a></span>
+                                                        <span class="btn btn-default btn-xs"><a
+                                [routerLink]="[
+                                  '/detallesordencompra/' + detalle.id
+                                ]"
+                              >
+                                <span class="fa fa-edit"></span></a>
+                                                        </span>
                                                     </td>
                                                     <td>
                                                         <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteNumeroParte(detalle.id)">
-                            <span class="fa fa-trash"></span
-                          ></span>
+                              <span class="fa fa-trash"></span
+                            ></span>
                                                     </td>
                                                 </tr>
                                             </tbody>

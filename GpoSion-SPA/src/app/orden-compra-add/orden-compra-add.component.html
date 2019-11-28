@@ -67,10 +67,7 @@
                                             <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaFin" formControlName="fechaFin" placeholder="Fecha Fin" />
                                         </div>
                                         <div class="col-md-2">
-                                            <button class="btn btn-success btn-xs" type="button" [disabled]="
-                          !ordenCompraForm.get('noParte').value ||
-                          !ordenCompraForm.get('cantidad').value
-                        " (click)="addNumeroParte()">
+                                            <button class="btn btn-success btn-xs" type="button" [disabled]="!ordenCompraForm.get('noParte').value" (click)="addNumeroParte()">
                         <span class="fa fa-plus-circle "> </span>
                       </button>
                                         </div>

@@ -77,6 +77,15 @@ namespace GpoSion.API.Data
                 context.SaveChanges();
             }
 
+            if (!context.MotivosTiempoMuerto.Any())
+            {
+                var motivo = new MotivoTiempoMuerto { Motivo = "Fin de turno" };
+                context.MotivosTiempoMuerto.Add(motivo);
+                motivo = new MotivoTiempoMuerto { Motivo = "Falla moldeadora" };
+                context.MotivosTiempoMuerto.Add(motivo);
+                context.SaveChanges();
+            }
+
         }
 
     }

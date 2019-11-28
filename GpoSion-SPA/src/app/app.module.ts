@@ -88,6 +88,7 @@ import { OrdenCompraEditResolver } from "./_resolvers/orden-compra-edit.resolver
 import { DetalleOrdenCompraEditComponent } from "./detalle-orden-compra-edit/detalle-orden-compra-edit.component";
 import { DetalleOrdenCompraEditResolver } from "./_resolvers/detalle-orden-compra-edit.resolver";
 import { ErrorInterceptorProvider } from "./_services/error.interceptor";
+import { SearchMaterialExistenciasPipe } from "./_filters/search-material-existencias.pipe";
 
 @NgModule({
   declarations: [
@@ -137,7 +138,8 @@ import { ErrorInterceptorProvider } from "./_services/error.interceptor";
     SearchOrdenesCompraPipe,
     OrdenCompraAddComponent,
     OrdenCompraEditComponent,
-    DetalleOrdenCompraEditComponent
+    DetalleOrdenCompraEditComponent,
+    SearchMaterialExistenciasPipe
   ],
   imports: [
     BrowserModule,

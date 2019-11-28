@@ -13,6 +13,12 @@
                 <img class="card-img-top img-thumbnail" src="{{ baseUrl + 'numerosparte/' + noParte + '/Photo' }} " /> {{ noParte }}
             </div>
         </div>
+        <h1 *ngIf="
+        moldeadora.estatus === 'Detenida' && moldeadora.numerosParte.length > 0
+      " class="text-danger">
+            {{ hoursDisplay ? hoursDisplay : "00" }} : {{ minutesDisplay && minutesDisplay
+            <= 59 ? minutesDisplay : "00" }} : {{ secondsDisplay && secondsDisplay <= 59 ? secondsDisplay : "00" }} <br />
+        </h1>
     </div>
     <div class="card-footer">
         <div class="btn-group d-flex">

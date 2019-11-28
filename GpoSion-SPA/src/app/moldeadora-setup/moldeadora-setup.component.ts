@@ -141,7 +141,6 @@ export class MoldeadoraSetupComponent implements OnInit {
 
   editMoldeadora() {
     this.moldeadora = Object.assign({}, this.moldeadoraForm.value);
-    console.log(this.moldeadora);
     this.moldeadora.numerosParte = this.numerosParteSolicitados;
     this.moldeadoraService
       .editMoldeadora(+this.route.snapshot.params["id"], this.moldeadora)

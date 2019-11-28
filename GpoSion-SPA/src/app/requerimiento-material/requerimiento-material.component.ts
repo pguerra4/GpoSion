@@ -19,6 +19,7 @@ import { Router } from "@angular/router";
 })
 export class RequerimientoMaterialComponent implements OnInit {
   @Input() rmm: RequerimientoMaterialMaterial;
+  searchText = "";
   requerimientoForm: FormGroup;
   turnos: Turno[];
   unidadesMedida: UnidadMedida[];

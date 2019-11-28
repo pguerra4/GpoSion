@@ -181,7 +181,10 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen()
         {
             var existenciasAlmacen = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
-            .Include(e => e.Material).Include(e => e.Area).Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0).ToListAsync();
+            .Include(e => e.Material).Include(e => e.Area)
+            .Include(e => e.Material).ThenInclude(m => m.MaterialNumerosParte)
+            .Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0
+            && em.Material.MaterialNumerosParte.Any(mnp => mnp.NumeroParte.OrdenesCompraDetalle.Any(ocd => (ocd.PiezasAutorizadas > ocd.PiezasSurtidas || ocd.PiezasAutorizadas == 0) && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date)))).ToListAsync();
             return existenciasAlmacen;
         }
 
@@ -328,7 +331,7 @@ namespace GpoSion.API.Data
 
         public async Task<bool> ExisteOrdenCompraActiva(string noParte)
         {
-            var existe = await _context.OrdenCompraDetalles.AnyAsync(ocd => ocd.NoParte == noParte && ocd.PiezasAutorizadas > ocd.PiezasSurtidas && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date));
+            var existe = await _context.OrdenCompraDetalles.AnyAsync(ocd => ocd.NoParte == noParte && (ocd.PiezasAutorizadas > ocd.PiezasSurtidas || ocd.PiezasAutorizadas == 0) && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date));
             return existe;
         }
     }

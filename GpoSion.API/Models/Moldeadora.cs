@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace GpoSion.API.Models
@@ -17,7 +18,11 @@ namespace GpoSion.API.Models
         public int? MaterialId { get; set; }
         public Material Material { get; set; }
 
+        public DateTime? UltimaModificacion { get; set; }
+
         public ICollection<MoldeadoraNumeroParte> MoldeadoraNumerosParte { get; set; }
+
+        public ICollection<MovimientoMoldeadora> MovimientosMoldeadora { get; set; }
 
     }
 }

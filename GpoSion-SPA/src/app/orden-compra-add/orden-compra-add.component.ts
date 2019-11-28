@@ -53,7 +53,7 @@ export class OrdenCompraAddComponent implements OnInit {
         fecha: [now],
         noParte: [null],
         precio: [null],
-        cantidad: [null],
+        cantidad: [0],
         fechaInicio: [now],
         fechaFin: [null]
       },
@@ -111,7 +111,7 @@ export class OrdenCompraAddComponent implements OnInit {
     }
 
     this.ordenCompraForm.get("noParte").setValue(null);
-    this.ordenCompraForm.get("cantidad").setValue(null);
+    this.ordenCompraForm.get("cantidad").setValue(0);
     this.ordenCompraForm.get("precio").setValue(null);
     this.ordenCompraForm.get("fechaInicio").setValue(now);
     this.ordenCompraForm.get("fechaFin").setValue(null);

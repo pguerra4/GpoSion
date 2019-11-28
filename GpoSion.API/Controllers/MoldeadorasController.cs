@@ -78,6 +78,7 @@ namespace GpoSion.API.Controllers
             moldeadora.MoldeId = moldeadoraFP.MoldeId;
             moldeadora.MaterialId = moldeadoraFP.MaterialId;
             moldeadora.Estatus = moldeadoraFP.Estatus;
+            moldeadora.UltimaModificacion = DateTime.Now;
 
             moldeadora.MoldeadoraNumerosParte.Clear();
 
@@ -87,6 +88,30 @@ namespace GpoSion.API.Controllers
                 moldeadora.MoldeadoraNumerosParte.Add(new MoldeadoraNumeroParte { NoParte = item, MoldeadoraId = moldeadora.MoldeadoraId });
             }
 
+
+
+            var movimiento = new MovimientoMoldeadora
+            {
+                MoldeadoraId = moldeadora.MoldeadoraId,
+                Movimiento = "Setup",
+                Observaciones = "",
+                Fecha = DateTime.Now,
+                Estatus = moldeadora.Estatus,
+                MoldeId = moldeadora.MoldeId,
+                MaterialId = moldeadora.MaterialId,
+                MotivoTiempoMuertoId = null
+            };
+            if (moldeadora.MoldeadoraNumerosParte != null && moldeadora.MoldeadoraNumerosParte.Count > 0)
+            {
+                movimiento.MovimientoMoldeadoraNumerosParte = new List<MovimientoMoldeadoraNumeroParte>();
+                foreach (var MoldNp in moldeadora.MoldeadoraNumerosParte)
+                {
+                    movimiento.MovimientoMoldeadoraNumerosParte.Add(new MovimientoMoldeadoraNumeroParte { NoParte = MoldNp.NoParte });
+                }
+            }
+
+
+            _repo.Add(movimiento);
 
 
             await _repo.SaveAll();
@@ -112,21 +137,70 @@ namespace GpoSion.API.Controllers
             }
 
             moldeadora.Estatus = "Operando";
+            moldeadora.UltimaModificacion = DateTime.Now;
+
+            var movimiento = new MovimientoMoldeadora
+            {
+                MoldeadoraId = moldeadora.MoldeadoraId,
+                Movimiento = "Arranque",
+                Observaciones = "",
+                Fecha = DateTime.Now,
+                Estatus = "Operando",
+                MoldeId = moldeadora.MoldeId,
+                MaterialId = moldeadora.MaterialId,
+                MotivoTiempoMuertoId = null
+            };
+            if (moldeadora.MoldeadoraNumerosParte != null && moldeadora.MoldeadoraNumerosParte.Count > 0)
+            {
+                movimiento.MovimientoMoldeadoraNumerosParte = new List<MovimientoMoldeadoraNumeroParte>();
+                foreach (var MoldNp in moldeadora.MoldeadoraNumerosParte)
+                {
+                    movimiento.MovimientoMoldeadoraNumerosParte.Add(new MovimientoMoldeadoraNumeroParte { NoParte = MoldNp.NoParte });
+                }
+            }
+
+
+            _repo.Add(movimiento);
 
             await _repo.SaveAll();
             return NoContent();
         }
 
         [HttpPost("{id}/stop")]
-        public async Task<IActionResult> DetenerMoldeadora(int id)
+        public async Task<IActionResult> DetenerMoldeadora(int id, MoldeadoraForStopDto moldeadoraForStop)
         {
-
+            if (id != moldeadoraForStop.MoldeadoraId)
+                return BadRequest("Los Ids no coinciden");
 
             var moldeadora = await _repo.GetMoldeadora(id);
             if (moldeadora == null)
-                return BadRequest();
-            moldeadora.Estatus = "Detenida";
+                return NotFound();
 
+            moldeadora.Estatus = "Detenida";
+            moldeadora.UltimaModificacion = DateTime.Now;
+
+            var movimiento = new MovimientoMoldeadora
+            {
+                MoldeadoraId = moldeadora.MoldeadoraId,
+                Movimiento = moldeadoraForStop.Movimiento,
+                Observaciones = moldeadoraForStop.Observaciones,
+                Fecha = DateTime.Now,
+                Estatus = "Detenida",
+                MoldeId = moldeadora.MoldeId,
+                MaterialId = moldeadora.MaterialId,
+                MotivoTiempoMuertoId = moldeadoraForStop.MotivoTiempoMuertoId
+            };
+            if (moldeadora.MoldeadoraNumerosParte != null && moldeadora.MoldeadoraNumerosParte.Count > 0)
+            {
+                movimiento.MovimientoMoldeadoraNumerosParte = new List<MovimientoMoldeadoraNumeroParte>();
+                foreach (var MoldNp in moldeadora.MoldeadoraNumerosParte)
+                {
+                    movimiento.MovimientoMoldeadoraNumerosParte.Add(new MovimientoMoldeadoraNumeroParte { NoParte = MoldNp.NoParte });
+                }
+            }
+
+
+            _repo.Add(movimiento);
             await _repo.SaveAll();
             return NoContent();
         }

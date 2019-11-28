@@ -31,5 +31,9 @@ namespace GpoSion.API.Models
         public ICollection<MoldeNumeroParte> MoldesNumeroParte { get; set; }
 
         public ICollection<MaterialNumeroParte> MaterialesNumeroParte { get; set; }
+
+        public ICollection<OrdenCompraDetalle> OrdenesCompraDetalle { get; set; }
+
+        public ICollection<MovimientoMoldeadoraNumeroParte> MovimientosMoldeadoraNumeroParte { get; set; }
     }
 }

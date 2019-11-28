@@ -8,4 +8,5 @@ export interface ExistenciaMaterial {
   unidadMedida: string;
   cliente: string;
   ultimaModificacion: Date;
+  numerosParte: string[];
 }
