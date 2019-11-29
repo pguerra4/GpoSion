@@ -89,6 +89,11 @@ import { DetalleOrdenCompraEditComponent } from "./detalle-orden-compra-edit/det
 import { DetalleOrdenCompraEditResolver } from "./_resolvers/detalle-orden-compra-edit.resolver";
 import { ErrorInterceptorProvider } from "./_services/error.interceptor";
 import { SearchMaterialExistenciasPipe } from "./_filters/search-material-existencias.pipe";
+import { MoldeadoraAddComponent } from "./moldeadora-add/moldeadora-add.component";
+import { MotivoTiempoMuertoListComponent } from "./motivo-tiempo-muerto-list/motivo-tiempo-muerto-list.component";
+import { MotivoTiempoMuertoAddComponent } from "./motivo-tiempo-muerto-add/motivo-tiempo-muerto-add.component";
+import { MotivoTiempoMuertoEditComponent } from "./motivo-tiempo-muerto-edit/motivo-tiempo-muerto-edit.component";
+import { MotivoTiempoMuertoEditResolver } from "./_resolvers/motivo-tiempo-muerto-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -139,7 +144,11 @@ import { SearchMaterialExistenciasPipe } from "./_filters/search-material-existe
     OrdenCompraAddComponent,
     OrdenCompraEditComponent,
     DetalleOrdenCompraEditComponent,
-    SearchMaterialExistenciasPipe
+    SearchMaterialExistenciasPipe,
+    MoldeadoraAddComponent,
+    MotivoTiempoMuertoListComponent,
+    MotivoTiempoMuertoAddComponent,
+    MotivoTiempoMuertoEditComponent
   ],
   imports: [
     BrowserModule,
@@ -150,11 +159,11 @@ import { SearchMaterialExistenciasPipe } from "./_filters/search-material-existe
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
     FileUploadModule,
     TypeaheadModule.forRoot(),
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload" })
   ],
   providers: [
     ErrorInterceptorProvider,
@@ -176,11 +185,12 @@ import { SearchMaterialExistenciasPipe } from "./_filters/search-material-existe
     TipoMaterialEditResolver,
     ValidateExistingMaterial,
     MaterialEditResolver,
-    { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" },
     ProveedorService,
     OrdenCompraService,
     OrdenCompraEditResolver,
-    DetalleOrdenCompraEditResolver
+    DetalleOrdenCompraEditResolver,
+    MotivoTiempoMuertoEditResolver,
+    { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]
 })

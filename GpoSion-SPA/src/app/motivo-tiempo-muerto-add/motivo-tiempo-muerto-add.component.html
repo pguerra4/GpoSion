@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Nuevo Motivo tiempo muerto</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="motivoForm" (ngSubmit)="addMotivoTiempoMuerto()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="motivo">Motivo</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    motivoForm.get('motivo').errors &&
+                    motivoForm.get('motivo').touched
+                }" class="form-control" formControlName="motivo" placeholder="Motivo Tiempo Muerto" />
+                            <div class="invalid-feedback" *ngIf="
+                  motivoForm.get('motivo').hasError('required') &&
+                  motivoForm.get('motivo').touched
+                ">
+                                El motivo es requerido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!motivoForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

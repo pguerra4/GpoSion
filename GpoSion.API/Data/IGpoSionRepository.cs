@@ -86,5 +86,8 @@ namespace GpoSion.API.Data
 
         Task<bool> ExisteOrdenCompraActiva(string noParte);
 
+        Task<IEnumerable<MotivoTiempoMuerto>> GetMotivosTiempoMuerto();
+        Task<MotivoTiempoMuerto> GetMotivoTiempoMuerto(int id);
+
     }
 }

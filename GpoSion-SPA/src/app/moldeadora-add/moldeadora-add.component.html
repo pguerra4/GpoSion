@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Nueva Moldeadora</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="moldeadoraForm" (ngSubmit)="addMoldeadora()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="moldeadora">Moldeadora</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    moldeadoraForm.get('moldeadora').errors &&
+                    moldeadoraForm.get('moldeadora').touched
+                }" class="form-control" formControlName="moldeadora" placeholder="Moldeadora" />
+                            <div class="invalid-feedback" *ngIf="
+                  moldeadoraForm.get('moldeadora').hasError('required') &&
+                  moldeadoraForm.get('moldeadora').touched
+                ">
+                                La moldeadora es requerida
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!moldeadoraForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

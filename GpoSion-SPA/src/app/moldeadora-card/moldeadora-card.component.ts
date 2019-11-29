@@ -12,6 +12,9 @@ import { MoldeadoraService } from "../_services/moldeadora.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { BsModalService, BsModalRef } from "ngx-bootstrap";
 import { timer, Subscription } from "rxjs";
+import { MotivoTiempoMuerto } from "../_models/motivo-tiempo-muerto";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MoldeadoraForStop } from "../_models/moldeadora-for-stop";
 
 @Component({
   selector: "app-moldeadora-card",
@@ -29,33 +32,72 @@ export class MoldeadoraCardComponent implements OnInit {
   hoursDisplay = 0;
   secondsDisplay = 0;
   private sub: Subscription;
+  motivos: MotivoTiempoMuerto[];
+  observacionesForm: FormGroup;
 
   constructor(
     private moldeadoraService: MoldeadoraService,
     private alertify: AlertifyService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
     this.baseUrl = environment.apiUrl;
+    this.loadMotivos();
+    this.createObservacionesForm();
+
     if (
       this.moldeadora.estatus === "Detenida" &&
-      this.moldeadora.numerosParte.length > 0
+      this.moldeadora.numerosParte.length > 0 &&
+      this.moldeadora.ultimoMotivoParo !== null &&
+      this.moldeadora.ultimoMotivoParo !== 1
     ) {
+      const ti = Math.floor(
+        (new Date().getTime() -
+          +new Date(this.moldeadora.ultimaModificacion).getTime()) /
+          1000
+      );
+
       const timer1 = timer(1, 1000);
       this.sub = timer1.subscribe(t => {
-        this.ticks = t;
+        this.ticks = ti + t;
         this.secondsDisplay = this.getSeconds(this.ticks);
         this.minutesDisplay = this.getMinutes(this.ticks);
         this.hoursDisplay = this.getHours(this.ticks);
-        console.log(this.ticks);
       });
     }
   }
 
+  createObservacionesForm() {
+    this.observacionesForm = this.fb.group({
+      motivoTiempoMuertoId: [1, Validators.required],
+      observaciones: [""]
+    });
+  }
+
+  loadMotivos() {
+    this.moldeadoraService.getMotivosTiempoMuerto().subscribe(
+      res => {
+        this.motivos = res;
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
+  }
+
   detenerMoldeadora() {
+    const moldeadoraForStop: MoldeadoraForStop = {
+      moldeadoraId: this.moldeadora.moldeadoraId,
+      motivoTiempoMuertoId: this.observacionesForm.get("motivoTiempoMuertoId")
+        .value,
+      observaciones: this.observacionesForm.get("observaciones").value,
+      movimiento: "Detener"
+    };
+
     this.moldeadoraService
-      .detenerMoldeadora(this.moldeadora.moldeadoraId)
+      .detenerMoldeadora(this.moldeadora.moldeadoraId, moldeadoraForStop)
       .subscribe(
         res => {
           this.alertify.success("Detenida");

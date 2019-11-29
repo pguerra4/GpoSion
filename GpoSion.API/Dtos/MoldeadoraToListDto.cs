@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GpoSion.API.Models;
 using Newtonsoft.Json;
@@ -20,6 +21,10 @@ namespace GpoSion.API.Dtos
         public int? MaterialId { get; set; }
         [JsonProperty("material")]
         public string MaterialClaveMaterial { get; set; }
+
+        public DateTime? UltimaModificacion { get; set; }
+
+        public int? UltimoMotivoParo { get; set; }
 
         public ICollection<string> NumerosParte { get; set; }
     }

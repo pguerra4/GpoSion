@@ -334,5 +334,17 @@ namespace GpoSion.API.Data
             var existe = await _context.OrdenCompraDetalles.AnyAsync(ocd => ocd.NoParte == noParte && (ocd.PiezasAutorizadas > ocd.PiezasSurtidas || ocd.PiezasAutorizadas == 0) && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date));
             return existe;
         }
+
+        public async Task<IEnumerable<MotivoTiempoMuerto>> GetMotivosTiempoMuerto()
+        {
+            var motivos = await _context.MotivosTiempoMuerto.ToListAsync();
+            return motivos;
+        }
+
+        public async Task<MotivoTiempoMuerto> GetMotivoTiempoMuerto(int id)
+        {
+            var motivo = await _context.MotivosTiempoMuerto.FindAsync(id);
+            return motivo;
+        }
     }
 }

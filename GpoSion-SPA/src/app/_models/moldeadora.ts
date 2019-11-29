@@ -7,4 +7,6 @@ export interface Moldeadora {
   materialId?: number;
   material: string;
   numerosParte: string[];
+  ultimaModificacion: Date;
+  ultimoMotivoParo?: number;
 }

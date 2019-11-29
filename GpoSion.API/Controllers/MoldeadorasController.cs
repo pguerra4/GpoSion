@@ -138,6 +138,7 @@ namespace GpoSion.API.Controllers
 
             moldeadora.Estatus = "Operando";
             moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.UltimoMotivoParo = null;
 
             var movimiento = new MovimientoMoldeadora
             {
@@ -178,6 +179,7 @@ namespace GpoSion.API.Controllers
 
             moldeadora.Estatus = "Detenida";
             moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.UltimoMotivoParo = moldeadoraForStop.MotivoTiempoMuertoId;
 
             var movimiento = new MovimientoMoldeadora
             {
@@ -204,5 +206,46 @@ namespace GpoSion.API.Controllers
             await _repo.SaveAll();
             return NoContent();
         }
+
+
+        [HttpPost("{id}/reset")]
+        public async Task<IActionResult> ResetMoldeadora(int id)
+        {
+
+
+            var moldeadora = await _repo.GetMoldeadora(id);
+            if (moldeadora == null)
+                return NotFound();
+
+
+
+            moldeadora.Estatus = "Detenida";
+            moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.UltimoMotivoParo = null;
+
+            moldeadora.MoldeadoraNumerosParte.Clear();
+            moldeadora.MoldeId = null;
+            moldeadora.Molde = null;
+            moldeadora.MaterialId = null;
+            moldeadora.Material = null;
+
+
+            var movimiento = new MovimientoMoldeadora
+            {
+                MoldeadoraId = moldeadora.MoldeadoraId,
+                Movimiento = "Reset",
+                Observaciones = "",
+                Fecha = DateTime.Now,
+                Estatus = "Detenida",
+                MotivoTiempoMuertoId = null
+            };
+
+
+            _repo.Add(movimiento);
+
+            await _repo.SaveAll();
+            return NoContent();
+        }
+
     }
 }

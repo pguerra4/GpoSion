@@ -14,7 +14,10 @@
             </div>
         </div>
         <h1 *ngIf="
-        moldeadora.estatus === 'Detenida' && moldeadora.numerosParte.length > 0
+        moldeadora.estatus === 'Detenida' &&
+        moldeadora.numerosParte.length > 0 &&
+        this.moldeadora.ultimoMotivoParo !== null &&
+        this.moldeadora.ultimoMotivoParo !== 1
       " class="text-danger">
             {{ hoursDisplay ? hoursDisplay : "00" }} : {{ minutesDisplay && minutesDisplay
             <= 59 ? minutesDisplay : "00" }} : {{ secondsDisplay && secondsDisplay <= 59 ? secondsDisplay : "00" }} <br />
@@ -38,28 +41,43 @@
     </div>
 </div>
 <ng-template #template>
-    <div class="modal-body text-center">
-        <div class="row">
-            <div class="col-md-12">
-                <p>Observaciones</p>
+    <div class="modal-body">
+        <form [formGroup]="observacionesForm" (ngSubmit)="confirm()">
+            <div class="row">
+                <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                    <label for="motivoTiempoMuerto">Motivo</label>
+                    <select class="form-control" id="motivoTiempoMuertoId" formControlName="motivoTiempoMuertoId">
+            <option
+              *ngFor="let motivo of motivos"
+              [value]="motivo.motivoTiempoMuertoId"
+            >
+              {{ motivo.motivo }}
+            </option>
+          </select>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <textarea name="observaciones" id="observaciones" cols="30" rows="10"></textarea>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Observaciones</p>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <button type="button" class="btn btn-success" (click)="confirm()">
-          Guardar
-        </button>
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea name="observaciones" id="observaciones" style="min-width: 100%;" rows="5" formControlName="observaciones"></textarea>
+                </div>
             </div>
-            <div class="col-md-6">
-                <button type="button" class="btn btn-danger" (click)="decline()">
-          Cancelar
-        </button>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-success">
+            Guardar
+          </button>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-danger" (click)="decline()">
+            Cancelar
+          </button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </ng-template>

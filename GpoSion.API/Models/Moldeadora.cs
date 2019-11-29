@@ -20,6 +20,8 @@ namespace GpoSion.API.Models
 
         public DateTime? UltimaModificacion { get; set; }
 
+        public int? UltimoMotivoParo { get; set; }
+
         public ICollection<MoldeadoraNumeroParte> MoldeadoraNumerosParte { get; set; }
 
         public ICollection<MovimientoMoldeadora> MovimientosMoldeadora { get; set; }

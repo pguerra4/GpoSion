@@ -45,6 +45,11 @@ import { OrdenCompraEditComponent } from "./orden-compra-edit/orden-compra-edit.
 import { OrdenCompraEditResolver } from "./_resolvers/orden-compra-edit.resolver";
 import { DetalleOrdenCompraEditComponent } from "./detalle-orden-compra-edit/detalle-orden-compra-edit.component";
 import { DetalleOrdenCompraEditResolver } from "./_resolvers/detalle-orden-compra-edit.resolver";
+import { MoldeadoraAddComponent } from "./moldeadora-add/moldeadora-add.component";
+import { MotivoTiempoMuertoListComponent } from "./motivo-tiempo-muerto-list/motivo-tiempo-muerto-list.component";
+import { MotivoTiempoMuertoAddComponent } from "./motivo-tiempo-muerto-add/motivo-tiempo-muerto-add.component";
+import { MotivoTiempoMuertoEditComponent } from "./motivo-tiempo-muerto-edit/motivo-tiempo-muerto-edit.component";
+import { MotivoTiempoMuertoEditResolver } from "./_resolvers/motivo-tiempo-muerto-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -120,8 +125,10 @@ export const appRoutes: Routes = [
   {
     path: "moldeadoras/:id",
     component: MoldeadoraSetupComponent,
-    resolve: { moldeadora: MoldeadoraEditResolver }
+    resolve: { moldeadora: MoldeadoraEditResolver },
+    runGuardsAndResolvers: "always"
   },
+  { path: "addMoldeadora", component: MoldeadoraAddComponent },
   { path: "tiposmaterial", component: TipoMaterialListComponent },
   { path: "addTipoMaterial", component: TipoMaterialAddComponent },
   {
@@ -143,5 +150,12 @@ export const appRoutes: Routes = [
   },
   { path: "addProduccion", component: ProduccionAddComponent },
   { path: "lists", component: MaterialAddComponent },
+  { path: "motivostiempomuerto", component: MotivoTiempoMuertoListComponent },
+  { path: "addMotivoTiempoMuerto", component: MotivoTiempoMuertoAddComponent },
+  {
+    path: "motivostiempomuerto/:id",
+    component: MotivoTiempoMuertoEditComponent,
+    resolve: { motivoTiempoMuerto: MotivoTiempoMuertoEditResolver }
+  },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

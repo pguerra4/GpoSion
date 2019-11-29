@@ -57,8 +57,11 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                            <button class="btn btn-success" [disabled]="!moldeadoraForm.valid" type="submit">
+                            <button class="btn btn-success mr-1" [disabled]="!moldeadoraForm.valid" type="submit">
                 Guardar
+              </button>
+                            <button class="btn btn-danger" [disabled]="!moldeadoraForm.get('moldeId').value" (click)="$event.preventDefault()" (click)="resetMoldeadora(); $event.stopPropagation()">
+                Limpiar
               </button>
                         </div>
                     </div>

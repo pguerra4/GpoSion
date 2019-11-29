@@ -43,13 +43,12 @@ export class MoldeadoraSetupComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       this.moldeadora = data["moldeadora"];
       this.numerosParteSolicitados = this.moldeadora.numerosParte;
+      this.loadMoldes();
+      this.materialParams.tipo = 1;
+      this.loadMateriales();
+      // this.loadNumerosParte();
+      this.createMoldeadoraForm();
     });
-
-    this.loadMoldes();
-    this.materialParams.tipo = 1;
-    this.loadMateriales();
-    // this.loadNumerosParte();
-    this.createMoldeadoraForm();
   }
 
   createMoldeadoraForm() {
@@ -161,5 +160,23 @@ export class MoldeadoraSetupComponent implements OnInit {
       1
     );
     this.filterMateriales();
+  }
+
+  resetMoldeadora() {
+    this.alertify.confirm("¿Seguro desea resetear la moldeadora?", () => {
+      this.moldeadoraService
+        .resetMoldeadora(this.moldeadora.moldeadoraId)
+        .subscribe(
+          () => {
+            this.alertify.success("Moldeadora reseteada.");
+            this.router.navigate([
+              "moldeadoras/" + this.route.snapshot.params["id"]
+            ]);
+          },
+          error => {
+            this.alertify.error("Fallo al resetear la moldeadora");
+          }
+        );
+    });
   }
 }
