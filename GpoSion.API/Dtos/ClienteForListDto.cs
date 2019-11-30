@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
 {
@@ -8,7 +8,7 @@ namespace GpoSion.API.Dtos
 
         public string Clave { get; set; }
 
-        [Column("Cliente")]
+        [JsonProperty(PropertyName = "cliente")]
         public string Nombre { get; set; }
     }
 }

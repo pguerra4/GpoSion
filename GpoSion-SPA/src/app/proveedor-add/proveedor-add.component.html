@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Nuevo Proveedor</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="proveedorForm" (ngSubmit)="addProveedor()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="nombre">Proveedor</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    proveedorForm.get('nombre').errors &&
+                    proveedorForm.get('nombre').touched
+                }" class="form-control" formControlName="nombre" placeholder="Proveedor" />
+                            <div class="invalid-feedback" *ngIf="
+                  proveedorForm.get('nombre').hasError('required') &&
+                  proveedorForm.get('nombre').touched
+                ">
+                                El nombre del proveedor es requerido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="direccion">Dirección</label>
+                            <textarea type="text" class="form-control" rows="6" formControlName="direccion" placeholder="Dirección"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="telefono">Telefono</label>
+                            <input type="text" class="form-control" formControlName="telefono" placeholder="Telefono" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!proveedorForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

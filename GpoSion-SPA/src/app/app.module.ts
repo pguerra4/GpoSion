@@ -94,6 +94,14 @@ import { MotivoTiempoMuertoListComponent } from "./motivo-tiempo-muerto-list/mot
 import { MotivoTiempoMuertoAddComponent } from "./motivo-tiempo-muerto-add/motivo-tiempo-muerto-add.component";
 import { MotivoTiempoMuertoEditComponent } from "./motivo-tiempo-muerto-edit/motivo-tiempo-muerto-edit.component";
 import { MotivoTiempoMuertoEditResolver } from "./_resolvers/motivo-tiempo-muerto-edit.resolver";
+import { ClienteListComponent } from "./cliente-list/cliente-list.component";
+import { ClienteAddComponent } from "./cliente-add/cliente-add.component";
+import { ClienteEditComponent } from "./cliente-edit/cliente-edit.component";
+import { ClienteEditResolver } from "./_resolvers/cliente-edit.resolver";
+import { ProveedorListComponent } from "./proveedor-list/proveedor-list.component";
+import { ProveedorAddComponent } from "./proveedor-add/proveedor-add.component";
+import { ProveedorEditComponent } from "./proveedor-edit/proveedor-edit.component";
+import { ProveedorEditResolver } from "./_resolvers/proveedor-edit.resolver";
 
 @NgModule({
   declarations: [
@@ -148,7 +156,13 @@ import { MotivoTiempoMuertoEditResolver } from "./_resolvers/motivo-tiempo-muert
     MoldeadoraAddComponent,
     MotivoTiempoMuertoListComponent,
     MotivoTiempoMuertoAddComponent,
-    MotivoTiempoMuertoEditComponent
+    MotivoTiempoMuertoEditComponent,
+    ClienteListComponent,
+    ClienteAddComponent,
+    ClienteEditComponent,
+    ProveedorListComponent,
+    ProveedorAddComponent,
+    ProveedorEditComponent
   ],
   imports: [
     BrowserModule,
@@ -190,6 +204,8 @@ import { MotivoTiempoMuertoEditResolver } from "./_resolvers/motivo-tiempo-muert
     OrdenCompraEditResolver,
     DetalleOrdenCompraEditResolver,
     MotivoTiempoMuertoEditResolver,
+    ClienteEditResolver,
+    ProveedorEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

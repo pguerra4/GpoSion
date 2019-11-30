@@ -16,7 +16,7 @@ namespace GpoSion.API.Models
 
         public string Direccion { get; set; }
 
-
+        public string Telefono { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime UltimaModificacion { get; set; }
 

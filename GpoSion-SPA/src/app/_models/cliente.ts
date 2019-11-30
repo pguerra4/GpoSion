@@ -2,7 +2,9 @@ export interface Cliente {
   clienteId: number;
   clave: string;
 
-  nombre: string;
+  cliente: string;
 
   direccion?: string;
+
+  telefono?: string;
 }

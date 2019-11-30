@@ -28,45 +28,52 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetProveedores()
         {
             var proveedores = await _repo.GetProveedores();
+            var proveedoresToReturn = _mapper.Map<IEnumerable<ProveedorForListDto>>(proveedores);
 
-            return Ok(proveedores);
+            return Ok(proveedoresToReturn);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTipoMaterial(int id)
+        public async Task<IActionResult> GetProveedor(int id)
         {
-            var tipoMaterial = await _repo.GetTipoMaterial(id);
+            var proveedor = await _repo.GetProveedor(id);
+            var proveedorToReturn = _mapper.Map<ProveedorForDetailDto>(proveedor);
 
-            return Ok(tipoMaterial);
+            return Ok(proveedorToReturn);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> PostTipoMaterial(TipoMaterialToCreateDto tipoMaterialDto)
+        public async Task<IActionResult> PostProveedor(ProveedorToCreateDto proveedorDto)
         {
-            if (await _repo.ExisteTipoMaterial(tipoMaterialDto.Tipo))
-                return BadRequest();
 
-            var tipoMaterial = _mapper.Map<TipoMaterial>(tipoMaterialDto);
+            var proveedor = _mapper.Map<Proveedor>(proveedorDto);
 
-            _repo.Add(tipoMaterial);
+            _repo.Add(proveedor);
 
             if (await _repo.SaveAll())
-                return CreatedAtAction("GetTipoMaterial", new { id = tipoMaterial.TipoMaterialId }, tipoMaterial);
+            {
+                var proveedorToReturn = _mapper.Map<ProveedorForDetailDto>(proveedor);
+                return CreatedAtAction("GetProveedor", new { id = proveedor.ProveedorId }, proveedorToReturn);
+            }
 
-            throw new Exception("Tipo material no guardado");
+
+            throw new Exception("Proveedor no guardado");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTipoMaterial(int id, TipoMaterialToEditDto tipoMaterialDto)
+        public async Task<IActionResult> PutProveedor(int id, ProveedorForPutDto proveedorDto)
         {
 
-            if (id != tipoMaterialDto.TipoMaterialId)
-                return BadRequest();
+            if (id != proveedorDto.ProveedorId)
+                return BadRequest("Ids no coinciden.");
 
-            var tipoMaterialFromRepo = await _repo.GetTipoMaterial(id);
 
-            _mapper.Map(tipoMaterialDto, tipoMaterialFromRepo);
+            var proveedor = await _repo.GetProveedor(id);
+            if (proveedor == null)
+                return NotFound();
+
+            _mapper.Map(proveedorDto, proveedor);
 
             await _repo.SaveAll();
             return NoContent();

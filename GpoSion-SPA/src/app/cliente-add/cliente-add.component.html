@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Nuevo Cliente</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="clienteForm" (ngSubmit)="addCliente()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="cliente">Cliente</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    clienteForm.get('cliente').errors &&
+                    clienteForm.get('cliente').touched
+                }" class="form-control" formControlName="cliente" placeholder="Cliente" />
+                            <div class="invalid-feedback" *ngIf="
+                  clienteForm.get('cliente').hasError('required') &&
+                  clienteForm.get('cliente').touched
+                ">
+                                El cliente es requerido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="clave">Clave</label>
+                            <input type="text" class="form-control" formControlName="clave" placeholder="Clave" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="direccion">Dirección</label>
+                            <textarea type="text" class="form-control" rows="6" formControlName="direccion" placeholder="Dirección"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="telefono">Telefono</label>
+                            <input type="text" class="form-control" formControlName="telefono" placeholder="Telefono" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!clienteForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

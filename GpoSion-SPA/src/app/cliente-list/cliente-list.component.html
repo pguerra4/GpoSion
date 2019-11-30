@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">Clientes</div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-2">
+                        <a class="btn btn-success" [routerLink]="['/addCliente']">Nuevo Cliente</a
+            >
+          </div>
+          <div class="col-md-4">
+            <!-- <input type="text" id="searchTextId" [(ngModel)]="searchText" name="searchText" placeholder="Buscar" />
+                      <i class="fa fa-search ml-1"></i> -->
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped mt-1">
+            <thead>
+              <tr class="table-primary">
+                <th scope="col">Cliente</th>
+                <th scope="col">Clave</th>
+                <th scope="col">Editar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cliente of clientes">
+                <td scope="row">{{ cliente.cliente }}</td>
+                <td>{{ cliente.clave }}</td>
+                <td class="text-center">
+                  <a
+                    class="fa fa-edit"
+                    [routerLink]="['/clientes/' + cliente.clienteId]"
+                  ></a>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

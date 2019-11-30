@@ -3,11 +3,8 @@ using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
 {
-    public class ClienteForDetailDto
+    public class ClienteToCreateDto
     {
-        public int ClienteId { get; set; }
-
-
         public string Clave { get; set; }
 
         [JsonProperty(PropertyName = "cliente")]
@@ -17,6 +14,10 @@ namespace GpoSion.API.Dtos
 
         public string Telefono { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public DateTime UltimaModificacion { get; set; }
+
+        public ClienteToCreateDto()
+        {
+            FechaCreacion = DateTime.Now;
+        }
     }
 }

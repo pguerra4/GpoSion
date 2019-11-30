@@ -82,6 +82,8 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<Proveedor>> GetProveedores();
 
+        Task<Proveedor> GetProveedor(int id);
+
         Task<OrdenCompraDetalle> GetOrdenCompraDetalle(int id);
 
         Task<bool> ExisteOrdenCompraActiva(string noParte);

@@ -50,6 +50,14 @@ import { MotivoTiempoMuertoListComponent } from "./motivo-tiempo-muerto-list/mot
 import { MotivoTiempoMuertoAddComponent } from "./motivo-tiempo-muerto-add/motivo-tiempo-muerto-add.component";
 import { MotivoTiempoMuertoEditComponent } from "./motivo-tiempo-muerto-edit/motivo-tiempo-muerto-edit.component";
 import { MotivoTiempoMuertoEditResolver } from "./_resolvers/motivo-tiempo-muerto-edit.resolver";
+import { ClienteListComponent } from "./cliente-list/cliente-list.component";
+import { ClienteAddComponent } from "./cliente-add/cliente-add.component";
+import { ClienteEditComponent } from "./cliente-edit/cliente-edit.component";
+import { ClienteEditResolver } from "./_resolvers/cliente-edit.resolver";
+import { ProveedorListComponent } from "./proveedor-list/proveedor-list.component";
+import { ProveedorEditResolver } from "./_resolvers/proveedor-edit.resolver";
+import { ProveedorAddComponent } from "./proveedor-add/proveedor-add.component";
+import { ProveedorEditComponent } from "./proveedor-edit/proveedor-edit.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -156,6 +164,20 @@ export const appRoutes: Routes = [
     path: "motivostiempomuerto/:id",
     component: MotivoTiempoMuertoEditComponent,
     resolve: { motivoTiempoMuerto: MotivoTiempoMuertoEditResolver }
+  },
+  { path: "clientes", component: ClienteListComponent },
+  { path: "addCliente", component: ClienteAddComponent },
+  {
+    path: "clientes/:id",
+    component: ClienteEditComponent,
+    resolve: { cliente: ClienteEditResolver }
+  },
+  { path: "proveedores", component: ProveedorListComponent },
+  { path: "addProveedor", component: ProveedorAddComponent },
+  {
+    path: "proveedores/:id",
+    component: ProveedorEditComponent,
+    resolve: { proveedor: ProveedorEditResolver }
   },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

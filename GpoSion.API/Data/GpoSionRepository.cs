@@ -346,5 +346,11 @@ namespace GpoSion.API.Data
             var motivo = await _context.MotivosTiempoMuerto.FindAsync(id);
             return motivo;
         }
+
+        public async Task<Proveedor> GetProveedor(int id)
+        {
+            var proveedor = await _context.Proveedores.FindAsync(id);
+            return proveedor;
+        }
     }
 }

@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 
-namespace GpoSion.API.Models
+namespace GpoSion.API.Dtos
 {
-    public class Proveedor
+    public class ProveedorForDetailDto
     {
         public int ProveedorId { get; set; }
         public string Nombre { get; set; }
@@ -12,8 +11,6 @@ namespace GpoSion.API.Models
         public string Telefono { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime UltimaModificacion { get; set; }
-
-        public ICollection<Recibo> Recibos { get; set; }
 
     }
 }

@@ -56,6 +56,12 @@ namespace GpoSion.API.Helpers
              .ReverseMap()
             .ForMember(dest => dest.NoParte, opt => opt.MapFrom(src => src.NumeroParteNoParte));
             CreateMap<OrdenCompra, OrdenCompraToListDto>().ReverseMap();
+            CreateMap<ClienteToCreateDto, Cliente>();
+            CreateMap<ClienteForPutDto, Cliente>();
+            CreateMap<Proveedor, ProveedorForListDto>();
+            CreateMap<Proveedor, ProveedorForDetailDto>();
+            CreateMap<ProveedorToCreateDto, Proveedor>();
+            CreateMap<ProveedorForPutDto, Proveedor>();
         }
     }
 }
