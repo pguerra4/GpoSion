@@ -58,6 +58,8 @@ import { ProveedorListComponent } from "./proveedor-list/proveedor-list.componen
 import { ProveedorEditResolver } from "./_resolvers/proveedor-edit.resolver";
 import { ProveedorAddComponent } from "./proveedor-add/proveedor-add.component";
 import { ProveedorEditComponent } from "./proveedor-edit/proveedor-edit.component";
+import { MovimientoProductoListComponent } from "./movimiento-producto-list/movimiento-producto-list.component";
+import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimiento-producto-add.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -179,5 +181,7 @@ export const appRoutes: Routes = [
     component: ProveedorEditComponent,
     resolve: { proveedor: ProveedorEditResolver }
   },
+  { path: "movimientosproducto", component: MovimientoProductoListComponent },
+  { path: "addMovimientoProducto", component: MovimientoProductoAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

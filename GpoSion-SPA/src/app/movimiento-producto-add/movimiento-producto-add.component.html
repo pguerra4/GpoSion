@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Entrega producto a almacen</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="movimientoForm" (ngSubmit)="addMovimiento()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noParte">No. Parte</label>
+                            <input type="text" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" [ngClass]="{
+                  'is-invalid':
+                    movimientoForm.get('noParte').errors &&
+                    movimientoForm.get('noParte').touched
+                }" class="form-control" formControlName="noParte" placeholder="No. Parte" />
+                            <div class="invalid-feedback" *ngIf="
+                  movimientoForm.get('noParte').hasError('required') &&
+                  movimientoForm.get('noParte').touched
+                ">
+                                Numero de parte es requerido
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="fecha">Fecha</label>
+                            <input class="form-control" placeholder="Fecha" type="text" bsDatepicker [bsConfig]="bsConfig" formControlName="fecha" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                            <label for="cajas">Cajas</label>
+                            <input class="form-control" placeholder="Cajas" type="number" formControlName="cajas" (change)="calculaTotal()" (blur)="calculaTotal()" />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                            <label for="piezasXCaja">Piezas por caja</label>
+                            <input class="form-control" placeholder="Piezas por Caja" type="number" formControlName="piezasXCaja" (change)="calculaTotal()" (blur)="calculaTotal()" />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                            <label for="piezasCertificadas">Total piezas</label>
+                            <input class="form-control" placeholder="Piezas Certificadas" type="number" formControlName="piezasCertificadas" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-10 col-md-8 col-lg-8">
+                            <label for="piezasRechazadas">Rechazadas</label>
+                            <input class="form-control" placeholder="Piezas Rechazadas" type="number" formControlName="piezasRechazadas" />
+                        </div>
+                        <div class="form-group col-sm-2 col-md-4 col-lg-4">
+                            <label for="unidadMedidaIdRechazadas">Unidad Medida</label>
+                            <select class="form-control text-right" id="unidadMedidaIdRechazadas" formControlName="unidadMedidaIdRechazadas">
+                <option
+                  *ngFor="let unidadMedida of unidadesMedida"
+                  [value]="unidadMedida.unidadMedidaId"
+                >
+                  {{ unidadMedida.unidad }}
+                </option>
+              </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="purga">Purga</label>
+                            <input class="form-control" placeholder="Purga" type="text" formControlName="purga" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="colada">Colada</label>
+                            <input class="form-control" placeholder="Colada" type="text" formControlName="colada" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="localidad">Localidad</label>
+                            <input class="form-control" placeholder="Localidad" type="text" formControlName="localidad" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!movimientoForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

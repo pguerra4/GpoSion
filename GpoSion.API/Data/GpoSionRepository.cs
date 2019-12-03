@@ -352,5 +352,29 @@ namespace GpoSion.API.Data
             var proveedor = await _context.Proveedores.FindAsync(id);
             return proveedor;
         }
+
+        public async Task<MovimientoProducto> GetMovimientoProducto(int id)
+        {
+            var movimiento = await _context.MovimientosProducto.FindAsync(id);
+            return movimiento;
+        }
+
+        public async Task<IEnumerable<MovimientoProducto>> GetMovimientosProducto()
+        {
+            var movimientos = await _context.MovimientosProducto.OrderByDescending(mp => mp.UltimaModificacion).ToListAsync();
+            return movimientos;
+        }
+
+        public async Task<ExistenciaProducto> GetExistenciaProducto(string NoParte)
+        {
+            var existencia = await _context.ExistenciasProducto.FirstOrDefaultAsync(e => e.NoParte == NoParte);
+            return existencia;
+        }
+
+        public async Task<IEnumerable<ExistenciaProducto>> GetExistenciasProducto()
+        {
+            var existencias = await _context.ExistenciasProducto.ToListAsync();
+            return existencias;
+        }
     }
 }

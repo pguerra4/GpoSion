@@ -91,5 +91,13 @@ namespace GpoSion.API.Data
         Task<IEnumerable<MotivoTiempoMuerto>> GetMotivosTiempoMuerto();
         Task<MotivoTiempoMuerto> GetMotivoTiempoMuerto(int id);
 
+        Task<MovimientoProducto> GetMovimientoProducto(int id);
+
+        Task<IEnumerable<MovimientoProducto>> GetMovimientosProducto();
+
+        Task<ExistenciaProducto> GetExistenciaProducto(string NoParte);
+
+        Task<IEnumerable<ExistenciaProducto>> GetExistenciasProducto();
+
     }
 }

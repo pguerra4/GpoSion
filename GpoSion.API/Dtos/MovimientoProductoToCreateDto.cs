@@ -1,15 +1,10 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GpoSion.API.Models
+namespace GpoSion.API.Dtos
 {
-    public class MovimientoProducto
+    public class MovimientoProductoToCreateDto
     {
-        public int MovimientoProductoId { get; set; }
-
         public string NoParte { get; set; }
-
-        public NumeroParte NumeroParte { get; set; }
 
         public DateTime Fecha { get; set; }
 
@@ -21,21 +16,25 @@ namespace GpoSion.API.Models
 
         public int PiezasRechazadas { get; set; }
 
-        [Column(TypeName = "decimal(18, 4)")]
+
         public decimal? Purga { get; set; }
 
-        [Column(TypeName = "decimal(18, 4)")]
+
         public decimal? Colada { get; set; }
 
         public string TipoMovimiento { get; set; }
 
         public string Localidad { get; set; }
 
-        public int? DetalleEmbarqueId { get; set; }
-        public DetalleEmbarque DetalleEmbarque { get; set; }
-
         public DateTime FechaCreacion { get; set; }
 
-        public DateTime UltimaModificacion { get; set; }
+
+
+        public MovimientoProductoToCreateDto()
+        {
+            FechaCreacion = DateTime.Now;
+        }
     }
+
+
 }

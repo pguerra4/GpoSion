@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191202182303_movmientosProducto_Embarques")]
+    partial class movmientosProducto_Embarques
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -435,8 +437,6 @@ namespace GpoSion.API.Migrations
 
                     b.Property<DateTime>("Fecha");
 
-                    b.Property<DateTime>("FechaCreacion");
-
                     b.Property<string>("Localidad");
 
                     b.Property<string>("NoParte");
@@ -451,8 +451,6 @@ namespace GpoSion.API.Migrations
                         .HasColumnType("decimal(18, 4)");
 
                     b.Property<string>("TipoMovimiento");
-
-                    b.Property<DateTime>("UltimaModificacion");
 
                     b.HasKey("MovimientoProductoId");
 

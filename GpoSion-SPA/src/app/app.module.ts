@@ -102,6 +102,9 @@ import { ProveedorListComponent } from "./proveedor-list/proveedor-list.componen
 import { ProveedorAddComponent } from "./proveedor-add/proveedor-add.component";
 import { ProveedorEditComponent } from "./proveedor-edit/proveedor-edit.component";
 import { ProveedorEditResolver } from "./_resolvers/proveedor-edit.resolver";
+import { MovimientoProductoListComponent } from "./movimiento-producto-list/movimiento-producto-list.component";
+import { SearchMovimientoProductoPipe } from "./_filters/search-movimiento-producto.pipe";
+import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimiento-producto-add.component";
 
 @NgModule({
   declarations: [
@@ -162,7 +165,10 @@ import { ProveedorEditResolver } from "./_resolvers/proveedor-edit.resolver";
     ClienteEditComponent,
     ProveedorListComponent,
     ProveedorAddComponent,
-    ProveedorEditComponent
+    ProveedorEditComponent,
+    MovimientoProductoListComponent,
+    SearchMovimientoProductoPipe,
+    MovimientoProductoAddComponent
   ],
   imports: [
     BrowserModule,
