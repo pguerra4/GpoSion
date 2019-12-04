@@ -6,9 +6,18 @@
         <div class="card-body">
             <div class="card-title">
                 <div class="row d-flex justify-content-between">
-                    <div class="col-md-2">
+                    <div class="col-md-6">
                         <a class="btn btn-success" [routerLink]="['/addMovimientoProducto']">Recibir Producto</a
             >
+          </div>
+          <div class="form-group col-md-2">
+            <input
+              class="form-control"
+              placeholder="Fecha"
+              bsDatepicker
+              [bsValue]="bsValue"
+              (bsValueChange)="onValueChange($event)"
+            />
           </div>
           <div class="col-md-4">
             <input
@@ -29,10 +38,11 @@
               <tr class="table-primary">
                 <th scope="col">Fecha</th>
                 <th scope="col">No. Parte</th>
+                <th scope="col">Cajas</th>
+                <th scope="col">Piezas Caja</th>
                 <th scope="col">Certificadas</th>
                 <th scope="col">Rechazadas</th>
-                <th scope="col">Purga</th>
-                <th scope="col">Colada</th>
+                <th scope="col">Localidad</th>
                 <th scope="col">Editar</th>
               </tr>
             </thead>
@@ -50,6 +60,12 @@
                   {{ movimiento.noParte }}
                 </td>
                 <td>
+                  {{ movimiento.cajas }}
+                </td>
+                <td>
+                  {{ movimiento.piezasXCaja }}
+                </td>
+                <td>
                   {{ movimiento.piezasCertificadas }}
                 </td>
 
@@ -57,16 +73,13 @@
                   {{ movimiento.piezasRechazadas }}
                 </td>
                 <td>
-                  {{ movimiento.purga }}
-                </td>
-                <td>
-                  {{ movimiento.colada }}
+                  {{ movimiento.localidad }}
                 </td>
                 <td>
                   <a
                     class="fa fa-edit"
                     [routerLink]="[
-                      '/movimientosproducto/' + movimiento.movimientoProdcutoId
+                      '/movimientosproducto/' + movimiento.movimientoProductoId
                     ]"
                   ></a>
                         </td>

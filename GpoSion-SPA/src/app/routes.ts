@@ -60,6 +60,8 @@ import { ProveedorAddComponent } from "./proveedor-add/proveedor-add.component";
 import { ProveedorEditComponent } from "./proveedor-edit/proveedor-edit.component";
 import { MovimientoProductoListComponent } from "./movimiento-producto-list/movimiento-producto-list.component";
 import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimiento-producto-add.component";
+import { MovimientoProductoEditComponent } from "./movimiento-producto-edit/movimiento-producto-edit.component";
+import { MovimientoProductoEditResolver } from "./_resolvers/movimiento-producto-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -183,5 +185,10 @@ export const appRoutes: Routes = [
   },
   { path: "movimientosproducto", component: MovimientoProductoListComponent },
   { path: "addMovimientoProducto", component: MovimientoProductoAddComponent },
+  {
+    path: "movimientosproducto/:id",
+    component: MovimientoProductoEditComponent,
+    resolve: { movimientoProducto: MovimientoProductoEditResolver }
+  },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

@@ -359,9 +359,18 @@ namespace GpoSion.API.Data
             return movimiento;
         }
 
-        public async Task<IEnumerable<MovimientoProducto>> GetMovimientosProducto()
+        public async Task<IEnumerable<MovimientoProducto>> GetMovimientosProducto(MovimientoProductoParams movimientoParams)
         {
+
             var movimientos = await _context.MovimientosProducto.OrderByDescending(mp => mp.UltimaModificacion).ToListAsync();
+            if (movimientoParams.Fecha.HasValue)
+            {
+                movimientos = movimientos.Where(m => m.Fecha.Date == movimientoParams.Fecha.Value.Date).ToList();
+            }
+            if (movimientoParams.TipoMovimiento != "")
+            {
+                movimientos = movimientos.Where(m => m.TipoMovimiento == movimientoParams.TipoMovimiento).ToList();
+            }
             return movimientos;
         }
 
@@ -375,6 +384,27 @@ namespace GpoSion.API.Data
         {
             var existencias = await _context.ExistenciasProducto.ToListAsync();
             return existencias;
+        }
+
+        public async Task<Embarque> GetEmbarque(int id)
+        {
+            var embarque = await _context.Embarques.Include(e => e.Cliente).Include(e => e.DetallesEmbarque).ThenInclude(de => de.OrdenCompra).FirstOrDefaultAsync(e => e.EmbarqueId == id);
+            return embarque;
+        }
+
+        public async Task<IEnumerable<Embarque>> GetEmbarques(EmbarqueParams embarqueParams)
+        {
+            var embarques = await _context.Embarques.Include(e => e.Cliente).Include(e => e.DetallesEmbarque).ThenInclude(de => de.OrdenCompra).ToListAsync();
+            if (embarqueParams.ClienteId.HasValue)
+            {
+                embarques = embarques.Where(e => e.ClienteId == embarqueParams.ClienteId).ToList();
+            }
+            if (embarqueParams.Fecha.HasValue)
+            {
+                embarques = embarques.Where(e => e.Fecha == embarqueParams.Fecha.Value).ToList();
+            }
+            return embarques;
+
         }
     }
 }

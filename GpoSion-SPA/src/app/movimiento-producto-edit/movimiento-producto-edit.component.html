@@ -3,7 +3,8 @@
         <div class="card-header text-primary">Entrega producto a almacen</div>
         <div class="card-body">
             <div class="card-text">
-                <form [formGroup]="movimientoForm" (ngSubmit)="addMovimiento()">
+                <form [formGroup]="movimientoForm" (ngSubmit)="editMovimiento()">
+                    <input type="hidden" formControlName="movimientoProductoId" />
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="noParte">No. Parte</label>
@@ -72,7 +73,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
                             <button class="btn btn-success mr-1" [disabled]="!movimientoForm.valid" type="submit">
                 Guardar
               </button>

@@ -13,9 +13,10 @@ import {
 import {
   BsDropdownModule,
   ModalModule,
-  BsDatepickerModule
+  BsDatepickerModule,
+  defineLocale
 } from "ngx-bootstrap";
-
+import * as locales from "ngx-bootstrap/locale";
 import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
 import { HomeComponent } from "./home/home.component";
@@ -105,7 +106,15 @@ import { ProveedorEditResolver } from "./_resolvers/proveedor-edit.resolver";
 import { MovimientoProductoListComponent } from "./movimiento-producto-list/movimiento-producto-list.component";
 import { SearchMovimientoProductoPipe } from "./_filters/search-movimiento-producto.pipe";
 import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimiento-producto-add.component";
+import { MovimientoProductoEditComponent } from "./movimiento-producto-edit/movimiento-producto-edit.component";
+import { MovimientoProductoEditResolver } from "./_resolvers/movimiento-producto-edit.resolver";
 
+function defineLocales() {
+  for (const locale in locales) {
+    defineLocale(locales[locale].abbr, locales[locale]);
+  }
+}
+defineLocales();
 @NgModule({
   declarations: [
     AppComponent,
@@ -168,7 +177,8 @@ import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimi
     ProveedorEditComponent,
     MovimientoProductoListComponent,
     SearchMovimientoProductoPipe,
-    MovimientoProductoAddComponent
+    MovimientoProductoAddComponent,
+    MovimientoProductoEditComponent
   ],
   imports: [
     BrowserModule,
@@ -212,6 +222,7 @@ import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimi
     MotivoTiempoMuertoEditResolver,
     ClienteEditResolver,
     ProveedorEditResolver,
+    MovimientoProductoEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

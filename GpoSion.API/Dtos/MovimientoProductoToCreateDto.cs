@@ -14,7 +14,7 @@ namespace GpoSion.API.Dtos
 
         public int PiezasCertificadas { get; set; }
 
-        public int PiezasRechazadas { get; set; }
+        public decimal PiezasRechazadas { get; set; }
 
 
         public decimal? Purga { get; set; }
@@ -27,6 +27,8 @@ namespace GpoSion.API.Dtos
         public string Localidad { get; set; }
 
         public DateTime FechaCreacion { get; set; }
+
+        public int UnidadMedidaIdRechazadas { get; set; }
 
 
 

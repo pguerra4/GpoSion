@@ -13,6 +13,9 @@ export class SearchMovimientoProductoPipe implements PipeTransform {
       m =>
         m.noParte
           .toLocaleLowerCase()
+          .indexOf(searchText.toLocaleLowerCase()) !== -1 ||
+        m.localidad
+          .toLocaleLowerCase()
           .indexOf(searchText.toLocaleLowerCase()) !== -1
     );
   }

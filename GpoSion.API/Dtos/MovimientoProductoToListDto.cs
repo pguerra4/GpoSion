@@ -2,7 +2,7 @@ using System;
 
 namespace GpoSion.API.Dtos
 {
-    public class MovimientoProductoForPutDto
+    public class MovimientoProductoToListDto
     {
         public int MovimientoProductoId { get; set; }
         public string NoParte { get; set; }
@@ -15,7 +15,7 @@ namespace GpoSion.API.Dtos
 
         public int PiezasCertificadas { get; set; }
 
-        public decimal PiezasRechazadas { get; set; }
+        public int PiezasRechazadas { get; set; }
 
 
         public decimal? Purga { get; set; }
@@ -27,15 +27,8 @@ namespace GpoSion.API.Dtos
 
         public string Localidad { get; set; }
 
-        public int UnidadMedidaIdRechazadas { get; set; }
 
 
-        public DateTime UltimaModificacion { get; set; }
-
-        public MovimientoProductoForPutDto()
-        {
-            UltimaModificacion = DateTime.Now;
-        }
     }
 
 

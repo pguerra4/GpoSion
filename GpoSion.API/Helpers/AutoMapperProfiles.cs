@@ -64,6 +64,11 @@ namespace GpoSion.API.Helpers
             CreateMap<ProveedorForPutDto, Proveedor>();
             CreateMap<MovimientoProductoToCreateDto, MovimientoProducto>();
             CreateMap<MovimientoProductoForPutDto, MovimientoProducto>();
+            CreateMap<MovimientoProducto, MovimientoProductoToListDto>();
+            CreateMap<DetalleEmbarqueToCreateDto, DetalleEmbarque>();
+            CreateMap<EmbarqueToCreateDto, Embarque>();
+            CreateMap<DetalleEmbarque, DetalleEmbarqueToListDto>();
+            CreateMap<Embarque, EmbarqueToListDto>();
         }
     }
 }

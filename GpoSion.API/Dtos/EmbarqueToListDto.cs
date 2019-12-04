@@ -1,17 +1,21 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
-namespace GpoSion.API.Models
+namespace GpoSion.API.Dtos
 {
-    public class Embarque
+    public class EmbarqueToListDto
     {
+
         public int EmbarqueId { get; set; }
         public int Folio { get; set; }
 
         public DateTime Fecha { get; set; }
 
         public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
+
+        [JsonProperty(PropertyName = "cliente")]
+        public string ClienteNombre { get; set; }
 
         public string LENo { get; set; }
 
@@ -19,13 +23,11 @@ namespace GpoSion.API.Models
 
         public string Recibio { get; set; }
 
-        public bool Rechazadas { get; set; } = false;
+        public bool Rechazadas { get; set; }
 
-        public DateTime FechaCreacion { get; set; }
 
-        public DateTime UltimaModificacion { get; set; }
+        public ICollection<DetalleEmbarqueToListDto> DetallesEmbarque { get; set; }
 
-        public ICollection<DetalleEmbarque> DetallesEmbarque { get; set; }
 
     }
 }

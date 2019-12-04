@@ -55,7 +55,7 @@ export class ExistenciasMaterialService {
   }
 
   getMaterial(id: number) {
-    return this.http.get<Material[]>(this.baseUrl + "materiales/" + id);
+    return this.http.get<Material>(this.baseUrl + "materiales/" + id);
   }
 
   getTiposMaterial() {

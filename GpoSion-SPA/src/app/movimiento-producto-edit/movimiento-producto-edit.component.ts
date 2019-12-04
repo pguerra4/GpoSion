@@ -1,20 +1,20 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BsLocaleService } from "ngx-bootstrap";
 import { MovimientoProducto } from "../_models/movimiento-producto";
 import { UnidadMedida } from "../_models/unidadMedida";
+import { NumeroParte } from "../_models/numeroParte";
 import { NumeroParteService } from "../_services/numeroParte.service";
 import { UnidadMedidaService } from "../_services/unidadMedida.service";
 import { AlertifyService } from "../_services/alertify.service";
-import { Router } from "@angular/router";
-import { NumeroParte } from "../_models/numeroParte";
+import { Router, ActivatedRoute } from "@angular/router";
+import { BsLocaleService } from "ngx-bootstrap";
 
 @Component({
-  selector: "app-movimiento-producto-add",
-  templateUrl: "./movimiento-producto-add.component.html",
-  styleUrls: ["./movimiento-producto-add.component.css"]
+  selector: "app-movimiento-producto-edit",
+  templateUrl: "./movimiento-producto-edit.component.html",
+  styleUrls: ["./movimiento-producto-edit.component.css"]
 })
-export class MovimientoProductoAddComponent implements OnInit {
+export class MovimientoProductoEditComponent implements OnInit {
   movimientoForm: FormGroup;
   movimiento: MovimientoProducto;
   unidadesMedida: UnidadMedida[];
@@ -26,30 +26,38 @@ export class MovimientoProductoAddComponent implements OnInit {
     private alertify: AlertifyService,
     private router: Router,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private localeService: BsLocaleService
   ) {}
 
   ngOnInit() {
     this.localeService.use("es");
-    this.loadUnidadesMedida();
-    this.createMovimientoForm();
-    this.loadNumerosParte();
+    this.route.data.subscribe(data => {
+      // tslint:disable-next-line: no-string-literal
+      this.movimiento = data["movimientoProducto"];
+      this.loadUnidadesMedida();
+      this.createMovimientoForm();
+      this.loadNumerosParte();
+    });
   }
-
   createMovimientoForm() {
     const now = new Date();
     this.movimientoForm = this.fb.group(
       {
-        noParte: ["", Validators.required],
-        fecha: [now],
-        cajas: [0],
-        piezasXCaja: [0],
-        piezasCertificadas: [0],
-        piezasRechazadas: [0],
+        movimientoProductoId: [
+          this.movimiento.movimientoProductoId,
+          Validators.required
+        ],
+        noParte: [this.movimiento.noParte, Validators.required],
+        fecha: [new Date(this.movimiento.fecha)],
+        cajas: [this.movimiento.cajas],
+        piezasXCaja: [this.movimiento.piezasXCaja],
+        piezasCertificadas: [this.movimiento.piezasCertificadas],
+        piezasRechazadas: [this.movimiento.piezasRechazadas],
         unidadMedidaIdRechazadas: [3],
-        purga: [0],
-        colada: [0],
-        localidad: [""]
+        purga: [this.movimiento.purga],
+        colada: [this.movimiento.colada],
+        localidad: [this.movimiento.localidad]
       },
       { updateOn: "blur" }
     );
@@ -76,20 +84,26 @@ export class MovimientoProductoAddComponent implements OnInit {
       }
     );
   }
-  addMovimiento() {
+
+  editMovimiento() {
     this.movimiento = Object.assign({}, this.movimientoForm.value);
     this.movimiento.fecha = this.movimientoForm
       .get("fecha")
       .value.toDateString();
-    this.numeroParteService.addMovimientoProducto(this.movimiento).subscribe(
-      (res: MovimientoProducto) => {
-        this.alertify.success("Guardado");
-        this.router.navigate(["movimientosproducto/"]);
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
+    this.numeroParteService
+      .editMovimientoProducto(
+        +this.route.snapshot.params["id"],
+        this.movimiento
+      )
+      .subscribe(
+        (res: MovimientoProducto) => {
+          this.alertify.success("Guardado");
+          this.router.navigate(["movimientosproducto/"]);
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
   }
 
   calculaTotal() {

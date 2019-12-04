@@ -13,11 +13,11 @@ namespace GpoSion.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovimientosProductoController : ControllerBase
+    public class EmbarquesController : ControllerBase
     {
         private readonly IGpoSionRepository _repo;
         private readonly IMapper _mapper;
-        public MovimientosProductoController(IGpoSionRepository repo, IMapper mapper)
+        public EmbarquesController(IGpoSionRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;
@@ -25,80 +25,102 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMovimientosProducto([FromQuery] MovimientoProductoParams movimientoParams)
+        public async Task<IActionResult> GetEmbarques([FromQuery] EmbarqueParams embarqueParams)
         {
-            var movimientos = await _repo.GetMovimientosProducto(movimientoParams);
+            var embarques = await _repo.GetEmbarques(embarqueParams);
+            var embarquesToReturn = _mapper.Map<IEnumerable<EmbarqueToListDto>>(embarques);
 
-            return Ok(movimientos);
+            return Ok(embarquesToReturn);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMovimientoProducto(int Id)
+        public async Task<IActionResult> GetEmbarque(int Id)
         {
-            var movimiento = await _repo.GetMovimientoProducto(Id);
-            // var moldeToReturn = _mapper.Map<MoldeForDetailDto>(molde);
+            var embarque = await _repo.GetEmbarque(Id);
+            var embarqueToReturn = _mapper.Map<EmbarqueToListDto>(embarque);
 
-            return Ok(movimiento);
+            return Ok(embarqueToReturn);
         }
 
         [HttpPost()]
-        public async Task<IActionResult> PostMovimientoProducto(MovimientoProductoToCreateDto movimientoToCreate)
+        public async Task<IActionResult> PostEmbarque(EmbarqueToCreateDto embarqueToCreate)
         {
 
-            movimientoToCreate.TipoMovimiento = "Entrada Almacen";
-            if (movimientoToCreate.PiezasRechazadas > 0)
+            var embarque = _mapper.Map<Embarque>(embarqueToCreate);
+            _repo.Add(embarque);
+            MovimientoProducto movimiento;
+
+            foreach (var de in embarque.DetallesEmbarque)
             {
-                var piezasRechazadas = 0;
-                var np = await _repo.GetNumeroParte(movimientoToCreate.NoParte);
-                switch (movimientoToCreate.UnidadMedidaIdRechazadas)
+
+                movimiento = new MovimientoProducto
                 {
-                    case 1:
-
-                        piezasRechazadas = (int)Math.Floor(movimientoToCreate.PiezasRechazadas / np.Peso);
-                        movimientoToCreate.PiezasRechazadas = piezasRechazadas;
-                        break;
-                    case 2:
-
-                        piezasRechazadas = (int)Math.Floor((movimientoToCreate.PiezasRechazadas * (decimal)2.2046) / np.Peso);
-                        movimientoToCreate.PiezasRechazadas = piezasRechazadas;
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-
-            var movimientoProducto = _mapper.Map<MovimientoProducto>(movimientoToCreate);
-
-            _repo.Add(movimientoProducto);
-
-            var existencia = await _repo.GetExistenciaProducto(movimientoToCreate.NoParte);
-            if (existencia == null)
-            {
-                existencia = new ExistenciaProducto
-                {
-                    NoParte = movimientoToCreate.NoParte,
-                    PiezasCertificadas = movimientoToCreate.PiezasCertificadas,
-                    PiezasRechazadas = (int)movimientoToCreate.PiezasRechazadas,
-                    UltimaModificacion = DateTime.Now
+                    NoParte = de.NoParte,
+                    Fecha = embarque.Fecha,
+                    FechaCreacion = DateTime.Now,
+                    Cajas = de.Cajas,
+                    PiezasXCaja = de.PiezasXCaja,
+                    TipoMovimiento = "Embarque",
+                    DetalleEmbarqueId = de.DetalleEmbarqueId
                 };
-                _repo.Add(existencia);
+                if (!embarque.Rechazadas)
+                {
+                    movimiento.PiezasCertificadas = de.Entregadas;
+                }
+                else
+                {
+                    movimiento.PiezasRechazadas = de.Entregadas;
+                }
+
+                _repo.Add(movimiento);
+
+                var existencia = await _repo.GetExistenciaProducto(de.NoParte);
+                if (existencia == null)
+                    return BadRequest("La solicitud para el No. Parte " + de.NoParte + " no tiene existencias en almacen.");
+
+                if (!embarque.Rechazadas)
+                {
+                    if (existencia.PiezasCertificadas < de.Entregadas)
+                        return BadRequest("La solicitud para el No. Parte " + de.NoParte + " excede las existencias en almacen.");
+
+                    existencia.PiezasCertificadas -= de.Entregadas;
+                    existencia.UltimaModificacion = DateTime.Now;
+                }
+                else
+                {
+                    if (existencia.PiezasRechazadas < de.Entregadas)
+                        return BadRequest("La solicitud para el No. Parte " + de.NoParte + " excede las piezas rechazadas en almacen.");
+
+                    existencia.PiezasRechazadas -= de.Entregadas;
+                    existencia.UltimaModificacion = DateTime.Now;
+                }
+
+
+                var orden = await _repo.GetOrdenCompra(de.NoOrden.Value);
+                var ocd = orden.NumerosParte.FirstOrDefault(np => np.NoParte == de.NoParte);
+                if (ocd == null)
+                    return BadRequest("No existe orden de compra para el No. Parte " + de.NoParte);
+
+                if (!embarque.Rechazadas)
+                {
+                    if (ocd.PiezasAutorizadas > 0 && ocd.PiezasAutorizadas < (ocd.PiezasSurtidas + de.Entregadas))
+                        return BadRequest("La orden de compra " + de.NoOrden + " para el No. Parte " + de.NoParte + " excede las piezas autorizadas.");
+
+                    ocd.PiezasSurtidas += de.Entregadas;
+                    ocd.UltimaModificacion = DateTime.Now;
+                }
+
             }
-            else
-            {
-                existencia.PiezasCertificadas += movimientoToCreate.PiezasCertificadas;
-                existencia.PiezasRechazadas += (int)movimientoToCreate.PiezasRechazadas;
-                existencia.UltimaModificacion = DateTime.Now;
-            }
+
 
             if (await _repo.SaveAll())
             {
-                var movimientoToReturn = _mapper.Map<MovimientoProductoToListDto>(movimientoProducto);
-                return CreatedAtAction("GetMovimientoProducto", new { id = movimientoProducto.MovimientoProductoId }, movimientoToReturn);
+                var embarqueToReturn = _mapper.Map<EmbarqueToListDto>(embarque);
+                return CreatedAtAction("GetEmbarque", new { id = embarque.EmbarqueId }, embarqueToReturn);
             }
 
 
-            throw new Exception("Movimiento de producto no guardado");
+            throw new Exception("Embarque no guardado");
         }
 
 

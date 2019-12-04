@@ -93,7 +93,11 @@ namespace GpoSion.API.Data
 
         Task<MovimientoProducto> GetMovimientoProducto(int id);
 
-        Task<IEnumerable<MovimientoProducto>> GetMovimientosProducto();
+        Task<IEnumerable<MovimientoProducto>> GetMovimientosProducto(MovimientoProductoParams movimientoParams);
+
+        Task<Embarque> GetEmbarque(int id);
+
+        Task<IEnumerable<Embarque>> GetEmbarques(EmbarqueParams embarqueParams);
 
         Task<ExistenciaProducto> GetExistenciaProducto(string NoParte);
 
