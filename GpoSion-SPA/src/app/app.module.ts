@@ -108,6 +108,9 @@ import { SearchMovimientoProductoPipe } from "./_filters/search-movimiento-produ
 import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimiento-producto-add.component";
 import { MovimientoProductoEditComponent } from "./movimiento-producto-edit/movimiento-producto-edit.component";
 import { MovimientoProductoEditResolver } from "./_resolvers/movimiento-producto-edit.resolver";
+import { EmbarqueListComponent } from "./embarque-list/embarque-list.component";
+import { SearchEmbarquePipe } from "./_filters/search-embarque.pipe";
+import { EmbarqueAddComponent } from "./embarque-add/embarque-add.component";
 
 function defineLocales() {
   for (const locale in locales) {
@@ -178,7 +181,10 @@ defineLocales();
     MovimientoProductoListComponent,
     SearchMovimientoProductoPipe,
     MovimientoProductoAddComponent,
-    MovimientoProductoEditComponent
+    MovimientoProductoEditComponent,
+    EmbarqueListComponent,
+    SearchEmbarquePipe,
+    EmbarqueAddComponent
   ],
   imports: [
     BrowserModule,

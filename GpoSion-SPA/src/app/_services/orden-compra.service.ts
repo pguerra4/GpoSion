@@ -51,4 +51,15 @@ export class OrdenCompraService {
   deleteOrdenCompraDetalle(id: number) {
     return this.http.delete(this.baseUrl + "detallesordencompra/" + id);
   }
+
+  getOrdenesCompraAbiertasXNumroParte(
+    noParte: string
+  ): Observable<OrdenCompra[]> {
+    return this.http.get<OrdenCompra[]>(
+      this.baseUrl +
+        "ordenescompra/" +
+        noParte +
+        "/ordenescompraabiertasxnumeroparte"
+    );
+  }
 }

@@ -105,6 +105,8 @@ namespace GpoSion.API.Controllers
                 {
                     if (ocd.PiezasAutorizadas > 0 && ocd.PiezasAutorizadas < (ocd.PiezasSurtidas + de.Entregadas))
                         return BadRequest("La orden de compra " + de.NoOrden + " para el No. Parte " + de.NoParte + " excede las piezas autorizadas.");
+                    if (ocd.FechaFin.HasValue && ocd.FechaFin.Value.Date < DateTime.Now.Date)
+                        return BadRequest("La orden de compra " + de.NoOrden + " para el No. Parte " + de.NoParte + " venció el " + ocd.FechaFin.Value.ToShortDateString());
 
                     ocd.PiezasSurtidas += de.Entregadas;
                     ocd.UltimaModificacion = DateTime.Now;

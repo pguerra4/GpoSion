@@ -64,7 +64,7 @@ namespace GpoSion.API.Data
 
         Task<NumeroParte> GetNumeroParte(string NoParte);
 
-        Task<IEnumerable<NumeroParte>> GetNumerosParte();
+        Task<IEnumerable<NumeroParte>> GetNumerosParte(NumeroParteParams numeroParteParams);
 
         Task<Moldeadora> GetMoldeadora(int Id);
 
@@ -102,6 +102,8 @@ namespace GpoSion.API.Data
         Task<ExistenciaProducto> GetExistenciaProducto(string NoParte);
 
         Task<IEnumerable<ExistenciaProducto>> GetExistenciasProducto();
+
+        Task<IEnumerable<OrdenCompra>> GetOrdenesCompraAbiertasXNumeroParte(string noParte);
 
     }
 }

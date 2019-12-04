@@ -262,12 +262,16 @@ namespace GpoSion.API.Data
             return numeroParte;
         }
 
-        public async Task<IEnumerable<NumeroParte>> GetNumerosParte()
+        public async Task<IEnumerable<NumeroParte>> GetNumerosParte(NumeroParteParams numeroParteParams)
         {
             var numerosParte = await _context.NumerosParte.Include(np => np.Cliente)
             .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material)
             .Include(np => np.MoldesNumeroParte).ThenInclude(mnp => mnp.Molde)
             .Include(np => np.MoldeadorasNumeroParte).ThenInclude(mnp => mnp.Moldeadora).ToListAsync();
+            if (numeroParteParams.ClienteId.HasValue)
+            {
+                numerosParte = numerosParte.Where(np => np.ClienteId == numeroParteParams.ClienteId.Value).ToList();
+            }
             return numerosParte;
         }
 
@@ -401,10 +405,18 @@ namespace GpoSion.API.Data
             }
             if (embarqueParams.Fecha.HasValue)
             {
-                embarques = embarques.Where(e => e.Fecha == embarqueParams.Fecha.Value).ToList();
+                embarques = embarques.Where(e => e.Fecha.Date == embarqueParams.Fecha.Value.Date).ToList();
             }
             return embarques;
 
+        }
+
+        public async Task<IEnumerable<OrdenCompra>> GetOrdenesCompraAbiertasXNumeroParte(string noParte)
+        {
+            var ordenesCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente)
+            .Include(oc => oc.NumerosParte).ThenInclude(np => np.NumeroParte)
+            .Where(oc => oc.NumerosParte.Any(np => np.NoParte == noParte && ((np.PiezasAutorizadas == 0 || np.PiezasAutorizadas > np.PiezasSurtidas) && ((np.FechaFin.HasValue && np.FechaFin.Value.Date >= DateTime.Now.Date) || !np.FechaFin.HasValue)))).ToListAsync();
+            return ordenesCompra;
         }
     }
 }

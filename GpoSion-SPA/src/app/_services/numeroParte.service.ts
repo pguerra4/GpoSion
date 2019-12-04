@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { NumeroParte } from "../_models/numeroParte";
 import { MovimientoProducto } from "../_models/movimiento-producto";
+import { Embarque } from "../_models/embarque";
 
 @Injectable({
   providedIn: "root"
@@ -13,8 +14,16 @@ export class NumeroParteService {
 
   constructor(private http: HttpClient) {}
 
-  getNumerosParte(): Observable<NumeroParte[]> {
-    return this.http.get<NumeroParte[]>(this.baseUrl + "numerosParte");
+  getNumerosParte(npParams?): Observable<NumeroParte[]> {
+    let params = new HttpParams();
+    if (npParams != null) {
+      if (npParams.clienteId != null) {
+        params = params.append("ClienteId", npParams.clienteId);
+      }
+    }
+    return this.http.get<NumeroParte[]>(this.baseUrl + "numerosParte", {
+      params
+    });
   }
 
   getNumeroParte(id: string): Observable<NumeroParte> {
@@ -65,5 +74,30 @@ export class NumeroParteService {
       this.baseUrl + "movimientosproducto/" + id,
       movimientoProducto
     );
+  }
+
+  getEmbarques(embarqueParams?): Observable<Embarque[]> {
+    let params = new HttpParams();
+    if (embarqueParams != null) {
+      if (embarqueParams.clienteId != null) {
+        params = params.append("ClienteId", embarqueParams.clienteId);
+      }
+      if (embarqueParams.fecha != null) {
+        params = params.append("Fecha", embarqueParams.fecha);
+      }
+    }
+    return this.http.get<Embarque[]>(this.baseUrl + "embarques", { params });
+  }
+
+  getEmbarque(id: number): Observable<Embarque> {
+    return this.http.get<Embarque>(this.baseUrl + "embarques/" + id);
+  }
+
+  addEmbarque(embarque: Embarque) {
+    return this.http.post(this.baseUrl + "embarques", embarque);
+  }
+
+  editEmbarque(id: number, embarque: Embarque) {
+    return this.http.put(this.baseUrl + "embarques/" + id, embarque);
   }
 }

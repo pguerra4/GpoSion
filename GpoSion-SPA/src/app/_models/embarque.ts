@@ -1,3 +1,4 @@
+import { DetalleEmbarque } from "./detalle-embarque";
 export interface Embarque {
   embarqueId: number;
   folio: number;
@@ -8,4 +9,5 @@ export interface Embarque {
   elaboro: string;
   recibio: string;
   rechazadas: boolean;
+  detallesEmbarque: DetalleEmbarque[];
 }

@@ -62,6 +62,8 @@ import { MovimientoProductoListComponent } from "./movimiento-producto-list/movi
 import { MovimientoProductoAddComponent } from "./movimiento-producto-add/movimiento-producto-add.component";
 import { MovimientoProductoEditComponent } from "./movimiento-producto-edit/movimiento-producto-edit.component";
 import { MovimientoProductoEditResolver } from "./_resolvers/movimiento-producto-edit.resolver";
+import { EmbarqueListComponent } from "./embarque-list/embarque-list.component";
+import { EmbarqueAddComponent } from "./embarque-add/embarque-add.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -190,5 +192,7 @@ export const appRoutes: Routes = [
     component: MovimientoProductoEditComponent,
     resolve: { movimientoProducto: MovimientoProductoEditResolver }
   },
+  { path: "embarques", component: EmbarqueListComponent },
+  { path: "addEmbarque", component: EmbarqueAddComponent },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

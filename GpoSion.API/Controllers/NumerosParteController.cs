@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
+using GpoSion.API.Helpers;
 using GpoSion.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +26,9 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetNumerosParte()
+        public async Task<IActionResult> GetNumerosParte([FromQuery] NumeroParteParams npParams)
         {
-            var numerosParte = await _repo.GetNumerosParte();
+            var numerosParte = await _repo.GetNumerosParte(npParams);
             var numerosParteToReturn = _mapper.Map<IEnumerable<NumeroParteToListDto>>(numerosParte);
             return Ok(numerosParteToReturn);
         }
@@ -44,21 +45,6 @@ namespace GpoSion.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> PostNumeroParte(NumeroParteToCreateDto numeroParteforCreationDto)
         {
-
-            // var file = numeroParteforCreationDto.File;
-
-            // if (file.Length > 0)
-            // {
-            //     var filePath = Path.Combine("Data/Photos/",
-            //         Path.GetRandomFileName());
-
-            //     numeroParteforCreationDto.UrlImagenPieza = filePath;
-            //     using (var stream = System.IO.File.Create(filePath))
-            //     {
-            //         await file.CopyToAsync(stream);
-            //     }
-            // }
-
 
 
             var numeroParte = _mapper.Map<NumeroParte>(numeroParteforCreationDto);
@@ -207,8 +193,6 @@ namespace GpoSion.API.Controllers
             return Ok(await _repo.ExisteNumeroParte(id));
 
         }
-
-
 
     }
 }

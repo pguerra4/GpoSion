@@ -82,5 +82,13 @@ namespace GpoSion.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("{noParte}/OrdenesCompraAbiertasXNumeroParte")]
+        public async Task<IActionResult> GetOrdenesCompraAbiertasXNumeroParte(string noParte)
+        {
+            var ordenesCompra = await _repo.GetOrdenesCompraAbiertasXNumeroParte(noParte);
+            var ordenesToReturn = _mapper.Map<IEnumerable<OrdenCompraToListDto>>(ordenesCompra);
+            return Ok(ordenesToReturn);
+        }
+
     }
 }
