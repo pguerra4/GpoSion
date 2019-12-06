@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191205230109_OrdenCompraProveedor")]
+    partial class OrdenCompraProveedor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -559,7 +561,7 @@ namespace GpoSion.API.Migrations
 
             modelBuilder.Entity("GpoSion.API.Models.OrdenCompraProveedor", b =>
                 {
-                    b.Property<string>("NoOrden");
+                    b.Property<int>("NoOrden");
 
                     b.Property<string>("AreaProyecto");
 
@@ -596,7 +598,7 @@ namespace GpoSion.API.Migrations
 
                     b.Property<int>("MaterialId");
 
-                    b.Property<string>("NoOrden");
+                    b.Property<int>("NoOrden");
 
                     b.Property<string>("Observaciones");
 
@@ -1143,9 +1145,10 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("GpoSion.API.Models.OrdenCompraProveedor", "OrdenCompraProveedor")
+                    b.HasOne("GpoSion.API.Models.OrdenCompraProveedor")
                         .WithMany("Materiales")
-                        .HasForeignKey("NoOrden");
+                        .HasForeignKey("NoOrden")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>

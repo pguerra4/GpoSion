@@ -111,6 +111,11 @@ import { MovimientoProductoEditResolver } from "./_resolvers/movimiento-producto
 import { EmbarqueListComponent } from "./embarque-list/embarque-list.component";
 import { SearchEmbarquePipe } from "./_filters/search-embarque.pipe";
 import { EmbarqueAddComponent } from "./embarque-add/embarque-add.component";
+import { ExistenciaProductoListComponent } from "./existencia-producto-list/existencia-producto-list.component";
+import { SearchExistenciaProductoPipe } from "./_filters/search-existencia-producto.pipe";
+import { OrdenCompraProveedorListComponent } from "./orden-compra-proveedor-list/orden-compra-proveedor-list.component";
+import { SearchOrdenCompraProveedorPipe } from "./_filters/search-orden-compra-proveedor.pipe";
+import { OrdenCompraProveedorAddComponent } from "./orden-compra-proveedor-add/orden-compra-proveedor-add.component";
 
 function defineLocales() {
   for (const locale in locales) {
@@ -184,7 +189,12 @@ defineLocales();
     MovimientoProductoEditComponent,
     EmbarqueListComponent,
     SearchEmbarquePipe,
-    EmbarqueAddComponent
+    EmbarqueAddComponent,
+    ExistenciaProductoListComponent,
+    SearchExistenciaProductoPipe,
+    OrdenCompraProveedorListComponent,
+    SearchOrdenCompraProveedorPipe,
+    OrdenCompraProveedorAddComponent
   ],
   imports: [
     BrowserModule,

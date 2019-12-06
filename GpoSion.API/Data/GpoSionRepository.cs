@@ -418,5 +418,31 @@ namespace GpoSion.API.Data
             .Where(oc => oc.NumerosParte.Any(np => np.NoParte == noParte && ((np.PiezasAutorizadas == 0 || np.PiezasAutorizadas > np.PiezasSurtidas) && ((np.FechaFin.HasValue && np.FechaFin.Value.Date >= DateTime.Now.Date) || !np.FechaFin.HasValue)))).ToListAsync();
             return ordenesCompra;
         }
+
+        public async Task<Comprador> GetComprador(int id)
+        {
+            var comprador = await _context.Compradores.FindAsync(id);
+            return comprador;
+        }
+
+        public async Task<IEnumerable<Comprador>> GetCompradores()
+        {
+            var compradores = await _context.Compradores.ToListAsync();
+            return compradores;
+        }
+
+        public async Task<OrdenCompraProveedor> GetOrdenCompraProveedor(string noOrden)
+        {
+            var orden = await _context.OrdenesCompraProveedores.Include(ocp => ocp.Comprador).Include(ocp => ocp.Proveedor)
+            .Include(ocp => ocp.Materiales).ThenInclude(m => m.Material).FirstOrDefaultAsync(ocp => ocp.NoOrden == noOrden);
+            return orden;
+        }
+
+        public async Task<IEnumerable<OrdenCompraProveedor>> GetOrdenesCompraProveedores()
+        {
+            var ordenes = await _context.OrdenesCompraProveedores.Include(ocp => ocp.Comprador).Include(ocp => ocp.Proveedor)
+            .Include(ocp => ocp.Materiales).ThenInclude(m => m.Material).ToListAsync();
+            return ordenes;
+        }
     }
 }

@@ -1,0 +1,189 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">
+            Nueva Orden de Compra a Proveedor
+        </div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="ordenCompraForm" (ngSubmit)="addOrdenCompra()">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="compradorId">Comprador</label>
+                            <select class="form-control" id="compradorId" formControlName="compradorId">
+                <option
+                  *ngFor="let comprador of compradores"
+                  [value]="comprador.compradorId"
+                >
+                  {{ comprador.nombre }}
+                </option>
+              </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="noOrden">No. Orden</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    ordenCompraForm.get('noOrden').errors &&
+                    ordenCompraForm.get('noOrden').touched
+                }" class="form-control" formControlName="noOrden" placeholder="No. Orden" />
+                            <div class="invalid-feedback" *ngIf="
+                  ordenCompraForm.get('noOrden').hasError('required') &&
+                  ordenCompraForm.get('noOrden').touched
+                ">
+                                El No. Orden es requerido
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                  ordenCompraForm
+                    .get('noOrden')
+                    .hasError('numeroOrdenExistente') &&
+                  ordenCompraForm.get('noOrden').touched
+                ">
+                                El No. Orden ya existe.
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="fecha">Fecha</label>
+                            <input type="text" bsDatepicker [bsConfig]="bsConfig" class="form-control" formControlName="fecha" placeholder="Fecha" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="proveedorId">Proveedor</label>
+                            <select class="form-control" id="proveedorId" formControlName="proveedorId">
+                <option
+                  *ngFor="let proveedor of proveedores"
+                  [value]="proveedor.proveedorId"
+                >
+                  {{ proveedor.nombre }}
+                </option>
+              </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <label for="personaSolicita">Persona Solicita</label>
+                            <input type="text" class="form-control" formControlName="personaSolicita" placeholder="Persona Solicita" />
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <label for="departamento">Departamento</label>
+                            <input type="text" class="form-control" formControlName="departamento" placeholder="Departamento" />
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <label for="areaProyecto">Área o Proyecto</label>
+                            <input type="text" class="form-control" formControlName="areaProyecto" placeholder="areaProyecto" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8 col-lg-8">
+                            <label for="razonCompra">Motivo de compra</label>
+                            <input type="text" class="form-control" formControlName="razonCompra" placeholder="Motivo de compra" />
+                        </div>
+                        <div class="col-sm-12 col-md-4 col-lg-4">
+                            <label for="compra">Compra</label>
+                            <div>
+                                <label class="radio-inline mr-2">
+                  <input
+                    type="radio"
+                    name="compra"
+                    formControlName="compra"
+                    value="Direct Material"
+                  />
+
+                  Material directo
+                </label>
+
+                                <label class="radio-inline">
+                  <input
+                    type="radio"
+                    name="compra"
+                    formControlName="compra"
+                    value="Service"
+                  />
+
+                  Servicio
+                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="card mt-2">
+                                <div class="card-header text-primary">Materiales</div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="material">Material</label>
+                                            <input type="hidden" id="matrialId" formControlName="materialId" />
+                                            <input autocomplete="off" [typeahead]="materialesCat" typeaheadOptionField="material" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="cantidad">Cantidad</label>
+                                            <input type="text" class="form-control" id="cantidad" formControlName="cantidad" placeholder="Cantidad" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="precio">Precio</label>
+                                            <input type="text" class="form-control" id="precio" formControlName="precio" placeholder="Precio" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-10">
+                                            <label for="observaciones">Observaciones</label>
+                                            <input type="text" class="form-control" id="observaciones" formControlName="observaciones" placeholder="Observaciones" />
+                                        </div>
+                                        <div class="col-md-2 mt-4">
+                                            <button class="btn btn-success btn-xs" type="button" [disabled]="!ordenCompraForm.get('materialId').value" (click)="addDetalle()">
+                        <span class="fa fa-plus-circle "> </span>
+                      </button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="detalles.length > 0" class="table-responsive mt-2">
+                                        <table id="materialesTable" class="table table-hover table-bordered table-striped">
+                                            <thead>
+                                                <tr class="table-primary">
+                                                    <th>Cantidad</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Precio</th>
+                                                    <th>Total</th>
+                                                    <th>Borrar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let detalle of detalles; let i; of: index">
+                                                    <td scope="row">{{ detalle.cantidad }}</td>
+                                                    <td>
+                                                        {{ detalle.material }}
+                                                        <p>
+                                                            {{ detalle.observaciones }}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                        {{ detalle.precioUnitario }}
+                                                    </td>
+                                                    <td>
+                                                        {{ detalle.precioTotal | number: "1.2" }}
+                                                    </td>
+                                                    <td>
+                                                        <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteDetalle(i)">
+                              <span class="fa fa-trash"></span
+                            ></span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12 mt-1">
+                            <button class="btn btn-success" [disabled]="!ordenCompraForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

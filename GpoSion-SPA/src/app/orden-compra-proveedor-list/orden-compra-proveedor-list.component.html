@@ -1,13 +1,13 @@
 <div class="container">
     <div class="card border-primary mt-4">
         <div class="card-header text-primary">
-            Ordenes de compra
+            Ordenes de compra a proveedores
         </div>
         <div class="card-body">
             <div class="card-title">
                 <div class="row d-flex justify-content-between">
                     <div class="col-md-2">
-                        <a class="btn btn-success" [routerLink]="['/addOrdenCompra']">Nueva Orden Compra</a
+                        <a class="btn btn-success" [routerLink]="['/addOrdenCompraProveedor']">Nueva Orden Compra</a
             >
           </div>
           <div class="col-md-4">
@@ -28,45 +28,42 @@
             <thead>
               <tr class="table-primary">
                 <th scope="col">No. Orden</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">No. Parte</th>
+                <th scope="col">Comprador</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Materiales</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Ver</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                *ngFor="let orden of ordenes | searchOrdenesCompra: searchText"
+                *ngFor="
+                  let orden of ordenes | searchOrdenCompraProveedor: searchText
+                "
               >
                 <td>
                   {{ orden.noOrden }}
                 </td>
                 <td>
-                  {{ orden.cliente }}
+                  {{ orden.comprador }}
+                </td>
+                <td>
+                  {{ orden.proveedor }}
                 </td>
                 <td scope="row">
-                  <div *ngFor="let item of orden.numerosParte">
-                    <p>
-                      {{ item.noParte }}
-                      <span *ngIf="item.piezasAutorizadas === 0; else pzsa">
-                        Abierta
-                      </span>
-                      <ng-template #pzsa>
-                        Autorizadas: {{ item.piezasAutorizadas }}</ng-template
-                      >
-
-                      (Surtidas: {{ item.piezasSurtidas }} )
-                    </p>
+                  <div *ngFor="let item of orden.materiales">
+                    {{ item.material }}
                   </div>
                 </td>
-
                 <td>
                   {{ orden.fecha | date: "dd-MM-yyyy" }}
                 </td>
                 <td>
                   <a
                     class="fa fa-edit"
-                    [routerLink]="['/ordenescompra/' + orden.noOrden]"
+                    [routerLink]="[
+                      '/ordenescompraproveedores/' + orden.noOrden
+                    ]"
                   ></a>
                         </td>
                         </tr>

@@ -8,6 +8,15 @@ namespace GpoSion.API.Data
     {
         public static void SeedClientes(DataContext context)
         {
+            if (!context.Compradores.Any())
+            {
+                var comprador = new Comprador { Nombre = "Manyser LLC", Direccion = "5959 Gateway West, Suite 401\nEl Paso, TX 79925\n210-241-1163" };
+                context.Compradores.Add(comprador);
+                comprador = new Comprador { Nombre = "Manyser Manufacturas y Servicios, S.A. de C.V.", Direccion = "Circuito Gabriel Garcia Marquez no. 170\nComplejo Industrial Chihuahua\nCP 31136 Chihuahua, Chih México\nTel (614) 481-4666\nFax (614) 481-0182", RFC = "MMS-960704-D98" };
+                context.Compradores.Add(comprador);
+
+                context.SaveChanges();
+            }
             if (!context.Clientes.Any())
             {
                 var cliente = new Cliente { Clave = "NOVA", Nombre = "NOVARES", FechaCreacion = DateTime.Now };

@@ -105,5 +105,13 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<OrdenCompra>> GetOrdenesCompraAbiertasXNumeroParte(string noParte);
 
+        Task<Comprador> GetComprador(int id);
+
+        Task<IEnumerable<Comprador>> GetCompradores();
+
+        Task<OrdenCompraProveedor> GetOrdenCompraProveedor(string noOrden);
+
+        Task<IEnumerable<OrdenCompraProveedor>> GetOrdenesCompraProveedores();
+
     }
 }

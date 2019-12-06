@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">Existencias Producto</div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <input type="text" id="searchTextId" [(ngModel)]="searchText" name="searchText" placeholder="Buscar" />
+                        <i class="fa fa-search ml-1"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-text">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped mt-1">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col">No. Parte</th>
+                                <th scope="col" class="text-right">Piezas Certificadas</th>
+                                <th scope="col" class="text-right">Piezas Rechazadas</th>
+                                <th scope="col">Última Modificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="
+                  let em of existencias | searchExistenciaProducto: searchText
+                ">
+                                <td scope="row">
+                                    {{ em.noParte }}
+                                </td>
+                                <td class="text-right" [ngClass]="{ 'text-danger': em.piezasCertificadas < 0 }">
+                                    {{ em.piezasCertificadas }}
+                                </td>
+                                <td class="text-right">
+                                    {{ em.piezasRechazadas }}
+                                </td>
+                                <td>{{ em.ultimaModificacion | date: "dd-MM-yyyy HH:mm" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

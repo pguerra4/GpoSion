@@ -3,14 +3,16 @@ using System;
 using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20191205231556_RemoveOrdenCompraProveedor")]
+    partial class RemoveOrdenCompraProveedor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -557,66 +559,6 @@ namespace GpoSion.API.Migrations
                     b.ToTable("OrdenCompraDetalles");
                 });
 
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraProveedor", b =>
-                {
-                    b.Property<string>("NoOrden");
-
-                    b.Property<string>("AreaProyecto");
-
-                    b.Property<string>("Compra");
-
-                    b.Property<int>("CompradorId");
-
-                    b.Property<string>("Departamento");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<string>("PersonaSolicita");
-
-                    b.Property<int>("ProveedorId");
-
-                    b.Property<string>("RazonCompra");
-
-                    b.HasKey("NoOrden");
-
-                    b.HasIndex("CompradorId");
-
-                    b.HasIndex("ProveedorId");
-
-                    b.ToTable("OrdenesCompraProveedores");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraProveedorDetalle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("Cantidad")
-                        .HasColumnType("decimal(18, 4)");
-
-                    b.Property<int>("MaterialId");
-
-                    b.Property<string>("NoOrden");
-
-                    b.Property<string>("Observaciones");
-
-                    b.Property<decimal>("PrecioTotal")
-                        .HasColumnType("decimal(18, 4)");
-
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18, 4)");
-
-                    b.Property<DateTime>("UltimaModificacion");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MaterialId");
-
-                    b.HasIndex("NoOrden");
-
-                    b.ToTable("OrdenCompraProveedorDetalles");
-                });
-
             modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>
                 {
                     b.Property<int>("ProduccionId")
@@ -1121,31 +1063,6 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
                         .WithMany("OrdenesCompraDetalle")
                         .HasForeignKey("NoParte");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraProveedor", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.Comprador", "Comprador")
-                        .WithMany()
-                        .HasForeignKey("CompradorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GpoSion.API.Models.Proveedor", "Proveedor")
-                        .WithMany()
-                        .HasForeignKey("ProveedorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.OrdenCompraProveedorDetalle", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.Material", "Material")
-                        .WithMany()
-                        .HasForeignKey("MaterialId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GpoSion.API.Models.OrdenCompraProveedor", "OrdenCompraProveedor")
-                        .WithMany("Materiales")
-                        .HasForeignKey("NoOrden");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Produccion", b =>

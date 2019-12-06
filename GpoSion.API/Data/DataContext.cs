@@ -66,6 +66,13 @@ namespace GpoSion.API.Data
 
         public DbSet<DetalleEmbarque> DetallesEmbarque { get; set; }
 
+        public DbSet<Comprador> Compradores { get; set; }
+
+        public DbSet<OrdenCompraProveedor> OrdenesCompraProveedores { get; set; }
+
+        public DbSet<OrdenCompraProveedorDetalle> OrdenCompraProveedorDetalles { get; set; }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

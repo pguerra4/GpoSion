@@ -69,6 +69,10 @@ namespace GpoSion.API.Helpers
             CreateMap<EmbarqueToCreateDto, Embarque>();
             CreateMap<DetalleEmbarque, DetalleEmbarqueToListDto>();
             CreateMap<Embarque, EmbarqueToListDto>();
+            CreateMap<OrdenCompraProveedorDetalle, OrdenCompraProveedorDetalleToListDto>()
+             .ForMember(dest => dest.MaterialClaveMaterial, opt => opt.MapFrom(src => src.Material.ClaveMaterial))
+             .ReverseMap();
+            CreateMap<OrdenCompraProveedor, OrdenCompraProveedorToListDto>().ReverseMap();
         }
     }
 }

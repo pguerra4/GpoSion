@@ -64,6 +64,9 @@ import { MovimientoProductoEditComponent } from "./movimiento-producto-edit/movi
 import { MovimientoProductoEditResolver } from "./_resolvers/movimiento-producto-edit.resolver";
 import { EmbarqueListComponent } from "./embarque-list/embarque-list.component";
 import { EmbarqueAddComponent } from "./embarque-add/embarque-add.component";
+import { ExistenciaProductoListComponent } from "./existencia-producto-list/existencia-producto-list.component";
+import { OrdenCompraProveedorListComponent } from "./orden-compra-proveedor-list/orden-compra-proveedor-list.component";
+import { OrdenCompraProveedorAddComponent } from "./orden-compra-proveedor-add/orden-compra-proveedor-add.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -194,5 +197,14 @@ export const appRoutes: Routes = [
   },
   { path: "embarques", component: EmbarqueListComponent },
   { path: "addEmbarque", component: EmbarqueAddComponent },
+  { path: "existenciasproducto", component: ExistenciaProductoListComponent },
+  {
+    path: "ordenescompraproveedores",
+    component: OrdenCompraProveedorListComponent
+  },
+  {
+    path: "addOrdenCompraProveedor",
+    component: OrdenCompraProveedorAddComponent
+  },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];
