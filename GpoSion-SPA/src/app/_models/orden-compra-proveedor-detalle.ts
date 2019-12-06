@@ -4,6 +4,7 @@ export interface OrdenCompraProveedorDetalle {
   materialId: number;
   material: string;
   cantidad: number;
+  unidadMedida: string;
   precioUnitario: number;
   precioTotal: number;
   observaciones: string;

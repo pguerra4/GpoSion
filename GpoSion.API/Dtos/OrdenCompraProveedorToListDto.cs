@@ -10,7 +10,7 @@ namespace GpoSion.API.Dtos
         public string NoOrden { get; set; }
         public DateTime Fecha { get; set; }
 
-
+        public DateTime? FechaEntrega { get; set; }
 
         public int CompradorId { get; set; }
         [JsonProperty(PropertyName = "comprador")]

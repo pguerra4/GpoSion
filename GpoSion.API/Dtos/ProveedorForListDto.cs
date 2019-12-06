@@ -6,5 +6,6 @@ namespace GpoSion.API.Dtos
         public string Nombre { get; set; }
 
         public string Telefono { get; set; }
+        public string CondicionesCredito { get; set; }
     }
 }

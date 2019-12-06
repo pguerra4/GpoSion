@@ -29,7 +29,8 @@ export class ProveedorAddComponent implements OnInit {
     this.proveedorForm = this.fb.group({
       nombre: ["", Validators.required],
       direccion: [""],
-      telefono: [""]
+      telefono: [""],
+      condicionesCredito: [""]
     });
   }
 

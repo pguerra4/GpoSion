@@ -16,6 +16,8 @@ namespace GpoSion.API.Models
         [Column(TypeName = "decimal(18, 4)")]
         public Decimal Cantidad { get; set; }
 
+        public string UnidadMedida { get; set; }
+
         [Column(TypeName = "decimal(18, 4)")]
         public Decimal PrecioUnitario { get; set; }
 

@@ -8,6 +8,7 @@ namespace GpoSion.API.Dtos
         public string Direccion { get; set; }
 
         public string Telefono { get; set; }
+        public string CondicionesCredito { get; set; }
         public DateTime FechaCreacion { get; set; }
 
         public ProveedorToCreateDto()

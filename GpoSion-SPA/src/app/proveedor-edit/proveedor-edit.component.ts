@@ -35,7 +35,8 @@ export class ProveedorEditComponent implements OnInit {
       proveedorId: [this.proveedor.proveedorId, Validators.required],
       nombre: [this.proveedor.nombre, Validators.required],
       direccion: [this.proveedor.direccion],
-      telefono: [this.proveedor.telefono]
+      telefono: [this.proveedor.telefono],
+      condicionesCredito: [this.proveedor.condicionesCredito]
     });
   }
 

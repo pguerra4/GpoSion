@@ -3,6 +3,7 @@ import { OrdenCompraProveedorDetalle } from "./orden-compra-proveedor-detalle";
 export interface OrdenCompraProveedor {
   noOrden: string;
   fecha: Date;
+  fechaEntrega?: Date;
   compradorId: number;
   comprador: string;
   proveedorId: number;

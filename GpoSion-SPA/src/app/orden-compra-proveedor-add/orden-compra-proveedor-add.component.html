@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="proveedorId">Proveedor</label>
-                            <select class="form-control" id="proveedorId" formControlName="proveedorId">
+                            <select class="form-control" id="proveedorId" formControlName="proveedorId" (change)="proveedorChange($event.target.value)">
                 <option
                   *ngFor="let proveedor of proveedores"
                   [value]="proveedor.proveedorId"
@@ -57,6 +57,14 @@
                   {{ proveedor.nombre }}
                 </option>
               </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="fecha">Fecha Entrega</label>
+                            <input type="text" bsDatepicker [bsConfig]="bsConfig" class="form-control" formControlName="fechaEntrega" placeholder="Fecha Entrega" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="condicionesCredito">Condiciones Crédito</label>
+                            <input type="text" class="form-control" formControlName="condicionesCredito" placeholder="Condiciones Crédito" />
                         </div>
                     </div>
                     <div class="row">
@@ -111,7 +119,7 @@
                                 <div class="card-header text-primary">Materiales</div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <label for="material">Material</label>
                                             <input type="hidden" id="matrialId" formControlName="materialId" />
                                             <input autocomplete="off" [typeahead]="materialesCat" typeaheadOptionField="material" [isAnimated]="true" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
@@ -119,6 +127,10 @@
                                         <div class="col-md-3">
                                             <label for="cantidad">Cantidad</label>
                                             <input type="text" class="form-control" id="cantidad" formControlName="cantidad" placeholder="Cantidad" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="unidadMedida">UOM</label>
+                                            <input type="text" class="form-control" id="unidadMedida" formControlName="unidadMedida" placeholder="UOM" />
                                         </div>
                                         <div class="col-md-3">
                                             <label for="precio">Precio</label>
@@ -141,6 +153,7 @@
                                             <thead>
                                                 <tr class="table-primary">
                                                     <th>Cantidad</th>
+                                                    <th>UOM</th>
                                                     <th>Descripcion</th>
                                                     <th>Precio</th>
                                                     <th>Total</th>
@@ -150,6 +163,7 @@
                                             <tbody>
                                                 <tr *ngFor="let detalle of detalles; let i; of: index">
                                                     <td scope="row">{{ detalle.cantidad }}</td>
+                                                    <td>{{ detalle.unidadMedida }}</td>
                                                     <td>
                                                         {{ detalle.material }}
                                                         <p>

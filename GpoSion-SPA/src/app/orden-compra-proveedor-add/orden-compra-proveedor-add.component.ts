@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BsDatepickerConfig } from "ngx-bootstrap";
+import { BsDatepickerConfig, BsLocaleService } from "ngx-bootstrap";
 import { OrdenCompraProveedor } from "../_models/orden-compra-proveedor";
 import { OrdenCompraProveedorDetalle } from "../_models/orden-compra-proveedor-detalle";
 import { Material } from "../_models/material";
@@ -32,14 +32,16 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
     private proveedorService: ProveedorService,
     private alertify: AlertifyService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private localeService: BsLocaleService
   ) {}
 
   ngOnInit() {
     (this.bsConfig = {
       dateInputFormat: "DD/MM/YYYY"
     }),
-      this.loadProveedores();
+      this.localeService.use("es");
+    this.loadProveedores();
     this.loadCompradores();
     this.loadMateriales();
     this.createOrdenCompraForm();
@@ -52,7 +54,9 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
         noOrden: [null, Validators.required],
         compradorId: [null, Validators.required],
         proveedorId: [null, Validators.required],
+        condicionesCredito: [null],
         fecha: [now, Validators.required],
+        fechaEntrega: [null],
         personaSolicita: [null],
         departamento: [null],
         areaProyecto: [null],
@@ -62,6 +66,7 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
         material: [null],
         precio: [0],
         cantidad: [0],
+        unidadMedida: [null],
         observaciones: [null]
       },
       { updateOn: "blur" }
@@ -101,6 +106,13 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
     );
   }
 
+  proveedorChange(id: number) {
+    const p = this.proveedores.filter(pr => pr.proveedorId == id);
+    this.ordenCompraForm
+      .get("condicionesCredito")
+      .setValue(p[0].condicionesCredito);
+  }
+
   addDetalle() {
     const now = new Date();
     const detalle: OrdenCompraProveedorDetalle = {
@@ -109,6 +121,7 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
       materialId: this.ordenCompraForm.get("materialId").value,
       material: this.ordenCompraForm.get("material").value,
       cantidad: +this.ordenCompraForm.get("cantidad").value,
+      unidadMedida: this.ordenCompraForm.get("unidadMedida").value,
       precioUnitario: +this.ordenCompraForm.get("precio").value,
       precioTotal:
         +this.ordenCompraForm.get("precio").value *
@@ -124,6 +137,7 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
     this.ordenCompraForm.get("materialId").setValue(null);
     this.ordenCompraForm.get("material").setValue(null);
     this.ordenCompraForm.get("cantidad").setValue(0);
+    this.ordenCompraForm.get("unidadMedida").setValue(null);
     this.ordenCompraForm.get("precio").setValue(null);
     this.ordenCompraForm.get("observaciones").setValue(null);
   }

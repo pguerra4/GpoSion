@@ -12,6 +12,8 @@ namespace GpoSion.API.Models
         public string NoOrden { get; set; }
         public DateTime Fecha { get; set; }
 
+        public DateTime? FechaEntrega { get; set; }
+
         public int CompradorId { get; set; }
         public Comprador Comprador { get; set; }
 

@@ -17,6 +17,7 @@ namespace GpoSion.API.Dtos
         public string OrdenCompraProveedorNoOrden { get; set; }
 
         public Decimal Cantidad { get; set; }
+        public string UnidadMedida { get; set; }
 
 
         public Decimal PrecioUnitario { get; set; }
