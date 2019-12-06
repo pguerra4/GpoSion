@@ -11,6 +11,9 @@ import { Router } from "@angular/router";
 import { OrdenCompraProveedorService } from "../_services/orden-compra-proveedor.service";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 import { ProveedorService } from "../_services/proveedor.service";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: "app-orden-compra-proveedor-add",
@@ -158,6 +161,7 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
     this.ordenesService.addOrdenCompraProveedor(this.ordenCompra).subscribe(
       (res: OrdenCompraProveedor) => {
         this.alertify.success("Guardado");
+        this.generatePdf();
         this.router.navigate(["ordenescompraproveedores"]);
       },
       error => {
@@ -168,5 +172,113 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
 
   onSelectMaterial(item: any) {
     this.ordenCompraForm.get("materialId").setValue(item.item.materialId);
+  }
+
+  generatePdf() {
+    const documentDefinition = this.getDocumentDefinition();
+    pdfMake.createPdf(documentDefinition).open();
+  }
+
+  getDocumentDefinition() {
+    sessionStorage.setItem("ordenCompra", JSON.stringify(this.ordenCompra));
+    return {
+      content: [
+        {
+          columns: [
+            [
+              {
+                text: this.compradores.filter(
+                  c => c.compradorId == this.ordenCompra.compradorId
+                )[0].nombre,
+                style: "name"
+              },
+              {
+                text: this.compradores.filter(
+                  c => c.compradorId == this.ordenCompra.compradorId
+                )[0].direccion
+              }
+            ],
+            []
+          ]
+        },
+        {
+          text: "Purchase Order",
+          style: "header"
+        },
+        this.getDetallesObject(this.ordenCompra.materiales)
+      ],
+      info: {
+        title: this.ordenCompra.noOrden,
+        author: "Yo",
+        subject: "Purchase Order",
+        keywords: "PO, PURCHASE ORDER, ORDEN DE COMPRA"
+      },
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 20, 0, 10],
+          decoration: "underline"
+        },
+        name: {
+          fontSize: 16,
+          bold: true
+        },
+        jobTitle: {
+          fontSize: 14,
+          bold: true,
+          italics: true
+        },
+        sign: {
+          margin: [0, 50, 0, 10],
+          alignment: "right",
+          italics: true
+        },
+        tableHeader: {
+          bold: true
+        }
+      }
+    };
+  }
+
+  getDetallesObject(detalles: OrdenCompraProveedorDetalle[]) {
+    return {
+      table: {
+        widths: ["*", "*", "*", "*", "*"],
+        body: [
+          [
+            {
+              text: "QUANTITY",
+              style: "tableHeader"
+            },
+            {
+              text: "UOM",
+              style: "tableHeader"
+            },
+            {
+              text: "DESCRIPTION",
+              style: "tableHeader"
+            },
+            {
+              text: "UNIT PRICE",
+              style: "tableHeader"
+            },
+            {
+              text: "TOTAL Price",
+              style: "tableHeader"
+            }
+          ],
+          ...detalles.map(ed => {
+            return [
+              ed.cantidad,
+              ed.unidadMedida,
+              ed.material,
+              ed.precioUnitario,
+              ed.precioTotal
+            ];
+          })
+        ]
+      }
+    };
   }
 }
