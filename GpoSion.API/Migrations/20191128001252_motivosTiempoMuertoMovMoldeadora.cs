@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GpoSion.API.Migrations
@@ -12,6 +13,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MotivoTiempoMuertoId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Motivo = table.Column<string>(nullable: true)
                 },
@@ -25,6 +27,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MovimientoMoldeadoraId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     MoldeadoraId = table.Column<int>(nullable: false),
                     Movimiento = table.Column<string>(nullable: true),

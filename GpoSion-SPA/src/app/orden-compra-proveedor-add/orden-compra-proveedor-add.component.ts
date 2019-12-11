@@ -110,7 +110,7 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
   }
 
   proveedorChange(id: number) {
-    const p = this.proveedores.filter(pr => pr.proveedorId == id);
+    const p = this.proveedores.filter(pr => pr.proveedorId === id);
     this.ordenCompraForm
       .get("condicionesCredito")
       .setValue(p[0].condicionesCredito);
@@ -185,7 +185,7 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
       content: [
         {
           text: this.compradores.filter(
-            c => c.compradorId == this.ordenCompra.compradorId
+            c => c.compradorId === this.ordenCompra.compradorId
           )[0].nombre,
           style: "name"
         },
@@ -194,7 +194,7 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
             [
               {
                 text: this.compradores.filter(
-                  c => c.compradorId == this.ordenCompra.compradorId
+                  c => c.compradorId === this.ordenCompra.compradorId
                 )[0].direccion
               }
             ],

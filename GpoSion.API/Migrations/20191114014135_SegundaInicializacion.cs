@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GpoSion.API.Migrations
@@ -12,6 +13,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     AreaId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Area = table.Column<string>(nullable: true),
                     Abreviatura = table.Column<string>(nullable: true)
@@ -26,6 +28,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     ClienteId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Clave = table.Column<string>(nullable: true),
                     Cliente = table.Column<string>(nullable: true),
@@ -43,6 +46,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     ProveedorId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombre = table.Column<string>(nullable: true)
                 },
@@ -56,6 +60,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     TipoMaterialId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Tipo = table.Column<string>(nullable: true)
                 },
@@ -69,6 +74,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     TurnoId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     NoTurno = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(nullable: true)
@@ -83,6 +89,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     UnidadMedidaId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Unidad = table.Column<string>(nullable: true),
                     Descripcion = table.Column<string>(nullable: true)
@@ -97,6 +104,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Usuario = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
@@ -137,6 +145,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     RequerimientoMaterialId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     FechaSolicitud = table.Column<DateTime>(nullable: false),
                     TurnoId = table.Column<int>(nullable: true),
@@ -163,6 +172,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MaterialId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Material = table.Column<string>(nullable: true),
                     Descripcion = table.Column<string>(nullable: true),
@@ -193,6 +203,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Molde = table.Column<string>(nullable: true),
                     ClienteId = table.Column<int>(nullable: true),
@@ -229,6 +240,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     ReciboId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     NoRecibo = table.Column<int>(nullable: false),
                     FechaEntrada = table.Column<DateTime>(nullable: true),
@@ -265,6 +277,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     ExistenciaMaterialId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     MaterialId = table.Column<int>(nullable: true),
                     AreaId = table.Column<int>(nullable: true),
@@ -344,6 +357,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MoldeadoraId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Clave = table.Column<string>(nullable: true),
                     Estatus = table.Column<string>(nullable: true),
@@ -420,6 +434,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MovimientoMoldeadoraId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Movimiento = table.Column<string>(nullable: true),
                     Observaciones = table.Column<string>(nullable: true),
@@ -464,6 +479,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     NoParte1 = table.Column<string>(nullable: true),
                     NoOrden = table.Column<int>(nullable: false),
@@ -494,6 +510,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     DetalleReciboId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     TotalCajas = table.Column<int>(nullable: false),
                     CantidadPorCaja = table.Column<decimal>(type: "decimal(18, 3)", nullable: false),
@@ -539,6 +556,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     RequerimientoMaterialId = table.Column<int>(nullable: false),
                     MaterialId = table.Column<int>(nullable: false),
@@ -607,6 +625,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     ProduccionId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Fecha = table.Column<DateTime>(nullable: false),
                     FechaCreacion = table.Column<DateTime>(nullable: false),
@@ -630,6 +649,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MovimientoMaterialId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Fecha = table.Column<DateTime>(nullable: false),
                     MaterialId = table.Column<int>(nullable: true),
@@ -693,6 +713,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     ProduccionNumeroParteId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     ProduccionId = table.Column<int>(nullable: false),
                     NoParte = table.Column<string>(nullable: true),

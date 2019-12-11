@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GpoSion.API.Migrations
@@ -52,6 +53,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Cantidad = table.Column<decimal>(type: "decimal(18, 4)", nullable: false),
                     MaterialId = table.Column<int>(nullable: false),

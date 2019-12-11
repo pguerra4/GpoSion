@@ -4,3 +4,4 @@ obj
 *.db
 Data/Photos/*
 !Data/Photos/.gitkeep
+wwwroot

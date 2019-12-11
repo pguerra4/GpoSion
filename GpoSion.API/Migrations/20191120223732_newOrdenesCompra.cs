@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GpoSion.API.Migrations
@@ -31,6 +32,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     NoParte = table.Column<string>(nullable: true),
                     NoOrden = table.Column<int>(nullable: false),

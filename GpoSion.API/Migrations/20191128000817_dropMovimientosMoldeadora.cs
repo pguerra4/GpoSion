@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GpoSion.API.Migrations
@@ -27,6 +28,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MovimientoMoldeadoraId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Estatus = table.Column<string>(nullable: true),
                     Fecha = table.Column<DateTime>(nullable: false),

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GpoSion.API.Migrations
@@ -12,6 +13,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     EmbarqueId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     Folio = table.Column<int>(nullable: false),
                     Fecha = table.Column<DateTime>(nullable: false),
@@ -38,6 +40,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     ExistenciaProductoId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     NoParte = table.Column<string>(nullable: true),
                     PiezasCertificadas = table.Column<int>(nullable: false),
@@ -60,6 +63,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     DetalleEmbarqueId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     EmbarqueId = table.Column<int>(nullable: false),
                     NoParte = table.Column<string>(nullable: true),
@@ -96,6 +100,7 @@ namespace GpoSion.API.Migrations
                 columns: table => new
                 {
                     MovimientoProductoId = table.Column<int>(nullable: false)
+                       .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                         .Annotation("Sqlite:Autoincrement", true),
                     NoParte = table.Column<string>(nullable: true),
                     Fecha = table.Column<DateTime>(nullable: false),
