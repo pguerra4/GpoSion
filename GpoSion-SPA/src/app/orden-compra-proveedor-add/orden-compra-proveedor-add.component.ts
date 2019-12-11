@@ -184,21 +184,55 @@ export class OrdenCompraProveedorAddComponent implements OnInit {
     return {
       content: [
         {
+          text: this.compradores.filter(
+            c => c.compradorId == this.ordenCompra.compradorId
+          )[0].nombre,
+          style: "name"
+        },
+        {
           columns: [
             [
-              {
-                text: this.compradores.filter(
-                  c => c.compradorId == this.ordenCompra.compradorId
-                )[0].nombre,
-                style: "name"
-              },
               {
                 text: this.compradores.filter(
                   c => c.compradorId == this.ordenCompra.compradorId
                 )[0].direccion
               }
             ],
-            []
+            [
+              {
+                table: {
+                  widths: ["*", "*", "*", "*"],
+                  body: [
+                    [
+                      {
+                        text: "Order no.",
+                        style: "tableHeader"
+                      },
+                      {
+                        text: "Month",
+                        style: "tableHeader"
+                      },
+                      {
+                        text: "Day",
+                        style: "tableHeader"
+                      },
+                      {
+                        text: "Year",
+                        style: "tableHeader"
+                      }
+                    ],
+                    [{ text: "" }, { text: "" }, { text: "" }, { text: "" }],
+                    [{ text: "" }, { text: "" }, { text: "" }, { text: "" }],
+                    [
+                      { text: this.ordenCompra.noOrden },
+                      { text: this.ordenCompra.fecha.getMonth() + 1 },
+                      { text: this.ordenCompra.fecha.getDate() },
+                      { text: this.ordenCompra.fecha.getFullYear() }
+                    ]
+                  ]
+                }
+              }
+            ]
           ]
         },
         {
