@@ -145,29 +145,38 @@ namespace GpoSion.API.Controllers
         [HttpPost("{id}/Photo")]
         public async Task<IActionResult> PostImagenNumeroParte(string id, [FromForm] ImagenNumeroParteDto imagen)
         {
-            var numeroParte = await _repo.GetNumeroParte(id);
-            if (numeroParte == null)
-                return NotFound();
-
-            var file = imagen.File;
-
-            if (file.Length > 0)
+            try
             {
-                var filePath = Path.Combine("Data/Photos/",
-                    id + ".jpg");
+                var numeroParte = await _repo.GetNumeroParte(id);
+                if (numeroParte == null)
+                    return NotFound();
 
-                numeroParte.UrlImagenPieza = filePath;
-                using (var stream = System.IO.File.Create(filePath))
+                var file = imagen.File;
+
+                if (file.Length > 0)
                 {
-                    await file.CopyToAsync(stream);
+                    var filePath = Path.Combine("Data/Photos/",
+                        id + ".jpg");
+
+                    numeroParte.UrlImagenPieza = filePath;
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
                 }
+
+
+
+                await _repo.SaveAll();
+
+                return NoContent();
+            }
+            catch (System.Exception e)
+            {
+
+                return Ok(e.GetBaseException().Message);
             }
 
-
-
-            await _repo.SaveAll();
-
-            return NoContent();
 
 
         }
