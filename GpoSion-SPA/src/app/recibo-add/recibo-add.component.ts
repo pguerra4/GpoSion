@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ReciboService } from "../_services/recibo.service";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BsDatepickerConfig } from "ngx-bootstrap";
+import { BsDatepickerConfig, BsLocaleService } from "ngx-bootstrap";
 import { Recibo } from "../_models/recibo";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
@@ -25,14 +25,16 @@ export class ReciboAddComponent implements OnInit {
     private proveedorService: ProveedorService,
     private alertify: AlertifyService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private localeService: BsLocaleService
   ) {}
 
   ngOnInit() {
     (this.bsConfig = {
       containerClass: "theme-orange"
     }),
-      this.createReciboForm();
+      this.localeService.use("es");
+    this.createReciboForm();
     this.loadProveedores();
   }
 

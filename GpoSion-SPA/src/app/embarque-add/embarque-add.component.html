@@ -37,8 +37,30 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-check-inline">
-                                <input class="form-control mr-1" type="checkbox" formControlName="rechazadas" value="rechazadas" /> Rechazadas
+                            <div>
+                                <label class="radio-inline mr-2">
+                                    <input
+                                    type="radio"
+                                    name="rechazadas"
+                                    formControlName="rechazadas"
+                                    checked
+                                    value="false"
+                                  />
+                
+                                  Certificadas
+                </label>
+
+                                <label class="radio-inline">
+                                    <input
+                                    type="radio"
+                                    name="rechazadas"
+                                    formControlName="rechazadas"
+                                    value="true"
+                                  />
+                
+                                  Rechazadas
+                 
+                </label>
                             </div>
                         </div>
                     </div>
@@ -47,9 +69,14 @@
                             <label for="noParte">No. Parte</label>
                             <input type="text" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" formControlName="noParte" placeholder="No. Parte" (typeaheadOnSelect)="onSelectNumeroParte($event)" />
                         </div>
+                            <ng-template #customItemTemplate let-model="item" >
+                                <div *ngFor="let detalle of model.numerosParte" >
+                                    <h5 *ngIf="detalle.noParte == embarqueForm.get('noParte').value">{{ detalle.noOrden }}: {{ detalle.piezasAutorizadas > 0 ?   '(' + detalle.piezasSurtidas.toString() + '/' +  detalle.piezasAutorizadas.toString() + ')' : '(' + detalle.piezasSurtidas.toString() + '/Abierta)'}} </h5>
+                                </div>
+                          </ng-template>
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="noOrden">No. Orden</label>
-                            <input type="text" [typeahead]="ordenesCompra" typeaheadOptionField="noOrden" [isAnimated]="true" class="form-control" formControlName="noOrden" placeholder="No. Orden" />
+                            <input type="text" [typeahead]="ordenesCompra" typeaheadOptionField="noOrden" [typeaheadItemTemplate]="customItemTemplate" [isAnimated]="true" class="form-control" formControlName="noOrden" placeholder="No. Orden" />
                         </div>
                     </div>
                     <div class="row">

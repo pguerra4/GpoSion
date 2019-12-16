@@ -109,6 +109,7 @@ export class EmbarqueAddComponent implements OnInit {
     this.detallesEmbarque.forEach(detalle => {
       this.embarque.detallesEmbarque.push(detalle);
     });
+   
 
     this.numeroParteService.addEmbarque(this.embarque).subscribe(
       (res: Embarque) => {

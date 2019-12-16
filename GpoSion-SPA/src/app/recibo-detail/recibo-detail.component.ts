@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  HostListener
+} from "@angular/core";
 import { ReciboService } from "../_services/recibo.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Recibo } from "../_models/recibo";
@@ -23,6 +29,14 @@ export class ReciboDetailComponent implements OnInit {
   unidadesMedida: UnidadMedida[];
   detallesRecibo: DetalleRecibo[];
   materiales: Material[];
+  agregados = false;
+
+  @HostListener("window:beforeunload", ["$event"])
+  unloadNotification($event: any) {
+    if (this.agregados) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
     private reciboService: ReciboService,
@@ -107,6 +121,7 @@ export class ReciboDetailComponent implements OnInit {
     this.detallesRecibo.push(detalle);
     this.reciboDetalleForm.reset(this.recibo);
     this.createReciboDetalleForm();
+    this.agregados = true;
     this.materialRef.nativeElement.focus();
   }
 
@@ -126,6 +141,9 @@ export class ReciboDetailComponent implements OnInit {
       this.detallesRecibo.findIndex(d => d.material === material),
       1
     );
+    if (this.detallesRecibo.length === 0) {
+      this.agregados = false;
+    }
     this.alertify.success("Material borrado");
   }
 
@@ -136,6 +154,7 @@ export class ReciboDetailComponent implements OnInit {
   addDetalles() {
     this.reciboService.addDetallesRecibo(this.detallesRecibo).subscribe(
       (res: Recibo) => {
+        this.agregados = false;
         this.alertify.success("Guardado");
         this.router.navigate(["recibos"]);
       },

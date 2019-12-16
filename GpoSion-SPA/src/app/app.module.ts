@@ -116,6 +116,7 @@ import { SearchExistenciaProductoPipe } from "./_filters/search-existencia-produ
 import { OrdenCompraProveedorListComponent } from "./orden-compra-proveedor-list/orden-compra-proveedor-list.component";
 import { SearchOrdenCompraProveedorPipe } from "./_filters/search-orden-compra-proveedor.pipe";
 import { OrdenCompraProveedorAddComponent } from "./orden-compra-proveedor-add/orden-compra-proveedor-add.component";
+import { PreventUnsavedChanges } from "./_guards/prevent-unsaved-changes.guard";
 
 function defineLocales() {
   for (const locale in locales) {
@@ -239,6 +240,7 @@ defineLocales();
     ClienteEditResolver,
     ProveedorEditResolver,
     MovimientoProductoEditResolver,
+    PreventUnsavedChanges,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

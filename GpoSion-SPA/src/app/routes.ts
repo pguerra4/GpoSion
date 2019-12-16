@@ -67,6 +67,7 @@ import { EmbarqueAddComponent } from "./embarque-add/embarque-add.component";
 import { ExistenciaProductoListComponent } from "./existencia-producto-list/existencia-producto-list.component";
 import { OrdenCompraProveedorListComponent } from "./orden-compra-proveedor-list/orden-compra-proveedor-list.component";
 import { OrdenCompraProveedorAddComponent } from "./orden-compra-proveedor-add/orden-compra-proveedor-add.component";
+import { PreventUnsavedChanges } from "./_guards/prevent-unsaved-changes.guard";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -98,7 +99,11 @@ export const appRoutes: Routes = [
   },
   { path: "materiales/:id/viajeros", component: MaterialViajerosListComponent },
   { path: "recibos", component: ReciboListComponent },
-  { path: "recibos/:id", component: ReciboDetailComponent },
+  {
+    path: "recibos/:id",
+    component: ReciboDetailComponent,
+    canDeactivate: [PreventUnsavedChanges]
+  },
   {
     path: "detalleRecibo/:id",
     component: DetalleReciboEditComponent,
