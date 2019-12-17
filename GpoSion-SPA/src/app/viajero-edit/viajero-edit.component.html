@@ -24,13 +24,25 @@
                         </div>
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="existencia">Existencia</label>
-                            <input [ngClass]="{'is-invalid': viajeroForm.get('existencia').errors && viajeroForm.get('existencia').touched }" class="form-control text-right" placeholder="Existencia" formControlName="existencia" />
-                            <div class="invalid-feedback" *ngIf="viajeroForm.get('existencia').hasError('required') && viajeroForm.get('existencia').touched">La existencia es requerida.</div>
+                            <input [ngClass]="{
+                  'is-invalid':
+                    viajeroForm.get('existencia').errors &&
+                    viajeroForm.get('existencia').touched
+                }" class="form-control text-right" placeholder="Existencia" formControlName="existencia" />
+                            <div class="invalid-feedback" *ngIf="
+                  viajeroForm.get('existencia').hasError('required') &&
+                  viajeroForm.get('existencia').touched
+                ">
+                                La existencia es requerida.
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                          <button class="btn btn-success">Guardar</button>
+                            <button class="btn btn-success mr-1">Guardar</button>
+                            <a class="btn btn-danger " [routerLink]="['/viajeros']">
+                Cancelar
+              </a>
                         </div>
                     </div>
                 </form>

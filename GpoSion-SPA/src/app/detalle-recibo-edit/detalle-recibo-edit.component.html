@@ -72,9 +72,12 @@
 
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
-                            <button class="btn btn-success" [disabled]="!reciboDetalleForm.valid" type="submit">
+                            <button class="btn btn-success mr-1" [disabled]="!reciboDetalleForm.valid" type="submit">
                 Guardar
               </button>
+                            <a class="btn btn-danger " [routerLink]="['/recibos/' + detalleRecibo.reciboId]">
+                Cancelar
+              </a>
                         </div>
                     </div>
                 </div>

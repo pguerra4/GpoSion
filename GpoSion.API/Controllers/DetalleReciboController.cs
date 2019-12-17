@@ -73,6 +73,8 @@ namespace GpoSion.API.Controllers
                 if (viajero == null)
                 {
                     viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, Localidad = detalle.Localidad };
+                    _repo.Add(viajero);
+                    await _repo.SaveAll();
                 }
                 else
                 {

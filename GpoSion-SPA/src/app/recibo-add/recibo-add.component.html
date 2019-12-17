@@ -43,31 +43,23 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-12 col-md-12 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="transportista">Transportista</label>
                             <input class="form-control" placeholder="Transportista" formControlName="transportista" />
                         </div>
-
-                        <div class="form-group col-sm-12 col-md-12 col-lg-4">
-                            <label for="facturaAduanal">Factura Aduanal</label>
-                            <input class="form-control" placeholder="Factura Aduanal" formControlName="facturaAduanal" />
-                        </div>
-                        <div class="form-group col-sm-12 col-md-12 col-lg-4">
-                            <label for="pedimentoImportacion">Pedimento Importación</label>
-                            <input class="form-control" placeholder="Pedimento Importacion" formControlName="pedimentoImportacion" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="recibio">Recibió</label>
                             <input class="form-control" placeholder="Recibió" formControlName="recibio" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
-                            <button class="btn btn-success" [disabled]="!reciboForm.valid" type="submit">
+                            <button class="btn btn-success mr-1" [disabled]="!reciboForm.valid" type="submit">
                 Guardar
               </button>
+                            <a class="btn btn-danger " [routerLink]="['/recibos']">
+                Cancelar
+              </a>
                         </div>
                     </div>
                 </form>

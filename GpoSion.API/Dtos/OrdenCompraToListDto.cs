@@ -7,7 +7,7 @@ namespace GpoSion.API.Dtos
     public class OrdenCompraToListDto
     {
 
-        public int NoOrden { get; set; }
+        public long NoOrden { get; set; }
         public DateTime Fecha { get; set; }
 
         public int ClienteId { get; set; }

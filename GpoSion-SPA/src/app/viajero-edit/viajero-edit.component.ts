@@ -52,6 +52,5 @@ export class ViajeroEditComponent implements OnInit {
           this.alertify.error(error);
         }
       );
-    console.log(v);
   }
 }

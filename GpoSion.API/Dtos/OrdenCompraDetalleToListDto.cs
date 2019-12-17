@@ -10,7 +10,7 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "noParte")]
         public string NumeroParteNoParte { get; set; }
 
-        public int NoOrden { get; set; }
+        public long NoOrden { get; set; }
 
         public Decimal Precio { get; set; }
 

@@ -194,6 +194,7 @@ namespace GpoSion.API.Data
             .Include(r => r.Materiales).ThenInclude(m => m.Material)
             .Include(r => r.Materiales).ThenInclude(m => m.UnidadMedida)
             .Include(r => r.Materiales).ThenInclude(m => m.Viajero)
+            .Where(r => r.Estatus != "Surtido")
             .ToListAsync();
             return requerimientos;
         }
@@ -240,7 +241,7 @@ namespace GpoSion.API.Data
             return molde;
         }
 
-        public async Task<OrdenCompra> GetOrdenCompra(int Id)
+        public async Task<OrdenCompra> GetOrdenCompra(long Id)
         {
             var ordenCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).ThenInclude(np => np.NumeroParte).FirstOrDefaultAsync(oc => oc.NoOrden == Id);
             return ordenCompra;

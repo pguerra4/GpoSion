@@ -50,8 +50,6 @@ export class ReciboAddComponent implements OnInit {
         proveedorId: [null, Validators.required],
         fechaEntrada: [now],
         transportista: [null],
-        facturaAduanal: [null],
-        pedimentoImportacion: [null],
         recibio: [null]
       },
       { updateOn: "blur" }

@@ -8,7 +8,7 @@ namespace GpoSion.API.Dtos
 
         public string NoParte { get; set; }
 
-        public int? NoOrden { get; set; }
+        public long? NoOrden { get; set; }
 
         public int Cajas { get; set; }
         public int PiezasXCaja { get; set; }

@@ -74,7 +74,6 @@ export class ReciboDetailComponent implements OnInit {
         ],
         unidadMedidaId: [1],
         referencia2: [null],
-        referenciaCliente: [null],
         localidad: [""]
       },
       { updateOn: "blur" }
@@ -118,11 +117,29 @@ export class ReciboDetailComponent implements OnInit {
     let detalle: DetalleRecibo;
     detalle = Object.assign({}, this.reciboDetalleForm.value);
     detalle.reciboId = this.recibo.reciboId;
-    this.detallesRecibo.push(detalle);
-    this.reciboDetalleForm.reset(this.recibo);
-    this.createReciboDetalleForm();
-    this.agregados = true;
-    this.materialRef.nativeElement.focus();
+    const detalleViajero = this.detallesRecibo.find(
+      d => d.viajero === detalle.viajero
+    );
+    if (detalleViajero) {
+      if (detalleViajero.localidad !== detalle.localidad) {
+        this.alertify.warning(
+          "Esta agregando al mismo viajero una localidad distinta"
+        );
+        return;
+      } else {
+        this.detallesRecibo.push(detalle);
+        this.reciboDetalleForm.reset(this.recibo);
+        this.createReciboDetalleForm();
+        this.agregados = true;
+        this.materialRef.nativeElement.focus();
+      }
+    } else {
+      this.detallesRecibo.push(detalle);
+      this.reciboDetalleForm.reset(this.recibo);
+      this.createReciboDetalleForm();
+      this.agregados = true;
+      this.materialRef.nativeElement.focus();
+    }
   }
 
   calculaTotal() {

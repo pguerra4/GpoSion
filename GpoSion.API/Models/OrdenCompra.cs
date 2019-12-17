@@ -9,7 +9,7 @@ namespace GpoSion.API.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
-        public int NoOrden { get; set; }
+        public long NoOrden { get; set; }
         public DateTime Fecha { get; set; }
 
         public int ClienteId { get; set; }

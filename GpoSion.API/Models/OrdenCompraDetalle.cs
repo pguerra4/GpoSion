@@ -9,7 +9,7 @@ namespace GpoSion.API.Models
 
         public string NoParte { get; set; }
         public NumeroParte NumeroParte { get; set; }
-        public int NoOrden { get; set; }
+        public long NoOrden { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
         public Decimal Precio { get; set; }

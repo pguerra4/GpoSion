@@ -10,7 +10,7 @@ namespace GpoSion.API.Models
         public string NoParte { get; set; }
         public NumeroParte NumeroParte { get; set; }
 
-        public int? NoOrden { get; set; }
+        public long? NoOrden { get; set; }
         public OrdenCompra OrdenCompra { get; set; }
 
         public int Cajas { get; set; }
