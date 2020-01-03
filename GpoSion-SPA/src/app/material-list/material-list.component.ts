@@ -31,4 +31,22 @@ export class MaterialListComponent implements OnInit {
       }
     );
   }
+
+  deleteMaterial(id: number) {
+    this.alertify.confirm("¿Desea borrar el material?", () => {
+      this.existenciasService.deleteMaterial(id).subscribe(
+        () => {
+          this.materiales.splice(
+            this.materiales.findIndex(m => m.materialId === id),
+            1
+          );
+          this.loadMateriales();
+          this.alertify.success("Material borrado");
+        },
+        error => {
+          this.alertify.error("Fallo al borrar el material:" + error);
+        }
+      );
+    });
+  }
 }

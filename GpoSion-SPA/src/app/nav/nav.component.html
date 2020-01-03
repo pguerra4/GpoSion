@@ -7,26 +7,30 @@
                 <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Almacén
         </a>
                 <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                    <a class="dropdown-item" [routerLink]="['/materiales']">Materiales</a>
-                    <a class="dropdown-item" [routerLink]="['/recibos']">Recibos</a>
-                    <a class="dropdown-item" [routerLink]="['/existencias']">Existencias Material</a
+                    <a class="dropdown-item" [routerLink]="['/materiales']">Listado de Materias Primas</a
+          >
+          <a class="dropdown-item" [routerLink]="['/recibos']"
+            >Recibos Materia Prima</a
+          >
+          <a class="dropdown-item" [routerLink]="['/existencias']"
+            >Inventario de Materia Prima</a
           >
           <a class="dropdown-item" [routerLink]="['/existenciasproducto']"
-            >Existencias Producto</a
+            >Inventario de Producto Terminado</a
           >
           <a class="dropdown-item" [routerLink]="['/requerimientosprod']"
             >Req. Producción</a
           >
           <a class="dropdown-item" [routerLink]="['/viajeros']">Viajeros</a>
                     <a class="dropdown-item" [routerLink]="['/moldes']">Moldes</a>
-                    <a class="dropdown-item" [routerLink]="['/numerosParte']">Producto (No. Parte)</a
+                    <a class="dropdown-item" [routerLink]="['/numerosParte']">NP de Producto Terminado</a
           >
           <a class="dropdown-item" [routerLink]="['/tiposmaterial']"
-            >Tipos Material</a
+            >Tipos Materia Prima</a
           >
 
           <a class="dropdown-item" [routerLink]="['/movimientosproducto']"
-            >Recepción Producto</a
+            >Recepción de Producto Terminado</a
           >
           <a class="dropdown-item" [routerLink]="['/embarques']">Embarques</a>
                 </div>
@@ -41,7 +45,7 @@
           style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"
         >
           <a class="dropdown-item" [routerLink]="['/requerimientos']"
-            >Requerimientos</a
+            >Requerimientos Materia Prima</a
           >
           <a class="dropdown-item" [routerLink]="['/moldeadoras']"
             >Moldeadoras</a

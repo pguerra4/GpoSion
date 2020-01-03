@@ -259,7 +259,8 @@ namespace GpoSion.API.Data
             .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material).ThenInclude(m => m.UnidadMedida)
             .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material).ThenInclude(m => m.TipoMaterial)
             .Include(np => np.MoldesNumeroParte).ThenInclude(mnp => mnp.Molde)
-            .Include(np => np.MoldeadorasNumeroParte).ThenInclude(mnp => mnp.Moldeadora).FirstOrDefaultAsync(np => np.NoParte == NoParte);
+            .Include(np => np.MoldeadorasNumeroParte).ThenInclude(mnp => mnp.Moldeadora)
+            .Include(np => np.ExistenciasProducto).FirstOrDefaultAsync(np => np.NoParte == NoParte);
             return numeroParte;
         }
 
@@ -444,6 +445,12 @@ namespace GpoSion.API.Data
             var ordenes = await _context.OrdenesCompraProveedores.Include(ocp => ocp.Comprador).Include(ocp => ocp.Proveedor)
             .Include(ocp => ocp.Materiales).ThenInclude(m => m.Material).ToListAsync();
             return ordenes;
+        }
+
+        public async Task<bool> ExisteFolioEmbarque(int Folio)
+        {
+            var embarque = await _context.Embarques.FirstOrDefaultAsync(e => e.Folio == Folio);
+            return embarque != null;
         }
     }
 }

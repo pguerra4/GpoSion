@@ -203,5 +203,14 @@ namespace GpoSion.API.Controllers
 
 
         }
+
+
+        [HttpGet("{id}/Existe")]
+        public async Task<IActionResult> ExisteFolioEmbarque(int id)
+        {
+
+            return Ok(await _repo.ExisteFolioEmbarque(id));
+
+        }
     }
 }

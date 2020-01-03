@@ -203,5 +203,33 @@ namespace GpoSion.API.Controllers
 
         }
 
+        [HttpGet("{id}/ExistenciaAlmacen")]
+        public async Task<IActionResult> ExistenciaAlmacenNumeroParte(string id, bool certificadas = true)
+        {
+
+            var numeroParte = await _repo.GetNumeroParte(id);
+            if (numeroParte == null)
+                return Ok(0);
+
+
+            var existencias = numeroParte.ExistenciasProducto.FirstOrDefault();
+            if (existencias != null)
+            {
+                if (certificadas)
+                {
+                    return Ok(existencias.PiezasCertificadas);
+                }
+                else
+                {
+                    return Ok(existencias.PiezasRechazadas);
+                }
+            }
+            else
+            {
+                return Ok(0);
+            }
+
+        }
+
     }
 }

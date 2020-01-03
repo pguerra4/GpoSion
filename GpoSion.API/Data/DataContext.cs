@@ -83,6 +83,11 @@ namespace GpoSion.API.Data
 
             // modelBuilder.Entity<Viajero>().HasKey(v => v.ViajeroId);
 
+            modelBuilder.Entity<Material>()
+                       .HasAlternateKey(m => m.ClaveMaterial)
+                       .HasName("AlternateKey_ClaveMaterial");
+
+
             modelBuilder.Entity<MoldeadoraNumeroParte>().HasKey(mn => new { mn.MoldeadoraId, mn.NoParte });
             modelBuilder.Entity<MoldeadoraNumeroParte>().HasOne(mn => mn.Moldeadora).WithMany(m => m.MoldeadoraNumerosParte).HasForeignKey(mn => mn.MoldeadoraId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<MoldeadoraNumeroParte>().HasOne(mn => mn.NumeroParte).WithMany(n => n.MoldeadorasNumeroParte).HasForeignKey(mn => mn.NoParte).OnDelete(DeleteBehavior.Restrict);

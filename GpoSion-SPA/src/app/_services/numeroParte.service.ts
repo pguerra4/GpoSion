@@ -107,4 +107,18 @@ export class NumeroParteService {
       this.baseUrl + "existenciasproducto"
     );
   }
+
+  existeFolioEmbarque(id: number): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + "embarques/" + id + "/existe");
+  }
+
+  existenciasAlmacen(id: string, certificadas: boolean): Observable<number> {
+    return this.http.get<number>(
+      this.baseUrl +
+        "numerosparte/" +
+        id +
+        "/existenciaAlmacen?certificadas=" +
+        certificadas
+    );
+  }
 }

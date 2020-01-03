@@ -113,5 +113,7 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<OrdenCompraProveedor>> GetOrdenesCompraProveedores();
 
+        Task<bool> ExisteFolioEmbarque(int Folio);
+
     }
 }

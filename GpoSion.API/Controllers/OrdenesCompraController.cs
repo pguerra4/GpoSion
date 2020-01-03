@@ -32,7 +32,7 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrdenCompra(int id)
+        public async Task<IActionResult> GetOrdenCompra(long id)
         {
             var orden = await _repo.GetOrdenCompra(id);
             var ordenToReturn = _mapper.Map<OrdenCompraToListDto>(orden);
@@ -64,7 +64,7 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrdenCompra(int id, OrdenCompraToListDto ordenCompra)
+        public async Task<IActionResult> PutOrdenCompra(long id, OrdenCompraToListDto ordenCompra)
         {
 
             if (id != ordenCompra.NoOrden)

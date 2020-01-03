@@ -11,6 +11,7 @@ import { OrdenCompraService } from "../_services/orden-compra.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
 import { BsLocaleService } from "ngx-bootstrap";
+import { ValidateExistingFolioEmbarque } from "../_validators/async-folio-embarque-existente.validator";
 
 @Component({
   selector: "app-embarque-add",
@@ -47,11 +48,16 @@ export class EmbarqueAddComponent implements OnInit {
     this.embarqueForm = this.fb.group(
       {
         clienteId: [null, Validators.required],
-        folio: [null, Validators.required],
+        folio: [
+          null,
+          Validators.required,
+          ValidateExistingFolioEmbarque.createValidator(this.numeroParteService)
+        ],
         fecha: [now],
         rechazadas: [false],
         noParte: [""],
         noOrden: [""],
+        noOrden2: [""],
         cajas: [0],
         piezasXCaja: [0],
         entregadas: [0]
@@ -90,6 +96,12 @@ export class EmbarqueAddComponent implements OnInit {
     }
   }
 
+  onSelectNoOrden(po: any) {
+    if (po) {
+      this.embarqueForm.get("noOrden2").setValue(po.value);
+    }
+  }
+
   loadOrdenesCompra(noParte: string) {
     this.ordenCompraService
       .getOrdenesCompraAbiertasXNumroParte(noParte)
@@ -109,7 +121,6 @@ export class EmbarqueAddComponent implements OnInit {
     this.detallesEmbarque.forEach(detalle => {
       this.embarque.detallesEmbarque.push(detalle);
     });
-   
 
     this.numeroParteService.addEmbarque(this.embarque).subscribe(
       (res: Embarque) => {
@@ -133,15 +144,34 @@ export class EmbarqueAddComponent implements OnInit {
       noOrden: +this.embarqueForm.get("noOrden").value
     };
 
-    if (this.detallesEmbarque.indexOf(detalle) < 0) {
-      this.detallesEmbarque.push(detalle);
-    }
+    const cert =
+      this.embarqueForm.get("rechazadas").value === "false" ? true : false;
 
-    this.embarqueForm.get("noParte").setValue(null);
-    this.embarqueForm.get("cajas").setValue(0);
-    this.embarqueForm.get("piezasXCaja").setValue(0);
-    this.embarqueForm.get("entregadas").setValue(0);
-    this.embarqueForm.get("noOrden").setValue(null);
+    this.numeroParteService.existenciasAlmacen(detalle.noParte, cert).subscribe(
+      (res: number) => {
+        if (res >= detalle.entregadas) {
+          if (this.detallesEmbarque.indexOf(detalle) < 0) {
+            this.detallesEmbarque.push(detalle);
+          }
+
+          this.embarqueForm.get("noParte").setValue(null);
+          this.embarqueForm.get("cajas").setValue(0);
+          this.embarqueForm.get("piezasXCaja").setValue(0);
+          this.embarqueForm.get("entregadas").setValue(0);
+          this.embarqueForm.get("noOrden").setValue(null);
+          this.embarqueForm.get("noOrden2").setValue(null);
+        } else {
+          this.alertify.error(
+            "La canidad solicitada excede las existencias en almacen (" +
+              res +
+              ")"
+          );
+        }
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
   }
 
   deleteDetalle(index: number) {

@@ -87,4 +87,8 @@ export class ExistenciasMaterialService {
       this.baseUrl + "materiales/" + material + "/existe/" + id
     );
   }
+
+  deleteMaterial(id: number) {
+    return this.http.delete(this.baseUrl + "materiales/" + id);
+  }
 }

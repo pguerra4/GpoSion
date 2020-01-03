@@ -93,6 +93,22 @@ namespace GpoSion.API.Controllers
             return Ok(await _repo.ExisteMaterial(material, id));
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMaterial(int id)
+        {
+            var material = await _repo.GetMaterial(id);
+            if (material == null)
+                return NotFound();
+
+            _repo.Delete(material);
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception("Error al borrar material");
+
+        }
+
 
     }
 }

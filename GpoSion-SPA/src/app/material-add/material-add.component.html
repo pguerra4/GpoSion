@@ -1,12 +1,12 @@
 <div class="container">
     <div class="card broder-primary mt-4">
-        <div class="card-header text-primary">Nuevo Material</div>
+        <div class="card-header text-primary">Nueva Materia Prima</div>
         <div class="card-body">
             <div class="card-text">
                 <form [formGroup]="materialForm" (ngSubmit)="addMaterial()">
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <label for="material">Material</label>
+                            <label for="material">Materia Prima</label>
                             <input type="text" [ngClass]="{
                   'is-invalid':
                     materialForm.get('material').errors &&
@@ -16,13 +16,13 @@
                   materialForm.get('material').hasError('required') &&
                   materialForm.get('material').touched
                 ">
-                                El material es requerido
+                                La materia prima es requerida
                             </div>
                             <div class="invalid-feedback" *ngIf="
                   materialForm.get('material').hasError('materialExistente') &&
                   materialForm.get('material').touched
                 ">
-                                El material ya existe.
+                                La materia prima ya existe.
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <label for="tipoMaterialId">Tipo Material</label>
+                            <label for="tipoMaterialId">Tipo Materia Prima</label>
                             <select class="form-control" id="tipoMaterialId" formControlName="tipoMaterialId">
                 <option
                   *ngFor="let tipo of tiposMaterial"

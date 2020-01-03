@@ -12,7 +12,7 @@
                 <form *ngIf="!recibo.isComplete" [formGroup]="reciboDetalleForm" (ngSubmit)="addDetalleRecibo()">
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <label for="material">Material</label>
+                            <label for="material">Materia Prima</label>
                             <input type="hidden" formControlName="materialId" />
                             <input autocomplete="off" [typeahead]="materiales" typeaheadOptionField="material" [isAnimated]="true" type="text" #material [ngClass]="{
                   'is-invalid':
@@ -20,7 +20,7 @@
                     reciboDetalleForm.get('material').touched
                 }" class="form-control" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
                             <div class="invalid-feedback">
-                                Debe seleccionar un material de la lista.
+                                Debe seleccionar una materia prima de la lista.
                             </div>
                         </div>
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
@@ -107,7 +107,7 @@
                 <table id="mytable" class="table table-hover table-bordered table-striped">
                     <thead>
                         <tr class="table-primary">
-                            <th>Material</th>
+                            <th>Materia Prima</th>
                             <th class="text-right">Cajas</th>
                             <th class="text-right">Cantidad Por Caja</th>
                             <th class="text-right">Total</th>
