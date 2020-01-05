@@ -1,7 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { ReciboService } from "../_services/recibo.service";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BsDatepickerConfig, BsLocaleService } from "ngx-bootstrap";
+import {
+  BsDatepickerConfig,
+  BsLocaleService,
+  defineLocale,
+  deLocale
+} from "ngx-bootstrap";
 import { Recibo } from "../_models/recibo";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
@@ -34,12 +39,14 @@ export class ReciboAddComponent implements OnInit {
       containerClass: "theme-orange"
     }),
       this.localeService.use("es");
+    defineLocale("es-us", deLocale);
     this.createReciboForm();
     this.loadProveedores();
   }
 
   createReciboForm() {
     const now = new Date();
+    console.log(now);
     this.reciboForm = this.fb.group(
       {
         noRecibo: [
@@ -69,6 +76,7 @@ export class ReciboAddComponent implements OnInit {
 
   addRecibo() {
     this.recibo = Object.assign({}, this.reciboForm.value);
+    console.log(this.recibo);
     this.reciboService.addRecibo(this.recibo).subscribe(
       (res: Recibo) => {
         this.alertify.success("Guardado");

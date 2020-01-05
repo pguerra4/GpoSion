@@ -5,7 +5,9 @@
             <div class="card-title p-2">
                 <div class="row">
                     <div class="col-md-6">Proveedor: {{ recibo.proveedorNombre }}</div>
-                    <div class="col-md-6">Entrada: {{ recibo.fechaEntrada | date }}</div>
+                    <div class="col-md-6">
+                        Entrada: {{ recibo.fechaEntrada | date: "dd/MM/yyyy" }}
+                    </div>
                 </div>
             </div>
             <div class="card-text">
@@ -30,12 +32,6 @@
                     reciboDetalleForm.get('viajero').errors &&
                     reciboDetalleForm.get('viajero').touched
                 }" class="form-control text-right" formControlName="viajero" placeholder="Viajero" />
-                            <div class="invalid-feedback" *ngIf="
-                  reciboDetalleForm.get('viajero').hasError('required') &&
-                  reciboDetalleForm.get('viajero').touched
-                ">
-                                El viajero es requerido
-                            </div>
                             <div class="invalid-feedback" *ngIf="
                   reciboDetalleForm
                     .get('viajero')
@@ -90,7 +86,7 @@
 
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
-                            <button class="btn btn-success" [disabled]="!reciboDetalleForm.valid" type="submit">
+                            <button class="btn btn-success" type="submit">
                 Agregar
               </button>
                         </div>
@@ -129,11 +125,11 @@
                             </td>
 
                             <td class="text-right">
-                                <a *ngIf="recibo.isComplete; else show" [routerLink]="['/viajeros/' + item.viajero]">
+                                <a *ngIf="recibo.isComplete && item.viajero !== 0; else show" [routerLink]="['/viajeros/' + item.viajero]">
                   {{ item.viajero }}</a
                 >
                 <ng-template #show>
-                  <span>{{ item.viajero }}</span>
+                  <span>{{ item.viajero === 0 ? "" : item.viajero }}</span>
                 </ng-template>
               </td>
               <td>{{ item.localidad }}</td>
@@ -163,4 +159,5 @@
       </button>
         </div>
     </div>
+    <a [routerLink]="['/recibos']">Regresar a recibos </a>
 </div>

@@ -16,6 +16,7 @@ import { DetalleRecibo } from "../_models/detalleRecibo";
 import { ValidateExistingViajero } from "../_validators/async-viajero-existente.validator";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 import { Material } from "../_models/material";
+import { optionalValidator } from "../_validators/optional-validator";
 
 @Component({
   selector: "app-recibo-detail",
@@ -65,7 +66,7 @@ export class ReciboDetailComponent implements OnInit {
         total: [0.0, Validators.required],
         viajero: [
           "",
-          [Validators.required],
+          [],
           [
             ValidateExistingViajero.createValidator(
               this.existenciasMaterialService
@@ -117,15 +118,31 @@ export class ReciboDetailComponent implements OnInit {
     let detalle: DetalleRecibo;
     detalle = Object.assign({}, this.reciboDetalleForm.value);
     detalle.reciboId = this.recibo.reciboId;
-    const detalleViajero = this.detallesRecibo.find(
-      d => d.viajero === detalle.viajero
-    );
-    if (detalleViajero) {
-      if (detalleViajero.localidad !== detalle.localidad) {
-        this.alertify.warning(
-          "Esta agregando al mismo viajero una localidad distinta"
-        );
-        return;
+    console.log(detalle.viajero);
+    if (detalle.viajero <= 0 || detalle.viajero === null) {
+      detalle.viajero = 0;
+      this.detallesRecibo.push(detalle);
+      this.reciboDetalleForm.reset(this.recibo);
+      this.createReciboDetalleForm();
+      this.agregados = true;
+      this.materialRef.nativeElement.focus();
+    } else {
+      const detalleViajero = this.detallesRecibo.find(
+        d => d.viajero === detalle.viajero
+      );
+      if (detalleViajero) {
+        if (detalleViajero.localidad !== detalle.localidad) {
+          this.alertify.warning(
+            "Esta agregando al mismo viajero una localidad distinta"
+          );
+          return;
+        } else {
+          this.detallesRecibo.push(detalle);
+          this.reciboDetalleForm.reset(this.recibo);
+          this.createReciboDetalleForm();
+          this.agregados = true;
+          this.materialRef.nativeElement.focus();
+        }
       } else {
         this.detallesRecibo.push(detalle);
         this.reciboDetalleForm.reset(this.recibo);
@@ -133,12 +150,6 @@ export class ReciboDetailComponent implements OnInit {
         this.agregados = true;
         this.materialRef.nativeElement.focus();
       }
-    } else {
-      this.detallesRecibo.push(detalle);
-      this.reciboDetalleForm.reset(this.recibo);
-      this.createReciboDetalleForm();
-      this.agregados = true;
-      this.materialRef.nativeElement.focus();
     }
   }
 

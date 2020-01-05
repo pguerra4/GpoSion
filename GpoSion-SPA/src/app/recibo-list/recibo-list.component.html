@@ -36,7 +36,9 @@
             <tbody>
               <tr *ngFor="let recibo of recibos | searchRecibos: searchText">
                 <th scope="row">{{ recibo.noRecibo }}</th>
-                <td>{{ recibo.fechaEntrada | date: "MM-dd-yyyy HH:mm" }}</td>
+                <td>
+                  {{ recibo.fechaEntrada | date: "MM-dd-yyyy" }}
+                </td>
                 <td>{{ recibo.transportista }}</td>
                 <td>{{ recibo.proveedorNombre }}</td>
                 <td>{{ recibo.recibio }}</td>

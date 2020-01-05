@@ -44,11 +44,19 @@ namespace GpoSion.API.Controllers
             if (orden == null)
                 return BadRequest("Número de orden no encontrado.");
 
+            orden.Fecha = orden.Fecha.ToLocalTime();
+
             if (orden.NumerosParte.Any(d => d.NoParte == detalleOrdenCompra.NumeroParteNoParte))
                 return BadRequest("Número de parte ya registrado.");
 
             var detalle = _mapper.Map<OrdenCompraDetalle>(detalleOrdenCompra);
             detalle.NumeroParte = null;
+            if (detalle.FechaInicio.HasValue)
+                detalle.FechaInicio = detalle.FechaInicio.Value.ToLocalTime();
+            if (detalle.FechaFin.HasValue)
+                detalle.FechaFin = detalle.FechaFin.Value.ToLocalTime();
+
+            detalle.UltimaModificacion = DateTime.Now;
 
             orden.NumerosParte.Add(detalle);
 
@@ -76,6 +84,12 @@ namespace GpoSion.API.Controllers
 
             _mapper.Map(detalleOrdenCompra, ordenDFromRepo);
 
+            if (ordenDFromRepo.FechaInicio.HasValue)
+                ordenDFromRepo.FechaInicio = ordenDFromRepo.FechaInicio.Value.ToLocalTime();
+            if (ordenDFromRepo.FechaFin.HasValue)
+                ordenDFromRepo.FechaFin = ordenDFromRepo.FechaFin.Value.ToLocalTime();
+
+            ordenDFromRepo.UltimaModificacion = DateTime.Now;
 
             await _repo.SaveAll();
 

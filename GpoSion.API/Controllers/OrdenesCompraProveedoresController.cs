@@ -44,10 +44,17 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> PostOrdenCompra(OrdenCompraProveedorToListDto ordenCompra)
         {
             var orden = _mapper.Map<OrdenCompraProveedor>(ordenCompra);
+            orden.Fecha = orden.Fecha.ToLocalTime();
+
+            if (orden.FechaEntrega.HasValue)
+            {
+                orden.FechaEntrega = orden.FechaEntrega.Value.ToLocalTime();
+            }
 
             foreach (var item in orden.Materiales)
             {
                 item.Material = null;
+                item.UltimaModificacion = DateTime.Now;
             }
 
             orden.Proveedor = null;
@@ -75,7 +82,12 @@ namespace GpoSion.API.Controllers
 
             _mapper.Map(ordenCompra, ordenFromRepo);
 
+            ordenFromRepo.Fecha = ordenFromRepo.Fecha.ToLocalTime();
 
+            if (ordenFromRepo.FechaEntrega.HasValue)
+            {
+                ordenFromRepo.FechaEntrega = ordenFromRepo.FechaEntrega.Value.ToLocalTime();
+            }
 
             await _repo.SaveAll();
 

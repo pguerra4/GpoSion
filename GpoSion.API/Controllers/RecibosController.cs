@@ -55,6 +55,8 @@ namespace GpoSion.API.Controllers
 
             var recibo = _mapper.Map<Recibo>(reciboforCreationDto);
 
+            recibo.FechaEntrada = recibo.FechaEntrada.Value.ToLocalTime();
+
             _repo.Add(recibo);
 
             if (await _repo.SaveAll())

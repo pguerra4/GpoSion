@@ -47,6 +47,7 @@ namespace GpoSion.API.Controllers
         {
 
             var embarque = _mapper.Map<Embarque>(embarqueToCreate);
+            embarque.Fecha = embarque.Fecha.ToLocalTime();
             _repo.Add(embarque);
             MovimientoProducto movimiento;
 

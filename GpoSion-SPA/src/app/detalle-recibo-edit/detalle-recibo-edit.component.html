@@ -18,8 +18,20 @@
               />
             </div>
             <div class="form-group col-sm-12 col-md-6 col-lg-6">
-              <label for="viajero">Viajero: {{ detalleRecibo.viajero }}</label>
-                            <input type="hidden" value="viajero" formControlName="viajero" />
+              <label for="viajero">Viajero</label>
+                            <input type="text" class="form-control" [ngClass]="{
+                  'is-invalid':
+                    reciboDetalleForm.get('viajero').errors &&
+                    reciboDetalleForm.get('viajero').touched
+                }" value="viajero" formControlName="viajero" placeholder="Viajero" />
+                            <div class="invalid-feedback" *ngIf="
+                  reciboDetalleForm
+                    .get('viajero')
+                    .hasError('viajeroExistente') &&
+                  reciboDetalleForm.get('viajero').touched
+                ">
+                                El viajero ya existe.
+                            </div>
                         </div>
                     </div>
                 </div>
