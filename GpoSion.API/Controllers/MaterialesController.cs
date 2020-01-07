@@ -7,6 +7,7 @@ using GpoSion.API.Dtos;
 using GpoSion.API.Helpers;
 using GpoSion.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace GpoSion.API.Controllers
 {
@@ -45,6 +46,21 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetViajerosPorMaterial(int id)
         {
             var viajeros = await _repo.GetViajerosPorMaterial(id);
+            if (viajeros == null || viajeros.FirstOrDefault() == null)
+            {
+                var existenciasMat = await _repo.GetExistenciaPorAreaMaterial(1, id);
+                if (existenciasMat != null)
+                {
+                    var viajero = new Viajero { ViajeroId = 0, MaterialId = id, Material = existenciasMat.Material, Existencia = existenciasMat.Existencia };
+                    viajeros = null;
+                    var viajeros2 = new List<Viajero>();
+                    viajeros2.Add(viajero);
+                    viajeros = viajeros2;
+                }
+
+            }
+
+
             var viajerosToReturn = _mapper.Map<IEnumerable<ViajeroForDetailDto>>(viajeros);
 
             return Ok(viajerosToReturn);

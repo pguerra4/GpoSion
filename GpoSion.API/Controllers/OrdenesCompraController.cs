@@ -51,7 +51,7 @@ namespace GpoSion.API.Controllers
             foreach (var item in orden.NumerosParte)
             {
                 item.NumeroParte = null;
-                if (item.FechaFin.HasValue)
+                if (item.FechaInicio.HasValue)
                     item.FechaInicio = item.FechaInicio.Value.ToLocalTime();
                 if (item.FechaFin.HasValue)
                     item.FechaFin = item.FechaFin.Value.ToLocalTime();

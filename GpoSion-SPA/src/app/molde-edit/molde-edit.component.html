@@ -12,7 +12,7 @@
                   *ngFor="let cliente of clientes"
                   [value]="cliente.clienteId"
                 >
-                  {{ cliente.nombre }}
+                  {{ cliente.cliente }}
                 </option>
               </select>
                         </div>
@@ -40,19 +40,6 @@
                             <select class="form-control" id="ubicacionId" formControlName="ubicacionId">
                 <option *ngFor="let area of areas" [value]="area.areaId">
                   {{ area.nombreArea }}
-                </option>
-              </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <label for="moldeadoraId">Moldeadora</label>
-                            <select class="form-control" id="moldeadoraId" formControlName="moldeadoraId">
-                <option
-                  *ngFor="let moldeadora of moldeadoras"
-                  [value]="moldeadora.moldeadoraId"
-                >
-                  {{ moldeadora.moldeadora }}
                 </option>
               </select>
                         </div>

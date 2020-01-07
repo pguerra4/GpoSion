@@ -140,7 +140,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId)
         {
-            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null)
+            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.Destino.AreaId == 1)
             .Select(mm => mm.Viajero).Include(v => v.MovimientosMaterial).Include(v => v.Material).OrderBy(v => v.Fecha).Distinct().ToListAsync();
             return viajeros;
         }

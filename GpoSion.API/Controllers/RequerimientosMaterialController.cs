@@ -97,11 +97,19 @@ namespace GpoSion.API.Controllers
                 {
                     rmm.CantidadEntregada += rmmDto.asurtir;
                     rmm.FechaEntrega = DateTime.Now;
-                    rmm.ViajeroId = rmmDto.Viajero;
+                    if (rmmDto.Viajero == 0)
+                    {
+                        rmm.ViajeroId = null;
+                    }
+                    else
+                    {
+                        rmm.ViajeroId = rmmDto.Viajero;
+                    }
+
 
                     var material = await _repo.GetMaterial(rmm.MaterialId);
 
-                    var mm = new MovimientoMaterial { Fecha = rmm.FechaEntrega.Value, Material = material, Cantidad = rmmDto.asurtir, Origen = almacen, Destino = produccion, ViajeroId = rmmDto.Viajero, RequerimientoMaterialMaterialId = req.RequerimientoMaterialId, RequerimientoMaterialMaterial = rmm, Recibo = null };
+                    var mm = new MovimientoMaterial { Fecha = rmm.FechaEntrega.Value, Material = material, Cantidad = rmmDto.asurtir, Origen = almacen, Destino = produccion, ViajeroId = rmm.ViajeroId, RequerimientoMaterialMaterialId = req.RequerimientoMaterialId, RequerimientoMaterialMaterial = rmm, Recibo = null };
                     _repo.Add(mm);
 
                     var existenciaAlmacen = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, material.MaterialId);
@@ -120,7 +128,8 @@ namespace GpoSion.API.Controllers
                     }
 
                     var viajero = await _repo.GetViajero(rmmDto.Viajero);
-                    viajero.Existencia -= rmmDto.asurtir;
+                    if (viajero != null)
+                        viajero.Existencia -= rmmDto.asurtir;
 
 
                     if (rmm.Cantidad <= rmm.CantidadEntregada)

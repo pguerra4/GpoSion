@@ -1,6 +1,8 @@
 <div class="container">
     <div class="card broder-primary mt-4">
-        <div class="card-header text-primary">Nuevo Número de Parte Produto Terminado</div>
+        <div class="card-header text-primary">
+            Nuevo Número de Parte Produto Terminado
+        </div>
         <div class="card-body">
             <div class="card-text">
                 <form [formGroup]="numeroParteForm" (ngSubmit)="addNumeroParte()">
@@ -52,7 +54,10 @@
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="descripcion">Peso</label>
-                            <input type="number" class="form-control" formControlName="peso" placeholder="Peso" />
+                            <div class="input-group margin-bottom">
+                                <input type="number" class="form-control" formControlName="peso" placeholder="Peso" style="text-align: right" />
+                                <span class="input-group-addon input-source-observer">Lbs</span>
+                            </div>
                         </div>
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="descripcion">Precio</label>
