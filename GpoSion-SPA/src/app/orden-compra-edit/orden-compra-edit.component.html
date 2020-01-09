@@ -3,7 +3,7 @@
         <div class="card-header text-primary">Orden de Compra</div>
         <div class="card-body">
             <div class="card-text">
-                <form [formGroup]="ordenCompraForm" (ngSubmit)="editOrdenCompra()">
+                <form [formGroup]="ordenCompraForm" (ngSubmit)="editOrdenCompra()" id="ordenCompraForm">
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="noOrden">No. Orden: </label>
@@ -82,8 +82,9 @@
                                   '/detallesordencompra/' + detalle.id
                                 ]"
                               >
-                                <span class="fa fa-edit"></span></a>
-                                                        </span>
+                                <span class="fa fa-edit"></span
+                              ></a>
+                            </span>
                                                     </td>
                                                     <td>
                                                         <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteNumeroParte(detalle.id)">

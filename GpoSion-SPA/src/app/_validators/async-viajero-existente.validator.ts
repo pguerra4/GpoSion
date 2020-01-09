@@ -9,7 +9,6 @@ export class ValidateExistingViajero {
     viajeroOriginal?: number
   ) {
     return (control: AbstractControl) => {
-      console.log(viajeroOriginal + " " + control.value);
       if (control.value == viajeroOriginal) {
         return Promise.resolve(null);
       }

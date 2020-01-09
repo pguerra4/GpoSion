@@ -6,8 +6,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DetalleRecibo } from "../_models/detalleRecibo";
 import { UnidadMedida } from "../_models/unidadMedida";
-import { ValidateExistingViajero } from "../_validators/async-viajero-existente.validator";
-import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 
 @Component({
   selector: "app-detalle-recibo-edit",
@@ -22,7 +20,6 @@ export class DetalleReciboEditComponent implements OnInit {
   constructor(
     private reciboService: ReciboService,
     private unidadMedidaService: UnidadMedidaService,
-    private existenciasService: ExistenciasMaterialService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -46,16 +43,7 @@ export class DetalleReciboEditComponent implements OnInit {
         totalCajas: [this.detalleRecibo.totalCajas],
         cantidadPorCaja: [this.detalleRecibo.cantidadPorCaja],
         total: [this.detalleRecibo.total, Validators.required],
-        viajero: [
-          this.detalleRecibo.viajero,
-          [],
-          [
-            ValidateExistingViajero.createValidator(
-              this.existenciasService,
-              this.detalleRecibo.viajero
-            )
-          ]
-        ],
+        viajero: [this.detalleRecibo.viajero],
         unidadMedidaId: [this.detalleRecibo.unidadMedidaId],
         referencia2: [this.detalleRecibo.referencia2],
         referenciaCliente: [this.detalleRecibo.referenciaCliente],
@@ -90,11 +78,8 @@ export class DetalleReciboEditComponent implements OnInit {
   }
 
   editDetalleRecibo() {
-    let detalle: any;
+    let detalle: DetalleRecibo;
     detalle = Object.assign({}, this.reciboDetalleForm.value);
-    if (detalle.viajero === "" || detalle.viajero === null) {
-      detalle.viajero = 0;
-    }
     detalle.reciboId = this.detalleRecibo.reciboId;
     this.reciboService
       .editDetallesRecibo(+this.route.snapshot.params["id"], detalle)

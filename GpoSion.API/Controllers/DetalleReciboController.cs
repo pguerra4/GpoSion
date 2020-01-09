@@ -73,12 +73,10 @@ namespace GpoSion.API.Controllers
                 var viajero = await _repo.GetViajero(detalle.Viajero);
                 if (viajero == null)
                 {
-                    if (detalle.Viajero != 0)
-                    {
-                        viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, Localidad = detalle.Localidad };
-                        _repo.Add(viajero);
-                        await _repo.SaveAll();
-                    }
+
+                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, Localidad = detalle.Localidad };
+                    _repo.Add(viajero);
+                    await _repo.SaveAll();
 
                 }
                 else
@@ -147,75 +145,15 @@ namespace GpoSion.API.Controllers
 
 
             var unidadMedida = await _repo.GetUnidadMedida(detalleReciboForEdit.UnidadMedidaId);
-            Viajero viajeroOriginal = null;
-            Viajero viajeroNuevo = null;
-            decimal diferencia = 0;
+            var viajero = await _repo.GetViajero(detalleReciboForEdit.Viajero);
+            viajero.Localidad = detalleReciboForEdit.Localidad;
 
-            if (detalleRecibo.ViajeroId.HasValue)
-                viajeroOriginal = await _repo.GetViajero(detalleRecibo.ViajeroId.Value);
+            var diferencia = detalleReciboForEdit.Total - detalleRecibo.Total;
+            viajero.Existencia += diferencia;
 
-            if (detalleReciboForEdit.Viajero != 0)
-            {
-                viajeroNuevo = await _repo.GetViajero(detalleReciboForEdit.Viajero);
-                if (viajeroNuevo == null)
-                {
-
-                    viajeroNuevo = new Viajero { ViajeroId = detalleReciboForEdit.Viajero, Fecha = DateTime.Now, Existencia = detalleReciboForEdit.Total, MaterialId = detalleReciboForEdit.MaterialId, Localidad = detalleReciboForEdit.Localidad };
-                    _repo.Add(viajeroNuevo);
-                    _repo.Delete(viajeroOriginal);
-                    await _repo.SaveAll();
-                }
-            }
-
-            diferencia = detalleReciboForEdit.Total - detalleRecibo.Total;
-
-            if (viajeroOriginal != null)
-            {
-                if (viajeroNuevo == null)
-                {
-                    detalleRecibo.ViajeroId = null;
-                    var movsMaterial = await _repo.GetMovimientoMaterialesPorViajero(viajeroOriginal.ViajeroId);
-                    var movMaterial = movsMaterial.Where(mm => mm.Destino == almacen && mm.Origen == null && mm.Recibo == detalleRecibo.Recibo).FirstOrDefault();
-                    movMaterial.ViajeroId = null;
-                    movMaterial.Cantidad = detalleReciboForEdit.Total;
-
-
-
-                    _repo.Delete(viajeroOriginal);
-                }
-                else
-                {
-                    if (viajeroOriginal.ViajeroId == viajeroNuevo.ViajeroId)
-                    {
-                        viajeroOriginal.Localidad = detalleReciboForEdit.Localidad;
-
-                        viajeroOriginal.Existencia += diferencia;
-                    }
-                    else
-                    {
-                        detalleRecibo.ViajeroId = detalleReciboForEdit.Viajero;
-                        var movsMaterial = await _repo.GetMovimientoMaterialesPorViajero(viajeroOriginal.ViajeroId);
-                        var movMaterial = movsMaterial.Where(mm => mm.Destino == almacen && mm.Origen == null && mm.Recibo == detalleRecibo.Recibo).FirstOrDefault();
-                        movMaterial.ViajeroId = detalleReciboForEdit.Viajero;
-                        movMaterial.Cantidad = detalleReciboForEdit.Total;
-
-                        _repo.Delete(viajeroOriginal);
-                    }
-                }
-
-
-            }
-            else
-            {
-                if (viajeroNuevo != null)
-                {
-                    var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Material = detalleRecibo.Material, Cantidad = detalleReciboForEdit.Total, Origen = null, Destino = almacen, Recibo = detalleRecibo.Recibo, Viajero = viajeroNuevo };
-                    _repo.Add(movMaterial);
-                    detalleRecibo.ViajeroId = detalleReciboForEdit.Viajero;
-
-                }
-            }
-
+            var movsMaterial = await _repo.GetMovimientoMaterialesPorViajero(viajero.ViajeroId);
+            var movMaterial = movsMaterial.Where(mm => mm.Destino == almacen && mm.Origen == null && mm.Recibo == detalleRecibo.Recibo).FirstOrDefault();
+            movMaterial.Cantidad = detalleReciboForEdit.Total;
 
             var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, detalleRecibo.Material.MaterialId);
 

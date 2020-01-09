@@ -5,23 +5,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5>
-                        <strong>{{ material.material }} ({{ material.cantidad}})</strong>
-
+                        <strong>{{ material.material }} ({{ material.cantidad }})</strong>
                     </h5>
-
                 </div>
                 <div class="col-md-6">
-                    <h5>
-                        Entregados ({{material.cantidadEntregada}})
-                    </h5>
+                    <h5>Entregados ({{ material.cantidadEntregada }})</h5>
                 </div>
             </div>
-
         </div>
         <div class="card-text">
-            <form [formGroup]="surtirMaterialForm" (ngSubmit)="surtirMaterial()">
+            <form [formGroup]="surtirMaterialForm" (ngSubmit)="surtirMaterial()" id="surtirMaterialForm">
                 <div class="table-responsive mt-2">
-
                     <table id="mytable" class="table table-hover table-bordered table-striped">
                         <thead>
                             <tr class="table-primary">
@@ -31,42 +25,69 @@
                             </tr>
                         </thead>
                         <tbody formArrayName="items">
-                            <tr *ngFor="let item of surtirMaterialForm.get('items').value; let i = index; trackBy:trackByFn" [formGroupName]="i">
-                                <td scope="row">{{ item.viajero }}<input type="hidden" [attr.id]="'viajero'+i" [attr.name]="'viajero'+i" formControlName="viajero"> </td>
+                            <tr *ngFor="
+                  let item of surtirMaterialForm.get('items').value;
+                  let i = index;
+                  trackBy: trackByFn
+                " [formGroupName]="i">
+                                <td scope="row">
+                                    {{ item.viajero }}
+                                    <input type="hidden" [attr.id]="'viajero' + i" [attr.name]="'viajero' + i" formControlName="viajero" />
+                                </td>
                                 <td class="text-right">
                                     {{ item.existencia | number: "1.2-3" }}
-                                    <input type="hidden" [attr.id]="'existencia'+i" [attr.name]="'existencia'+i" formControlName="existencia">
+                                    <input type="hidden" [attr.id]="'existencia' + i" [attr.name]="'existencia' + i" formControlName="existencia" />
                                 </td>
                                 <td style="width: 175px">
-                                    <input type="text" [ngClass]="{'is-invalid': items.controls[i].get('asurtir').errors && items.controls[i].get('asurtir').touched  ||  items.controls[i].get('asurtir').touched && items.controls[i].hasError('excedido')}" class="form-control text-right"
-                                        [attr.id]="'asurtir'+i" [attr.name]="'asurtir'+i" formControlName="asurtir" placeholder="Cantidad a surtir">
-                                    <div class="invalid-feedback" *ngIf="items.controls[i].get('asurtir').hasError('max') && items.controls[i].get('asurtir').touched">La cantidad sobrepasa la existencia.</div>
-                                    <div class="invalid-feedback" *ngIf="items.controls[i].hasError('excedido') && items.controls[i].get('asurtir').touched">La cantidad sobrepasa lo solicitado.</div>
-                                    <div class="invalid-feedback" *ngIf="items.controls[i].get('asurtir').hasError('required') && items.controls[i].get('asurtir').touched">Debe capturar una cantidad.</div>
-                                    <input type="hidden" [attr.id]="'id'+i" [attr.name]="'id'+i" formControlName="id">
+                                    <input type="text" [ngClass]="{
+                      'is-invalid':
+                        (items.controls[i].get('asurtir').errors &&
+                          items.controls[i].get('asurtir').touched) ||
+                        (items.controls[i].get('asurtir').touched &&
+                          items.controls[i].hasError('excedido'))
+                    }" class="form-control text-right" [attr.id]="'asurtir' + i" [attr.name]="'asurtir' + i" formControlName="asurtir" placeholder="Cantidad a surtir" />
+                                    <div class="invalid-feedback" *ngIf="
+                      items.controls[i].get('asurtir').hasError('max') &&
+                      items.controls[i].get('asurtir').touched
+                    ">
+                                        La cantidad sobrepasa la existencia.
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="
+                      items.controls[i].hasError('excedido') &&
+                      items.controls[i].get('asurtir').touched
+                    ">
+                                        La cantidad sobrepasa lo solicitado.
+                                    </div>
+                                    <div class="invalid-feedback" *ngIf="
+                      items.controls[i].get('asurtir').hasError('required') &&
+                      items.controls[i].get('asurtir').touched
+                    ">
+                                        Debe capturar una cantidad.
+                                    </div>
+                                    <input type="hidden" [attr.id]="'id' + i" [attr.name]="'id' + i" formControlName="id" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-
                 <div class="row">
-
                     <div class="form-group col-sm-12 col-md-6 col-lg-6">
                         <label for="almacenista">Almacenista</label>
-                        <input type="text" class="form-control" formControlName="almacenista" placeholder="Almacenista">
+                        <input type="text" class="form-control" formControlName="almacenista" placeholder="Almacenista" />
                     </div>
 
                     <div class="form-group col-sm-6 col-md-12 col-lg-6">
                         <label for="transportista">Recibió</label>
-                        <input class="form-control" placeholder="Recibió" formControlName="recibio">
+                        <input class="form-control" placeholder="Recibió" formControlName="recibio" />
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                        <button class="btn btn-success" [disabled]="!surtirMaterialForm" type="submit">Surtir</button>
+                        <button class="btn btn-success" [disabled]="!surtirMaterialForm" type="submit">
+              Surtir
+            </button>
                     </div>
                 </div>
             </form>

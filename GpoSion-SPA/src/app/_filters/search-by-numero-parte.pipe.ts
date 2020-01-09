@@ -15,14 +15,18 @@ export class SearchByNumeroPartePipe implements PipeTransform {
           .toString()
           .toLocaleLowerCase()
           .indexOf(searchText.toLocaleLowerCase()) !== -1 ||
-        np.descripcion
-          .toString()
-          .toLocaleLowerCase()
-          .indexOf(searchText.toLocaleLowerCase()) !== -1 ||
-        np.leyendaPieza
-          .toString()
-          .toLocaleLowerCase()
-          .indexOf(searchText.toLocaleLowerCase()) !== -1
+        (np.descripcion == null
+          ? false
+          : np.descripcion
+              .toString()
+              .toLocaleLowerCase()
+              .indexOf(searchText.toLocaleLowerCase()) !== -1) ||
+        (np.leyendaPieza == null
+          ? false
+          : np.leyendaPieza
+              .toString()
+              .toLocaleLowerCase()
+              .indexOf(searchText.toLocaleLowerCase()) !== -1)
     );
   }
 }

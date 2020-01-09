@@ -46,7 +46,6 @@ export class ReciboAddComponent implements OnInit {
 
   createReciboForm() {
     const now = new Date();
-    console.log(now);
     this.reciboForm = this.fb.group(
       {
         noRecibo: [
@@ -76,7 +75,6 @@ export class ReciboAddComponent implements OnInit {
 
   addRecibo() {
     this.recibo = Object.assign({}, this.reciboForm.value);
-    console.log(this.recibo);
     this.reciboService.addRecibo(this.recibo).subscribe(
       (res: Recibo) => {
         this.alertify.success("Guardado");

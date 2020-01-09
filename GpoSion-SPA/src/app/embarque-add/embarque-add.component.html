@@ -3,7 +3,7 @@
         <div class="card-header text-primary">Nuevo Embarque</div>
         <div class="card-body">
             <div class="card-text">
-                <form [formGroup]="embarqueForm" (ngSubmit)="addEmbarque()">
+                <form [formGroup]="embarqueForm" (ngSubmit)="addEmbarque()" id="embarqueForm">
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="Cliente">Cliente</label>
@@ -47,27 +47,26 @@
                         <div class="col-md-4">
                             <div>
                                 <label class="radio-inline mr-2">
-                                    <input
-                                    type="radio"
-                                    name="rechazadas"
-                                    formControlName="rechazadas"
-                                    checked
-                                    value="false"
-                                  />
-                
-                                  Certificadas
+                  <input
+                    type="radio"
+                    name="rechazadas"
+                    formControlName="rechazadas"
+                    checked
+                    value="false"
+                  />
+
+                  Certificadas
                 </label>
 
                                 <label class="radio-inline">
-                                    <input
-                                    type="radio"
-                                    name="rechazadas"
-                                    formControlName="rechazadas"
-                                    value="true"
-                                  />
-                
-                                  Rechazadas
-                 
+                  <input
+                    type="radio"
+                    name="rechazadas"
+                    formControlName="rechazadas"
+                    value="true"
+                  />
+
+                  Rechazadas
                 </label>
                             </div>
                         </div>
@@ -77,14 +76,17 @@
                             <label for="noParte">No. Parte</label>
                             <input type="text" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" formControlName="noParte" placeholder="No. Parte" (typeaheadOnSelect)="onSelectNumeroParte($event)" />
                         </div>
-                            <ng-template #customItemTemplate let-model="item" >
-                                <div *ngFor="let detalle of model.numerosParte" >
-                                    <h5 *ngIf="detalle.noParte == embarqueForm.get('noParte').value">{{ detalle.noOrden }}: {{ detalle.piezasAutorizadas > 0 ?   '(' + detalle.piezasSurtidas.toString() + '/' +  detalle.piezasAutorizadas.toString() + ')' : '(' + detalle.piezasSurtidas.toString() + '/Abierta)'}} </h5>
-                                </div>
-                          </ng-template>
+                        <ng-template #customItemTemplate let-model="item">
+                            <div *ngFor="let detalle of model.numerosParte">
+                                <h5 *ngIf="detalle.noParte == embarqueForm.get('noParte').value">
+                                    {{ detalle.noOrden }}: {{ detalle.piezasAutorizadas > 0 ? "(" + detalle.piezasSurtidas.toString() + "/" + detalle.piezasAutorizadas.toString() + ")" : "(" + detalle.piezasSurtidas.toString() + "/Abierta)" }}
+                                </h5>
+                            </div>
+                        </ng-template>
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="noOrden">No. Orden</label>
-                            <input type="text" [typeahead]="ordenesCompra" typeaheadOptionField="noOrden" [typeaheadItemTemplate]="customItemTemplate" [isAnimated]="true" class="form-control" formControlName="noOrden" placeholder="No. Orden" (typeaheadOnSelect)="onSelectNoOrden($event)"/>
+                            <input type="text" [typeahead]="ordenesCompra" typeaheadOptionField="noOrden" [typeaheadItemTemplate]="customItemTemplate" [isAnimated]="true" class="form-control" formControlName="noOrden" placeholder="No. Orden" (typeaheadOnSelect)="onSelectNoOrden($event)"
+                            />
                             <input type="hidden" formControlName="noOrden2" />
                         </div>
                     </div>
