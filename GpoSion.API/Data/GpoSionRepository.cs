@@ -166,7 +166,7 @@ namespace GpoSion.API.Data
         public async Task<Viajero> GetViajero(int viajeroId)
         {
 
-            var viajero = await _context.Viajeros.Include(v => v.Localidad).Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Origen)
+            var viajero = await _context.Viajeros.Include(v => v.Localizacion).Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Origen)
             .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Destino)
             .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Material)
             .Include(v => v.Material).FirstOrDefaultAsync(v => v.ViajeroId == viajeroId);
@@ -226,7 +226,7 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<Viajero>> GetViajeros()
         {
             var viajeros = await _context.Viajeros.Include(v => v.Material)
-            .Include(v => v.Localidad)
+            .Include(v => v.Localizacion)
             .Where(v => v.Existencia > 0).OrderBy(v => v.Fecha).ToListAsync();
             return viajeros;
         }

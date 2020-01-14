@@ -43,9 +43,21 @@ namespace GpoSion.API.Data
 
             if (!context.Localidades.Any())
             {
-                var localidad = new Localidad { Descripcion = "A-1" };
-                context.Localidades.Add(localidad);
-
+                var localidades = context.Viajeros.Select(v => v.Localidad).Distinct();
+                foreach (var item in localidades)
+                {
+                    context.Localidades.Add(new Localidad { Descripcion = item });
+                }
+                context.SaveChanges();
+                var viajeros = context.Viajeros.Where(v => v.LocalidadId == null && v.Localidad != null);
+                foreach (var item in viajeros)
+                {
+                    var localidad = context.Localidades.FirstOrDefault(l => l.Descripcion == item.Localidad);
+                    if (localidad != null)
+                    {
+                        item.LocalidadId = localidad.LocalidadId;
+                    }
+                }
                 context.SaveChanges();
             }
 

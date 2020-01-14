@@ -7,18 +7,18 @@ namespace GpoSion.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Localidades",
-                columns: table => new
-                {
-                    LocalidadId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Localidad = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Localidades", x => x.LocalidadId);
-                });
+            // migrationBuilder.CreateTable(
+            //     name: "Localidades",
+            //     columns: table => new
+            //     {
+            //         LocalidadId = table.Column<int>(nullable: false)
+            //             .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+            //         Localidad = table.Column<string>(nullable: true)
+            //     },
+            //     constraints: table =>
+            //     {
+            //         table.PrimaryKey("PK_Localidades", x => x.LocalidadId);
+            //     });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Viajeros_LocalidadId",
@@ -30,21 +30,21 @@ namespace GpoSion.API.Migrations
                 table: "DetalleRecibos",
                 column: "LocalidadId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_DetalleRecibos_Localidades_LocalidadId",
-                table: "DetalleRecibos",
-                column: "LocalidadId",
-                principalTable: "Localidades",
-                principalColumn: "LocalidadId",
-                onDelete: ReferentialAction.Restrict);
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_DetalleRecibos_Localidades_LocalidadId",
+            //     table: "DetalleRecibos",
+            //     column: "LocalidadId",
+            //     principalTable: "Localidades",
+            //     principalColumn: "LocalidadId",
+            //     onDelete: ReferentialAction.Restrict);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Viajeros_Localidades_LocalidadId",
-                table: "Viajeros",
-                column: "LocalidadId",
-                principalTable: "Localidades",
-                principalColumn: "LocalidadId",
-                onDelete: ReferentialAction.Restrict);
+            // migrationBuilder.AddForeignKey(
+            //     name: "FK_Viajeros_Localidades_LocalidadId",
+            //     table: "Viajeros",
+            //     column: "LocalidadId",
+            //     principalTable: "Localidades",
+            //     principalColumn: "LocalidadId",
+            //     onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

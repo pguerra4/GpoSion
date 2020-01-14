@@ -21,7 +21,7 @@ namespace GpoSion.API.Dtos
         public int? LocalidadId { get; set; }
 
         [JsonProperty(PropertyName = "localidad")]
-        public string LocalidadDescripcion { get; set; }
+        public string LocalizacionDescripcion { get; set; }
         public DateTime Fecha { get; set; }
 
 

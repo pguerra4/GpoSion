@@ -7,9 +7,9 @@ namespace GpoSion.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Localidad",
-                table: "Viajeros");
+            // migrationBuilder.DropColumn(
+            //     name: "Localidad",
+            //     table: "Viajeros");
 
             migrationBuilder.AddColumn<int>(
                 name: "LocalidadId",
