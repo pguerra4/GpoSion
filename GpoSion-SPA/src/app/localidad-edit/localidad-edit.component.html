@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Localidad</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="localidadForm" (ngSubmit)="editLocalidad()" id="localidadForm">
+                    <div class="row">
+                        <input type="hidden" formControlName="localidadId" />
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="localidad">Localidad</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    localidadForm.get('localidad').errors &&
+                    localidadForm.get('localidad').touched
+                }" class="form-control" formControlName="localidad" placeholder="localidad Material" />
+                            <div class="invalid-feedback" *ngIf="
+                  localidadForm.get('localidad').hasError('required') &&
+                  localidadForm.get('localidad').touched
+                ">
+                                La localidad es requerida
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success" [disabled]="!localidadForm.valid" type="submit">
+                Guardar
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

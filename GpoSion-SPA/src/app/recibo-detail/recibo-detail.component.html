@@ -82,7 +82,14 @@
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="localidad">Localización</label>
-                            <input type="text" class="form-control" formControlName="localidad" placeholder="Loclización" />
+                            <select class="form-control" id="localidadId" formControlName="localidadId">
+                                <option
+                                  *ngFor="let localidad of localidades"
+                                  [value]="localidad.localidadId"
+                                >
+                                  {{ localidad.localidad }}
+                                </option>
+                              </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="referencia2">Referencia 2</label>

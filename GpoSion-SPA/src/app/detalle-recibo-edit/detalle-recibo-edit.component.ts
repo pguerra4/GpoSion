@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DetalleRecibo } from "../_models/detalleRecibo";
 import { UnidadMedida } from "../_models/unidadMedida";
+import { Localidad } from "../_models/localidad";
 
 @Component({
   selector: "app-detalle-recibo-edit",
@@ -16,6 +17,7 @@ export class DetalleReciboEditComponent implements OnInit {
   detalleRecibo: DetalleRecibo;
   reciboDetalleForm: FormGroup;
   unidadesMedida: UnidadMedida[];
+  localidades: Localidad[];
 
   constructor(
     private reciboService: ReciboService,
@@ -31,6 +33,7 @@ export class DetalleReciboEditComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       this.detalleRecibo = data["detalleRecibo"];
       this.loadUnidadesMedida();
+      this.loadLocalidades();
       this.createReciboDetalleForm();
     });
   }
@@ -47,7 +50,7 @@ export class DetalleReciboEditComponent implements OnInit {
         unidadMedidaId: [this.detalleRecibo.unidadMedidaId],
         referencia2: [this.detalleRecibo.referencia2],
         referenciaCliente: [this.detalleRecibo.referenciaCliente],
-        localidad: [this.detalleRecibo.localidad]
+        localidadId: [this.detalleRecibo.localidadId]
       },
       { updateOn: "blur" }
     );
@@ -75,6 +78,12 @@ export class DetalleReciboEditComponent implements OnInit {
         this.alertify.error(error);
       }
     );
+  }
+
+  loadLocalidades() {
+    this.reciboService.getLocalidades().subscribe(res => {
+      this.localidades = res;
+    });
   }
 
   editDetalleRecibo() {

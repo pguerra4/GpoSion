@@ -115,5 +115,11 @@ namespace GpoSion.API.Data
 
         Task<bool> ExisteFolioEmbarque(int Folio);
 
+        Task<IEnumerable<Localidad>> GetLocalidades();
+
+        Task<Localidad> GetLocalidad(int id);
+
+        Task<bool> ExisteLocalidad(string localidad);
+
     }
 }

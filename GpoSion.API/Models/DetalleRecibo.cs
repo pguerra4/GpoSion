@@ -28,6 +28,8 @@ namespace GpoSion.API.Models
 
         public UnidadMedida UnidadMedida { get; set; }
 
+        public int? LocalidadId { get; set; }
+        public Localidad Localidad { get; set; }
 
     }
 }

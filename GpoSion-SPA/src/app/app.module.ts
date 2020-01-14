@@ -118,6 +118,10 @@ import { SearchOrdenCompraProveedorPipe } from "./_filters/search-orden-compra-p
 import { OrdenCompraProveedorAddComponent } from "./orden-compra-proveedor-add/orden-compra-proveedor-add.component";
 import { PreventUnsavedChanges } from "./_guards/prevent-unsaved-changes.guard";
 import { ValidateExistingFolioEmbarque } from "./_validators/async-folio-embarque-existente.validator";
+import { LocalidadListComponent } from "./localidad-list/localidad-list.component";
+import { LocalidadAddComponent } from "./localidad-add/localidad-add.component";
+import { LocalidadEditComponent } from "./localidad-edit/localidad-edit.component";
+import { LocalidadEditResolver } from "./_resolvers/localidad-edit.resolver";
 
 function defineLocales() {
   for (const locale in locales) {
@@ -196,7 +200,10 @@ defineLocales();
     SearchExistenciaProductoPipe,
     OrdenCompraProveedorListComponent,
     SearchOrdenCompraProveedorPipe,
-    OrdenCompraProveedorAddComponent
+    OrdenCompraProveedorAddComponent,
+    LocalidadListComponent,
+    LocalidadAddComponent,
+    LocalidadEditComponent
   ],
   imports: [
     BrowserModule,
@@ -243,6 +250,7 @@ defineLocales();
     MovimientoProductoEditResolver,
     ValidateExistingFolioEmbarque,
     PreventUnsavedChanges,
+    LocalidadEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

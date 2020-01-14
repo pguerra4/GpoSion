@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200114000919_removeLocalidad")]
+    partial class removeLocalidad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,8 +137,6 @@ namespace GpoSion.API.Migrations
 
                     b.HasKey("DetalleReciboId");
 
-                    b.HasIndex("LocalidadId");
-
                     b.HasIndex("MaterialId");
 
                     b.HasIndex("ReciboId");
@@ -222,20 +222,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("NoParte");
 
                     b.ToTable("ExistenciasProducto");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.Localidad", b =>
-                {
-                    b.Property<int>("LocalidadId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnName("Localidad");
-
-                    b.HasKey("LocalidadId");
-
-                    b.ToTable("Localidades");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Material", b =>
@@ -927,8 +913,6 @@ namespace GpoSion.API.Migrations
 
                     b.HasKey("ViajeroId");
 
-                    b.HasIndex("LocalidadId");
-
                     b.HasIndex("MaterialId");
 
                     b.ToTable("Viajeros");
@@ -952,10 +936,6 @@ namespace GpoSion.API.Migrations
 
             modelBuilder.Entity("GpoSion.API.Models.DetalleRecibo", b =>
                 {
-                    b.HasOne("GpoSion.API.Models.Localidad", "Localidad")
-                        .WithMany()
-                        .HasForeignKey("LocalidadId");
-
                     b.HasOne("GpoSion.API.Models.Material", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
@@ -1273,10 +1253,6 @@ namespace GpoSion.API.Migrations
 
             modelBuilder.Entity("GpoSion.API.Models.Viajero", b =>
                 {
-                    b.HasOne("GpoSion.API.Models.Localidad", "Localidad")
-                        .WithMany()
-                        .HasForeignKey("LocalidadId");
-
                     b.HasOne("GpoSion.API.Models.Material", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")

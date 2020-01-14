@@ -50,12 +50,20 @@ namespace GpoSion.API.Controllers
             _repo.Add(prod);
 
             var moldeadora = await _repo.GetMoldeadora(prod.MoldeadoraId.Value);
+            if (moldeadora == null)
+                return BadRequest("No existe la moldeadora seleccionada.");
+
             var material = moldeadora.Material;
+            if (material == null)
+                return BadRequest("No hay material asociado a la moldeadora.");
 
             var areas = await _repo.GetAreas();
 
             var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
             var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, material.MaterialId);
+            if (existenciaProduccion == null)
+                return BadRequest("No hay existencias del material " + material.ClaveMaterial + " en producción.");
+
             decimal total = 0;
             foreach (ProduccionNumeroParte pnp in prod.ProduccionNumerosParte)
             {

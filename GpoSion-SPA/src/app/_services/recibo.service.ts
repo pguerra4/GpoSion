@@ -4,6 +4,7 @@ import { environment } from "../../environments/environment";
 import { Recibo } from "../_models/recibo";
 import { Observable } from "rxjs";
 import { DetalleRecibo } from "../_models/detalleRecibo";
+import { Localidad } from "../_models/localidad";
 
 @Injectable()
 export class ReciboService {
@@ -36,5 +37,21 @@ export class ReciboService {
 
   getDetalleRecibo(id): Observable<DetalleRecibo> {
     return this.http.get<DetalleRecibo>(this.baseUrl + "detalleRecibo/" + id);
+  }
+
+  getLocalidades(): Observable<Localidad[]> {
+    return this.http.get<Localidad[]>(this.baseUrl + "localidades");
+  }
+
+  getLocalidad(id): Observable<Localidad> {
+    return this.http.get<Localidad>(this.baseUrl + "localidades/" + id);
+  }
+
+  addLocalidad(localidad: Localidad) {
+    return this.http.post(this.baseUrl + "localidades", localidad);
+  }
+
+  editLocalidad(id: number, localidad: Localidad) {
+    return this.http.put(this.baseUrl + "localidades/" + id, localidad);
   }
 }

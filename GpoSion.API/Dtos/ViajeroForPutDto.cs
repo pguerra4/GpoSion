@@ -18,7 +18,11 @@ namespace GpoSion.API.Dtos
 
         public decimal Existencia { get; set; }
 
-        public string Localidad { get; set; }
+        public int? LocalidadId { get; set; }
+
+        [JsonProperty(PropertyName = "localidad")]
+        public string LocalidadDescripcion { get; set; }
+
         public DateTime Fecha { get; set; }
 
 

@@ -74,7 +74,7 @@ namespace GpoSion.API.Controllers
                 if (viajero == null)
                 {
 
-                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, Localidad = detalle.Localidad };
+                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, LocalidadId = detalle.LocalidadId };
                     _repo.Add(viajero);
                     await _repo.SaveAll();
 
@@ -116,7 +116,8 @@ namespace GpoSion.API.Controllers
                     Recibo = recibo,
                     MaterialId = material.MaterialId,
                     Material = material,
-                    UnidadMedida = unidadMedida
+                    UnidadMedida = unidadMedida,
+                    LocalidadId = detalle.LocalidadId
                 };
 
                 _repo.Add(detalleRecibo);
@@ -146,7 +147,7 @@ namespace GpoSion.API.Controllers
 
             var unidadMedida = await _repo.GetUnidadMedida(detalleReciboForEdit.UnidadMedidaId);
             var viajero = await _repo.GetViajero(detalleReciboForEdit.Viajero);
-            viajero.Localidad = detalleReciboForEdit.Localidad;
+            viajero.LocalidadId = detalleReciboForEdit.LocalidadId;
 
             var diferencia = detalleReciboForEdit.Total - detalleRecibo.Total;
             viajero.Existencia += diferencia;
@@ -167,6 +168,7 @@ namespace GpoSion.API.Controllers
             detalleRecibo.Referencia2 = detalleReciboForEdit.Referencia2;
             detalleRecibo.ReferenciaCliente = detalleReciboForEdit.ReferenciaCliente;
             detalleRecibo.UnidadMedida = unidadMedida;
+            detalleRecibo.LocalidadId = detalleReciboForEdit.LocalidadId;
 
 
 

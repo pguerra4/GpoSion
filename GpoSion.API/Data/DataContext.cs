@@ -72,6 +72,8 @@ namespace GpoSion.API.Data
 
         public DbSet<OrdenCompraProveedorDetalle> OrdenCompraProveedorDetalles { get; set; }
 
+        public DbSet<Localidad> Localidades { get; set; }
+
 
 
 

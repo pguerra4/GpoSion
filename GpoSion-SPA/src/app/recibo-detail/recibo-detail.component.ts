@@ -16,6 +16,7 @@ import { DetalleRecibo } from "../_models/detalleRecibo";
 import { ValidateExistingViajero } from "../_validators/async-viajero-existente.validator";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 import { Material } from "../_models/material";
+import { Localidad } from "../_models/localidad";
 
 @Component({
   selector: "app-recibo-detail",
@@ -29,6 +30,7 @@ export class ReciboDetailComponent implements OnInit {
   unidadesMedida: UnidadMedida[];
   detallesRecibo: DetalleRecibo[];
   materiales: Material[];
+  localidades: Localidad[];
   agregados = false;
 
   @HostListener("window:beforeunload", ["$event"])
@@ -50,6 +52,7 @@ export class ReciboDetailComponent implements OnInit {
 
   ngOnInit() {
     this.loadMateriales();
+    this.loadLocalidades();
     this.createReciboDetalleForm();
     this.loadUnidadesMedida();
     this.loadRecibo();
@@ -74,7 +77,7 @@ export class ReciboDetailComponent implements OnInit {
         ],
         unidadMedidaId: [1],
         referencia2: [null],
-        localidad: [""]
+        localidadId: [1]
       },
       { updateOn: "blur" }
     );
@@ -94,6 +97,12 @@ export class ReciboDetailComponent implements OnInit {
   loadMateriales() {
     this.existenciasMaterialService.getMateriales().subscribe(res => {
       this.materiales = res;
+    });
+  }
+
+  loadLocalidades() {
+    this.reciboService.getLocalidades().subscribe(res => {
+      this.localidades = res;
     });
   }
 
@@ -117,11 +126,16 @@ export class ReciboDetailComponent implements OnInit {
     let detalle: DetalleRecibo;
     detalle = Object.assign({}, this.reciboDetalleForm.value);
     detalle.reciboId = this.recibo.reciboId;
+    const localidad = this.localidades.find(
+      l => l.localidadId === detalle.localidadId
+    );
+    detalle.localidad = localidad.localidad;
+
     const detalleViajero = this.detallesRecibo.find(
       d => d.viajero === detalle.viajero
     );
     if (detalleViajero) {
-      if (detalleViajero.localidad !== detalle.localidad) {
+      if (detalleViajero.localidadId !== detalle.localidadId) {
         this.alertify.warning(
           "Esta agregando al mismo viajero una localidad distinta"
         );

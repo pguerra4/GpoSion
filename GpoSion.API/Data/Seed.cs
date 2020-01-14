@@ -41,6 +41,14 @@ namespace GpoSion.API.Data
                 context.SaveChanges();
             }
 
+            if (!context.Localidades.Any())
+            {
+                var localidad = new Localidad { Descripcion = "A-1" };
+                context.Localidades.Add(localidad);
+
+                context.SaveChanges();
+            }
+
 
             if (!context.Turnos.Any())
             {

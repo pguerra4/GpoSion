@@ -63,7 +63,7 @@ namespace GpoSion.API.Controllers
             viajero.MovimientosMaterial.Add(movMaterial);
 
             viajero.Existencia = viajeroFP.Existencia;
-            viajero.Localidad = viajeroFP.Localidad;
+            viajero.LocalidadId = viajeroFP.LocalidadId;
 
 
 

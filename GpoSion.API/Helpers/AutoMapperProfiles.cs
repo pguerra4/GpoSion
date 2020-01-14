@@ -20,7 +20,7 @@ namespace GpoSion.API.Helpers
             CreateMap<DetalleRecibo, DetalleReciboForDetailDto>()
             .ForMember(dest => dest.Material, opt => opt.MapFrom(src => src.Material.ClaveMaterial))
             .ForMember(dest => dest.Unidad, opt => opt.MapFrom(src => src.UnidadMedida.Unidad))
-            .ForMember(dest => dest.Localidad, opt => opt.MapFrom(src => src.Viajero.Localidad));
+            .ForMember(dest => dest.LocalidadId, opt => opt.MapFrom(src => src.Viajero.LocalidadId));
             CreateMap<ExistenciaMaterial, ExistenciaMaterialToListDto>()
             .ForMember(dest => dest.UnidadMedida, opt => opt.MapFrom(src => src.Material.UnidadMedida.Unidad))
             .ForMember(dest => dest.NumerosParte, opt => opt.MapFrom(src => src.Material.MaterialNumerosParte.Select(mnp => mnp.NoParte)));
@@ -73,6 +73,9 @@ namespace GpoSion.API.Helpers
              .ForMember(dest => dest.MaterialClaveMaterial, opt => opt.MapFrom(src => src.Material.ClaveMaterial))
              .ReverseMap();
             CreateMap<OrdenCompraProveedor, OrdenCompraProveedorToListDto>().ReverseMap();
+            CreateMap<Localidad, LocalidadToListDto>();
+            CreateMap<LocalidadToCreateDto, Localidad>();
+            CreateMap<LocalidadToEditDto, Localidad>();
         }
     }
 }

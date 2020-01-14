@@ -119,7 +119,8 @@ namespace GpoSion.API.Data
 
             var recibo = await _context.Recibos.Include(r => r.Detalle).ThenInclude(d => d.Material)
             .Include(r => r.Detalle).ThenInclude(d => d.UnidadMedida)
-            .Include(r => r.Detalle).ThenInclude(d => d.Viajero)
+            .Include(r => r.Detalle).ThenInclude(d => d.Viajero).ThenInclude(v => v.Localidad)
+            .Include(r => r.Detalle).ThenInclude(d => d.Localidad)
             .Include(r => r.Proveedor).FirstOrDefaultAsync(r => r.ReciboId == id);
             return recibo;
         }
@@ -165,7 +166,7 @@ namespace GpoSion.API.Data
         public async Task<Viajero> GetViajero(int viajeroId)
         {
 
-            var viajero = await _context.Viajeros.Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Origen)
+            var viajero = await _context.Viajeros.Include(v => v.Localidad).Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Origen)
             .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Destino)
             .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Material)
             .Include(v => v.Material).FirstOrDefaultAsync(v => v.ViajeroId == viajeroId);
@@ -224,7 +225,9 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Viajero>> GetViajeros()
         {
-            var viajeros = await _context.Viajeros.Include(v => v.Material).Where(v => v.Existencia > 0).OrderBy(v => v.Fecha).ToListAsync();
+            var viajeros = await _context.Viajeros.Include(v => v.Material)
+            .Include(v => v.Localidad)
+            .Where(v => v.Existencia > 0).OrderBy(v => v.Fecha).ToListAsync();
             return viajeros;
         }
 
@@ -451,6 +454,25 @@ namespace GpoSion.API.Data
         {
             var embarque = await _context.Embarques.FirstOrDefaultAsync(e => e.Folio == Folio);
             return embarque != null;
+        }
+
+        public async Task<IEnumerable<Localidad>> GetLocalidades()
+        {
+            var localidades = await _context.Localidades.ToListAsync();
+            return localidades;
+
+        }
+
+        public async Task<Localidad> GetLocalidad(int id)
+        {
+            var localidad = await _context.Localidades.FindAsync(id);
+            return localidad;
+        }
+
+        public async Task<bool> ExisteLocalidad(string localidad)
+        {
+            var local = await _context.Localidades.FirstOrDefaultAsync(e => e.Descripcion == localidad);
+            return local != null;
         }
     }
 }

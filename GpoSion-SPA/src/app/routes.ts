@@ -68,6 +68,10 @@ import { ExistenciaProductoListComponent } from "./existencia-producto-list/exis
 import { OrdenCompraProveedorListComponent } from "./orden-compra-proveedor-list/orden-compra-proveedor-list.component";
 import { OrdenCompraProveedorAddComponent } from "./orden-compra-proveedor-add/orden-compra-proveedor-add.component";
 import { PreventUnsavedChanges } from "./_guards/prevent-unsaved-changes.guard";
+import { LocalidadListComponent } from "./localidad-list/localidad-list.component";
+import { LocalidadAddComponent } from "./localidad-add/localidad-add.component";
+import { LocalidadEditComponent } from "./localidad-edit/localidad-edit.component";
+import { LocalidadEditResolver } from "./_resolvers/localidad-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -210,6 +214,13 @@ export const appRoutes: Routes = [
   {
     path: "addOrdenCompraProveedor",
     component: OrdenCompraProveedorAddComponent
+  },
+  { path: "localidades", component: LocalidadListComponent },
+  { path: "addLocalidad", component: LocalidadAddComponent },
+  {
+    path: "localidades/:id",
+    component: LocalidadEditComponent,
+    resolve: { localidad: LocalidadEditResolver }
   },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

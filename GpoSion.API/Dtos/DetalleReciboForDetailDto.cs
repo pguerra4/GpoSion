@@ -33,7 +33,10 @@ namespace GpoSion.API.Dtos
         public int UnidadMedidaUnidadMedidaId { get; set; }
         public string Unidad { get; set; }
 
-        public string Localidad { get; set; }
+        public int? LocalidadId { get; set; }
+
+        [JsonProperty(PropertyName = "localidad")]
+        public string LocalidadDescripcion { get; set; }
 
     }
 }

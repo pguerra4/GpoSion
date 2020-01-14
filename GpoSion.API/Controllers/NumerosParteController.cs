@@ -188,6 +188,9 @@ namespace GpoSion.API.Controllers
             if (numeroParte == null)
                 return NotFound();
 
+            if (numeroParte.UrlImagenPieza == null)
+                return NoContent();
+
             var file = Path.Combine(Directory.GetCurrentDirectory(),
                             numeroParte.UrlImagenPieza);
 
