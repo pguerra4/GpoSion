@@ -38,13 +38,13 @@
                                 </td>
                                 <th scope="row">
                                     <div *ngFor="let item of requerimiento.materiales">
-                                        {{ item.material }} ({{ item.cantidad | number: "1.2-3" }})
+                                        {{ item.material }} ({{ item.cantidad | number }})
                                     </div>
                                 </th>
                                 <td>
                                     <div *ngFor="let item of requerimiento.materiales">
                                         <strong *ngIf="item.cantidadEntregada > 0">{{ item.material }} ({{
-                        item.cantidadEntregada | number: "1.2-3"
+                        item.cantidadEntregada | number
                       }})</strong
                     >
                   </div>

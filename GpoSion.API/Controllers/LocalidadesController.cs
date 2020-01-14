@@ -71,5 +71,26 @@ namespace GpoSion.API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteLocalidad(int id)
+        {
+
+
+
+            var localidadFromRepo = await _repo.GetLocalidad(id);
+
+            if (localidadFromRepo == null)
+                return NotFound();
+
+            _repo.Delete(localidadFromRepo);
+
+
+
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Fallo el borrado de la localidad " + localidadFromRepo.Descripcion + " probablemente ya este asignada a viajeros o recibos.");
+        }
+
     }
 }

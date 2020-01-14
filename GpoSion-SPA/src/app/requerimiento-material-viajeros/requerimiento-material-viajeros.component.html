@@ -35,7 +35,7 @@
                                     <input type="hidden" [attr.id]="'viajero' + i" [attr.name]="'viajero' + i" formControlName="viajero" />
                                 </td>
                                 <td class="text-right">
-                                    {{ item.existencia | number: "1.2-3" }}
+                                    {{ item.existencia | number }}
                                     <input type="hidden" [attr.id]="'existencia' + i" [attr.name]="'existencia' + i" formControlName="existencia" />
                                 </td>
                                 <td style="width: 175px">

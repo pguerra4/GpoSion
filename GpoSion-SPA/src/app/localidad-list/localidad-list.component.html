@@ -21,6 +21,7 @@
               <tr class="table-primary">
                 <th scope="col">Localidad</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
@@ -31,6 +32,11 @@
                     class="fa fa-edit"
                     [routerLink]="['/localidades/' + localidad.localidadId]"
                   ></a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" (click)="deleteLocalidad(localidad.localidadId)">
+                    <div class="fa fa-trash"></div>
+                  </button>
                         </td>
                         </tr>
                         </tbody>

@@ -54,4 +54,8 @@ export class ReciboService {
   editLocalidad(id: number, localidad: Localidad) {
     return this.http.put(this.baseUrl + "localidades/" + id, localidad);
   }
+
+  deleteLocalidad(id: number) {
+    return this.http.delete(this.baseUrl + "localidades/" + id);
+  }
 }

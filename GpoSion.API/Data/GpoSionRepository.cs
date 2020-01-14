@@ -119,7 +119,7 @@ namespace GpoSion.API.Data
 
             var recibo = await _context.Recibos.Include(r => r.Detalle).ThenInclude(d => d.Material)
             .Include(r => r.Detalle).ThenInclude(d => d.UnidadMedida)
-            .Include(r => r.Detalle).ThenInclude(d => d.Viajero).ThenInclude(v => v.Localidad)
+            .Include(r => r.Detalle).ThenInclude(d => d.Viajero).ThenInclude(v => v.Localizacion)
             .Include(r => r.Detalle).ThenInclude(d => d.Localidad)
             .Include(r => r.Proveedor).FirstOrDefaultAsync(r => r.ReciboId == id);
             return recibo;
@@ -142,7 +142,7 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId)
         {
             var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null)
-            .Select(mm => mm.Viajero).Include(v => v.MovimientosMaterial).Include(v => v.Material).OrderBy(v => v.Fecha).Distinct().ToListAsync();
+            .Select(mm => mm.Viajero).Include(v => v.MovimientosMaterial).Include(v => v.Material).Include(v => v.Localizacion).OrderBy(v => v.Fecha).Distinct().ToListAsync();
             return viajeros;
         }
 

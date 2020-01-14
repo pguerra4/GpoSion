@@ -30,4 +30,22 @@ export class LocalidadListComponent implements OnInit {
       }
     );
   }
+
+  deleteLocalidad(id: number) {
+    this.alertify.confirm("¿Desea borrar la localidad?", () => {
+      this.reciboService.deleteLocalidad(id).subscribe(
+        () => {
+          this.localidades.splice(
+            this.localidades.findIndex(m => m.localidadId === id),
+            1
+          );
+          this.loadLocalidades();
+          this.alertify.success("Localidad borrada");
+        },
+        error => {
+          this.alertify.error("Fallo al borrar la localidad:" + error);
+        }
+      );
+    });
+  }
 }
