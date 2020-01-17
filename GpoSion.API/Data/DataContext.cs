@@ -1,9 +1,10 @@
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GpoSion.API.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User, Role, string>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -19,7 +20,6 @@ namespace GpoSion.API.Data
         public DbSet<UnidadMedida> UnidadesMedida { get; set; }
         public DbSet<MovimientoMaterial> MovimientosMaterial { get; set; }
         public DbSet<ExistenciaMaterial> ExistenciasMaterial { get; set; }
-        public DbSet<Usuario> Usuarios { get; set; }
 
         public DbSet<Recibo> Recibos { get; set; }
 
@@ -77,13 +77,21 @@ namespace GpoSion.API.Data
 
 
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Entity<UnidadMedida>()
-            //     .HasAlternateKey(u => u.Unidad)
-            //     .HasName("AlternateKey_Unidad");
+            base.OnModelCreating(modelBuilder);
 
-            // modelBuilder.Entity<Viajero>().HasKey(v => v.ViajeroId);
+            // modelBuilder.Entity<UserRole>(userRole =>
+            // {
+            //     userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            //     userRole.HasOne(ur => ur.Role).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.RoleId).IsRequired();
+
+            //     userRole.HasOne(ur => ur.User).WithMany(u => u.UserRoles).HasForeignKey(ur => ur.UserId).IsRequired();
+
+            // });
+
 
             modelBuilder.Entity<Material>()
                        .HasAlternateKey(m => m.ClaveMaterial)

@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GpoSion.API.Data;
+using GpoSion.API.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +25,19 @@ namespace GpoSion.API
                 var services = scope.ServiceProvider;
                 try
                 {
+
                     var context = services.GetRequiredService<DataContext>();
+                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+
                     context.Database.Migrate();
+
+
+
+                    Seed.SeedUsers(userManager, roleManager);
+
+
+
                     Seed.SeedClientes(context);
                 }
                 catch (Exception ex)

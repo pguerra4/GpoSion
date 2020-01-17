@@ -21,10 +21,14 @@ namespace GpoSion.API.Models
         // public int? MaquinaMoldeadoraId { get; set; }
         // public Moldeadora Maquina { get; set; }
 
-        public DateTime FechaCreacion { get; set; }
-        public DateTime UltimaModificacion { get; set; }
+        public DateTime? FechaCreacion { get; set; }
+        public DateTime? UltimaModificacion { get; set; }
+        public string CreadoPorId { get; set; }
+        public User CreadoPor { get; set; }
 
-        public Usuario ModificadoPor { get; set; }
+        public string ModificadoPorId { get; set; }
+        public User ModificadoPor { get; set; }
+
 
         public ICollection<MoldeNumeroParte> MoldeNumerosParte { get; set; }
 

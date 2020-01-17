@@ -21,7 +21,7 @@ namespace GpoSion.API.Dtos
 
         public int ProveedorId { get; set; }
 
-        public int? CreadoPorId { get; set; }
+        public string CreadoPorId { get; set; }
 
 
         public ReciboForCreationDto()

@@ -1,11 +1,50 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace GpoSion.API.Data
 {
     public class Seed
     {
+        public static void SeedUsers(UserManager<User> userManager, RoleManager<Role> roleManager)
+        {
+            if (!userManager.Users.Any())
+            {
+                if (!roleManager.Roles.Any())
+                {
+                    var roles = new List<Role>
+                    {
+                        new Role{Name = "Admin"},
+                        new Role{Name = "Almacen"},
+                        new Role{Name = "Produccion"},
+                        new Role{Name = "Compras"},
+                        new Role{Name = "Ventas"},
+                        new Role{Name = "Calidad"},
+                        new Role{Name = "Sistemas"}
+                    };
+
+                    foreach (var role in roles)
+                    {
+                        roleManager.CreateAsync(role).Wait();
+                    }
+
+                }
+
+
+                var result = userManager.CreateAsync(new User { UserName = "Admin", Activo = true, Nombre = "Administrador", Paterno = "Sistema", FechaCreacion = DateTime.Now }, "Este es el usuario 0").Result;
+                if (result.Succeeded)
+                {
+                    var admin = userManager.FindByNameAsync("Admin").Result;
+                    userManager.AddToRoleAsync(admin, "Admin").Wait();
+
+                }
+            }
+
+
+
+        }
         public static void SeedClientes(DataContext context)
         {
             if (!context.Compradores.Any())
@@ -56,6 +95,11 @@ namespace GpoSion.API.Data
                     if (localidad != null)
                     {
                         item.LocalidadId = localidad.LocalidadId;
+                        var detalleRecibo = context.DetalleRecibos.FirstOrDefault(dr => dr.ViajeroId == item.ViajeroId);
+                        if (detalleRecibo != null)
+                        {
+                            detalleRecibo.LocalidadId = localidad.LocalidadId;
+                        }
                     }
                 }
                 context.SaveChanges();
@@ -64,9 +108,9 @@ namespace GpoSion.API.Data
 
             if (!context.Turnos.Any())
             {
-                var turno = new Turno { NoTurno = 1, Descripcion = "Matutino" };
+                var turno = new Turno { NoTurno = 1, Descripcion = "1" };
                 context.Turnos.Add(turno);
-                turno = new Turno { NoTurno = 2, Descripcion = "Vespertino" };
+                turno = new Turno { NoTurno = 2, Descripcion = "2" };
 
                 context.Turnos.Add(turno);
 

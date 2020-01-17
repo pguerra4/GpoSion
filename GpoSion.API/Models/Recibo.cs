@@ -10,7 +10,7 @@ namespace GpoSion.API.Models
         public DateTime? FechaEntrada { get; set; }
         public DateTime? HoraEntrada { get; set; }
 
-        public DateTime FechaCreacion { get; set; }
+
 
         public string Transportista { get; set; }
         public string FacturaAduanal { get; set; }
@@ -24,8 +24,14 @@ namespace GpoSion.API.Models
 
         public string Recibio { get; set; }
 
-        public int? CreadoPorId { get; set; }
-        public Usuario CreadoPor { get; set; }
+        public DateTime? FechaCreacion { get; set; }
+        public DateTime? UltimaModificacion { get; set; }
+        public string CreadoPorId { get; set; }
+        public User CreadoPor { get; set; }
+
+        public string ModificadoPorId { get; set; }
+        public User ModificadoPor { get; set; }
+
 
         public ICollection<DetalleRecibo> Detalle { get; set; }
 
