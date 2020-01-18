@@ -17,6 +17,8 @@ import {
   defineLocale
 } from "ngx-bootstrap";
 import * as locales from "ngx-bootstrap/locale";
+import { JwtModule } from "@auth0/angular-jwt";
+
 import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
 import { HomeComponent } from "./home/home.component";
@@ -122,6 +124,13 @@ import { LocalidadListComponent } from "./localidad-list/localidad-list.componen
 import { LocalidadAddComponent } from "./localidad-add/localidad-add.component";
 import { LocalidadEditComponent } from "./localidad-edit/localidad-edit.component";
 import { LocalidadEditResolver } from "./_resolvers/localidad-edit.resolver";
+import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
+import { AuthService } from "./_services/auth.service";
+import { HasRoleDirective } from "./_directives/has-role.directive";
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 function defineLocales() {
   for (const locale in locales) {
@@ -203,7 +212,9 @@ defineLocales();
     OrdenCompraProveedorAddComponent,
     LocalidadListComponent,
     LocalidadAddComponent,
-    LocalidadEditComponent
+    LocalidadEditComponent,
+    AdminPanelComponent,
+    HasRoleDirective
   ],
   imports: [
     BrowserModule,
@@ -218,10 +229,18 @@ defineLocales();
     TypeaheadModule.forRoot(),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:5000"],
+        blacklistedRoutes: ["localhost:5000/api/auth"]
+      }
+    }),
     RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload" })
   ],
   providers: [
     ErrorInterceptorProvider,
+    AuthService,
     ReciboService,
     ClienteService,
     AlertifyService,

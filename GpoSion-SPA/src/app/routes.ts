@@ -72,155 +72,171 @@ import { LocalidadListComponent } from "./localidad-list/localidad-list.componen
 import { LocalidadAddComponent } from "./localidad-add/localidad-add.component";
 import { LocalidadEditComponent } from "./localidad-edit/localidad-edit.component";
 import { LocalidadEditResolver } from "./_resolvers/localidad-edit.resolver";
+import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
+import { AuthGuard } from "./_guards/auth.guard";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
-  // {
-  //   path: "",
-  //   runGuardsAndResolvers: "always",
-  //   canActivate: [AuthGuard],
-  //   children: [
-  //     {
-  //       path: "members",
-  //       component: MemberListComponent,
-  //       resolve: { users: MemberListResolver }
-  //     },
-  //     {
-  //       path: "members/:id",
-  //       component: MemberDetailComponent,
-  //       resolve: { user: MemberDetailResolver }
-  //     },
-  //     { path: "messages", component: MessagesComponent },
-  //     { path: "lists", component: ListsComponent }
-  //   ]
-  // },
-  { path: "materiales", component: MaterialListComponent },
-  { path: "addMaterial", component: MaterialAddComponent },
   {
-    path: "materiales/:id",
-    component: MaterialEditComponent,
-    resolve: { material: MaterialEditResolver }
-  },
-  { path: "materiales/:id/viajeros", component: MaterialViajerosListComponent },
-  { path: "recibos", component: ReciboListComponent },
-  {
-    path: "recibos/:id",
-    component: ReciboDetailComponent,
-    canDeactivate: [PreventUnsavedChanges]
-  },
-  {
-    path: "detalleRecibo/:id",
-    component: DetalleReciboEditComponent,
-    resolve: { detalleRecibo: DetalleReciboEditResolver }
-  },
-  { path: "viajeros/:id", component: ViajeroDetailComponent },
-  {
-    path: "viajeroedit/:id",
-    component: ViajeroEditComponent,
-    resolve: { viajero: ViajeroEditResolver }
-  },
-  { path: "viajeros", component: ViajeroListComponent },
-  { path: "addRecibo", component: ReciboAddComponent },
-  { path: "existencias", component: ExistenciasMaterialListComponent },
-  { path: "addAlmacen", component: ExistenciasAddComponent },
-  { path: "produccion", component: ProduccionListComponent },
-  { path: "requerimientoMaterial", component: RequerimientoMaterialComponent },
-  { path: "requerimientos", component: RequerimientoMaterialListComponent },
-  { path: "requerimientosprod", component: RequerimientoProdListComponent },
-  {
-    path: "requerimientos/:id",
-    component: RequerimientoMaterialProdComponent,
-    resolve: { req: RequerimientoMaterialProdResolver }
-  },
-  { path: "solicitarMaterial/:id", component: MaterialProdComponent },
-  { path: "moldes", component: MoldeListComponent },
-  {
-    path: "moldes/:id",
-    component: MoldeEditComponent,
-    resolve: { molde: MoldeEditResolver }
-  },
-  { path: "addMolde", component: MoldeAddComponent },
-  { path: "numerosParte", component: NumerosParteListComponent },
-  {
-    path: "numerosParte/:id",
-    component: NumeroParteEditComponent,
-    resolve: { numeroParte: NumeroParteEditResolver }
-  },
-  { path: "addNumeroParte", component: NumeroParteAddComponent },
-  { path: "moldeadoras", component: MoldeadoraListComponent },
-  {
-    path: "moldeadoras/:id",
-    component: MoldeadoraSetupComponent,
-    resolve: { moldeadora: MoldeadoraEditResolver },
-    runGuardsAndResolvers: "always"
-  },
-  { path: "addMoldeadora", component: MoldeadoraAddComponent },
-  { path: "tiposmaterial", component: TipoMaterialListComponent },
-  { path: "addTipoMaterial", component: TipoMaterialAddComponent },
-  {
-    path: "tiposmaterial/:id",
-    component: TipoMaterialEditComponent,
-    resolve: { tipoMaterial: TipoMaterialEditResolver }
-  },
-  { path: "ordenescompra", component: OrdenCompraListComponent },
-  { path: "addOrdenCompra", component: OrdenCompraAddComponent },
-  {
-    path: "ordenescompra/:id",
-    component: OrdenCompraEditComponent,
-    resolve: { ordenCompra: OrdenCompraEditResolver }
-  },
-  {
-    path: "detallesordencompra/:id",
-    component: DetalleOrdenCompraEditComponent,
-    resolve: { detalleOrdenCompra: DetalleOrdenCompraEditResolver }
-  },
-  { path: "addProduccion", component: ProduccionAddComponent },
-  { path: "lists", component: MaterialAddComponent },
-  { path: "motivostiempomuerto", component: MotivoTiempoMuertoListComponent },
-  { path: "addMotivoTiempoMuerto", component: MotivoTiempoMuertoAddComponent },
-  {
-    path: "motivostiempomuerto/:id",
-    component: MotivoTiempoMuertoEditComponent,
-    resolve: { motivoTiempoMuerto: MotivoTiempoMuertoEditResolver }
-  },
-  { path: "clientes", component: ClienteListComponent },
-  { path: "addCliente", component: ClienteAddComponent },
-  {
-    path: "clientes/:id",
-    component: ClienteEditComponent,
-    resolve: { cliente: ClienteEditResolver }
-  },
-  { path: "proveedores", component: ProveedorListComponent },
-  { path: "addProveedor", component: ProveedorAddComponent },
-  {
-    path: "proveedores/:id",
-    component: ProveedorEditComponent,
-    resolve: { proveedor: ProveedorEditResolver }
-  },
-  { path: "movimientosproducto", component: MovimientoProductoListComponent },
-  { path: "addMovimientoProducto", component: MovimientoProductoAddComponent },
-  {
-    path: "movimientosproducto/:id",
-    component: MovimientoProductoEditComponent,
-    resolve: { movimientoProducto: MovimientoProductoEditResolver }
-  },
-  { path: "embarques", component: EmbarqueListComponent },
-  { path: "addEmbarque", component: EmbarqueAddComponent },
-  { path: "existenciasproducto", component: ExistenciaProductoListComponent },
-  {
-    path: "ordenescompraproveedores",
-    component: OrdenCompraProveedorListComponent
-  },
-  {
-    path: "addOrdenCompraProveedor",
-    component: OrdenCompraProveedorAddComponent
-  },
-  { path: "localidades", component: LocalidadListComponent },
-  { path: "addLocalidad", component: LocalidadAddComponent },
-  {
-    path: "localidades/:id",
-    component: LocalidadEditComponent,
-    resolve: { localidad: LocalidadEditResolver }
+    path: "",
+    runGuardsAndResolvers: "always",
+    canActivate: [AuthGuard],
+    children: [
+      { path: "materiales", component: MaterialListComponent },
+      { path: "addMaterial", component: MaterialAddComponent },
+      {
+        path: "materiales/:id",
+        component: MaterialEditComponent,
+        resolve: { material: MaterialEditResolver }
+      },
+      {
+        path: "materiales/:id/viajeros",
+        component: MaterialViajerosListComponent
+      },
+      { path: "recibos", component: ReciboListComponent },
+      {
+        path: "recibos/:id",
+        component: ReciboDetailComponent,
+        canDeactivate: [PreventUnsavedChanges]
+      },
+      {
+        path: "detalleRecibo/:id",
+        component: DetalleReciboEditComponent,
+        resolve: { detalleRecibo: DetalleReciboEditResolver }
+      },
+      { path: "viajeros/:id", component: ViajeroDetailComponent },
+      {
+        path: "viajeroedit/:id",
+        component: ViajeroEditComponent,
+        resolve: { viajero: ViajeroEditResolver }
+      },
+      { path: "viajeros", component: ViajeroListComponent },
+      { path: "addRecibo", component: ReciboAddComponent },
+      { path: "existencias", component: ExistenciasMaterialListComponent },
+      { path: "addAlmacen", component: ExistenciasAddComponent },
+      { path: "produccion", component: ProduccionListComponent },
+      {
+        path: "requerimientoMaterial",
+        component: RequerimientoMaterialComponent
+      },
+      { path: "requerimientos", component: RequerimientoMaterialListComponent },
+      { path: "requerimientosprod", component: RequerimientoProdListComponent },
+      {
+        path: "requerimientos/:id",
+        component: RequerimientoMaterialProdComponent,
+        resolve: { req: RequerimientoMaterialProdResolver }
+      },
+      { path: "solicitarMaterial/:id", component: MaterialProdComponent },
+      { path: "moldes", component: MoldeListComponent },
+      {
+        path: "moldes/:id",
+        component: MoldeEditComponent,
+        resolve: { molde: MoldeEditResolver }
+      },
+      { path: "addMolde", component: MoldeAddComponent },
+      { path: "numerosParte", component: NumerosParteListComponent },
+      {
+        path: "numerosParte/:id",
+        component: NumeroParteEditComponent,
+        resolve: { numeroParte: NumeroParteEditResolver }
+      },
+      { path: "addNumeroParte", component: NumeroParteAddComponent },
+      { path: "moldeadoras", component: MoldeadoraListComponent },
+      {
+        path: "moldeadoras/:id",
+        component: MoldeadoraSetupComponent,
+        resolve: { moldeadora: MoldeadoraEditResolver },
+        runGuardsAndResolvers: "always"
+      },
+      { path: "addMoldeadora", component: MoldeadoraAddComponent },
+      { path: "tiposmaterial", component: TipoMaterialListComponent },
+      { path: "addTipoMaterial", component: TipoMaterialAddComponent },
+      {
+        path: "tiposmaterial/:id",
+        component: TipoMaterialEditComponent,
+        resolve: { tipoMaterial: TipoMaterialEditResolver }
+      },
+      { path: "ordenescompra", component: OrdenCompraListComponent },
+      { path: "addOrdenCompra", component: OrdenCompraAddComponent },
+      {
+        path: "ordenescompra/:id",
+        component: OrdenCompraEditComponent,
+        resolve: { ordenCompra: OrdenCompraEditResolver }
+      },
+      {
+        path: "detallesordencompra/:id",
+        component: DetalleOrdenCompraEditComponent,
+        resolve: { detalleOrdenCompra: DetalleOrdenCompraEditResolver }
+      },
+      { path: "addProduccion", component: ProduccionAddComponent },
+      { path: "lists", component: MaterialAddComponent },
+      {
+        path: "motivostiempomuerto",
+        component: MotivoTiempoMuertoListComponent
+      },
+      {
+        path: "addMotivoTiempoMuerto",
+        component: MotivoTiempoMuertoAddComponent
+      },
+      {
+        path: "motivostiempomuerto/:id",
+        component: MotivoTiempoMuertoEditComponent,
+        resolve: { motivoTiempoMuerto: MotivoTiempoMuertoEditResolver }
+      },
+      { path: "clientes", component: ClienteListComponent },
+      { path: "addCliente", component: ClienteAddComponent },
+      {
+        path: "clientes/:id",
+        component: ClienteEditComponent,
+        resolve: { cliente: ClienteEditResolver }
+      },
+      { path: "proveedores", component: ProveedorListComponent },
+      { path: "addProveedor", component: ProveedorAddComponent },
+      {
+        path: "proveedores/:id",
+        component: ProveedorEditComponent,
+        resolve: { proveedor: ProveedorEditResolver }
+      },
+      {
+        path: "movimientosproducto",
+        component: MovimientoProductoListComponent
+      },
+      {
+        path: "addMovimientoProducto",
+        component: MovimientoProductoAddComponent
+      },
+      {
+        path: "movimientosproducto/:id",
+        component: MovimientoProductoEditComponent,
+        resolve: { movimientoProducto: MovimientoProductoEditResolver }
+      },
+      { path: "embarques", component: EmbarqueListComponent },
+      { path: "addEmbarque", component: EmbarqueAddComponent },
+      {
+        path: "existenciasproducto",
+        component: ExistenciaProductoListComponent
+      },
+      {
+        path: "ordenescompraproveedores",
+        component: OrdenCompraProveedorListComponent
+      },
+      {
+        path: "addOrdenCompraProveedor",
+        component: OrdenCompraProveedorAddComponent
+      },
+      { path: "localidades", component: LocalidadListComponent },
+      { path: "addLocalidad", component: LocalidadAddComponent },
+      {
+        path: "localidades/:id",
+        component: LocalidadEditComponent,
+        resolve: { localidad: LocalidadEditResolver }
+      },
+      {
+        path: "admin",
+        component: AdminPanelComponent,
+        data: { roles: ["Admin"] }
+      }
+    ]
   },
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];
