@@ -74,6 +74,9 @@ import { LocalidadEditComponent } from "./localidad-edit/localidad-edit.componen
 import { LocalidadEditResolver } from "./_resolvers/localidad-edit.resolver";
 import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
 import { AuthGuard } from "./_guards/auth.guard";
+import { UserEditComponent } from "./admin/admin-panel/user-edit/user-edit.component";
+import { UserEditResolver } from "./_resolvers/user-edit.resolver";
+import { UserRegisterComponent } from "./admin/admin-panel/user-register/user-register.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -234,6 +237,17 @@ export const appRoutes: Routes = [
       {
         path: "admin",
         component: AdminPanelComponent,
+        data: { roles: ["Admin"] }
+      },
+      {
+        path: "admin/users/:id",
+        component: UserEditComponent,
+        resolve: { user: UserEditResolver },
+        data: { roles: ["Admin"] }
+      },
+      {
+        path: "addUser",
+        component: UserRegisterComponent,
         data: { roles: ["Admin"] }
       }
     ]

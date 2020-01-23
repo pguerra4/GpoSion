@@ -78,6 +78,7 @@ namespace GpoSion.API.Helpers
             CreateMap<LocalidadToEditDto, Localidad>();
             CreateMap<User, UserForListDto>();
             CreateMap<UserForRegisterDto, User>();
+            CreateMap<UserToEditDto, User>();
         }
     }
 }

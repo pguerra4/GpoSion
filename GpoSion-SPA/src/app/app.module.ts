@@ -127,6 +127,9 @@ import { LocalidadEditResolver } from "./_resolvers/localidad-edit.resolver";
 import { AdminPanelComponent } from "./admin/admin-panel/admin-panel.component";
 import { AuthService } from "./_services/auth.service";
 import { HasRoleDirective } from "./_directives/has-role.directive";
+import { UserEditComponent } from "./admin/admin-panel/user-edit/user-edit.component";
+import { UserEditResolver } from "./_resolvers/user-edit.resolver";
+import { UserRegisterComponent } from "./admin/admin-panel/user-register/user-register.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -214,7 +217,9 @@ defineLocales();
     LocalidadAddComponent,
     LocalidadEditComponent,
     AdminPanelComponent,
-    HasRoleDirective
+    HasRoleDirective,
+    UserEditComponent,
+    UserRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -232,8 +237,8 @@ defineLocales();
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ["localhost:5000"],
-        blacklistedRoutes: ["localhost:5000/api/auth"]
+        whitelistedDomains: ["localhost:5005"],
+        blacklistedRoutes: ["localhost:5005/api/auth"]
       }
     }),
     RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload" })
@@ -270,6 +275,7 @@ defineLocales();
     ValidateExistingFolioEmbarque,
     PreventUnsavedChanges,
     LocalidadEditResolver,
+    UserEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

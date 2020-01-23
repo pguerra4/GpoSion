@@ -2,14 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GpoSion.API.Dtos
 {
-    public class UserForRegisterDto
+    public class UserToEditDto
     {
         [Required]
-        public string UserName { get; set; }
+        public string Id { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 8, ErrorMessage = "La contraseña debe ser de al menos {0} caracteres")]
-        public string Password { get; set; }
+        public string UserName { get; set; }
 
         public string Nombre { get; set; }
         public string Paterno { get; set; }
@@ -18,6 +17,7 @@ namespace GpoSion.API.Dtos
         public string eMail { get; set; }
 
         public string[] Roles { get; set; }
+
 
 
     }
