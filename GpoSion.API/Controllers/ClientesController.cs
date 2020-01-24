@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -40,10 +43,16 @@ namespace GpoSion.API.Controllers
             return Ok(clienteToReturn);
         }
 
+        [Authorize(Policy = "VentasRole")]
         [HttpPost()]
         public async Task<IActionResult> PostCliente(ClienteToCreateDto clienteDto)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var cliente = _mapper.Map<Cliente>(clienteDto);
+            cliente.CreadoPorId = userId;
+            cliente.FechaCreacion = DateTime.Now;
+
             _repo.Add(cliente);
             if (await _repo.SaveAll())
             {
@@ -56,6 +65,7 @@ namespace GpoSion.API.Controllers
 
         }
 
+        [Authorize(Policy = "VentasRole")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(int id, ClienteForPutDto clienteDto)
         {
@@ -65,7 +75,12 @@ namespace GpoSion.API.Controllers
             if (cliente.ClienteId != clienteDto.ClienteId)
                 return BadRequest("Ids no coinciden.");
 
+
             _mapper.Map(clienteDto, cliente);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            cliente.ModificadoPorId = userId;
+            cliente.UltimaModificacion = DateTime.Now;
 
             await _repo.SaveAll();
             return NoContent();

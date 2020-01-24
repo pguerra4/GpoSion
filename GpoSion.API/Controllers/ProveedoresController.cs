@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
 
+
+    [Authorize(Policy = "ComprasRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProveedoresController : ControllerBase
@@ -49,6 +53,11 @@ namespace GpoSion.API.Controllers
 
             var proveedor = _mapper.Map<Proveedor>(proveedorDto);
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            proveedor.CreadoPorId = userId;
+            proveedor.FechaCreacion = DateTime.Now;
+
             _repo.Add(proveedor);
 
             if (await _repo.SaveAll())
@@ -68,12 +77,15 @@ namespace GpoSion.API.Controllers
             if (id != proveedorDto.ProveedorId)
                 return BadRequest("Ids no coinciden.");
 
-
             var proveedor = await _repo.GetProveedor(id);
             if (proveedor == null)
                 return NotFound();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             _mapper.Map(proveedorDto, proveedor);
+
+            proveedor.UltimaModificacion = DateTime.Now;
+            proveedor.ModificadoPorId = userId;
 
             await _repo.SaveAll();
             return NoContent();

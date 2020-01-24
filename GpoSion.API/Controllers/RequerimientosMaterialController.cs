@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+
+    [Authorize(Policy = "ProduccionAlmacen")]
     [Route("api/[controller]")]
     [ApiController]
     public class RequerimientosMaterialController : ControllerBase
@@ -49,7 +53,9 @@ namespace GpoSion.API.Controllers
             var req = _mapper.Map<RequerimientoMaterial>(requerimientoforCreationDto);
             var materiales = _mapper.Map<IEnumerable<RequerimientoMaterialMaterial>>(requerimientoforCreationDto.Materiales);
 
-            var nuevoReq = new RequerimientoMaterial { TurnoId = req.TurnoId, JefaLinea = req.JefaLinea };
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var nuevoReq = new RequerimientoMaterial { TurnoId = req.TurnoId, JefaLinea = req.JefaLinea, FechaCreacion = DateTime.Now, CreadoPorId = userId };
 
             _repo.Add(nuevoReq);
             await _repo.SaveAll();
@@ -82,6 +88,8 @@ namespace GpoSion.API.Controllers
             if (req == null)
                 return BadRequest();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var areas = await _repo.GetAreas();
             var almacen = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
             var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
@@ -89,6 +97,8 @@ namespace GpoSion.API.Controllers
             req.Fechaentrega = DateTime.Now;
             req.Recibio = rfeDto.Recibio;
             req.Almacenista = rfeDto.Almacenista;
+            req.UltimaModificacion = DateTime.Now;
+            req.ModificadoPorId = userId;
 
             foreach (RequerimientoMaterialMaterialForEditDto rmmDto in rfeDto.Items)
             {
@@ -103,27 +113,31 @@ namespace GpoSion.API.Controllers
 
                     var material = await _repo.GetMaterial(rmm.MaterialId);
 
-                    var mm = new MovimientoMaterial { Fecha = rmm.FechaEntrega.Value, Material = material, Cantidad = rmmDto.asurtir, Origen = almacen, Destino = produccion, ViajeroId = rmm.ViajeroId, RequerimientoMaterialMaterialId = req.RequerimientoMaterialId, RequerimientoMaterialMaterial = rmm, Recibo = null };
+                    var mm = new MovimientoMaterial { Fecha = rmm.FechaEntrega.Value, Material = material, Cantidad = rmmDto.asurtir, Origen = almacen, Destino = produccion, ViajeroId = rmm.ViajeroId, RequerimientoMaterialMaterialId = req.RequerimientoMaterialId, RequerimientoMaterialMaterial = rmm, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
                     _repo.Add(mm);
 
                     var existenciaAlmacen = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, material.MaterialId);
                     existenciaAlmacen.Existencia -= rmmDto.asurtir;
                     existenciaAlmacen.UltimaModificacion = DateTime.Now;
+                    existenciaAlmacen.ModificadoPorId = userId;
 
                     var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, material.MaterialId);
                     if (existenciaProduccion != null)
                     {
                         existenciaProduccion.Existencia += rmmDto.asurtir;
+                        existenciaProduccion.UltimaModificacion = DateTime.Now;
+                        existenciaProduccion.ModificadoPorId = userId;
                     }
                     else
                     {
-                        existenciaProduccion = new ExistenciaMaterial { Material = material, Area = produccion, Existencia = rmmDto.asurtir, UltimaModificacion = DateTime.Now };
+                        existenciaProduccion = new ExistenciaMaterial { Material = material, Area = produccion, Existencia = rmmDto.asurtir, FechaCreacion = DateTime.Now, CreadoPorId = userId };
                         _repo.Add(existenciaProduccion);
                     }
 
                     var viajero = await _repo.GetViajero(rmmDto.Viajero);
                     viajero.Existencia -= rmmDto.asurtir;
-
+                    viajero.UltimaModificacion = DateTime.Now;
+                    viajero.ModificadoPorId = userId;
 
                     if (rmm.Cantidad <= rmm.CantidadEntregada)
                     {

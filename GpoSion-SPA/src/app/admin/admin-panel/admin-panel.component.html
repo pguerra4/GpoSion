@@ -29,6 +29,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Roles</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
@@ -41,6 +42,11 @@
                     class="fa fa-edit"
                     [routerLink]="['/admin/users/' + user.id]"
                   ></a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" (click)="deleteUser(user.id)">
+                    <div class="fa fa-trash"></div>
+                  </button>
                         </td>
                         </tr>
                         </tbody>

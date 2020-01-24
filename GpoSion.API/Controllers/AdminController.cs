@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
@@ -87,8 +89,13 @@ namespace GpoSion.API.Controllers
             if (userFromRepo.Id != userToEdit.Id)
                 return BadRequest("Ids no coinciden");
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
 
             _mapper.Map(userToEdit, userFromRepo);
+
+            userFromRepo.ModificadoPorId = userId;
+            userFromRepo.UltimaModificacion = DateTime.Now;
 
             var rolesAusentes = await _roleManager.Roles.Where(r => !userToEdit.Roles.Contains(r.Name)).ToListAsync();
 
@@ -119,9 +126,11 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> PostUser(UserForRegisterDto userToRegister)
         {
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var userToCreate = _mapper.Map<User>(userToRegister);
+            userToCreate.CreadoPorId = userId;
+            userToCreate.FechaCreacion = DateTime.Now;
 
             var result = await _userManager.CreateAsync(userToCreate, userToRegister.Password);
 
@@ -141,6 +150,31 @@ namespace GpoSion.API.Controllers
 
 
 
+
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (id == userId)
+                return BadRequest("No esta permitido borrar al usuario actual");
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+                return NotFound("Usuario no encontrado");
+
+            if (user.UserName == "Admin")
+                return BadRequest("No puedes borrar al usuario administrador");
+
+            var results = await _userManager.DeleteAsync(user);
+
+            if (results.Succeeded)
+                return NoContent();
+
+            return BadRequest(results.Errors);
 
         }
 

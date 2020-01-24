@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+    [Authorize(Policy = "AlmacenRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class RecibosController : ControllerBase
@@ -51,11 +54,13 @@ namespace GpoSion.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> PostRecibo(ReciboForCreationDto reciboforCreationDto)
         {
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var recibo = _mapper.Map<Recibo>(reciboforCreationDto);
 
             recibo.FechaEntrada = recibo.FechaEntrada.Value.ToLocalTime();
+            recibo.CreadoPorId = userId;
+            recibo.FechaCreacion = DateTime.Now;
 
             _repo.Add(recibo);
 

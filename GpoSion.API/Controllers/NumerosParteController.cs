@@ -2,16 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Helpers;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class NumerosParteController : ControllerBase
@@ -25,6 +28,25 @@ namespace GpoSion.API.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet("{id}/Photo")]
+        public async Task<IActionResult> GetImagenNumeroParte(string id)
+        {
+            var numeroParte = await _repo.GetNumeroParte(id);
+            if (numeroParte == null)
+                return NotFound();
+
+            if (numeroParte.UrlImagenPieza == null)
+                return NoContent();
+
+            var file = Path.Combine(Directory.GetCurrentDirectory(),
+                            numeroParte.UrlImagenPieza);
+
+            return PhysicalFile(file, "image/jpg");
+
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetNumerosParte([FromQuery] NumeroParteParams npParams)
         {
@@ -32,6 +54,7 @@ namespace GpoSion.API.Controllers
             var numerosParteToReturn = _mapper.Map<IEnumerable<NumeroParteToListDto>>(numerosParte);
             return Ok(numerosParteToReturn);
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetNumeroParte(string id)
@@ -42,10 +65,12 @@ namespace GpoSion.API.Controllers
             return Ok(numeroParteToReturn);
         }
 
+        [Authorize(Policy = "VentasAlmacen")]
         [HttpPost()]
         public async Task<IActionResult> PostNumeroParte(NumeroParteToCreateDto numeroParteforCreationDto)
         {
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var numeroParte = _mapper.Map<NumeroParte>(numeroParteforCreationDto);
             if (numeroParteforCreationDto.Materiales.Count > 0)
@@ -68,7 +93,8 @@ namespace GpoSion.API.Controllers
                 }
                 numeroParte.MoldesNumeroParte = moldes;
             }
-
+            numeroParte.FechaCreacion = DateTime.Now;
+            numeroParte.CreadoPorId = userId;
 
             _repo.Add(numeroParte);
 
@@ -85,7 +111,7 @@ namespace GpoSion.API.Controllers
         }
 
 
-
+        [Authorize(Policy = "VentasAlmacen")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNumeroParte(string id, NumeroParteToCreateDto numeroParteFP)
         {
@@ -95,13 +121,15 @@ namespace GpoSion.API.Controllers
             if (numeroParte.NoParte != numeroParteFP.NoParte)
                 return BadRequest();
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             numeroParte.ClienteId = numeroParteFP.ClienteId;
             // numeroParte.MaterialId = numeroParteFP.MaterialId;
             numeroParte.Peso = numeroParteFP.Peso;
             numeroParte.Costo = numeroParteFP.Costo;
             numeroParte.Descripcion = numeroParteFP.Descripcion;
             numeroParte.LeyendaPieza = numeroParteFP.LeyendaPieza;
+            numeroParte.UltimaModificacion = DateTime.Now;
+            numeroParte.ModificadoPorId = userId;
 
 
             if (numeroParteFP.Materiales.Count > 0)
@@ -142,6 +170,9 @@ namespace GpoSion.API.Controllers
         }
 
 
+
+
+        [Authorize(Policy = "VentasAlmacen")]
         [HttpPost("{id}/Photo")]
         public async Task<IActionResult> PostImagenNumeroParte(string id, [FromForm] ImagenNumeroParteDto imagen)
         {
@@ -150,6 +181,8 @@ namespace GpoSion.API.Controllers
                 var numeroParte = await _repo.GetNumeroParte(id);
                 if (numeroParte == null)
                     return NotFound();
+
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var file = imagen.File;
 
@@ -165,7 +198,8 @@ namespace GpoSion.API.Controllers
                     }
                 }
 
-
+                numeroParte.ModificadoPorId = userId;
+                numeroParte.UltimaModificacion = DateTime.Now;
 
                 await _repo.SaveAll();
 
@@ -181,22 +215,7 @@ namespace GpoSion.API.Controllers
 
         }
 
-        [HttpGet("{id}/Photo")]
-        public async Task<IActionResult> GetImagenNumeroParte(string id)
-        {
-            var numeroParte = await _repo.GetNumeroParte(id);
-            if (numeroParte == null)
-                return NotFound();
 
-            if (numeroParte.UrlImagenPieza == null)
-                return NoContent();
-
-            var file = Path.Combine(Directory.GetCurrentDirectory(),
-                            numeroParte.UrlImagenPieza);
-
-            return PhysicalFile(file, "image/jpg");
-
-        }
 
         [HttpGet("{id}/Existe")]
         public async Task<IActionResult> ExisteNumeroParte(string id)
@@ -205,6 +224,7 @@ namespace GpoSion.API.Controllers
             return Ok(await _repo.ExisteNumeroParte(id));
 
         }
+
 
         [HttpGet("{id}/ExistenciaAlmacen")]
         public async Task<IActionResult> ExistenciaAlmacenNumeroParte(string id, bool certificadas = true)

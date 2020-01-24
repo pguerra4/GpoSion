@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Helpers;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -50,13 +53,16 @@ namespace GpoSion.API.Controllers
             return Ok(viajerosToReturn);
         }
 
+        [Authorize(Policy = "AlmacenRole")]
         [HttpPost()]
         public async Task<IActionResult> PostMaterial(MaterialforPostDto materialDto)
         {
 
             var um = await _repo.GetUnidadMedida(materialDto.UnidadMedidaId);
 
-            var material = new Material { UnidadMedida = um, FechaCreacion = DateTime.Now, ClaveMaterial = materialDto.ClaveMaterial, Descripcion = materialDto.Descripcion, TipoMaterialId = materialDto.TipoMaterialId };
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var material = new Material { UnidadMedida = um, FechaCreacion = DateTime.Now, ClaveMaterial = materialDto.ClaveMaterial, Descripcion = materialDto.Descripcion, TipoMaterialId = materialDto.TipoMaterialId, CreadoPorId = userId };
             // _mapper.Map(materialDto, material);
 
             _repo.Add(material);
@@ -67,13 +73,16 @@ namespace GpoSion.API.Controllers
             throw new Exception("Material no guardado");
         }
 
+        [Authorize(Policy = "AlmacenRole")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMaterial(int id, MaterialForPutDto materialDto)
         {
 
             var material = await _repo.GetMaterial(id);
             if (material == null)
-                return BadRequest();
+                return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var um = await _repo.GetUnidadMedida(materialDto.UnidadMedidaId);
             material.ClaveMaterial = materialDto.ClaveMaterial;
@@ -81,6 +90,8 @@ namespace GpoSion.API.Controllers
             material.TipoMaterialId = materialDto.TipoMaterialId;
             material.UltimaModificacion = DateTime.Now;
             material.UnidadMedida = um;
+            material.ModificadoPorId = userId;
+            material.UltimaModificacion = DateTime.Now;
 
             await _repo.SaveAll();
 
@@ -93,9 +104,11 @@ namespace GpoSion.API.Controllers
             return Ok(await _repo.ExisteMaterial(material, id));
         }
 
+        [Authorize(Policy = "AlmacenRole")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMaterial(int id)
         {
+
             var material = await _repo.GetMaterial(id);
             if (material == null)
                 return NotFound();
@@ -106,6 +119,8 @@ namespace GpoSion.API.Controllers
                 return NoContent();
 
             throw new Exception("Error al borrar material");
+
+
 
         }
 

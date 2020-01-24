@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
 
+    [Authorize(Policy = "VentasRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdenesCompraController : ControllerBase
@@ -46,7 +49,7 @@ namespace GpoSion.API.Controllers
             ordenCompra.Fecha = ordenCompra.Fecha.ToLocalTime();
             var orden = _mapper.Map<OrdenCompra>(ordenCompra);
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             foreach (var item in orden.NumerosParte)
             {
@@ -60,6 +63,8 @@ namespace GpoSion.API.Controllers
             }
 
             orden.Cliente = null;
+            orden.FechaCreacion = DateTime.Now;
+            orden.CreadoPorId = userId;
 
             _repo.Add(orden);
             if (await _repo.SaveAll())
@@ -78,6 +83,7 @@ namespace GpoSion.API.Controllers
 
             if (id != ordenCompra.NoOrden)
                 return BadRequest();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 
             var ordenFromRepo = await _repo.GetOrdenCompra(id);
@@ -86,7 +92,8 @@ namespace GpoSion.API.Controllers
 
             _mapper.Map(ordenCompra, ordenFromRepo);
 
-
+            ordenFromRepo.UltimaModificacion = DateTime.Now;
+            ordenFromRepo.ModificadoPorId = userId;
 
 
 

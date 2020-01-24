@@ -130,6 +130,8 @@ import { HasRoleDirective } from "./_directives/has-role.directive";
 import { UserEditComponent } from "./admin/admin-panel/user-edit/user-edit.component";
 import { UserEditResolver } from "./_resolvers/user-edit.resolver";
 import { UserRegisterComponent } from "./admin/admin-panel/user-register/user-register.component";
+import { UserProfileEditComponent } from "./user-profile-edit/user-profile-edit.component";
+import { ChangePasswordComponent } from "./change-password/change-password.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -219,7 +221,9 @@ defineLocales();
     AdminPanelComponent,
     HasRoleDirective,
     UserEditComponent,
-    UserRegisterComponent
+    UserRegisterComponent,
+    UserProfileEditComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

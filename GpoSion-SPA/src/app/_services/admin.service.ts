@@ -30,4 +30,8 @@ export class AdminService {
   registerUser(user: User) {
     return this.http.post(this.baseUrl + "admin/users/", user);
   }
+
+  deleteUser(id: string) {
+    return this.http.delete(this.baseUrl + "admin/" + id);
+  }
 }

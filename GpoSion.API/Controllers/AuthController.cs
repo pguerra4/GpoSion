@@ -60,26 +60,28 @@ namespace GpoSion.API.Controllers
 
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
-        {
-            var userTocreate = _mapper.Map<User>(userForRegisterDto);
+        // [HttpPost("register")]
+        // public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
+        // {
+        //     var userTocreate = _mapper.Map<User>(userForRegisterDto);
 
-            var result = await _userManager.CreateAsync(userTocreate, userForRegisterDto.Password);
-            var userToReturn = _mapper.Map<UserForListDto>(userTocreate);
-            if (result.Succeeded)
-            {
-                return CreatedAtRoute("GetUser", new { controller = "Users", id = userTocreate.Id }, userToReturn);
-            }
-            return BadRequest(result.Errors);
-        }
+        //     var result = await _userManager.CreateAsync(userTocreate, userForRegisterDto.Password);
+        //     var userToReturn = _mapper.Map<UserForListDto>(userTocreate);
+        //     if (result.Succeeded)
+        //     {
+        //         return CreatedAtRoute("GetUser", new { controller = "Users", id = userTocreate.Id }, userToReturn);
+        //     }
+        //     return BadRequest(result.Errors);
+        // }
 
         private async Task<string> GenerateJwtToken(User user)
         {
             var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Name, user.UserName)
+                    new Claim(ClaimTypes.Name, user.UserName),
+                     new Claim(ClaimTypes.GivenName, user.Nombre ),
+                     new Claim(ClaimTypes.Surname, user.Paterno )
                 };
 
             var roles = await _userManager.GetRolesAsync(user);

@@ -36,7 +36,6 @@ export class UserEditComponent implements OnInit {
   createUserForm() {
     this.userForm = this.fb.group({
       id: [this.user.id, Validators.required],
-      userName: [this.user.userName, Validators.required],
       nombre: [this.user.nombre],
       paterno: [this.user.paterno],
       materno: [this.user.materno]

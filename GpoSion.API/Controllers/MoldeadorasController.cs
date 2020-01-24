@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+
+    [Authorize(Policy = "ProduccionRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class MoldeadorasController : ControllerBase
@@ -44,9 +48,12 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> PostMoldeadora(MoldeadoraToCreateDto moldeadoraToCreateDto)
         {
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var moldeadora = _mapper.Map<Moldeadora>(moldeadoraToCreateDto);
             moldeadora.Estatus = "Detenida";
+            moldeadora.CreadoPorId = userId;
+            moldeadora.FechaCreacion = DateTime.Now;
+
             _repo.Add(moldeadora);
 
             if (await _repo.SaveAll())
@@ -66,6 +73,8 @@ namespace GpoSion.API.Controllers
             if (moldeadora.MoldeadoraId != moldeadoraFP.MoldeadoraId)
                 return BadRequest("Ids no coinciden");
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
 
             foreach (var item in moldeadoraFP.NumerosParte)
             {
@@ -79,6 +88,7 @@ namespace GpoSion.API.Controllers
             moldeadora.MaterialId = moldeadoraFP.MaterialId;
             moldeadora.Estatus = moldeadoraFP.Estatus;
             moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.ModificadoPorId = userId;
 
             moldeadora.MoldeadoraNumerosParte.Clear();
 
@@ -99,7 +109,9 @@ namespace GpoSion.API.Controllers
                 Estatus = moldeadora.Estatus,
                 MoldeId = moldeadora.MoldeId,
                 MaterialId = moldeadora.MaterialId,
-                MotivoTiempoMuertoId = null
+                MotivoTiempoMuertoId = null,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId
             };
             if (moldeadora.MoldeadoraNumerosParte != null && moldeadora.MoldeadoraNumerosParte.Count > 0)
             {
@@ -135,9 +147,11 @@ namespace GpoSion.API.Controllers
                     return BadRequest("El No. Parte " + item.NoParte + " no tiene ordenes de compra activa");
                 }
             }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             moldeadora.Estatus = "Operando";
             moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.ModificadoPorId = userId;
             moldeadora.UltimoMotivoParo = null;
 
             var movimiento = new MovimientoMoldeadora
@@ -149,6 +163,8 @@ namespace GpoSion.API.Controllers
                 Estatus = "Operando",
                 MoldeId = moldeadora.MoldeId,
                 MaterialId = moldeadora.MaterialId,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId,
                 MotivoTiempoMuertoId = null
             };
             if (moldeadora.MoldeadoraNumerosParte != null && moldeadora.MoldeadoraNumerosParte.Count > 0)
@@ -177,8 +193,11 @@ namespace GpoSion.API.Controllers
             if (moldeadora == null)
                 return NotFound();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             moldeadora.Estatus = "Detenida";
             moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.ModificadoPorId = userId;
             moldeadora.UltimoMotivoParo = moldeadoraForStop.MotivoTiempoMuertoId;
 
             var movimiento = new MovimientoMoldeadora
@@ -190,7 +209,9 @@ namespace GpoSion.API.Controllers
                 Estatus = "Detenida",
                 MoldeId = moldeadora.MoldeId,
                 MaterialId = moldeadora.MaterialId,
-                MotivoTiempoMuertoId = moldeadoraForStop.MotivoTiempoMuertoId
+                MotivoTiempoMuertoId = moldeadoraForStop.MotivoTiempoMuertoId,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId
             };
             if (moldeadora.MoldeadoraNumerosParte != null && moldeadora.MoldeadoraNumerosParte.Count > 0)
             {
@@ -216,11 +237,12 @@ namespace GpoSion.API.Controllers
             var moldeadora = await _repo.GetMoldeadora(id);
             if (moldeadora == null)
                 return NotFound();
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 
             moldeadora.Estatus = "Detenida";
             moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.ModificadoPorId = userId;
             moldeadora.UltimoMotivoParo = null;
 
             moldeadora.MoldeadoraNumerosParte.Clear();
@@ -237,7 +259,9 @@ namespace GpoSion.API.Controllers
                 Observaciones = "",
                 Fecha = DateTime.Now,
                 Estatus = "Detenida",
-                MotivoTiempoMuertoId = null
+                MotivoTiempoMuertoId = null,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId
             };
 
 

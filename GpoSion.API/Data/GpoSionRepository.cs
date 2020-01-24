@@ -67,7 +67,10 @@ namespace GpoSion.API.Data
 
         public async Task<bool> SaveAll()
         {
+
             return await _context.SaveChangesAsync() > 0;
+
+
         }
 
         public async Task<IEnumerable<ExistenciaMaterial>> GetExistencias()
@@ -473,6 +476,12 @@ namespace GpoSion.API.Data
         {
             var local = await _context.Localidades.FirstOrDefaultAsync(e => e.Descripcion == localidad);
             return local != null;
+        }
+
+        public async Task<User> GetUser(string id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            return user;
         }
     }
 }

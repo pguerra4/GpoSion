@@ -18,13 +18,13 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError(error => {
+        console.error(error);
         if (error.status === 401) {
           return throwError(error.statusText);
         }
         if (error instanceof HttpErrorResponse) {
           const applicationError = error.headers.get("Application-Error");
           if (applicationError) {
-            console.error(applicationError);
             return throwError(applicationError);
           }
           const serverError = error.error;
@@ -35,7 +35,20 @@ export class ErrorInterceptor implements HttpInterceptor {
                 modalStateErrors += serverError.errors[key] + "\n";
               }
             }
+          } else {
+            if (error.error.length > 0) {
+              for (let index = 0; index < error.error.length; index++) {
+                if (error.error[index]) {
+                  modalStateErrors +=
+                    error.error[index].code +
+                    " " +
+                    error.error[index].description +
+                    "\n";
+                }
+              }
+            }
           }
+
           return throwError(modalStateErrors || serverError || "Server Error");
         }
       })

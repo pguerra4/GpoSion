@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+    [Authorize(Policy = "AlmacenRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class ViajerosController : ControllerBase
@@ -49,6 +52,8 @@ namespace GpoSion.API.Controllers
             if (viajero.ViajeroId != viajeroFP.ViajeroId)
                 return BadRequest();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var nvaExistencia = viajeroFP.Existencia - viajero.Existencia;
 
             var almacenes = await _repo.GetAreas();
@@ -58,13 +63,14 @@ namespace GpoSion.API.Controllers
 
             existenciaMaterial.Existencia += nvaExistencia;
 
-            var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = viajero.Material, Viajero = viajero, ViajeroId = viajero.ViajeroId, Cantidad = nvaExistencia };
+            var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = viajero.Material, Viajero = viajero, ViajeroId = viajero.ViajeroId, Cantidad = nvaExistencia, FechaCreacion = DateTime.Now, CreadoPorId = userId };
 
             viajero.MovimientosMaterial.Add(movMaterial);
 
             viajero.Existencia = viajeroFP.Existencia;
             viajero.LocalidadId = viajeroFP.LocalidadId;
-
+            viajero.UltimaModificacion = DateTime.Now;
+            viajero.ModificadoPorId = userId;
 
 
 

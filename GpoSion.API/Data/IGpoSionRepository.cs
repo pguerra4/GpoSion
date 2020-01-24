@@ -121,5 +121,7 @@ namespace GpoSion.API.Data
 
         Task<bool> ExisteLocalidad(string localidad);
 
+        Task<User> GetUser(string id);
+
     }
 }

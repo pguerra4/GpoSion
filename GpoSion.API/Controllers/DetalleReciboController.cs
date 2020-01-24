@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+    [Authorize(Policy = "AlmacenRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class DetalleReciboController : ControllerBase
@@ -44,6 +47,8 @@ namespace GpoSion.API.Controllers
                 return BadRequest();
 
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             // var cliente = await _repo.GetCliente(recibo.ClienteId.Value);
             var almacenes = await _repo.GetAreas();
             var almacen = almacenes.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
@@ -74,7 +79,7 @@ namespace GpoSion.API.Controllers
                 if (viajero == null)
                 {
 
-                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, LocalidadId = detalle.LocalidadId };
+                    viajero = new Viajero { ViajeroId = detalle.Viajero, Fecha = DateTime.Now, Existencia = detalle.Total, MaterialId = material.MaterialId, Material = material, LocalidadId = detalle.LocalidadId, CreadoPorId = userId, FechaCreacion = DateTime.Now };
                     _repo.Add(viajero);
                     await _repo.SaveAll();
 
@@ -82,9 +87,11 @@ namespace GpoSion.API.Controllers
                 else
                 {
                     viajero.Existencia += detalle.Total;
+                    viajero.UltimaModificacion = DateTime.Now;
+                    viajero.ModificadoPorId = userId;
                 }
 
-                var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Material = material, Cantidad = detalle.Total, Origen = null, Destino = almacen, Recibo = recibo, Viajero = viajero };
+                var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Material = material, Cantidad = detalle.Total, Origen = null, Destino = almacen, Recibo = recibo, Viajero = viajero, CreadoPorId = userId, FechaCreacion = DateTime.Now };
                 _repo.Add(movMaterial);
 
 
@@ -96,14 +103,18 @@ namespace GpoSion.API.Controllers
                         Material = material,
                         Area = almacen,
                         Existencia = detalle.Total,
-                        UltimaModificacion = DateTime.Now
+                        FechaCreacion = DateTime.Now,
+                        CreadoPorId = userId
                     };
                     _repo.Add(existenciaMaterial);
                 }
                 else
                 {
                     existenciaMaterial.Existencia += detalle.Total;
+                    existenciaMaterial.ModificadoPorId = userId;
+                    existenciaMaterial.UltimaModificacion = DateTime.Now;
                 }
+
 
                 var detalleRecibo = new DetalleRecibo
                 {
@@ -117,7 +128,9 @@ namespace GpoSion.API.Controllers
                     MaterialId = material.MaterialId,
                     Material = material,
                     UnidadMedida = unidadMedida,
-                    LocalidadId = detalle.LocalidadId
+                    LocalidadId = detalle.LocalidadId,
+                    CreadoPorId = userId,
+                    FechaCreacion = DateTime.Now
                 };
 
                 _repo.Add(detalleRecibo);
@@ -139,7 +152,7 @@ namespace GpoSion.API.Controllers
             if (detalleRecibo == null)
                 return BadRequest();
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var almacenes = await _repo.GetAreas();
             var almacen = almacenes.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
 
@@ -159,7 +172,8 @@ namespace GpoSion.API.Controllers
             var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, detalleRecibo.Material.MaterialId);
 
             existenciaMaterial.Existencia += diferencia;
-
+            existenciaMaterial.UltimaModificacion = DateTime.Now;
+            existenciaMaterial.ModificadoPorId = userId;
 
 
             detalleRecibo.TotalCajas = !detalleReciboForEdit.TotalCajas.HasValue ? 0 : detalleReciboForEdit.TotalCajas.Value;
@@ -169,6 +183,8 @@ namespace GpoSion.API.Controllers
             detalleRecibo.ReferenciaCliente = detalleReciboForEdit.ReferenciaCliente;
             detalleRecibo.UnidadMedida = unidadMedida;
             detalleRecibo.LocalidadId = detalleReciboForEdit.LocalidadId;
+            detalleRecibo.ModificadoPorId = userId;
+            detalleRecibo.UltimaModificacion = DateTime.Now;
 
 
 

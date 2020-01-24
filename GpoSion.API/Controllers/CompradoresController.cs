@@ -5,11 +5,12 @@ using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
-
+    [Authorize(Policy = "ComprasRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class CompradoresController : ControllerBase

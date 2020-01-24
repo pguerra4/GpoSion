@@ -5,12 +5,13 @@ using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace GpoSion.API.Controllers
 {
 
+
+    [Authorize(Policy = "ProduccionAlmacen")]
     [Route("api/[controller]")]
     [ApiController]
     public class ExistenciasProductoController : ControllerBase

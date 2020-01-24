@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Helpers;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+    [Authorize(Policy = "AlmacenRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class EmbarquesController : ControllerBase
@@ -45,9 +48,13 @@ namespace GpoSion.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> PostEmbarque(EmbarqueToCreateDto embarqueToCreate)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var embarque = _mapper.Map<Embarque>(embarqueToCreate);
             embarque.Fecha = embarque.Fecha.ToLocalTime();
+            embarque.FechaCreacion = DateTime.Now;
+            embarque.CreadoPorId = userId;
+
             _repo.Add(embarque);
             MovimientoProducto movimiento;
 
@@ -59,6 +66,7 @@ namespace GpoSion.API.Controllers
                     NoParte = de.NoParte,
                     Fecha = embarque.Fecha,
                     FechaCreacion = DateTime.Now,
+                    CreadoPorId = userId,
                     Cajas = de.Cajas,
                     PiezasXCaja = de.PiezasXCaja,
                     TipoMovimiento = "Embarque",
@@ -86,6 +94,7 @@ namespace GpoSion.API.Controllers
 
                     existencia.PiezasCertificadas -= de.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
                 }
                 else
                 {
@@ -94,6 +103,7 @@ namespace GpoSion.API.Controllers
 
                     existencia.PiezasRechazadas -= de.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
                 }
 
 
@@ -111,6 +121,7 @@ namespace GpoSion.API.Controllers
 
                     ocd.PiezasSurtidas += de.Entregadas;
                     ocd.UltimaModificacion = DateTime.Now;
+                    ocd.ModificadoPorId = userId;
                 }
 
             }
@@ -137,6 +148,8 @@ namespace GpoSion.API.Controllers
             if (movimiento.MovimientoProductoId != movimientoFP.MovimientoProductoId)
                 return BadRequest("Ids no coinciden");
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (movimientoFP.PiezasRechazadas > 0)
             {
                 var piezasRechazadas = 0;
@@ -147,11 +160,15 @@ namespace GpoSion.API.Controllers
 
                         piezasRechazadas = (int)Math.Floor(movimientoFP.PiezasRechazadas / np.Peso);
                         movimientoFP.PiezasRechazadas = piezasRechazadas;
+
+
                         break;
                     case 2:
 
                         piezasRechazadas = (int)Math.Floor((movimientoFP.PiezasRechazadas * (decimal)2.2046) / np.Peso);
                         movimientoFP.PiezasRechazadas = piezasRechazadas;
+
+
                         break;
                     default:
                         break;
@@ -169,12 +186,14 @@ namespace GpoSion.API.Controllers
                     otraExistencia.PiezasCertificadas -= movimiento.PiezasCertificadas;
                     otraExistencia.PiezasRechazadas -= movimiento.PiezasRechazadas;
                     otraExistencia.UltimaModificacion = DateTime.Now;
+                    otraExistencia.ModificadoPorId = userId;
                 }
                 if (existencia != null)
                 {
                     existencia.PiezasCertificadas += movimientoFP.PiezasCertificadas;
                     existencia.PiezasRechazadas += (int)movimientoFP.PiezasRechazadas;
                     existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
                 }
 
             }
@@ -185,10 +204,11 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasCertificadas += (movimientoFP.PiezasCertificadas - movimiento.PiezasCertificadas);
                     existencia.PiezasRechazadas += ((int)movimientoFP.PiezasRechazadas - movimiento.PiezasRechazadas);
                     existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
                 }
                 else
                 {
-                    existencia = new ExistenciaProducto { NoParte = movimientoFP.NoParte, PiezasCertificadas = movimientoFP.PiezasCertificadas, PiezasRechazadas = (int)movimientoFP.PiezasRechazadas, UltimaModificacion = DateTime.Now };
+                    existencia = new ExistenciaProducto { NoParte = movimientoFP.NoParte, PiezasCertificadas = movimientoFP.PiezasCertificadas, PiezasRechazadas = (int)movimientoFP.PiezasRechazadas, FechaCreacion = DateTime.Now, CreadoPorId = userId };
                     _repo.Add(existencia);
                 }
             }
@@ -198,6 +218,8 @@ namespace GpoSion.API.Controllers
 
             movimientoFP.TipoMovimiento = "Entrada Almacen";
             _mapper.Map(movimientoFP, movimiento);
+            movimiento.ModificadoPorId = userId;
+            movimiento.UltimaModificacion = DateTime.Now;
 
             await _repo.SaveAll();
             return NoContent();

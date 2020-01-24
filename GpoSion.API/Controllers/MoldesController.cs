@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class MoldesController : ControllerBase
@@ -40,12 +44,15 @@ namespace GpoSion.API.Controllers
             return Ok(moldeToReturn);
         }
 
+        [Authorize(Policy = "ProduccionAlmacen")]
         [HttpPost()]
         public async Task<IActionResult> PostMolde(MoldeForCreationDto moldeforCreationDto)
         {
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var molde = _mapper.Map<Molde>(moldeforCreationDto);
+            molde.FechaCreacion = DateTime.Now;
+            molde.CreadoPorId = userId;
 
             _repo.Add(molde);
 
@@ -56,7 +63,7 @@ namespace GpoSion.API.Controllers
         }
 
 
-
+        [Authorize(Policy = "ProduccionAlmacen")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMolde(int id, MoldeForPutDto moldeFP)
         {
@@ -66,11 +73,15 @@ namespace GpoSion.API.Controllers
             if (molde.Id != moldeFP.Id)
                 return BadRequest();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
             molde.ClaveMolde = moldeFP.ClaveMolde;
             molde.ClienteId = moldeFP.ClienteId;
             molde.UbicacionAreaId = moldeFP.UbicacionAreaId;
             // molde.MaquinaMoldeadoraId = moldeFP.MaquinaMoldeadoraId;
             molde.UltimaModificacion = moldeFP.UltimaModificacion;
+            molde.ModificadoPorId = userId;
 
 
 

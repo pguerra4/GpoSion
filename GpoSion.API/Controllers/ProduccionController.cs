@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+
+    [Authorize(Policy = "ProduccionRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProduccionController : ControllerBase
@@ -47,6 +51,11 @@ namespace GpoSion.API.Controllers
 
             var prod = _mapper.Map<Produccion>(produccionToCreateDto);
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            prod.FechaCreacion = DateTime.Now;
+            prod.CreadoPorId = userId;
+
             _repo.Add(prod);
 
             var moldeadora = await _repo.GetMoldeadora(prod.MoldeadoraId.Value);
@@ -76,7 +85,7 @@ namespace GpoSion.API.Controllers
 
             existenciaProduccion.Existencia -= total;
 
-            var mm = new MovimientoMaterial { Fecha = prod.Fecha, Material = material, Cantidad = total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null };
+            var mm = new MovimientoMaterial { Fecha = prod.Fecha, Material = material, Cantidad = total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
             _repo.Add(mm);
 
             if (await _repo.SaveAll())
@@ -91,27 +100,28 @@ namespace GpoSion.API.Controllers
 
 
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMolde(int id, MoldeForPutDto moldeFP)
-        {
-            var molde = await _repo.GetMolde(id);
-            if (molde == null)
-                return BadRequest();
-            if (molde.Id != moldeFP.Id)
-                return BadRequest();
-
-            molde.ClaveMolde = moldeFP.ClaveMolde;
-            molde.ClienteId = moldeFP.ClienteId;
-            molde.UbicacionAreaId = moldeFP.UbicacionAreaId;
-            // molde.MaquinaMoldeadoraId = moldeFP.MaquinaMoldeadoraId;
-            molde.UltimaModificacion = moldeFP.UltimaModificacion;
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> PutMolde(int id, MoldeForPutDto moldeFP)
+        // {
+        //     // var molde = await _repo.GetMolde(id);
+        //     // if (molde == null)
+        //     //     return BadRequest();
+        //     // if (molde.Id != moldeFP.Id)
+        //     //     return BadRequest();
 
 
+        //     // molde.ClaveMolde = moldeFP.ClaveMolde;
+        //     // molde.ClienteId = moldeFP.ClienteId;
+        //     // molde.UbicacionAreaId = moldeFP.UbicacionAreaId;
+        //     // // molde.MaquinaMoldeadoraId = moldeFP.MaquinaMoldeadoraId;
+        //     // molde.UltimaModificacion = moldeFP.UltimaModificacion;
 
-            if (await _repo.SaveAll())
-                return NoContent();
 
-            throw new Exception("Molde no guardado");
-        }
+
+        //     // if (await _repo.SaveAll())
+        //     //     return NoContent();
+
+        //     throw new Exception("Molde no guardado");
+        // }
     }
 }

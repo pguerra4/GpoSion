@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
-
+    [Authorize(Policy = "AlmacenRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class LocalidadesController : ControllerBase
@@ -46,7 +48,9 @@ namespace GpoSion.API.Controllers
             if (await _repo.ExisteLocalidad(localidadDto.Descripcion))
                 return BadRequest("Localidad ya existe");
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var localidad = _mapper.Map<Localidad>(localidadDto);
+            localidad.CreadoPorId = userId;
 
             _repo.Add(localidad);
 
@@ -63,7 +67,10 @@ namespace GpoSion.API.Controllers
             if (id != localidadDto.LocalidadId)
                 return BadRequest("No coinciden los ids");
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var localidadFromRepo = await _repo.GetLocalidad(id);
+            localidadFromRepo.UltimaModificacion = DateTime.Now;
+            localidadFromRepo.ModificadoPorId = userId;
 
             _mapper.Map(localidadDto, localidadFromRepo);
 

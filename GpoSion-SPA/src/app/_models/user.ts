@@ -5,5 +5,6 @@ export interface User {
   nombre: string;
   paterno: string;
   materno: string;
+  eMail: string;
   roles?: string[];
 }

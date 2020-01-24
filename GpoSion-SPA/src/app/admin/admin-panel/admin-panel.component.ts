@@ -31,4 +31,22 @@ export class AdminPanelComponent implements OnInit {
       }
     );
   }
+
+  deleteUser(id: string) {
+    this.alertify.confirm("¿Desea borrar al usuario?", () => {
+      this.adminService.deleteUser(id).subscribe(
+        () => {
+          this.users.splice(
+            this.users.findIndex(u => u.id === id),
+            1
+          );
+          this.getUsersWithRoles();
+          this.alertify.success("Usuario borrado");
+        },
+        error => {
+          this.alertify.error("Fallo al borrar al usuario:" + error);
+        }
+      );
+    });
+  }
 }

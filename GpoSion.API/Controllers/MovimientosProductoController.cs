@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Helpers;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
+    [Authorize(Policy = "ProduccionAlmacen")]
     [Route("api/[controller]")]
     [ApiController]
     public class MovimientosProductoController : ControllerBase
@@ -68,7 +71,10 @@ namespace GpoSion.API.Controllers
                 }
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var movimientoProducto = _mapper.Map<MovimientoProducto>(movimientoToCreate);
+            movimientoProducto.FechaCreacion = DateTime.Now;
+            movimientoProducto.CreadoPorId = userId;
 
             _repo.Add(movimientoProducto);
 
@@ -80,7 +86,8 @@ namespace GpoSion.API.Controllers
                     NoParte = movimientoToCreate.NoParte,
                     PiezasCertificadas = movimientoToCreate.PiezasCertificadas,
                     PiezasRechazadas = (int)movimientoToCreate.PiezasRechazadas,
-                    UltimaModificacion = DateTime.Now
+                    FechaCreacion = DateTime.Now,
+                    CreadoPorId = userId
                 };
                 _repo.Add(existencia);
             }
@@ -89,6 +96,7 @@ namespace GpoSion.API.Controllers
                 existencia.PiezasCertificadas += movimientoToCreate.PiezasCertificadas;
                 existencia.PiezasRechazadas += (int)movimientoToCreate.PiezasRechazadas;
                 existencia.UltimaModificacion = DateTime.Now;
+                existencia.ModificadoPorId = userId;
             }
 
             if (await _repo.SaveAll())
@@ -134,7 +142,7 @@ namespace GpoSion.API.Controllers
                 }
             }
 
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var existencia = await _repo.GetExistenciaProducto(movimientoFP.NoParte);
             if (movimiento.NoParte != movimientoFP.NoParte)
             {
@@ -144,12 +152,14 @@ namespace GpoSion.API.Controllers
                     otraExistencia.PiezasCertificadas -= movimiento.PiezasCertificadas;
                     otraExistencia.PiezasRechazadas -= movimiento.PiezasRechazadas;
                     otraExistencia.UltimaModificacion = DateTime.Now;
+                    otraExistencia.ModificadoPorId = userId;
                 }
                 if (existencia != null)
                 {
                     existencia.PiezasCertificadas += movimientoFP.PiezasCertificadas;
                     existencia.PiezasRechazadas += (int)movimientoFP.PiezasRechazadas;
                     existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
                 }
 
             }
@@ -160,10 +170,11 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasCertificadas += (movimientoFP.PiezasCertificadas - movimiento.PiezasCertificadas);
                     existencia.PiezasRechazadas += ((int)movimientoFP.PiezasRechazadas - movimiento.PiezasRechazadas);
                     existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
                 }
                 else
                 {
-                    existencia = new ExistenciaProducto { NoParte = movimientoFP.NoParte, PiezasCertificadas = movimientoFP.PiezasCertificadas, PiezasRechazadas = (int)movimientoFP.PiezasRechazadas, UltimaModificacion = DateTime.Now };
+                    existencia = new ExistenciaProducto { NoParte = movimientoFP.NoParte, PiezasCertificadas = movimientoFP.PiezasCertificadas, PiezasRechazadas = (int)movimientoFP.PiezasRechazadas, FechaCreacion = DateTime.Now, CreadoPorId = userId };
                     _repo.Add(existencia);
                 }
             }
@@ -172,7 +183,11 @@ namespace GpoSion.API.Controllers
 
 
             movimientoFP.TipoMovimiento = "Entrada Almacen";
+
             _mapper.Map(movimientoFP, movimiento);
+
+            movimiento.ModificadoPorId = userId;
+            movimiento.UltimaModificacion = DateTime.Now;
 
             await _repo.SaveAll();
             return NoContent();

@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
-
+    [Authorize(Policy = "AlmacenRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class TiposMaterialController : ControllerBase
@@ -47,7 +49,11 @@ namespace GpoSion.API.Controllers
             if (await _repo.ExisteTipoMaterial(tipoMaterialDto.Tipo))
                 return BadRequest();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var tipoMaterial = _mapper.Map<TipoMaterial>(tipoMaterialDto);
+
+            tipoMaterial.CreadoPorId = userId;
+            tipoMaterial.FechaCreacion = DateTime.Now;
 
             _repo.Add(tipoMaterial);
 
@@ -64,9 +70,14 @@ namespace GpoSion.API.Controllers
             if (id != tipoMaterialDto.TipoMaterialId)
                 return BadRequest();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var tipoMaterialFromRepo = await _repo.GetTipoMaterial(id);
 
             _mapper.Map(tipoMaterialDto, tipoMaterialFromRepo);
+
+            tipoMaterialFromRepo.ModificadoPorId = userId;
+            tipoMaterialFromRepo.UltimaModificacion = DateTime.Now;
 
             await _repo.SaveAll();
             return NoContent();

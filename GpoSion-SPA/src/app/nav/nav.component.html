@@ -3,41 +3,99 @@
         <a class="navbar-brand" [routerLink]="['/home']">MMS</a>
 
         <ul *ngIf="loggedIn()" class="nav nav-pills navbar-nav mr-auto">
-            <li class="nav-item dropdown" routerLinkActive="active" dropdown>
+            <li class="nav-item dropdown" routerLinkActive="active" dropdown *appHasRole="['Admin', 'Almacen', 'Produccion', 'Ventas', 'Compras']">
                 <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Almacén
         </a>
                 <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                    <a class="dropdown-item" [routerLink]="['/materiales']">Listado de Materias Primas</a
+                    <a class="dropdown-item" [routerLink]="['/materiales']" *appHasRole="['Admin', 'Almacen', 'Ventas']">Listado de Materias Primas</a
           >
-          <a class="dropdown-item" [routerLink]="['/recibos']"
+          <a
+            class="dropdown-item"
+            [routerLink]="['/recibos']"
+            *appHasRole="['Admin', 'Almacen']"
             >Recibos Materia Prima</a
           >
-          <a class="dropdown-item" [routerLink]="['/existencias']"
+          <a
+            class="dropdown-item"
+            [routerLink]="['/existencias']"
+            *appHasRole="[
+              'Admin',
+              'Almacen',
+              'Produccion',
+              'Ventas',
+              'Compras'
+            ]"
             >Inventario de Materia Prima</a
           >
-          <a class="dropdown-item" [routerLink]="['/existenciasproducto']"
+          <a
+            class="dropdown-item"
+            [routerLink]="['/existenciasproducto']"
+            *appHasRole="[
+              'Admin',
+              'Almacen',
+              'Produccion',
+              'Ventas',
+              'Compras'
+            ]"
             >Inventario de Producto Terminado</a
           >
-          <a class="dropdown-item" [routerLink]="['/requerimientosprod']"
+          <a
+            class="dropdown-item"
+            [routerLink]="['/requerimientosprod']"
+            *appHasRole="['Admin', 'Almacen']"
             >Req. Producción</a
           >
-          <a class="dropdown-item" [routerLink]="['/viajeros']">Viajeros</a>
-                    <a class="dropdown-item" [routerLink]="['/moldes']">Moldes</a>
-                    <a class="dropdown-item" [routerLink]="['/numerosParte']">NP de Producto Terminado</a
+          <a
+            class="dropdown-item"
+            [routerLink]="['/viajeros']"
+            *appHasRole="['Admin', 'Almacen']"
+            >Viajeros</a
           >
-          <a class="dropdown-item" [routerLink]="['/tiposmaterial']"
+          <a
+            class="dropdown-item"
+            [routerLink]="['/moldes']"
+            *appHasRole="['Admin', 'Almacen', 'Produccion']"
+            >Moldes</a
+          >
+          <a
+            class="dropdown-item"
+            [routerLink]="['/numerosParte']"
+            *appHasRole="['Admin', 'Almacen', 'Ventas']"
+            >NP de Producto Terminado</a
+          >
+          <a
+            class="dropdown-item"
+            [routerLink]="['/tiposmaterial']"
+            *appHasRole="['Admin', 'Almacen']"
             >Tipos Materia Prima</a
           >
 
-          <a class="dropdown-item" [routerLink]="['/movimientosproducto']"
+          <a
+            class="dropdown-item"
+            [routerLink]="['/movimientosproducto']"
+            *appHasRole="['Admin', 'Almacen']"
             >Recepción de Producto Terminado</a
           >
-          <a class="dropdown-item" [routerLink]="['/embarques']">Embarques</a>
-                    <a class="dropdown-item" [routerLink]="['/localidades']">Localidades</a
+          <a
+            class="dropdown-item"
+            [routerLink]="['/embarques']"
+            *appHasRole="['Admin', 'Almacen']"
+            >Embarques</a
+          >
+          <a
+            class="dropdown-item"
+            [routerLink]="['/localidades']"
+            *appHasRole="['Admin', 'Almacen']"
+            >Localidades</a
           >
         </div>
       </li>
-      <li class="nav-item dropdown" routerLinkActive="active" dropdown>
+      <li
+        class="nav-item dropdown"
+        routerLinkActive="active"
+        dropdown
+        *appHasRole="['Admin', 'Produccion']"
+      >
         <a
           class="nav-link  dropdown-toggle"
           dropdownToggle
@@ -67,7 +125,12 @@
           >
         </div>
       </li>
-      <li class="nav-item dropdown" routerLinkActive="active" dropdown>
+      <li
+        class="nav-item dropdown"
+        routerLinkActive="active"
+        dropdown
+        *appHasRole="['Admin', 'Compras']"
+      >
         <a
           class="nav-link  dropdown-toggle"
           dropdownToggle
@@ -91,7 +154,12 @@
           >
         </div>
       </li>
-      <li class="nav-item dropdown" routerLinkActive="active" dropdown>
+      <li
+        class="nav-item dropdown"
+        routerLinkActive="active"
+        dropdown
+        *appHasRole="['Admin', 'Ventas']"
+      >
         <a
           class="nav-link  dropdown-toggle"
           dropdownToggle
@@ -132,11 +200,20 @@
         <span class="fa fa-bell dropdown-title" title="notifications"></span>
       </button>
         <a class="dropdown-toggle text-light" dropdownToggle>
-        {{ authService.decodedToken?.unique_name | titlecase }}
+        {{
+          authService.decodedToken?.given_name +
+            " " +
+            authService.decodedToken?.family_name | titlecase
+        }}
       </a>
 
         <div class="dropdown-menu mt-3" *dropdownMenu>
-            <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Editar Perfil</a
+            <a class="dropdown-item" href="/users/{{ authService.decodedToken?.nameid }}"><i class="fa fa-user"></i>Editar Perfil</a
+        >
+        <a
+          class="dropdown-item"
+          href="/users/changepassword/{{ authService.decodedToken?.nameid }}"
+          ><i class="fa fa-lock"></i>Cambiar contraseña</a
         >
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="logout()"
