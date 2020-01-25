@@ -24,6 +24,8 @@ namespace GpoSion.API.Models
 
         public string Recibio { get; set; }
 
+        public string Descripcion { get; set; }
+
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }

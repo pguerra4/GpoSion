@@ -38,7 +38,8 @@ export class ViajeroEditComponent implements OnInit {
   createViajeroForm() {
     this.viajeroForm = this.fb.group({
       existencia: [this.viajero.existencia, Validators.required],
-      localidadId: [this.viajero.localidadId]
+      localidadId: [this.viajero.localidadId],
+      motivoMovimiento: ["", Validators.required]
     });
   }
 
@@ -52,6 +53,7 @@ export class ViajeroEditComponent implements OnInit {
     const v: Viajero = Object.assign({}, this.viajeroForm.value);
     this.viajero.existencia = v.existencia;
     this.viajero.localidadId = v.localidadId;
+    this.viajero.motivoMovimiento = v.motivoMovimiento;
     this.existenciasService
       .editViajero(+this.route.snapshot.params["id"], this.viajero)
       .subscribe(

@@ -26,5 +26,7 @@ namespace GpoSion.API.Models
 
         public ICollection<OrdenCompraDetalle> NumerosParte { get; set; }
 
+        public ICollection<HistorialOrdenCompra> Historial { get; set; }
+
     }
 }

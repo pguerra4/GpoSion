@@ -18,4 +18,5 @@ export interface DetalleRecibo {
   unidad: string;
   localidadId: number;
   localidad: string;
+  motivoMovimiento?: string;
 }

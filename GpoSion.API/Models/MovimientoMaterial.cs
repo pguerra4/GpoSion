@@ -16,6 +16,8 @@ namespace GpoSion.API.Models
         public Area Origen { get; set; }
         public Area Destino { get; set; }
 
+        public string MotivoMovimiento { get; set; }
+
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }

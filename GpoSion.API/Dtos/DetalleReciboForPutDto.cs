@@ -27,5 +27,7 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "localidad")]
         public string LocalidadDescripcion { get; set; }
 
+        public string MotivoMovimiento { get; set; }
+
     }
 }

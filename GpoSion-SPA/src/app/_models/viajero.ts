@@ -8,4 +8,5 @@ export interface Viajero {
   movimientosMaterial: MovimientoMaterial[];
   localidadId: number;
   localidad: string;
+  motivoMovimiento?: string;
 }

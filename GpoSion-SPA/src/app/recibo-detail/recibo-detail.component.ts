@@ -24,7 +24,7 @@ import { Localidad } from "../_models/localidad";
   styleUrls: ["./recibo-detail.component.css"]
 })
 export class ReciboDetailComponent implements OnInit {
-  @ViewChild("material", { static: true }) materialRef: ElementRef;
+  @ViewChild("material", { static: false }) materialRef: ElementRef;
   reciboDetalleForm: FormGroup;
   recibo: Recibo;
   unidadesMedida: UnidadMedida[];
@@ -127,7 +127,7 @@ export class ReciboDetailComponent implements OnInit {
     detalle = Object.assign({}, this.reciboDetalleForm.value);
     detalle.reciboId = this.recibo.reciboId;
     const localidad = this.localidades.find(
-      l => l.localidadId === detalle.localidadId
+      l => l.localidadId == detalle.localidadId
     );
     detalle.localidad = localidad.localidad;
 
@@ -145,14 +145,16 @@ export class ReciboDetailComponent implements OnInit {
         this.reciboDetalleForm.reset(this.recibo);
         this.createReciboDetalleForm();
         this.agregados = true;
-        this.materialRef.nativeElement.focus();
+
+        // this.materialRef.nativeElement.focus();
       }
     } else {
       this.detallesRecibo.push(detalle);
       this.reciboDetalleForm.reset(this.recibo);
       this.createReciboDetalleForm();
       this.agregados = true;
-      this.materialRef.nativeElement.focus();
+
+      // this.materialRef.nativeElement.focus();
     }
   }
 

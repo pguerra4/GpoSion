@@ -74,7 +74,7 @@ namespace GpoSion.API.Data
 
         public DbSet<Localidad> Localidades { get; set; }
 
-
+        public DbSet<HistorialOrdenCompra> HistorialOrdenesCompra { get; set; }
 
 
 

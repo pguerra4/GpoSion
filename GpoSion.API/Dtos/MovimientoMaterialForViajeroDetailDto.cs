@@ -17,5 +17,14 @@ namespace GpoSion.API.Dtos
 
         [JsonProperty(PropertyName = "destino")]
         public string DestinoNombreArea { get; set; }
+
+        [JsonProperty(PropertyName = "modificadoPor")]
+        public string ModificadoPorUserName { get; set; }
+
+        [JsonProperty(PropertyName = "creadoPor")]
+        public string CreadoPorUserName { get; set; }
+
+        public string MotivoMovimiento { get; set; }
+
     }
 }

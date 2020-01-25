@@ -25,6 +25,8 @@ namespace GpoSion.API.Dtos
 
         public DateTime Fecha { get; set; }
 
+        public string MotivoMovimiento { get; set; }
+
 
     }
 }

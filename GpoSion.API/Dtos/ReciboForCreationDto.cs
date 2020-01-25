@@ -23,6 +23,8 @@ namespace GpoSion.API.Dtos
 
         public string CreadoPorId { get; set; }
 
+        public string Descripcion { get; set; }
+
 
         public ReciboForCreationDto()
         {

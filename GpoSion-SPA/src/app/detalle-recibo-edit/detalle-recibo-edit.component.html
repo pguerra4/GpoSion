@@ -72,6 +72,24 @@
                             <input type="text" class="form-control" formControlName="referencia2" placeholder="Referencia 2/Control PEPS del Cliente" />
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="motivoMovimiento">Observaciones</label>
+                            <input type="text" class="form-control" formControlName="motivoMovimiento" placeholder="Motivo Movimiento" [ngClass]="{
+                  'is-invalid':
+                    reciboDetalleForm.get('motivoMovimiento').errors &&
+                    reciboDetalleForm.get('motivoMovimiento').touched
+                }" />
+                            <div class="invalid-feedback" *ngIf="
+                  reciboDetalleForm
+                    .get('motivoMovimiento')
+                    .hasError('required') &&
+                  reciboDetalleForm.get('motivoMovimiento').touched
+                ">
+                                Debe escribir el motivo por el cual realiza el movimiento.
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">

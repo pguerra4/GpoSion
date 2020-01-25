@@ -63,7 +63,7 @@ namespace GpoSion.API.Controllers
 
             existenciaMaterial.Existencia += nvaExistencia;
 
-            var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = viajero.Material, Viajero = viajero, ViajeroId = viajero.ViajeroId, Cantidad = nvaExistencia, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+            var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = viajero.Material, Viajero = viajero, ViajeroId = viajero.ViajeroId, Cantidad = nvaExistencia, FechaCreacion = DateTime.Now, CreadoPorId = userId, MotivoMovimiento = viajeroFP.MotivoMovimiento };
 
             viajero.MovimientosMaterial.Add(movMaterial);
 

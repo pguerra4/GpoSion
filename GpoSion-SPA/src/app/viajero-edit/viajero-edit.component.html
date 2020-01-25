@@ -45,8 +45,27 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="motivoMovimiento">Observaciones</label>
+                            <input type="text" class="form-control" formControlName="motivoMovimiento" placeholder="Motivo Movimiento" [ngClass]="{
+                  'is-invalid':
+                    viajeroForm.get('motivoMovimiento').errors &&
+                    viajeroForm.get('motivoMovimiento').touched
+                }" />
+                            <div class="invalid-feedback" *ngIf="
+                  viajeroForm.get('motivoMovimiento').hasError('required') &&
+                  viajeroForm.get('motivoMovimiento').touched
+                ">
+                                Debe escribir el motivo por el cual realiza el movimiento.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <button class="btn btn-success mr-1">Guardar</button>
+                            <button class="btn btn-success mr-1" [disabled]="!viajeroForm.valid" type="submit">
+                Guardar
+              </button>
                             <a class="btn btn-danger " [routerLink]="['/viajeros']">
                 Cancelar
               </a>

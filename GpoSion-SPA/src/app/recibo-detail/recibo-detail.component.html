@@ -9,6 +9,9 @@
                         Entrada: {{ recibo.fechaEntrada | date: "dd/MM/yyyy" }}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">Descripción: {{ recibo.descripcion }}</div>
+                </div>
             </div>
             <div class="card-text">
                 <form *ngIf="!recibo.isComplete" [formGroup]="reciboDetalleForm" (ngSubmit)="addDetalleRecibo()" id="reciboDetalleForm">
@@ -20,7 +23,7 @@
                   'is-invalid':
                     reciboDetalleForm.get('materialId').errors &&
                     reciboDetalleForm.get('material').touched
-                }" class="form-control" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                }" class="form-control" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" id="material" #material />
                             <div class="invalid-feedback">
                                 Debe seleccionar una materia prima de la lista.
                             </div>
@@ -30,7 +33,7 @@
                             <input type="text" [ngClass]="{
                   'is-invalid':
                     reciboDetalleForm.get('viajero').errors &&
-                    reciboDetalleForm.get('viajero').touched
+                    reciboDetalleForm.get('viajero').touched 
                 }" class="form-control text-right" formControlName="viajero" placeholder="Viajero" />
                             <div class="invalid-feedback" *ngIf="
                   reciboDetalleForm.get('viajero').hasError('required') &&

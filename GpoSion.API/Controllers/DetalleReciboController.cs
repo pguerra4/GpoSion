@@ -168,6 +168,9 @@ namespace GpoSion.API.Controllers
             var movsMaterial = await _repo.GetMovimientoMaterialesPorViajero(viajero.ViajeroId);
             var movMaterial = movsMaterial.Where(mm => mm.Destino == almacen && mm.Origen == null && mm.Recibo == detalleRecibo.Recibo).FirstOrDefault();
             movMaterial.Cantidad = detalleReciboForEdit.Total;
+            movMaterial.ModificadoPorId = userId;
+            movMaterial.UltimaModificacion = DateTime.Now;
+            movMaterial.MotivoMovimiento = detalleReciboForEdit.MotivoMovimiento;
 
             var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, detalleRecibo.Material.MaterialId);
 

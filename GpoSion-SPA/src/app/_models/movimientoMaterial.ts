@@ -5,4 +5,7 @@ export interface MovimientoMaterial {
   cantidad: number;
   origen: string;
   destino: string;
+  motivoMovimiento?: string;
+  modificadoPor: string;
+  creadoPor: string;
 }

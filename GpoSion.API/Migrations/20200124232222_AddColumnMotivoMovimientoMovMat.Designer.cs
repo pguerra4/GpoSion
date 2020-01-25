@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200124232222_AddColumnMotivoMovimientoMovMat")]
+    partial class AddColumnMotivoMovimientoMovMat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,29 +284,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("NoParte");
 
                     b.ToTable("ExistenciasProducto");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.HistorialOrdenCompra", b =>
-                {
-                    b.Property<int>("HistorialOrdenCompraId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreadoPorId");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<long>("NoOrden");
-
-                    b.Property<string>("Observaciones");
-
-                    b.HasKey("HistorialOrdenCompraId");
-
-                    b.HasIndex("CreadoPorId");
-
-                    b.HasIndex("NoOrden");
-
-                    b.ToTable("HistorialOrdenesCompra");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Localidad", b =>
@@ -1487,18 +1466,6 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
                         .WithMany("ExistenciasProducto")
                         .HasForeignKey("NoParte");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.HistorialOrdenCompra", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.User", "CreadoPor")
-                        .WithMany()
-                        .HasForeignKey("CreadoPorId");
-
-                    b.HasOne("GpoSion.API.Models.OrdenCompra", "OrdenCompra")
-                        .WithMany("Historial")
-                        .HasForeignKey("NoOrden")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Localidad", b =>

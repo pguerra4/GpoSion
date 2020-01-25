@@ -22,7 +22,7 @@ namespace GpoSion.API.Dtos
         public int ProveedorId { get; set; }
         public string ProveedorNombre { get; set; }
 
-
+        public string Descripcion { get; set; }
 
     }
 }
