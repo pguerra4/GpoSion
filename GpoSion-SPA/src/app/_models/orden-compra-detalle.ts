@@ -8,4 +8,5 @@ export interface OrdenCompraDetalle {
   fechaInicio?: Date;
   fechaFin?: Date;
   ultimaModificacion: Date;
+  observaciones?: string;
 }

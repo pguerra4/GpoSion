@@ -77,6 +77,7 @@ export class ReciboDetailComponent implements OnInit {
         ],
         unidadMedidaId: [1],
         referencia2: [null],
+        noLote: [null],
         localidadId: [1]
       },
       { updateOn: "blur" }

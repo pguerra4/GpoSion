@@ -67,8 +67,12 @@ namespace GpoSion.API.Controllers
             orden.NumerosParte.Add(detalle);
 
 
+
             if (await _repo.SaveAll())
             {
+                var hoc = new HistorialOrdenCompra { NoOrden = detalleOrdenCompra.NoOrden, OrdenCompraDetalleId = detalle.Id, CreadoPorId = userId, Fecha = DateTime.Now, Observaciones = detalleOrdenCompra.Observaciones };
+                _repo.Add(hoc);
+                await _repo.SaveAll();
                 var detalleToReturn = _mapper.Map<OrdenCompraDetalleToListDto>(detalle);
                 return CreatedAtAction("GetDetalleOrdenCompra", new { id = detalle.Id }, detalleToReturn);
             }
@@ -100,6 +104,9 @@ namespace GpoSion.API.Controllers
             ordenDFromRepo.UltimaModificacion = DateTime.Now;
             ordenDFromRepo.ModificadoPorId = userId;
 
+            var hoc = new HistorialOrdenCompra { NoOrden = detalleOrdenCompra.NoOrden, OrdenCompraDetalleId = detalleOrdenCompra.Id, CreadoPorId = userId, Fecha = DateTime.Now, Observaciones = detalleOrdenCompra.Observaciones };
+            _repo.Add(hoc);
+
             await _repo.SaveAll();
 
 
@@ -116,6 +123,12 @@ namespace GpoSion.API.Controllers
 
             if (ordenDFromRepo.PiezasSurtidas > 0)
                 return BadRequest("Este número de parte ya tiene piezas surtidas.");
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var observacion = "Borrado del número de parte " + ordenDFromRepo.NoParte + " de la orden de compra " + ordenDFromRepo.NoOrden + " con el id " + ordenDFromRepo.Id + " Piezas autorizadas " + ordenDFromRepo.PiezasAutorizadas + " Precio " + ordenDFromRepo.Precio;
+            var hoc = new HistorialOrdenCompra { NoOrden = ordenDFromRepo.NoOrden, CreadoPorId = userId, Fecha = DateTime.Now, Observaciones = observacion };
+            _repo.Add(hoc);
+
             _repo.Delete(ordenDFromRepo);
 
 

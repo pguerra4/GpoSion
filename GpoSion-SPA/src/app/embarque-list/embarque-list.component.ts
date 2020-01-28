@@ -14,16 +14,23 @@ export class EmbarqueListComponent implements OnInit {
   searchText = "";
   embarqueParams: any = {};
   bsValue = new Date();
+  bsRangeValue: Date[];
+  minDate = new Date();
 
   constructor(
     private numeroParteService: NumeroParteService,
     private alertify: AlertifyService,
     private localeService: BsLocaleService
-  ) {}
+  ) {
+    this.minDate.setDate(this.minDate.getDate() - 7);
+    this.bsValue.setDate(this.bsValue.getDate() + 1);
+    this.bsRangeValue = [this.minDate, this.bsValue];
+  }
 
   ngOnInit() {
     this.localeService.use("es");
-    this.embarqueParams.fecha = new Date().toDateString();
+    this.embarqueParams.fechaInicio = new Date().toDateString();
+    this.embarqueParams.fechaFin = new Date().toDateString();
     this.loadEmbarques();
   }
 
@@ -38,7 +45,8 @@ export class EmbarqueListComponent implements OnInit {
     );
   }
   onValueChange(value: Date) {
-    this.embarqueParams.fecha = value.toDateString();
+    this.embarqueParams.fechaInicio = value[0].toDateString();
+    this.embarqueParams.fechaFin = value[1].toDateString();
     this.loadEmbarques();
   }
 }

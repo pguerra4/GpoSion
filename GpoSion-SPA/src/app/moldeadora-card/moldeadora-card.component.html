@@ -5,14 +5,17 @@
         {{ moldeadora.moldeadora }} {{ moldeadora.estatus }}
     </div>
     <div class="card-body">
-        <h5 class="card-title">Material: {{ moldeadora.material }}</h5>
-        <h5 class="card-subtitle mb-2">Molde: {{ moldeadora.molde }}</h5>
         <h6 class="text-muted">Números de Parte:</h6>
         <div class="card-text">
             <div *ngFor="let noParte of moldeadora.numerosParte">
-                <img class="card-img-top img-thumbnail" src="{{ baseUrl + 'numerosparte/' + noParte + '/Photo' }} " /> {{ noParte }}
+                <h5>
+                    <img class="card-img-top img-thumbnail" src="{{ baseUrl + 'numerosparte/' + noParte + '/Photo' }} " /> {{ noParte }}
+                </h5>
             </div>
         </div>
+        <span class="text-muted small">Material: {{ moldeadora.material }}</span>
+        <br />
+        <span class="text-muted small mb-2">Molde: {{ moldeadora.molde }}</span>
         <h1 *ngIf="
         moldeadora.estatus === 'Detenida' &&
         moldeadora.numerosParte.length > 0 &&
@@ -20,7 +23,7 @@
         this.moldeadora.ultimoMotivoParo !== 1
       " class="text-danger">
             {{ hoursDisplay ? hoursDisplay : "00" }} : {{ minutesDisplay && minutesDisplay
-            <= 59 ? minutesDisplay : "00" }} : {{ secondsDisplay && secondsDisplay <= 59 ? secondsDisplay : "00" }} <br />
+            <=59 ? minutesDisplay : "00" }} : {{ secondsDisplay && secondsDisplay <=59 ? secondsDisplay : "00" }} <br />
         </h1>
     </div>
     <div class="card-footer">

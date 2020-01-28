@@ -11,6 +11,10 @@ namespace GpoSion.API.Models
 
         public OrdenCompra OrdenCompra { get; set; }
 
+
+        public int? OrdenCompraDetalleId { get; set; }
+        public OrdenCompraDetalle DetalleOrdenCompra { get; set; }
+
         public string CreadoPorId { get; set; }
         public User CreadoPor { get; set; }
 

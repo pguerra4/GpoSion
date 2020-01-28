@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200127174302_addColumnOrdenCompraDetalleId_HistorialOC")]
+    partial class addColumnOrdenCompraDetalleId_HistorialOC
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,8 +145,6 @@ namespace GpoSion.API.Migrations
                     b.Property<int>("MaterialId");
 
                     b.Property<string>("ModificadoPorId");
-
-                    b.Property<string>("NoLote");
 
                     b.Property<int?>("ReciboId");
 

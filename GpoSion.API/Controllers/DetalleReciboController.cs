@@ -129,6 +129,7 @@ namespace GpoSion.API.Controllers
                     Material = material,
                     UnidadMedida = unidadMedida,
                     LocalidadId = detalle.LocalidadId,
+                    NoLote = detalle.NoLote,
                     CreadoPorId = userId,
                     FechaCreacion = DateTime.Now
                 };
@@ -186,6 +187,7 @@ namespace GpoSion.API.Controllers
             detalleRecibo.ReferenciaCliente = detalleReciboForEdit.ReferenciaCliente;
             detalleRecibo.UnidadMedida = unidadMedida;
             detalleRecibo.LocalidadId = detalleReciboForEdit.LocalidadId;
+            detalleRecibo.NoLote = detalleReciboForEdit.NoLote;
             detalleRecibo.ModificadoPorId = userId;
             detalleRecibo.UltimaModificacion = DateTime.Now;
 

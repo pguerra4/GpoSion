@@ -30,6 +30,10 @@ export class MoldeadoraService {
     return this.http.put(this.baseUrl + "moldeadoras/" + id, moldeadora);
   }
 
+  editNombreMoldeadora(id: number, moldeadora: Moldeadora) {
+    return this.http.put(this.baseUrl + "moldeadoras/edit/" + id, moldeadora);
+  }
+
   arrancarMoldeadora(id: number) {
     return this.http.post(this.baseUrl + "moldeadoras/" + id, null);
   }

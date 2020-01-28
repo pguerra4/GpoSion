@@ -66,9 +66,16 @@ namespace GpoSion.API.Controllers
             orden.FechaCreacion = DateTime.Now;
             orden.CreadoPorId = userId;
 
+
+
+
             _repo.Add(orden);
             if (await _repo.SaveAll())
             {
+                var hoc = new HistorialOrdenCompra { NoOrden = orden.NoOrden, CreadoPorId = userId, Fecha = DateTime.Now, Observaciones = "Nueva orden de compra" };
+                _repo.Add(hoc);
+                await _repo.SaveAll();
+
                 var ordenToReturn = _mapper.Map<OrdenCompraToListDto>(orden);
                 return CreatedAtAction("GetOrdenCompra", new { id = orden.NoOrden }, ordenToReturn);
             }
@@ -95,7 +102,8 @@ namespace GpoSion.API.Controllers
             ordenFromRepo.UltimaModificacion = DateTime.Now;
             ordenFromRepo.ModificadoPorId = userId;
 
-
+            var hoc = new HistorialOrdenCompra { NoOrden = ordenFromRepo.NoOrden, CreadoPorId = userId, Fecha = DateTime.Now, Observaciones = ordenCompra.Observaciones };
+            _repo.Add(hoc);
 
             await _repo.SaveAll();
 

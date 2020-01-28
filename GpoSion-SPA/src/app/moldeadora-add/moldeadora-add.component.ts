@@ -36,7 +36,7 @@ export class MoldeadoraAddComponent implements OnInit {
     this.moldeadoraService.addMoldeadora(this.moldeadora).subscribe(
       (res: Moldeadora) => {
         this.alertify.success("Guardado");
-        this.router.navigate(["moldeadoras"]);
+        this.router.navigate(["moldeadoraslist"]);
       },
       error => {
         this.alertify.error(error);

@@ -18,6 +18,7 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "viajero")]
         public int ViajeroId { get; set; }
         public string ReferenciaCliente { get; set; }
+        public string NoLote { get; set; }
 
         [JsonProperty(PropertyName = "reciboId")]
         public int ReciboReciboId { get; set; }

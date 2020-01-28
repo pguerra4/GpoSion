@@ -17,6 +17,8 @@ namespace GpoSion.API.Dtos
         public int Viajero { get; set; }
         public string ReferenciaCliente { get; set; }
 
+        public string NoLote { get; set; }
+
         public int ReciboId { get; set; }
 
         public int MaterialId { get; set; }

@@ -50,6 +50,7 @@ export class DetalleReciboEditComponent implements OnInit {
         unidadMedidaId: [this.detalleRecibo.unidadMedidaId],
         referencia2: [this.detalleRecibo.referencia2],
         referenciaCliente: [this.detalleRecibo.referenciaCliente],
+        noLote: [this.detalleRecibo.noLote],
         localidadId: [this.detalleRecibo.localidadId],
         motivoMovimiento: ["", Validators.required]
       },

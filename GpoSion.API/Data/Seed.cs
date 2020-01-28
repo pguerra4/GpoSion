@@ -33,7 +33,7 @@ namespace GpoSion.API.Data
                 }
 
 
-                var result = userManager.CreateAsync(new User { UserName = "Admin", Activo = true, Nombre = "Administrador", Paterno = "Sistema", FechaCreacion = DateTime.Now }, "Este es el usuario 0").Result;
+                var result = userManager.CreateAsync(new User { UserName = "Admin", Activo = true, Nombre = "Administrador", Paterno = "Sistema", FechaCreacion = DateTime.Now }, "M@nys3r2020").Result;
                 if (result.Succeeded)
                 {
                     var admin = userManager.FindByNameAsync("Admin").Result;
@@ -113,7 +113,9 @@ namespace GpoSion.API.Data
                 turno = new Turno { NoTurno = 2, Descripcion = "2" };
 
                 context.Turnos.Add(turno);
+                turno = new Turno { NoTurno = 3, Descripcion = "3" };
 
+                context.Turnos.Add(turno);
                 context.SaveChanges();
             }
 

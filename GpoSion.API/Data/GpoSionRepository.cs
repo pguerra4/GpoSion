@@ -195,14 +195,26 @@ namespace GpoSion.API.Data
             return existenciasAlmacen;
         }
 
-        public async Task<IEnumerable<RequerimientoMaterial>> GetRequerimientosMaterial()
+        public async Task<IEnumerable<RequerimientoMaterial>> GetRequerimientosMaterial(RequerimientoParams requerimientoParams)
         {
             var requerimientos = await _context.RequerimientosMaterial.Include(r => r.Turno)
             .Include(r => r.Materiales).ThenInclude(m => m.Material)
             .Include(r => r.Materiales).ThenInclude(m => m.UnidadMedida)
             .Include(r => r.Materiales).ThenInclude(m => m.Viajero)
-            .Where(r => r.Estatus != "Surtido")
             .ToListAsync();
+
+            if (requerimientoParams.MostrarSurtidos.HasValue && !requerimientoParams.MostrarSurtidos.Value)
+            {
+                requerimientos = requerimientos.Where(r => r.Estatus != "Surtido").ToList();
+            }
+            if (requerimientoParams.FechaInicio.HasValue && requerimientoParams.FechaFin.HasValue)
+            {
+                requerimientos = requerimientos.Where(e => e.FechaSolicitud.Date >= requerimientoParams.FechaInicio.Value.Date && e.FechaSolicitud.Date <= requerimientoParams.FechaFin.Value.Date).ToList();
+            }
+            else if (requerimientoParams.FechaInicio.HasValue)
+            {
+                requerimientos = requerimientos.Where(e => e.FechaSolicitud.Date >= requerimientoParams.FechaInicio.Value.Date).ToList();
+            }
             return requerimientos;
         }
 
@@ -414,10 +426,15 @@ namespace GpoSion.API.Data
             {
                 embarques = embarques.Where(e => e.ClienteId == embarqueParams.ClienteId).ToList();
             }
-            if (embarqueParams.Fecha.HasValue)
+            if (embarqueParams.FechaInicio.HasValue && embarqueParams.FechaFin.HasValue)
             {
-                embarques = embarques.Where(e => e.Fecha.Date == embarqueParams.Fecha.Value.Date).ToList();
+                embarques = embarques.Where(e => e.Fecha.Date >= embarqueParams.FechaInicio.Value.Date && e.Fecha.Date <= embarqueParams.FechaFin.Value.Date).ToList();
             }
+            else if (embarqueParams.FechaInicio.HasValue)
+            {
+                embarques = embarques.Where(e => e.Fecha.Date >= embarqueParams.FechaInicio.Value.Date).ToList();
+            }
+
             return embarques;
 
         }
@@ -485,6 +502,12 @@ namespace GpoSion.API.Data
         {
             var user = await _context.Users.FindAsync(id);
             return user;
+        }
+
+        public async Task<bool> ExisteMoldeadora(string clave)
+        {
+            var moldeadora = await _context.Moldeadoras.FirstOrDefaultAsync(m => m.Clave.Trim().ToLower() == clave.Trim().ToLower());
+            return moldeadora != null;
         }
     }
 }

@@ -33,7 +33,7 @@
                             <input type="text" [ngClass]="{
                   'is-invalid':
                     reciboDetalleForm.get('viajero').errors &&
-                    reciboDetalleForm.get('viajero').touched 
+                    reciboDetalleForm.get('viajero').touched
                 }" class="form-control text-right" formControlName="viajero" placeholder="Viajero" />
                             <div class="invalid-feedback" *ngIf="
                   reciboDetalleForm.get('viajero').hasError('required') &&
@@ -98,6 +98,10 @@
                             <label for="referencia2">Referencia 2</label>
                             <input type="text" class="form-control" formControlName="referencia2" placeholder="Referencia 2/Control PEPS del Cliente" />
                         </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="noLote">No. Lote</label>
+                            <input type="text" class="form-control" formControlName="noLote" placeholder="Número de lote" />
+                        </div>
                     </div>
 
                     <div class="row">
@@ -125,6 +129,7 @@
                             <th class="text-right">Total</th>
                             <th class="text-right">Viajero</th>
                             <th>Localización</th>
+                            <th>No. Lote</th>
                             <th *ngIf="!recibo.isComplete">Borrar</th>
                             <th *ngIf="recibo.isComplete">Editar</th>
                         </tr>
@@ -149,6 +154,7 @@
                 </ng-template>
               </td>
               <td>{{ item.localidad }}</td>
+              <td>{{ item.noLote }}</td>
               <td *ngIf="!recibo.isComplete">
                 <span
                   class="btn btn-danger btn-xs"

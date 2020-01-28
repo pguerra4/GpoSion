@@ -24,6 +24,8 @@ namespace GpoSion.API.Dtos
 
         public DateTime? FechaFin { get; set; }
 
+        public string Observaciones { get; set; }
+
 
     }
 

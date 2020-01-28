@@ -79,6 +79,8 @@ import { UserEditResolver } from "./_resolvers/user-edit.resolver";
 import { UserRegisterComponent } from "./admin/admin-panel/user-register/user-register.component";
 import { UserProfileEditComponent } from "./user-profile-edit/user-profile-edit.component";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
+import { MoldeadoraSimpleListComponent } from "./moldeadora-simple-list/moldeadora-simple-list.component";
+import { MoldeadoraEditComponent } from "./moldeadora-edit/moldeadora-edit.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -225,8 +227,20 @@ export const appRoutes: Routes = [
         data: { roles: ["Admin", "Produccion"] }
       },
       {
+        path: "moldeadoraslist",
+        component: MoldeadoraSimpleListComponent,
+        data: { roles: ["Admin", "Produccion"] }
+      },
+      {
         path: "moldeadoras/:id",
         component: MoldeadoraSetupComponent,
+        resolve: { moldeadora: MoldeadoraEditResolver },
+        runGuardsAndResolvers: "always",
+        data: { roles: ["Admin", "Produccion"] }
+      },
+      {
+        path: "moldeadorasedit/:id",
+        component: MoldeadoraEditComponent,
         resolve: { moldeadora: MoldeadoraEditResolver },
         runGuardsAndResolvers: "always",
         data: { roles: ["Admin", "Produccion"] }

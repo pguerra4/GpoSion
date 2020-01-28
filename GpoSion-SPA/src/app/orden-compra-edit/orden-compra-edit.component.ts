@@ -56,7 +56,8 @@ export class OrdenCompraEditComponent implements OnInit {
         precio: [null],
         cantidad: [0],
         fechaInicio: [now],
-        fechaFin: [null]
+        fechaFin: [null],
+        observaciones: [null, Validators.required]
       },
       { updateOn: "blur" }
     );
@@ -91,7 +92,8 @@ export class OrdenCompraEditComponent implements OnInit {
       id: 0,
       noOrden: +this.ordenCompraForm.get("noOrden").value,
       piezasSurtidas: 0,
-      ultimaModificacion: now
+      ultimaModificacion: now,
+      observaciones: this.ordenCompraForm.get("observaciones").value
     };
 
     if (this.detalles.find(d => d.noParte == detalle.noParte) === undefined) {
@@ -103,6 +105,7 @@ export class OrdenCompraEditComponent implements OnInit {
           this.ordenCompraForm.get("precio").setValue(null);
           this.ordenCompraForm.get("fechaInicio").setValue(now);
           this.ordenCompraForm.get("fechaFin").setValue(null);
+          this.ordenCompraForm.get("observaciones").setValue(null);
         },
         error => {
           this.alertify.error(error);

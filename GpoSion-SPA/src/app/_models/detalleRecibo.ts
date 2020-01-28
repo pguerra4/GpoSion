@@ -10,6 +10,7 @@ export interface DetalleRecibo {
   referencia2?: string;
   viajero: number;
   referenciaCliente?: string;
+  noLote?: string;
   reciboId: number;
   noRecibo: string;
   materialId: number;

@@ -83,8 +83,11 @@ export class NumeroParteService {
       if (embarqueParams.clienteId != null) {
         params = params.append("ClienteId", embarqueParams.clienteId);
       }
-      if (embarqueParams.fecha != null) {
-        params = params.append("Fecha", embarqueParams.fecha);
+      if (embarqueParams.fechaInicio != null) {
+        params = params.append("FechaInicio", embarqueParams.fechaInicio);
+      }
+      if (embarqueParams.fechaFin != null) {
+        params = params.append("FechaFin", embarqueParams.fechaFin);
       }
     }
     return this.http.get<Embarque[]>(this.baseUrl + "embarques", { params });

@@ -47,6 +47,8 @@ namespace GpoSion.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> PostMoldeadora(MoldeadoraToCreateDto moldeadoraToCreateDto)
         {
+            if (await _repo.ExisteMoldeadora(moldeadoraToCreateDto.Clave))
+                return BadRequest("Moldeadora ya existe");
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var moldeadora = _mapper.Map<Moldeadora>(moldeadoraToCreateDto);
@@ -60,6 +62,35 @@ namespace GpoSion.API.Controllers
                 return CreatedAtAction("GetMoldeadora", new { id = moldeadora.MoldeadoraId }, moldeadora);
 
             throw new Exception("Moldeadora no guardada");
+        }
+
+
+        [HttpPut("edit/{id}")]
+        public async Task<IActionResult> EditMoldeadora(int id, MoldeadoraToEditDto moldeadoraFP)
+        {
+            var moldeadora = await _repo.GetMoldeadora(id);
+            if (moldeadora == null)
+                return NotFound();
+            if (moldeadora.MoldeadoraId != moldeadoraFP.MoldeadoraId)
+                return BadRequest("Ids no coinciden");
+
+            if (moldeadora.Clave.Trim().ToLower() != moldeadoraFP.Clave.Trim().ToLower())
+                if (await _repo.ExisteMoldeadora(moldeadoraFP.Clave))
+                    return BadRequest("Moldeadora ya existe");
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            moldeadora.Clave = moldeadoraFP.Clave;
+            moldeadora.UltimaModificacion = DateTime.Now;
+            moldeadora.ModificadoPorId = userId;
+
+
+
+
+            await _repo.SaveAll();
+            return NoContent();
+
         }
 
 

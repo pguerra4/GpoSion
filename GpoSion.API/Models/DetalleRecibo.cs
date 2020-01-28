@@ -20,6 +20,8 @@ namespace GpoSion.API.Models
         public Viajero Viajero { get; set; }
         public string ReferenciaCliente { get; set; }
 
+        public string NoLote { get; set; }
+
         public Recibo Recibo { get; set; }
 
         public int MaterialId { get; set; }

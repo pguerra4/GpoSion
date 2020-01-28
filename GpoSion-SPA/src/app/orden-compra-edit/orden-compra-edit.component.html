@@ -42,6 +42,23 @@
                                         <div class="col-md-4">
                                             <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaFin" formControlName="fechaFin" placeholder="Fecha Fin" />
                                         </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-10">
+                                            <input type="text" [ngClass]="{
+                          'is-invalid':
+                            ordenCompraForm.get('observaciones').errors &&
+                            ordenCompraForm.get('observaciones').touched
+                        }" class="form-control" id="observaciones" formControlName="observaciones" placeholder="Motivo de la modificación" />
+                                            <div class="invalid-feedback" *ngIf="
+                          ordenCompraForm
+                            .get('observaciones')
+                            .hasError('required') &&
+                          ordenCompraForm.get('observaciones').touched
+                        ">
+                                                El motivo de cambio es requerido
+                                            </div>
+                                        </div>
                                         <div class="col-md-2">
                                             <button class="btn btn-success btn-xs" type="button" [disabled]="!ordenCompraForm.get('noParte').value" (click)="addNumeroParte()">
                         <span class="fa fa-plus-circle "> </span>
@@ -103,4 +120,5 @@
             </div>
         </div>
     </div>
+    <a [routerLink]="['/ordenescompra']">Regresar a ordenes de compra </a>
 </div>

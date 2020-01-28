@@ -15,6 +15,8 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "cliente")]
         public string ClienteNombre { get; set; }
 
+        public string Observaciones { get; set; }
+
         public ICollection<OrdenCompraDetalleToListDto> NumerosParte { get; set; }
     }
 }

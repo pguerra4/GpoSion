@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { RequerimientoMaterial } from "../_models/requerimientoMaterial";
 
@@ -12,9 +12,25 @@ export class RequerimientoMaterialService {
 
   constructor(private http: HttpClient) {}
 
-  getRequerimientos(): Observable<RequerimientoMaterial[]> {
+  getRequerimientos(requerimientoParams?): Observable<RequerimientoMaterial[]> {
+    let params = new HttpParams();
+    if (requerimientoParams != null) {
+      if (requerimientoParams.fechaInicio != null) {
+        params = params.append("FechaInicio", requerimientoParams.fechaInicio);
+      }
+      if (requerimientoParams.fechaFin != null) {
+        params = params.append("FechaFin", requerimientoParams.fechaFin);
+      }
+      if (requerimientoParams.mostrarSurtidos != null) {
+        params = params.append(
+          "MostrarSurtidos",
+          requerimientoParams.mostrarSurtidos
+        );
+      }
+    }
     return this.http.get<RequerimientoMaterial[]>(
-      this.baseUrl + "requerimientosmaterial"
+      this.baseUrl + "requerimientosmaterial",
+      { params }
     );
   }
 

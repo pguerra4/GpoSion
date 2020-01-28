@@ -4,5 +4,6 @@ export interface OrdenCompra {
   fecha: Date;
   clienteId: number;
   cliente: string;
+  observaciones?: string;
   numerosParte: OrdenCompraDetalle[];
 }

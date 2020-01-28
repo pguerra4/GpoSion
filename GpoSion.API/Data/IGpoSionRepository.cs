@@ -44,7 +44,7 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen();
 
-        Task<IEnumerable<RequerimientoMaterial>> GetRequerimientosMaterial();
+        Task<IEnumerable<RequerimientoMaterial>> GetRequerimientosMaterial(RequerimientoParams requerimientoParams);
 
         Task<RequerimientoMaterial> GetRequerimientoMaterial(int id);
 
@@ -122,6 +122,8 @@ namespace GpoSion.API.Data
         Task<bool> ExisteLocalidad(string localidad);
 
         Task<User> GetUser(string id);
+
+        Task<bool> ExisteMoldeadora(string clave);
 
     }
 }

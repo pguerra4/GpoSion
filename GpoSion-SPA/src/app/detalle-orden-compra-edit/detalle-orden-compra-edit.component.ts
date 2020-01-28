@@ -41,6 +41,7 @@ export class DetalleOrdenCompraEditComponent implements OnInit {
       {
         id: [this.detalle.id, Validators.required],
         noOrden: [this.detalle.noOrden, Validators.required],
+        observaciones: [null, Validators.required],
         noParte: [this.detalle.noParte],
         precio: [this.detalle.precio],
         piezasAutorizadas: [this.detalle.piezasAutorizadas],

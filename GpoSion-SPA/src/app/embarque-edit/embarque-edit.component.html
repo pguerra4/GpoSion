@@ -1,0 +1,172 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Embarque</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="embarqueForm" (ngSubmit)="addEmbarque()" id="embarqueForm">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="Cliente">Cliente</label>
+                            <select class="form-control" id="clienteId" formControlName="clienteId" (change)="clienteChange($event.target.value)">
+                <option
+                  *ngFor="let cliente of clientes"
+                  [value]="cliente.clienteId"
+                >
+                  {{ cliente.cliente }}
+                </option>
+              </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="folio">Folio</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    embarqueForm.get('folio').errors &&
+                    embarqueForm.get('folio').touched
+                }" class="form-control" formControlName="folio" placeholder="Folio" />
+                            <div class="invalid-feedback" *ngIf="
+                  embarqueForm.get('folio').hasError('required') &&
+                  embarqueForm.get('folio').touched
+                ">
+                                Folio es requerido
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
+                  embarqueForm
+                    .get('folio')
+                    .hasError('folioEmbarqueExistente') &&
+                  embarqueForm.get('folio').touched
+                ">
+                                El folio de embarque ya existe.
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="fecha">Fecha</label>
+                            <input class="form-control" placeholder="Fecha" type="text" bsDatepicker formControlName="fecha" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div>
+                                <label class="radio-inline mr-2">
+                  <input
+                    type="radio"
+                    name="rechazadas"
+                    formControlName="rechazadas"
+                    checked
+                    value="false"
+                  />
+
+                  Certificadas
+                </label>
+
+                                <label class="radio-inline">
+                  <input
+                    type="radio"
+                    name="rechazadas"
+                    formControlName="rechazadas"
+                    value="true"
+                  />
+
+                  Rechazadas
+                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noParte">No. Parte</label>
+                            <input type="text" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" formControlName="noParte" placeholder="No. Parte" (typeaheadOnSelect)="onSelectNumeroParte($event)" />
+                        </div>
+                        <ng-template #customItemTemplate let-model="item">
+                            <div *ngFor="let detalle of model.numerosParte">
+                                <h5 *ngIf="detalle.noParte == embarqueForm.get('noParte').value">
+                                    {{ detalle.noOrden }}: {{ detalle.piezasAutorizadas > 0 ? "(" + detalle.piezasSurtidas.toString() + "/" + detalle.piezasAutorizadas.toString() + ")" : "(" + detalle.piezasSurtidas.toString() + "/Abierta)" }}
+                                </h5>
+                            </div>
+                        </ng-template>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noOrden">No. Orden</label>
+                            <input type="text" [typeahead]="ordenesCompra" typeaheadOptionField="noOrden" [typeaheadItemTemplate]="customItemTemplate" [isAnimated]="true" class="form-control" formControlName="noOrden" placeholder="No. Orden" (typeaheadOnSelect)="onSelectNoOrden($event)"
+                            />
+                            <input type="hidden" formControlName="noOrden2" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="cajas">Cajas</label>
+                            <input class="form-control" placeholder="Cajas" type="number" formControlName="cajas" (blur)="calculaTotal()" (change)="calculaTotal()" />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                            <label for="piezasXCaja">Piezas por caja</label>
+                            <input class="form-control" placeholder="Piezas por Caja" type="number" formControlName="piezasXCaja" (change)="calculaTotal()" (blur)="calculaTotal()" />
+                        </div>
+                        <div class="form-group col-sm-11 col-md-4 col-lg-4">
+                            <label for="entregadas">Total piezas</label>
+                            <input class="form-control" placeholder="Entregadas" type="number" formControlName="entregadas" />
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-success btn-xs" type="button" [disabled]="
+                  !embarqueForm.get('noParte').value ||
+                  !embarqueForm.get('entregadas').value ||
+                  embarqueForm.get('entregadas').value == 0 ||
+                  !embarqueForm.get('noOrden').value ||
+                  !embarqueForm.get('noOrden2').value
+                " (click)="addDetalle()">
+                <span class="fa fa-plus-circle "> </span>
+              </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive mt-2" *ngIf="detallesEmbarque.length !== 0">
+                                <table id="detalleEmbarqueTable" class="table table-hover table-bordered table-striped">
+                                    <thead>
+                                        <tr class="table-primary">
+                                            <th>No. Parte</th>
+                                            <th>Cajas</th>
+                                            <th>Piezas X Caja</th>
+                                            <th>Total Piezas</th>
+                                            <th>Orden Compra</th>
+                                            <th>Borrar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let detalle of detallesEmbarque; let i = index">
+                                            <td>{{ detalle.noParte }}</td>
+                                            <td>
+                                                {{ detalle.cajas }}
+                                            </td>
+                                            <td>
+                                                {{ detalle.piezasXCaja }}
+                                            </td>
+                                            <td>
+                                                {{ detalle.entregadas }}
+                                            </td>
+                                            <td>
+                                                {{ detalle.noOrden }}
+                                            </td>
+                                            <td>
+                                                <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteDetalle(i)">
+                          <span class="fa fa-trash"></span
+                        ></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success mr-1" [disabled]="!embarqueForm.valid || detallesEmbarque.length == 0" type="submit">
+                Guardar
+              </button>
+                            <a class="btn btn-danger " [routerLink]="['/embarques']">
+                Cancelar
+              </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
