@@ -3,7 +3,7 @@
         <div class="card-header text-primary">Embarque</div>
         <div class="card-body">
             <div class="card-text">
-                <form [formGroup]="embarqueForm" (ngSubmit)="addEmbarque()" id="embarqueForm">
+                <form [formGroup]="embarqueForm" (ngSubmit)="editEmbarque()" id="embarqueForm">
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="Cliente">Cliente</label>
@@ -37,6 +37,7 @@
                 ">
                                 El folio de embarque ya existe.
                             </div>
+                            <input type="hidden" name="embarqueId" formControlName="embarqueId" />
                         </div>
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="fecha">Fecha</label>
@@ -52,7 +53,7 @@
                     name="rechazadas"
                     formControlName="rechazadas"
                     checked
-                    value="false"
+                    [value]="false"
                   />
 
                   Certificadas
@@ -63,7 +64,7 @@
                     type="radio"
                     name="rechazadas"
                     formControlName="rechazadas"
-                    value="true"
+                    [value]="true"
                   />
 
                   Rechazadas
@@ -126,6 +127,7 @@
                                             <th>Piezas X Caja</th>
                                             <th>Total Piezas</th>
                                             <th>Orden Compra</th>
+                                            <th>Editar</th>
                                             <th>Borrar</th>
                                         </tr>
                                     </thead>
@@ -143,6 +145,11 @@
                                             </td>
                                             <td>
                                                 {{ detalle.noOrden }}
+                                            </td>
+                                            <td>
+                                                <a class="fa fa-edit" [routerLink]="[
+                            '/detalleembarques/' + detalle.detalleEmbarqueId
+                          ]"></a>
                                             </td>
                                             <td>
                                                 <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteDetalle(i)">

@@ -125,5 +125,7 @@ namespace GpoSion.API.Data
 
         Task<bool> ExisteMoldeadora(string clave);
 
+        Task<DetalleEmbarque> GetDetalleEmbarque(int id);
+
     }
 }

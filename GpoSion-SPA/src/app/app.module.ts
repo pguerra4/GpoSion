@@ -135,6 +135,7 @@ import { ChangePasswordComponent } from "./change-password/change-password.compo
 import { MoldeadoraSimpleListComponent } from "./moldeadora-simple-list/moldeadora-simple-list.component";
 import { MoldeadoraEditComponent } from "./moldeadora-edit/moldeadora-edit.component";
 import { EmbarqueEditComponent } from "./embarque-edit/embarque-edit.component";
+import { EmbarqueEditResolver } from "./_resolvers/embarque-edit.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -286,6 +287,7 @@ defineLocales();
     PreventUnsavedChanges,
     LocalidadEditResolver,
     UserEditResolver,
+    EmbarqueEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

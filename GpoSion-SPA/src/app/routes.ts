@@ -81,6 +81,8 @@ import { UserProfileEditComponent } from "./user-profile-edit/user-profile-edit.
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 import { MoldeadoraSimpleListComponent } from "./moldeadora-simple-list/moldeadora-simple-list.component";
 import { MoldeadoraEditComponent } from "./moldeadora-edit/moldeadora-edit.component";
+import { EmbarqueEditResolver } from "./_resolvers/embarque-edit.resolver";
+import { EmbarqueEditComponent } from "./embarque-edit/embarque-edit.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -366,6 +368,12 @@ export const appRoutes: Routes = [
       {
         path: "addEmbarque",
         component: EmbarqueAddComponent,
+        data: { roles: ["Admin", "Almacen"] }
+      },
+      {
+        path: "embarques/:id",
+        component: EmbarqueEditComponent,
+        resolve: { embarque: EmbarqueEditResolver },
         data: { roles: ["Admin", "Almacen"] }
       },
       {

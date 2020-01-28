@@ -9,7 +9,7 @@ import { ClienteService } from "../_services/cliente.service";
 import { NumeroParteService } from "../_services/numeroParte.service";
 import { OrdenCompraService } from "../_services/orden-compra.service";
 import { AlertifyService } from "../_services/alertify.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { BsLocaleService } from "ngx-bootstrap";
 import { ValidateExistingFolioEmbarque } from "../_validators/async-folio-embarque-existente.validator";
 
@@ -34,27 +34,34 @@ export class EmbarqueEditComponent implements OnInit {
     private alertify: AlertifyService,
     private router: Router,
     private fb: FormBuilder,
-    private localeService: BsLocaleService
+    private localeService: BsLocaleService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.localeService.use("es");
     this.loadClientes();
-    this.createEmbarqueForm();
+    this.route.data.subscribe(data => {
+      // tslint:disable-next-line: no-string-literal
+      this.embarque = data["embarque"];
+      this.detallesEmbarque = this.embarque.detallesEmbarque;
+      this.createEmbarqueForm();
+    });
   }
 
   createEmbarqueForm() {
     const now = new Date();
     this.embarqueForm = this.fb.group(
       {
-        clienteId: [null, Validators.required],
+        embarqueId: [this.embarque.embarqueId, Validators.required],
+        clienteId: [this.embarque.clienteId, Validators.required],
         folio: [
-          null,
+          this.embarque.folio,
           Validators.required,
           ValidateExistingFolioEmbarque.createValidator(this.numeroParteService)
         ],
-        fecha: [now],
-        rechazadas: [false],
+        fecha: [new Date(this.embarque.fecha)],
+        rechazadas: [this.embarque.rechazadas],
         noParte: [""],
         noOrden: [""],
         noOrden2: [""],
@@ -115,22 +122,24 @@ export class EmbarqueEditComponent implements OnInit {
       );
   }
 
-  addEmbarque() {
+  editEmbarque() {
     this.embarque = Object.assign({}, this.embarqueForm.value);
     this.embarque.detallesEmbarque = new Array();
     this.detallesEmbarque.forEach(detalle => {
       this.embarque.detallesEmbarque.push(detalle);
     });
 
-    this.numeroParteService.addEmbarque(this.embarque).subscribe(
-      (res: Embarque) => {
-        this.alertify.success("Guardado");
-        this.router.navigate(["embarques"]);
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
+    this.numeroParteService
+      .editEmbarque(+this.route.snapshot.params["id"], this.embarque)
+      .subscribe(
+        (res: Embarque) => {
+          this.alertify.success("Guardado");
+          this.router.navigate(["embarques"]);
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
   }
 
   addDetalle() {

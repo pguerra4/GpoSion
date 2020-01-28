@@ -509,5 +509,11 @@ namespace GpoSion.API.Data
             var moldeadora = await _context.Moldeadoras.FirstOrDefaultAsync(m => m.Clave.Trim().ToLower() == clave.Trim().ToLower());
             return moldeadora != null;
         }
+
+        public async Task<DetalleEmbarque> GetDetalleEmbarque(int id)
+        {
+            var detalleEmbarque = await _context.DetallesEmbarque.FindAsync(id);
+            return detalleEmbarque;
+        }
     }
 }
