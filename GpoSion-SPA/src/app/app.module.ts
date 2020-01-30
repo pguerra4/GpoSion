@@ -136,6 +136,8 @@ import { MoldeadoraSimpleListComponent } from "./moldeadora-simple-list/moldeado
 import { MoldeadoraEditComponent } from "./moldeadora-edit/moldeadora-edit.component";
 import { EmbarqueEditComponent } from "./embarque-edit/embarque-edit.component";
 import { EmbarqueEditResolver } from "./_resolvers/embarque-edit.resolver";
+import { DetalleEmbarqueEditComponent } from "./detalle-embarque-edit/detalle-embarque-edit.component";
+import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -230,7 +232,8 @@ defineLocales();
     ChangePasswordComponent,
     MoldeadoraSimpleListComponent,
     MoldeadoraEditComponent,
-    EmbarqueEditComponent
+    EmbarqueEditComponent,
+    DetalleEmbarqueEditComponent
   ],
   imports: [
     BrowserModule,
@@ -288,6 +291,7 @@ defineLocales();
     LocalidadEditResolver,
     UserEditResolver,
     EmbarqueEditResolver,
+    DetalleEmbarqueEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

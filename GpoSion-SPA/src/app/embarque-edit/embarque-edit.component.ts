@@ -40,11 +40,11 @@ export class EmbarqueEditComponent implements OnInit {
 
   ngOnInit() {
     this.localeService.use("es");
-    this.loadClientes();
     this.route.data.subscribe(data => {
       // tslint:disable-next-line: no-string-literal
       this.embarque = data["embarque"];
       this.detallesEmbarque = this.embarque.detallesEmbarque;
+      this.loadNumerosParte(this.embarque.clienteId);
       this.createEmbarqueForm();
     });
   }
@@ -58,9 +58,13 @@ export class EmbarqueEditComponent implements OnInit {
         folio: [
           this.embarque.folio,
           Validators.required,
-          ValidateExistingFolioEmbarque.createValidator(this.numeroParteService)
+          ValidateExistingFolioEmbarque.createValidator(
+            this.numeroParteService,
+            this.embarque.folio
+          )
         ],
         fecha: [new Date(this.embarque.fecha)],
+        leNo: [this.embarque.leNo],
         rechazadas: [this.embarque.rechazadas],
         noParte: [""],
         noOrden: [""],
@@ -73,19 +77,7 @@ export class EmbarqueEditComponent implements OnInit {
     );
   }
 
-  loadClientes() {
-    this.clienteService.getClientes().subscribe(
-      (res: Cliente[]) => {
-        this.clientes = res;
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
-  }
-
-  clienteChange(clienteId: number) {
-    this.embarqueForm.get("noParte").setValue("");
+  loadNumerosParte(clienteId: number) {
     this.npParams.clienteId = clienteId;
     this.numeroParteService.getNumerosParte(this.npParams).subscribe(
       (res: NumeroParte[]) => {

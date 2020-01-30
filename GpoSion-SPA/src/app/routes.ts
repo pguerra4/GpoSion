@@ -83,6 +83,8 @@ import { MoldeadoraSimpleListComponent } from "./moldeadora-simple-list/moldeado
 import { MoldeadoraEditComponent } from "./moldeadora-edit/moldeadora-edit.component";
 import { EmbarqueEditResolver } from "./_resolvers/embarque-edit.resolver";
 import { EmbarqueEditComponent } from "./embarque-edit/embarque-edit.component";
+import { DetalleEmbarqueEditComponent } from "./detalle-embarque-edit/detalle-embarque-edit.component";
+import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -374,6 +376,12 @@ export const appRoutes: Routes = [
         path: "embarques/:id",
         component: EmbarqueEditComponent,
         resolve: { embarque: EmbarqueEditResolver },
+        data: { roles: ["Admin", "Almacen"] }
+      },
+      {
+        path: "detallesEmbarque/:id",
+        component: DetalleEmbarqueEditComponent,
+        resolve: { detalleEmbarque: DetalleEmbarqueEditResolver },
         data: { roles: ["Admin", "Almacen"] }
       },
       {

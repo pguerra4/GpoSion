@@ -140,86 +140,20 @@ namespace GpoSion.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovimientoProducto(int id, MovimientoProductoForPutDto movimientoFP)
+        public async Task<IActionResult> PutEmbarque(int id, EmbarqueToEditDto embarqueToEdit)
         {
-            var movimiento = await _repo.GetMovimientoProducto(id);
-            if (movimiento == null)
+            var embarque = await _repo.GetEmbarque(id);
+            if (embarque == null)
                 return NotFound();
-            if (movimiento.MovimientoProductoId != movimientoFP.MovimientoProductoId)
+            if (embarque.EmbarqueId != embarqueToEdit.EmbarqueId)
                 return BadRequest("Ids no coinciden");
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (movimientoFP.PiezasRechazadas > 0)
-            {
-                var piezasRechazadas = 0;
-                var np = await _repo.GetNumeroParte(movimientoFP.NoParte);
-                switch (movimientoFP.UnidadMedidaIdRechazadas)
-                {
-                    case 1:
 
-                        piezasRechazadas = (int)Math.Floor(movimientoFP.PiezasRechazadas / np.Peso);
-                        movimientoFP.PiezasRechazadas = piezasRechazadas;
-
-
-                        break;
-                    case 2:
-
-                        piezasRechazadas = (int)Math.Floor((movimientoFP.PiezasRechazadas * (decimal)2.2046) / np.Peso);
-                        movimientoFP.PiezasRechazadas = piezasRechazadas;
-
-
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-
-
-            var existencia = await _repo.GetExistenciaProducto(movimientoFP.NoParte);
-            if (movimiento.NoParte != movimientoFP.NoParte)
-            {
-                var otraExistencia = await _repo.GetExistenciaProducto(movimiento.NoParte);
-                if (otraExistencia != null)
-                {
-                    otraExistencia.PiezasCertificadas -= movimiento.PiezasCertificadas;
-                    otraExistencia.PiezasRechazadas -= movimiento.PiezasRechazadas;
-                    otraExistencia.UltimaModificacion = DateTime.Now;
-                    otraExistencia.ModificadoPorId = userId;
-                }
-                if (existencia != null)
-                {
-                    existencia.PiezasCertificadas += movimientoFP.PiezasCertificadas;
-                    existencia.PiezasRechazadas += (int)movimientoFP.PiezasRechazadas;
-                    existencia.UltimaModificacion = DateTime.Now;
-                    existencia.ModificadoPorId = userId;
-                }
-
-            }
-            else
-            {
-                if (existencia != null)
-                {
-                    existencia.PiezasCertificadas += (movimientoFP.PiezasCertificadas - movimiento.PiezasCertificadas);
-                    existencia.PiezasRechazadas += ((int)movimientoFP.PiezasRechazadas - movimiento.PiezasRechazadas);
-                    existencia.UltimaModificacion = DateTime.Now;
-                    existencia.ModificadoPorId = userId;
-                }
-                else
-                {
-                    existencia = new ExistenciaProducto { NoParte = movimientoFP.NoParte, PiezasCertificadas = movimientoFP.PiezasCertificadas, PiezasRechazadas = (int)movimientoFP.PiezasRechazadas, FechaCreacion = DateTime.Now, CreadoPorId = userId };
-                    _repo.Add(existencia);
-                }
-            }
-
-
-
-
-            movimientoFP.TipoMovimiento = "Entrada Almacen";
-            _mapper.Map(movimientoFP, movimiento);
-            movimiento.ModificadoPorId = userId;
-            movimiento.UltimaModificacion = DateTime.Now;
+            _mapper.Map(embarqueToEdit, embarque);
+            embarque.ModificadoPorId = userId;
+            embarque.UltimaModificacion = DateTime.Now;
 
             await _repo.SaveAll();
             return NoContent();

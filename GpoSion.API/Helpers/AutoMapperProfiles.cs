@@ -67,6 +67,7 @@ namespace GpoSion.API.Helpers
             CreateMap<MovimientoProducto, MovimientoProductoToListDto>();
             CreateMap<DetalleEmbarqueToCreateDto, DetalleEmbarque>();
             CreateMap<EmbarqueToCreateDto, Embarque>();
+            CreateMap<EmbarqueToEditDto, Embarque>();
             CreateMap<DetalleEmbarque, DetalleEmbarqueToListDto>().ReverseMap();
             CreateMap<Embarque, EmbarqueToListDto>();
             CreateMap<OrdenCompraProveedorDetalle, OrdenCompraProveedorDetalleToListDto>()

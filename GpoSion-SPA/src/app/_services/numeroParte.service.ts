@@ -6,6 +6,7 @@ import { NumeroParte } from "../_models/numeroParte";
 import { MovimientoProducto } from "../_models/movimiento-producto";
 import { Embarque } from "../_models/embarque";
 import { ExistenciaProducto } from "../_models/existencia-producto";
+import { DetalleEmbarque } from "../_models/detalle-embarque";
 
 @Injectable({
   providedIn: "root"
@@ -103,6 +104,23 @@ export class NumeroParteService {
 
   editEmbarque(id: number, embarque: Embarque) {
     return this.http.put(this.baseUrl + "embarques/" + id, embarque);
+  }
+
+  getDetalleEmbarque(id: number): Observable<DetalleEmbarque> {
+    return this.http.get<DetalleEmbarque>(
+      this.baseUrl + "detallesembarque/" + id
+    );
+  }
+
+  addDetalleEmbarque(detalleEmbarque: DetalleEmbarque) {
+    return this.http.post(this.baseUrl + "detallesembarque", detalleEmbarque);
+  }
+
+  editDetalleEmbarque(id: number, detalleEmbarque: DetalleEmbarque) {
+    return this.http.put(
+      this.baseUrl + "detallesEmbarque/" + id,
+      detalleEmbarque
+    );
   }
 
   getExistenciasProducto(): Observable<ExistenciaProducto[]> {

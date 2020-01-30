@@ -54,6 +54,7 @@ export class EmbarqueAddComponent implements OnInit {
           ValidateExistingFolioEmbarque.createValidator(this.numeroParteService)
         ],
         fecha: [now],
+        leNo: [""],
         rechazadas: [false],
         noParte: [""],
         noOrden: [""],

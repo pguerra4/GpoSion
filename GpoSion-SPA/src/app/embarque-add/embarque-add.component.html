@@ -5,7 +5,7 @@
             <div class="card-text">
                 <form [formGroup]="embarqueForm" (ngSubmit)="addEmbarque()" id="embarqueForm">
                     <div class="row">
-                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="Cliente">Cliente</label>
                             <select class="form-control" id="clienteId" formControlName="clienteId" (change)="clienteChange($event.target.value)">
                 <option
@@ -16,7 +16,7 @@
                 </option>
               </select>
                         </div>
-                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="folio">Folio</label>
                             <input type="text" [ngClass]="{
                   'is-invalid':
@@ -38,7 +38,11 @@
                                 El folio de embarque ya existe.
                             </div>
                         </div>
-                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="fecha">No. Lista embarque</label>
+                            <input class="form-control" placeholder="Folio lista embarque" type="text"  formControlName="leNo" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="fecha">Fecha</label>
                             <input class="form-control" placeholder="Fecha" type="text" bsDatepicker formControlName="fecha" />
                         </div>

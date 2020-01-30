@@ -5,18 +5,12 @@
             <div class="card-text">
                 <form [formGroup]="embarqueForm" (ngSubmit)="editEmbarque()" id="embarqueForm">
                     <div class="row">
-                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="Cliente">Cliente</label>
-                            <select class="form-control" id="clienteId" formControlName="clienteId" (change)="clienteChange($event.target.value)">
-                <option
-                  *ngFor="let cliente of clientes"
-                  [value]="cliente.clienteId"
-                >
-                  {{ cliente.cliente }}
-                </option>
-              </select>
+                            <input type="hidden" name="clienteId" formControlName="clienteId" />
+                            <span class="form-control">{{ embarque.cliente }}</span>
                         </div>
-                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="folio">Folio</label>
                             <input type="text" [ngClass]="{
                   'is-invalid':
@@ -39,7 +33,11 @@
                             </div>
                             <input type="hidden" name="embarqueId" formControlName="embarqueId" />
                         </div>
-                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
+                            <label for="fecha">No. Lista embarque</label>
+                            <input class="form-control" placeholder="Folio lista embarque" type="text" formControlName="leNo" />
+                        </div>
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="fecha">Fecha</label>
                             <input class="form-control" placeholder="Fecha" type="text" bsDatepicker formControlName="fecha" />
                         </div>
@@ -148,7 +146,7 @@
                                             </td>
                                             <td>
                                                 <a class="fa fa-edit" [routerLink]="[
-                            '/detalleembarques/' + detalle.detalleEmbarqueId
+                            '/detallesEmbarque/' + detalle.detalleEmbarqueId
                           ]"></a>
                                             </td>
                                             <td>

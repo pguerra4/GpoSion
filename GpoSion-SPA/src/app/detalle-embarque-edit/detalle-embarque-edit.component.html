@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Detalle Embarque</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="detalleEmbarqueForm" (ngSubmit)="editDetalleEmbarque()" id="detalleEmbarqueForm">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noParte">No. Parte</label>
+                            <input type="text" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" formControlName="noParte" placeholder="No. Parte" (typeaheadOnSelect)="onSelectNumeroParte($event)" />
+                            <input type="hidden" formControlName="detalleEmbarqueId" />
+                            <input type="hidden" formControlName="embarqueId" />
+                        </div>
+                        <ng-template #customItemTemplate let-model="item">
+                            <div *ngFor="let detalle of model.numerosParte">
+                                <h5 *ngIf="
+                    detalle.noParte == detalleEmbarqueForm.get('noParte').value
+                  ">
+                                    {{ detalle.noOrden.toString() }}: {{ detalle.piezasAutorizadas > 0 ? "(" + detalle.piezasSurtidas.toString() + "/" + detalle.piezasAutorizadas.toString() + ")" : "(" + detalle.piezasSurtidas.toString() + "/Abierta)" }}
+                                </h5>
+                            </div>
+                        </ng-template>
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noOrden">No. Orden</label>
+                            <input type="text" [typeahead]="ordenesCompra" typeaheadOptionField="noOrden" [typeaheadItemTemplate]="customItemTemplate" [isAnimated]="true" class="form-control" formControlName="noOrden" placeholder="No. Orden" (typeaheadOnSelect)="onSelectNoOrden($event)"
+                            />
+                            <input type="hidden" formControlName="noOrden2" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6 col-md-3 col-lg-3">
+                            <label for="cajas">Cajas</label>
+                            <input class="form-control" placeholder="Cajas" type="number" formControlName="cajas" (blur)="calculaTotal()" (change)="calculaTotal()" />
+                        </div>
+                        <div class="form-group col-sm-6 col-md-4 col-lg-4">
+                            <label for="piezasXCaja">Piezas por caja</label>
+                            <input class="form-control" placeholder="Piezas por Caja" type="number" formControlName="piezasXCaja" (change)="calculaTotal()" (blur)="calculaTotal()" />
+                        </div>
+                        <div class="form-group col-sm-11 col-md-4 col-lg-4">
+                            <label for="entregadas">Total piezas</label>
+                            <input class="form-control" placeholder="Entregadas" type="number" formControlName="entregadas" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success mr-1" [disabled]="!detalleEmbarqueForm.valid" type="submit">
+                Guardar
+              </button>
+                            <a class="btn btn-danger " [routerLink]="['/embarques/' + detalleEmbarque.embarqueId]">
+                Cancelar
+              </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
