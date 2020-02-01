@@ -37,8 +37,8 @@ namespace GpoSion.API.Controllers
                 Material = m.Key.ClaveMaterial,
                 Almacen = m.Where(e => e.Area.NombreArea.ToLowerInvariant() == "almacen").Sum(e => e.Existencia),
                 Produccion = m.Where(e => e.Area.NombreArea.ToLowerInvariant() == "producción").Sum(e => e.Existencia),
-                UltimaModificacion = m.Max(e => e.UltimaModificacion.Value)
-            }).Where(e => e.Almacen > 0 || e.Produccion > 0).OrderBy(e => e.UltimaModificacion);
+                UltimaModificacion = m.Max(e => e.UltimaModificacion.HasValue ? e.UltimaModificacion.Value : e.FechaCreacion.Value)
+            }).Where(e => e.Almacen > 0 || e.Produccion > 0).OrderByDescending(e => e.UltimaModificacion);
 
             // var existenciasToReturn = _mapper.Map<IEnumerable<ExistenciaMaterialToListDto>>(nuevasExistencias);
             return Ok(nuevasExistencias);

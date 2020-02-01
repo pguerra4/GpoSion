@@ -8,4 +8,6 @@ export interface MovimientoMaterial {
   motivoMovimiento?: string;
   modificadoPor: string;
   creadoPor: string;
+  localidadId?: number;
+  localidad?: string;
 }

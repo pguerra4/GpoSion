@@ -8,10 +8,10 @@ namespace GpoSion.API.Models
         public int Id { get; set; }
 
         public int MaterialId { get; set; }
-        public Material Material { get; set; }
+        public virtual Material Material { get; set; }
         public string NoOrden { get; set; }
 
-        public OrdenCompraProveedor OrdenCompraProveedor { get; set; }
+        public virtual OrdenCompraProveedor OrdenCompraProveedor { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
         public Decimal Cantidad { get; set; }
@@ -29,10 +29,10 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
 
 

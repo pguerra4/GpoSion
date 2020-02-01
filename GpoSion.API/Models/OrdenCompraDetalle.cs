@@ -8,7 +8,7 @@ namespace GpoSion.API.Models
         public int Id { get; set; }
 
         public string NoParte { get; set; }
-        public NumeroParte NumeroParte { get; set; }
+        public virtual NumeroParte NumeroParte { get; set; }
         public long NoOrden { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
@@ -21,10 +21,10 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
 
         public DateTime? FechaInicio { get; set; }

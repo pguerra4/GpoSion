@@ -10,7 +10,7 @@ namespace GpoSion.API.Models
         [Key]
         public string NoParte { get; set; }
         public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
         public decimal Peso { get; set; }
@@ -25,27 +25,29 @@ namespace GpoSion.API.Models
         public string UrlImagenPieza { get; set; }
 
         public int? MaterialId { get; set; }
-        public Material Material { get; set; }
+        public virtual Material Material { get; set; }
 
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
 
-        public ICollection<MoldeadoraNumeroParte> MoldeadorasNumeroParte { get; set; }
+        public virtual ICollection<MoldeadoraNumeroParte> MoldeadorasNumeroParte { get; set; }
 
-        public ICollection<MoldeNumeroParte> MoldesNumeroParte { get; set; }
+        public virtual ICollection<MoldeNumeroParte> MoldesNumeroParte { get; set; }
 
-        public ICollection<MaterialNumeroParte> MaterialesNumeroParte { get; set; }
+        public virtual ICollection<MaterialNumeroParte> MaterialesNumeroParte { get; set; }
 
-        public ICollection<OrdenCompraDetalle> OrdenesCompraDetalle { get; set; }
+        public virtual ICollection<OrdenCompraDetalle> OrdenesCompraDetalle { get; set; }
 
-        public ICollection<MovimientoMoldeadoraNumeroParte> MovimientosMoldeadoraNumeroParte { get; set; }
+        public virtual ICollection<MovimientoMoldeadoraNumeroParte> MovimientosMoldeadoraNumeroParte { get; set; }
 
-        public ICollection<ExistenciaProducto> ExistenciasProducto { get; set; }
+        public virtual ICollection<ExistenciaProducto> ExistenciasProducto { get; set; }
+
+        public virtual ICollection<LocalidadNumeroParte> NumeroParteLocalidades { get; set; }
     }
 }

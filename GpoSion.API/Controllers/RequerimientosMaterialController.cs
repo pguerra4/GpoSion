@@ -135,10 +135,27 @@ namespace GpoSion.API.Controllers
                         _repo.Add(existenciaProduccion);
                     }
 
-                    var viajero = await _repo.GetViajero(rmmDto.Viajero);
-                    viajero.Existencia -= rmmDto.asurtir;
-                    viajero.UltimaModificacion = DateTime.Now;
-                    viajero.ModificadoPorId = userId;
+                    if (rmmDto.Viajero.HasValue)
+                    {
+                        var viajero = await _repo.GetViajero(rmmDto.Viajero.Value);
+
+                        viajero.Existencia -= rmmDto.asurtir;
+                        viajero.UltimaModificacion = DateTime.Now;
+                        viajero.ModificadoPorId = userId;
+                    }
+
+                    var localidad = await _repo.GetLocalidad(rmmDto.LocalidadId);
+                    if (localidad != null)
+                    {
+                        var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == rmmDto.MaterialId).FirstOrDefault();
+                        if (localidadMaterial != null)
+                        {
+                            localidadMaterial.Existencia -= rmmDto.asurtir;
+                            localidadMaterial.ModificadoPorId = userId;
+                            localidadMaterial.UltimaModificacion = DateTime.Now;
+                        }
+                    }
+
 
                     if (rmm.Cantidad <= rmm.CantidadEntregada)
                     {

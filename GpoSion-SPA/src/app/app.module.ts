@@ -138,6 +138,8 @@ import { EmbarqueEditComponent } from "./embarque-edit/embarque-edit.component";
 import { EmbarqueEditResolver } from "./_resolvers/embarque-edit.resolver";
 import { DetalleEmbarqueEditComponent } from "./detalle-embarque-edit/detalle-embarque-edit.component";
 import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.resolver";
+import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-material-list.component";
+import { SearchRetornosMaterialPipe } from "./_filters/search-retornos-material.pipe";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -233,7 +235,9 @@ defineLocales();
     MoldeadoraSimpleListComponent,
     MoldeadoraEditComponent,
     EmbarqueEditComponent,
-    DetalleEmbarqueEditComponent
+    DetalleEmbarqueEditComponent,
+    RetornoMaterialListComponent,
+    SearchRetornosMaterialPipe
   ],
   imports: [
     BrowserModule,

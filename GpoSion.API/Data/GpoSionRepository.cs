@@ -76,9 +76,8 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<ExistenciaMaterial>> GetExistencias()
         {
 
-            var existencias = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
-            .Include(e => e.Material).Include(e => e.Area)
-           .OrderBy(e => e.Material.ClaveMaterial).ThenBy(e => e.UltimaModificacion).ToListAsync();
+            var existencias = await _context.ExistenciasMaterial
+           .OrderBy(e => e.Material.ClaveMaterial).ThenBy(e => e.UltimaModificacion.HasValue ? e.UltimaModificacion.Value : e.FechaCreacion.Value).ToListAsync();
             return existencias;
 
         }
@@ -93,7 +92,7 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<Material>> GetMateriales(MaterialParams materialParams)
         {
 
-            var materiales = await _context.Materiales.Include(m => m.UnidadMedida).Include(m => m.TipoMaterial).ToListAsync();
+            var materiales = await _context.Materiales.ToListAsync();
             if (materialParams.Tipo.HasValue)
             {
                 materiales = materiales.Where(m => m.TipoMaterialId == materialParams.Tipo.Value).ToList();
@@ -104,14 +103,14 @@ namespace GpoSion.API.Data
         public async Task<Material> GetMaterial(int id)
         {
 
-            var material = await _context.Materiales.Include(m => m.UnidadMedida).Include(m => m.TipoMaterial).FirstOrDefaultAsync(m => m.MaterialId == id);
+            var material = await _context.Materiales.FirstOrDefaultAsync(m => m.MaterialId == id);
             return material;
         }
 
         public async Task<IEnumerable<Recibo>> GetRecibos()
         {
 
-            var recibos = await _context.Recibos.Include(r => r.Proveedor).Include(r => r.Detalle).OrderByDescending(r => r.FechaEntrada).ToListAsync();
+            var recibos = await _context.Recibos.OrderByDescending(r => r.FechaEntrada).ToListAsync();
 
             return recibos;
 
@@ -120,11 +119,7 @@ namespace GpoSion.API.Data
         public async Task<Recibo> GetRecibo(int id)
         {
 
-            var recibo = await _context.Recibos.Include(r => r.Detalle).ThenInclude(d => d.Material)
-            .Include(r => r.Detalle).ThenInclude(d => d.UnidadMedida)
-            .Include(r => r.Detalle).ThenInclude(d => d.Viajero).ThenInclude(v => v.Localizacion)
-            .Include(r => r.Detalle).ThenInclude(d => d.Localidad)
-            .Include(r => r.Proveedor).FirstOrDefaultAsync(r => r.ReciboId == id);
+            var recibo = await _context.Recibos.FirstOrDefaultAsync(r => r.ReciboId == id);
             return recibo;
         }
 
@@ -144,24 +139,43 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId)
         {
-            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null)
-            .Select(mm => mm.Viajero).Include(v => v.MovimientosMaterial).Include(v => v.Material).Include(v => v.Localizacion).OrderBy(v => v.Fecha).Distinct().ToListAsync();
+            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && mm.Viajero.Existencia != 0)
+            .Select(mm => mm.Viajero).Distinct().ToListAsync();
+
+            var localidadesConMaterial = await _context.LocalidadesMateriales.Where(lm => lm.MaterialId == materialId && lm.Existencia > 0).ToListAsync();
+            foreach (var lm in localidadesConMaterial)
+            {
+                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = lm.UltimaModificacion.HasValue ? lm.UltimaModificacion.Value : lm.FechaCreacion.Value });
+            }
+            viajeros = viajeros.OrderBy(v => v.Fecha).ToList();
+
+
             return viajeros;
         }
 
-        public Task<IEnumerable<MovimientoMaterial>> GetMovimientoMateriales()
+        public async Task<IEnumerable<MovimientoMaterial>> GetMovimientoMateriales(RetornoMaterialParams retornoParams)
         {
-            throw new System.NotImplementedException();
+            var movimientosMateriales = await _context.MovimientosMaterial.Where(mm => mm.Origen.AreaId == 2 && mm.Destino.AreaId == 1 && mm.Viajero == null && mm.MotivoMovimiento == "Retorno Material").ToListAsync();
+            if (retornoParams.FechaInicio.HasValue)
+            {
+                movimientosMateriales = movimientosMateriales.Where(mm => mm.Fecha >= retornoParams.FechaInicio).ToList();
+            }
+            if (retornoParams.FechaFin.HasValue)
+            {
+                movimientosMateriales = movimientosMateriales.Where(mm => mm.Fecha <= retornoParams.FechaFin).ToList();
+            }
+            return movimientosMateriales;
         }
 
-        public Task<MovimientoMaterial> GetMovimientoMaterial(int id)
+        public async Task<MovimientoMaterial> GetMovimientoMaterial(int id)
         {
-            throw new System.NotImplementedException();
+            var movimientoMaterial = await _context.MovimientosMaterial.FindAsync(id);
+            return movimientoMaterial;
         }
 
         public async Task<IEnumerable<MovimientoMaterial>> GetMovimientoMaterialesPorViajero(int viajero)
         {
-            var movs = await _context.MovimientosMaterial.Include(mm => mm.Origen).Include(mm => mm.Destino).Include(mm => mm.Recibo).Where(mm => mm.ViajeroId == viajero).ToListAsync();
+            var movs = await _context.MovimientosMaterial.Where(mm => mm.ViajeroId == viajero).ToListAsync();
             return movs;
 
         }
@@ -169,13 +183,7 @@ namespace GpoSion.API.Data
         public async Task<Viajero> GetViajero(int viajeroId)
         {
 
-            var viajero = await _context.Viajeros.Include(v => v.Localizacion)
-            .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Origen)
-            .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Destino)
-            .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.Material)
-            .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.ModificadoPor)
-            .Include(v => v.MovimientosMaterial).ThenInclude(mm => mm.CreadoPor)
-            .Include(v => v.Material).FirstOrDefaultAsync(v => v.ViajeroId == viajeroId);
+            var viajero = await _context.Viajeros.FirstOrDefaultAsync(v => v.ViajeroId == viajeroId);
             return viajero;
         }
 
@@ -187,9 +195,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen()
         {
-            var existenciasAlmacen = await _context.ExistenciasMaterial.Include(e => e.Material).ThenInclude(m => m.UnidadMedida)
-            .Include(e => e.Material).Include(e => e.Area)
-            .Include(e => e.Material).ThenInclude(m => m.MaterialNumerosParte)
+            var existenciasAlmacen = await _context.ExistenciasMaterial
             .Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0
             && em.Material.MaterialNumerosParte.Any(mnp => mnp.NumeroParte.OrdenesCompraDetalle.Any(ocd => (ocd.PiezasAutorizadas > ocd.PiezasSurtidas || ocd.PiezasAutorizadas == 0) && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date)))).ToListAsync();
             return existenciasAlmacen;
@@ -197,11 +203,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<RequerimientoMaterial>> GetRequerimientosMaterial(RequerimientoParams requerimientoParams)
         {
-            var requerimientos = await _context.RequerimientosMaterial.Include(r => r.Turno)
-            .Include(r => r.Materiales).ThenInclude(m => m.Material)
-            .Include(r => r.Materiales).ThenInclude(m => m.UnidadMedida)
-            .Include(r => r.Materiales).ThenInclude(m => m.Viajero)
-            .ToListAsync();
+            var requerimientos = await _context.RequerimientosMaterial.ToListAsync();
 
             if (requerimientoParams.MostrarSurtidos.HasValue && !requerimientoParams.MostrarSurtidos.Value)
             {
@@ -220,10 +222,7 @@ namespace GpoSion.API.Data
 
         public async Task<RequerimientoMaterial> GetRequerimientoMaterial(int id)
         {
-            var requerimiento = await _context.RequerimientosMaterial.Include(r => r.Turno)
-            .Include(r => r.Materiales).ThenInclude(m => m.Material)
-            .Include(r => r.Materiales).ThenInclude(m => m.UnidadMedida)
-            .Include(r => r.Materiales).ThenInclude(m => m.Viajero).FirstOrDefaultAsync(r => r.RequerimientoMaterialId == id);
+            var requerimiento = await _context.RequerimientosMaterial.FirstOrDefaultAsync(r => r.RequerimientoMaterialId == id);
             return requerimiento;
         }
 
@@ -236,61 +235,49 @@ namespace GpoSion.API.Data
 
         public async Task<DetalleRecibo> GetDetalleRecibo(int Id)
         {
-            var detalleRecibo = await _context.DetalleRecibos.Include(dr => dr.Viajero)
-            .Include(dr => dr.Recibo).Include(dr => dr.Material).Include(dr => dr.UnidadMedida).FirstOrDefaultAsync(dr => dr.DetalleReciboId == Id);
+            var detalleRecibo = await _context.DetalleRecibos.FirstOrDefaultAsync(dr => dr.DetalleReciboId == Id);
             return detalleRecibo;
         }
 
         public async Task<IEnumerable<Viajero>> GetViajeros()
         {
-            var viajeros = await _context.Viajeros.Include(v => v.Material)
-            .Include(v => v.Localizacion)
-            .Where(v => v.Existencia > 0).OrderBy(v => v.Fecha).ToListAsync();
+            var viajeros = await _context.Viajeros.OrderBy(v => v.Fecha).ToListAsync();
             return viajeros;
         }
 
         public async Task<IEnumerable<Molde>> GetMoldes()
         {
-            var moldes = await _context.Moldes.Include(m => m.Cliente).Include(m => m.Ubicacion).ToListAsync();
+            var moldes = await _context.Moldes.ToListAsync();
             return moldes;
         }
 
         public async Task<Molde> GetMolde(int Id)
         {
-            var molde = await _context.Moldes.Include(m => m.Cliente).Include(m => m.Ubicacion)
-            .Include(m => m.MoldeNumerosParte).FirstOrDefaultAsync(m => m.Id == Id);
+            var molde = await _context.Moldes.FirstOrDefaultAsync(m => m.Id == Id);
             return molde;
         }
 
         public async Task<OrdenCompra> GetOrdenCompra(long Id)
         {
-            var ordenCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).ThenInclude(np => np.NumeroParte).FirstOrDefaultAsync(oc => oc.NoOrden == Id);
+            var ordenCompra = await _context.OrdenesCompra.FirstOrDefaultAsync(oc => oc.NoOrden == Id);
             return ordenCompra;
         }
 
         public async Task<IEnumerable<OrdenCompra>> GetOrdenesCompra()
         {
-            var ordenesCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente).Include(oc => oc.NumerosParte).ThenInclude(np => np.NumeroParte).ToListAsync();
+            var ordenesCompra = await _context.OrdenesCompra.ToListAsync();
             return ordenesCompra;
         }
 
         public async Task<NumeroParte> GetNumeroParte(string NoParte)
         {
-            var numeroParte = await _context.NumerosParte.Include(np => np.Cliente)
-            .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material).ThenInclude(m => m.UnidadMedida)
-            .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material).ThenInclude(m => m.TipoMaterial)
-            .Include(np => np.MoldesNumeroParte).ThenInclude(mnp => mnp.Molde)
-            .Include(np => np.MoldeadorasNumeroParte).ThenInclude(mnp => mnp.Moldeadora)
-            .Include(np => np.ExistenciasProducto).FirstOrDefaultAsync(np => np.NoParte == NoParte);
+            var numeroParte = await _context.NumerosParte.FirstOrDefaultAsync(np => np.NoParte == NoParte);
             return numeroParte;
         }
 
         public async Task<IEnumerable<NumeroParte>> GetNumerosParte(NumeroParteParams numeroParteParams)
         {
-            var numerosParte = await _context.NumerosParte.Include(np => np.Cliente)
-            .Include(np => np.MaterialesNumeroParte).ThenInclude(mnp => mnp.Material)
-            .Include(np => np.MoldesNumeroParte).ThenInclude(mnp => mnp.Molde)
-            .Include(np => np.MoldeadorasNumeroParte).ThenInclude(mnp => mnp.Moldeadora).ToListAsync();
+            var numerosParte = await _context.NumerosParte.ToListAsync();
             if (numeroParteParams.ClienteId.HasValue)
             {
                 numerosParte = numerosParte.Where(np => np.ClienteId == numeroParteParams.ClienteId.Value).ToList();
@@ -300,15 +287,13 @@ namespace GpoSion.API.Data
 
         public async Task<Moldeadora> GetMoldeadora(int Id)
         {
-            var moldeadora = await _context.Moldeadoras.Include(m => m.MoldeadoraNumerosParte)
-            .Include(m => m.Molde).Include(m => m.Material).FirstOrDefaultAsync(m => m.MoldeadoraId == Id);
+            var moldeadora = await _context.Moldeadoras.FirstOrDefaultAsync(m => m.MoldeadoraId == Id);
             return moldeadora;
         }
 
         public async Task<IEnumerable<Moldeadora>> GetMoldeadoras()
         {
-            var moldeadoras = await _context.Moldeadoras.Include(m => m.MoldeadoraNumerosParte)
-            .Include(m => m.Molde).Include(m => m.Material).ToListAsync();
+            var moldeadoras = await _context.Moldeadoras.ToListAsync();
             return moldeadoras;
         }
 
@@ -352,7 +337,7 @@ namespace GpoSion.API.Data
 
         public async Task<OrdenCompraDetalle> GetOrdenCompraDetalle(int id)
         {
-            var ordenCompraDetalle = await _context.OrdenCompraDetalles.Include(ocd => ocd.NumeroParte).FirstOrDefaultAsync(ocd => ocd.Id == id);
+            var ordenCompraDetalle = await _context.OrdenCompraDetalles.FirstOrDefaultAsync(ocd => ocd.Id == id);
             return ordenCompraDetalle;
         }
 
@@ -415,13 +400,13 @@ namespace GpoSion.API.Data
 
         public async Task<Embarque> GetEmbarque(int id)
         {
-            var embarque = await _context.Embarques.Include(e => e.Cliente).Include(e => e.DetallesEmbarque).ThenInclude(de => de.OrdenCompra).FirstOrDefaultAsync(e => e.EmbarqueId == id);
+            var embarque = await _context.Embarques.FirstOrDefaultAsync(e => e.EmbarqueId == id);
             return embarque;
         }
 
         public async Task<IEnumerable<Embarque>> GetEmbarques(EmbarqueParams embarqueParams)
         {
-            var embarques = await _context.Embarques.Include(e => e.Cliente).Include(e => e.DetallesEmbarque).ThenInclude(de => de.OrdenCompra).ToListAsync();
+            var embarques = await _context.Embarques.ToListAsync();
             if (embarqueParams.ClienteId.HasValue)
             {
                 embarques = embarques.Where(e => e.ClienteId == embarqueParams.ClienteId).ToList();
@@ -441,8 +426,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<OrdenCompra>> GetOrdenesCompraAbiertasXNumeroParte(string noParte)
         {
-            var ordenesCompra = await _context.OrdenesCompra.Include(oc => oc.Cliente)
-            .Include(oc => oc.NumerosParte).ThenInclude(np => np.NumeroParte)
+            var ordenesCompra = await _context.OrdenesCompra
             .Where(oc => oc.NumerosParte.Any(np => np.NoParte == noParte && ((np.PiezasAutorizadas == 0 || np.PiezasAutorizadas > np.PiezasSurtidas) && ((np.FechaFin.HasValue && np.FechaFin.Value.Date >= DateTime.Now.Date) || !np.FechaFin.HasValue)))).ToListAsync();
             return ordenesCompra;
         }
@@ -461,15 +445,13 @@ namespace GpoSion.API.Data
 
         public async Task<OrdenCompraProveedor> GetOrdenCompraProveedor(string noOrden)
         {
-            var orden = await _context.OrdenesCompraProveedores.Include(ocp => ocp.Comprador).Include(ocp => ocp.Proveedor)
-            .Include(ocp => ocp.Materiales).ThenInclude(m => m.Material).FirstOrDefaultAsync(ocp => ocp.NoOrden == noOrden);
+            var orden = await _context.OrdenesCompraProveedores.FirstOrDefaultAsync(ocp => ocp.NoOrden == noOrden);
             return orden;
         }
 
         public async Task<IEnumerable<OrdenCompraProveedor>> GetOrdenesCompraProveedores()
         {
-            var ordenes = await _context.OrdenesCompraProveedores.Include(ocp => ocp.Comprador).Include(ocp => ocp.Proveedor)
-            .Include(ocp => ocp.Materiales).ThenInclude(m => m.Material).ToListAsync();
+            var ordenes = await _context.OrdenesCompraProveedores.ToListAsync();
             return ordenes;
         }
 

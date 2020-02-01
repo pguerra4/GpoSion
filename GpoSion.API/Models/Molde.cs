@@ -13,10 +13,10 @@ namespace GpoSion.API.Models
         public string ClaveMolde { get; set; }
 
         public int? ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
 
         public int? UbicacionAreaId { get; set; }
-        public Area Ubicacion { get; set; }
+        public virtual Area Ubicacion { get; set; }
 
         // public int? MaquinaMoldeadoraId { get; set; }
         // public Moldeadora Maquina { get; set; }
@@ -24,13 +24,13 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
 
-        public ICollection<MoldeNumeroParte> MoldeNumerosParte { get; set; }
+        public virtual ICollection<MoldeNumeroParte> MoldeNumerosParte { get; set; }
 
     }
 }

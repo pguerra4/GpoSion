@@ -9,7 +9,7 @@ namespace GpoSion.API.Models
 
         public string NoParte { get; set; }
 
-        public NumeroParte NumeroParte { get; set; }
+        public virtual NumeroParte NumeroParte { get; set; }
 
         public DateTime Fecha { get; set; }
 
@@ -32,15 +32,15 @@ namespace GpoSion.API.Models
         public string Localidad { get; set; }
 
         public int? DetalleEmbarqueId { get; set; }
-        public DetalleEmbarque DetalleEmbarque { get; set; }
+        public virtual DetalleEmbarque DetalleEmbarque { get; set; }
 
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
     }
 }

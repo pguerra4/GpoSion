@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">
+            Retorno de material por producción
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-4">
+                        <a class="btn btn-success" [routerLink]="['/addRetorno']">Nuevo Retorno Material</a
+            >
+          </div>
+          <div class="form-group col-md-4">
+            <input
+              class="form-control"
+              placeholder="Fechas"
+              bsDaterangepicker
+              [(ngModel)]="bsRangeValue"
+              [bsConfig]="{ isAnimated: true, showPreviousMonth: true }"
+              (bsValueChange)="onValueChange($event)"
+            />
+          </div>
+          <div class="col-md-4">
+            <input
+              type="text"
+              id="searchTextId"
+              [(ngModel)]="searchText"
+              name="searchText"
+              placeholder="Buscar"
+            />
+            <i class="fa fa-search ml-1"></i>
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered table-striped mt-1">
+            <thead>
+              <tr class="table-primary">
+                <th scope="col">Fecha</th>
+                <th scope="col">Material</th>
+                <th scope="col">Localidad</th>
+                <th scope="col">Editar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let retorno of retornos | searchRetornosMaterial: searchText
+                "
+              >
+                <td>
+                  {{ retorno.fecha | date: "dd-MM-yyyy HH:mm" }}
+                </td>
+                <td>{{ retorno.material }}</td>
+                <td>{{ retorno.localidad }}</td>
+                <td>
+                  <a
+                    class="fa fa-edit"
+                    [routerLink]="[
+                      '/retornosmaterial/' + retorno.movimientoMaterialId
+                    ]"
+                  ></a>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

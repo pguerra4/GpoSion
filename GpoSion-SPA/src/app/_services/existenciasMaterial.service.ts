@@ -7,6 +7,7 @@ import { Viajero } from "../_models/viajero";
 import { ExistenciaMaterialGroup } from "../_models/existencia-material-group";
 import { Material } from "../_models/material";
 import { TipoMaterial } from "../_models/tipo-material";
+import { MovimientoMaterial } from "../_models/movimientoMaterial";
 
 @Injectable({
   providedIn: "root"
@@ -90,5 +91,22 @@ export class ExistenciasMaterialService {
 
   deleteMaterial(id: number) {
     return this.http.delete(this.baseUrl + "materiales/" + id);
+  }
+
+  getRetornosMaterial(retornoParams?) {
+    let params = new HttpParams();
+    if (retornoParams != null) {
+      if (retornoParams.fechaInicio != null) {
+        params = params.append("FechaInicio", retornoParams.fechaInicio);
+      }
+      if (retornoParams.fechaFin != null) {
+        params = params.append("FechaFin", retornoParams.fechaFin);
+      }
+    }
+
+    return this.http.get<MovimientoMaterial[]>(
+      this.baseUrl + "retornomaterial",
+      { params }
+    );
   }
 }

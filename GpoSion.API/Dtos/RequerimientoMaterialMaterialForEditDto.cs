@@ -9,7 +9,9 @@ namespace GpoSion.API.Dtos
 
         public int MaterialId { get; set; }
 
-        public int Viajero { get; set; }
+        public int? Viajero { get; set; }
+
+        public int LocalidadId { get; set; }
 
         public Decimal asurtir { get; set; }
 

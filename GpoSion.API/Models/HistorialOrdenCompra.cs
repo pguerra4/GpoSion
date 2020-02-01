@@ -9,14 +9,14 @@ namespace GpoSion.API.Models
 
         public long NoOrden { get; set; }
 
-        public OrdenCompra OrdenCompra { get; set; }
+        public virtual OrdenCompra OrdenCompra { get; set; }
 
 
         public int? OrdenCompraDetalleId { get; set; }
-        public OrdenCompraDetalle DetalleOrdenCompra { get; set; }
+        public virtual OrdenCompraDetalle DetalleOrdenCompra { get; set; }
 
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public DateTime Fecha { get; set; }
 

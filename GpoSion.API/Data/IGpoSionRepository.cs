@@ -33,7 +33,7 @@ namespace GpoSion.API.Data
         Task<IEnumerable<Recibo>> GetRecibos();
         Task<Recibo> GetRecibo(int id);
 
-        Task<IEnumerable<MovimientoMaterial>> GetMovimientoMateriales();
+        Task<IEnumerable<MovimientoMaterial>> GetMovimientoMateriales(RetornoMaterialParams retornoParams);
         Task<MovimientoMaterial> GetMovimientoMaterial(int id);
 
         Task<IEnumerable<MovimientoMaterial>> GetMovimientoMaterialesPorViajero(int viajero);

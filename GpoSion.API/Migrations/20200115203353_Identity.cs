@@ -1040,7 +1040,6 @@ namespace GpoSion.API.Migrations
                 name: "IX_AspNetUsers_CreadoPorId",
                 table: "AspNetUsers",
                 column: "CreadoPorId",
-                unique: true,
                 filter: "[CreadoPorId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(

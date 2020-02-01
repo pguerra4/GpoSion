@@ -3,7 +3,8 @@ export interface RequerimientoMaterialMaterial {
   requerimientoMaterialId: number;
   materialId: number;
   material: string;
-  viajeroId: number;
+  viajeroId?: number;
+  localidadId?: number;
   cantidad: number;
   cantidadEntregada: number;
   unidadMedidaId: number;

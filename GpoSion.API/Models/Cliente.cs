@@ -20,13 +20,13 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
-        public ICollection<OrdenCompra> OrdenesCompra { get; set; }
+        public virtual ICollection<OrdenCompra> OrdenesCompra { get; set; }
 
-        public ICollection<NumeroParte> NumerosParte { get; set; }
+        public virtual ICollection<NumeroParte> NumerosParte { get; set; }
     }
 }

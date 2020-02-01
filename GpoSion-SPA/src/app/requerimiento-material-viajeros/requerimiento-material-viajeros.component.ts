@@ -42,34 +42,31 @@ export class RequerimientoMaterialViajerosComponent implements OnInit {
     });
   }
 
-  createItem(viajero: Viajero): FormGroup {
+  createItem(viajero: Viajero, acumulado: number): FormGroup {
     const maximo: number = this.porSurtir;
-    return this.fb.group(
-      {
-        viajero: [viajero.viajero],
-        existencia: [viajero.existencia],
-        id: [this.material.id],
-        asurtir: [
-          this.porSurtir > viajero.existencia
-            ? viajero.existencia
-            : this.porSurtir,
-          [Validators.required, Validators.max(viajero.existencia)]
-        ]
-      },
-      { validator: this.checkExcedido.bind(this) }
-    );
+    const resto = this.porSurtir - acumulado;
+    return this.fb.group({
+      viajero: [viajero.viajero],
+      localidad: [viajero.localidad],
+      existencia: [viajero.existencia],
+      id: [this.material.id],
+      asurtir: [
+        resto > viajero.existencia ? viajero.existencia : resto,
+        [Validators.required, Validators.max(viajero.existencia)]
+      ]
+    });
   }
 
-  checkExcedido(g: FormGroup) {
-    return g.get("asurtir").value <= this.porSurtir ? null : { excedido: true };
-  }
+  // checkExcedido(g: FormGroup) {
+  //   return g.get("asurtir").value <= this.porSurtir ? null : { excedido: true };
+  // }
 
   createItems() {
     this.items = this.surtirMaterialForm.get("items") as FormArray;
     let total = 0;
     for (const viajero of this.viajeros) {
       if (this.material.cantidad >= total) {
-        this.items.push(this.createItem(viajero));
+        this.items.push(this.createItem(viajero, total));
       }
       total += +viajero.existencia;
     }

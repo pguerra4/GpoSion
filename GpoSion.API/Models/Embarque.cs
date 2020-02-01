@@ -11,7 +11,7 @@ namespace GpoSion.API.Models
         public DateTime Fecha { get; set; }
 
         public int ClienteId { get; set; }
-        public Cliente Cliente { get; set; }
+        public virtual Cliente Cliente { get; set; }
 
         public string LENo { get; set; }
 
@@ -24,13 +24,13 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
 
-        public ICollection<DetalleEmbarque> DetallesEmbarque { get; set; }
+        public virtual ICollection<DetalleEmbarque> DetallesEmbarque { get; set; }
 
     }
 }

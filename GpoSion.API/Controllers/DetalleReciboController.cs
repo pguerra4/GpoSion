@@ -91,7 +91,29 @@ namespace GpoSion.API.Controllers
                     viajero.ModificadoPorId = userId;
                 }
 
-                var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Material = material, Cantidad = detalle.Total, Origen = null, Destino = almacen, Recibo = recibo, Viajero = viajero, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                if (detalle.LocalidadId.HasValue)
+                {
+                    var localidad = await _repo.GetLocalidad(detalle.LocalidadId.Value);
+                    if (localidad != null)
+                    {
+                        var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalle.MaterialId).FirstOrDefault();
+                        if (localidadMaterial == null)
+                        {
+                            localidadMaterial = new LocalidadMaterial { MaterialId = detalle.MaterialId, LocalidadId = detalle.LocalidadId.Value, Existencia = detalle.Total, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                            _repo.Add(localidadMaterial);
+                        }
+                        else
+                        {
+                            localidadMaterial.Existencia += detalle.Total;
+                            localidadMaterial.ModificadoPorId = userId;
+                            localidadMaterial.UltimaModificacion = DateTime.Now;
+                        }
+                    }
+                }
+
+
+
+                var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Material = material, Cantidad = detalle.Total, Origen = null, Destino = almacen, Recibo = recibo, Viajero = viajero, LocalidadId = detalle.LocalidadId, CreadoPorId = userId, FechaCreacion = DateTime.Now };
                 _repo.Add(movMaterial);
 
 
@@ -163,8 +185,49 @@ namespace GpoSion.API.Controllers
             var viajero = await _repo.GetViajero(detalleReciboForEdit.Viajero);
             viajero.LocalidadId = detalleReciboForEdit.LocalidadId;
 
+
+
             var diferencia = detalleReciboForEdit.Total - detalleRecibo.Total;
             viajero.Existencia += diferencia;
+
+            if (detalleReciboForEdit.LocalidadId.HasValue)
+            {
+                if (detalleRecibo.LocalidadId != detalleReciboForEdit.LocalidadId)
+                {
+                    var localidadMaterialOriginal = detalleRecibo.Localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalleReciboForEdit.MaterialId).FirstOrDefault();
+                    localidadMaterialOriginal.Existencia -= detalleRecibo.Total;
+                    localidadMaterialOriginal.ModificadoPorId = userId;
+                    localidadMaterialOriginal.UltimaModificacion = DateTime.Now;
+
+                    var localidad = await _repo.GetLocalidad(detalleReciboForEdit.LocalidadId.Value);
+                    if (localidad != null)
+                    {
+                        var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalleReciboForEdit.MaterialId).FirstOrDefault();
+                        if (localidadMaterial == null)
+                        {
+                            localidadMaterial = new LocalidadMaterial { MaterialId = detalleReciboForEdit.MaterialId, LocalidadId = detalleReciboForEdit.LocalidadId.Value, Existencia = detalleReciboForEdit.Total, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                            _repo.Add(localidadMaterial);
+                        }
+                        else
+                        {
+                            localidadMaterial.Existencia += detalleReciboForEdit.Total;
+                            localidadMaterial.ModificadoPorId = userId;
+                            localidadMaterial.UltimaModificacion = DateTime.Now;
+                        }
+                    }
+                }
+                else
+                {
+                    var localidad = await _repo.GetLocalidad(detalleReciboForEdit.LocalidadId.Value);
+
+                    var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalleReciboForEdit.MaterialId).FirstOrDefault();
+
+                    localidadMaterial.Existencia += diferencia;
+                    localidadMaterial.ModificadoPorId = userId;
+                    localidadMaterial.UltimaModificacion = DateTime.Now;
+
+                }
+            }
 
             var movsMaterial = await _repo.GetMovimientoMaterialesPorViajero(viajero.ViajeroId);
             var movMaterial = movsMaterial.Where(mm => mm.Destino == almacen && mm.Origen == null && mm.Recibo == detalleRecibo.Recibo).FirstOrDefault();
@@ -172,6 +235,7 @@ namespace GpoSion.API.Controllers
             movMaterial.ModificadoPorId = userId;
             movMaterial.UltimaModificacion = DateTime.Now;
             movMaterial.MotivoMovimiento = detalleReciboForEdit.MotivoMovimiento;
+            movMaterial.LocalidadId = detalleReciboForEdit.LocalidadId;
 
             var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, detalleRecibo.Material.MaterialId);
 

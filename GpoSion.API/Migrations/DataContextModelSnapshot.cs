@@ -339,6 +339,62 @@ namespace GpoSion.API.Migrations
                     b.ToTable("Localidades");
                 });
 
+            modelBuilder.Entity("GpoSion.API.Models.LocalidadMaterial", b =>
+                {
+                    b.Property<int>("LocalidadId");
+
+                    b.Property<int>("MaterialId");
+
+                    b.Property<string>("CreadoPorId");
+
+                    b.Property<decimal>("Existencia")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.Property<DateTime?>("FechaCreacion");
+
+                    b.Property<string>("ModificadoPorId");
+
+                    b.Property<DateTime?>("UltimaModificacion");
+
+                    b.HasKey("LocalidadId", "MaterialId");
+
+                    b.HasIndex("CreadoPorId");
+
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("ModificadoPorId");
+
+                    b.ToTable("LocalidadesMateriales");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.LocalidadNumeroParte", b =>
+                {
+                    b.Property<int>("LocalidadId");
+
+                    b.Property<string>("NoParte");
+
+                    b.Property<string>("CreadoPorId");
+
+                    b.Property<decimal>("Existencia")
+                        .HasColumnType("decimal(18, 4)");
+
+                    b.Property<DateTime?>("FechaCreacion");
+
+                    b.Property<string>("ModificadoPorId");
+
+                    b.Property<DateTime?>("UltimaModificacion");
+
+                    b.HasKey("LocalidadId", "NoParte");
+
+                    b.HasIndex("CreadoPorId");
+
+                    b.HasIndex("ModificadoPorId");
+
+                    b.HasIndex("NoParte");
+
+                    b.ToTable("LocalidadesNumerosParte");
+                });
+
             modelBuilder.Entity("GpoSion.API.Models.Material", b =>
                 {
                     b.Property<int>("MaterialId")
@@ -534,6 +590,8 @@ namespace GpoSion.API.Migrations
 
                     b.Property<DateTime?>("FechaCreacion");
 
+                    b.Property<int?>("LocalidadId");
+
                     b.Property<int?>("MaterialId");
 
                     b.Property<string>("ModificadoPorId");
@@ -555,6 +613,8 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("CreadoPorId");
 
                     b.HasIndex("DestinoAreaId");
+
+                    b.HasIndex("LocalidadId");
 
                     b.HasIndex("MaterialId");
 
@@ -1522,6 +1582,48 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("ModificadoPorId");
                 });
 
+            modelBuilder.Entity("GpoSion.API.Models.LocalidadMaterial", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.User", "CreadoPor")
+                        .WithMany()
+                        .HasForeignKey("CreadoPorId");
+
+                    b.HasOne("GpoSion.API.Models.Localidad", "Localidad")
+                        .WithMany("MaterialesLocalidad")
+                        .HasForeignKey("LocalidadId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GpoSion.API.Models.Material", "Material")
+                        .WithMany("MaterialLocalidades")
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GpoSion.API.Models.User", "ModificadoPor")
+                        .WithMany()
+                        .HasForeignKey("ModificadoPorId");
+                });
+
+            modelBuilder.Entity("GpoSion.API.Models.LocalidadNumeroParte", b =>
+                {
+                    b.HasOne("GpoSion.API.Models.User", "CreadoPor")
+                        .WithMany()
+                        .HasForeignKey("CreadoPorId");
+
+                    b.HasOne("GpoSion.API.Models.Localidad", "Localidad")
+                        .WithMany("NumerosParteLocalidad")
+                        .HasForeignKey("LocalidadId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("GpoSion.API.Models.User", "ModificadoPor")
+                        .WithMany()
+                        .HasForeignKey("ModificadoPorId");
+
+                    b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
+                        .WithMany("NumeroParteLocalidades")
+                        .HasForeignKey("NoParte")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("GpoSion.API.Models.Material", b =>
                 {
                     b.HasOne("GpoSion.API.Models.User", "CreadoPor")
@@ -1638,6 +1740,10 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.Area", "Destino")
                         .WithMany()
                         .HasForeignKey("DestinoAreaId");
+
+                    b.HasOne("GpoSion.API.Models.Localidad", "Localidad")
+                        .WithMany()
+                        .HasForeignKey("LocalidadId");
 
                     b.HasOne("GpoSion.API.Models.Material", "Material")
                         .WithMany()

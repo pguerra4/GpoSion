@@ -20,7 +20,7 @@ namespace GpoSion.API.Models
         public bool IsComplete { get; set; }
 
         public int? ProveedorId { get; set; }
-        public Proveedor Proveedor { get; set; }
+        public virtual Proveedor Proveedor { get; set; }
 
         public string Recibio { get; set; }
 
@@ -29,13 +29,13 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
-        public User CreadoPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
-        public User ModificadoPor { get; set; }
+        public virtual User ModificadoPor { get; set; }
 
 
-        public ICollection<DetalleRecibo> Detalle { get; set; }
+        public virtual ICollection<DetalleRecibo> Detalle { get; set; }
 
 
     }

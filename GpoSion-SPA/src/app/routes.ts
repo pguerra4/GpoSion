@@ -85,6 +85,7 @@ import { EmbarqueEditResolver } from "./_resolvers/embarque-edit.resolver";
 import { EmbarqueEditComponent } from "./embarque-edit/embarque-edit.component";
 import { DetalleEmbarqueEditComponent } from "./detalle-embarque-edit/detalle-embarque-edit.component";
 import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.resolver";
+import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-material-list.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -414,6 +415,11 @@ export const appRoutes: Routes = [
         component: LocalidadEditComponent,
         resolve: { localidad: LocalidadEditResolver },
         data: { roles: ["Admin", "Almacen"] }
+      },
+      {
+        path: "retornosmaterial",
+        component: RetornoMaterialListComponent,
+        data: { roles: ["Admin", "Almacen", "Produccion"] }
       },
       {
         path: "admin",

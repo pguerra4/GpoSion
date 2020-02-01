@@ -77,6 +77,11 @@ namespace GpoSion.API.Data
         public DbSet<HistorialOrdenCompra> HistorialOrdenesCompra { get; set; }
 
 
+        public DbSet<LocalidadMaterial> LocalidadesMateriales { get; set; }
+
+        public DbSet<LocalidadNumeroParte> LocalidadesNumerosParte { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -113,6 +118,14 @@ namespace GpoSion.API.Data
             modelBuilder.Entity<MovimientoMoldeadoraNumeroParte>().HasKey(mmnp => new { mmnp.MovimientoMoldeadoraId, mmnp.NoParte });
             modelBuilder.Entity<MovimientoMoldeadoraNumeroParte>().HasOne(mmnp => mmnp.MovimientoMoldeadora).WithMany(m => m.MovimientoMoldeadoraNumerosParte).HasForeignKey(mn => mn.MovimientoMoldeadoraId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<MovimientoMoldeadoraNumeroParte>().HasOne(mmnp => mmnp.NumeroParte).WithMany(n => n.MovimientosMoldeadoraNumeroParte).HasForeignKey(mn => mn.NoParte).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LocalidadNumeroParte>().HasKey(lnp => new { lnp.LocalidadId, lnp.NoParte });
+            modelBuilder.Entity<LocalidadNumeroParte>().HasOne(lnp => lnp.Localidad).WithMany(l => l.NumerosParteLocalidad).HasForeignKey(lnp => lnp.LocalidadId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<LocalidadNumeroParte>().HasOne(lnp => lnp.NumeroParte).WithMany(n => n.NumeroParteLocalidades).HasForeignKey(lnp => lnp.NoParte).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LocalidadMaterial>().HasKey(lm => new { lm.LocalidadId, lm.MaterialId });
+            modelBuilder.Entity<LocalidadMaterial>().HasOne(lm => lm.Localidad).WithMany(l => l.MaterialesLocalidad).HasForeignKey(lm => lm.LocalidadId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<LocalidadMaterial>().HasOne(lm => lm.Material).WithMany(n => n.MaterialLocalidades).HasForeignKey(lm => lm.MaterialId).OnDelete(DeleteBehavior.Restrict);
 
 
         }
