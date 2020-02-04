@@ -53,7 +53,21 @@ namespace GpoSion.API.Controllers
             var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
             var material = await _repo.GetMaterial(retornoToCreate.MaterialId);
 
-            var existencia = await _repo.GetExistenciaPorAreaMaterial(1, retornoToCreate.MaterialId);
+            var existencia = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, retornoToCreate.MaterialId);
+            var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, retornoToCreate.MaterialId);
+            if (existenciaProduccion == null)
+            {
+                return BadRequest("No hay existencias para el material " + material.ClaveMaterial + " en producción");
+            }
+            else
+            {
+                if (existenciaProduccion.Existencia < retornoToCreate.Cantidad)
+                {
+                    return BadRequest("La existencia para el material " + material.ClaveMaterial + "(" + existenciaProduccion.Existencia + ") en producción es menor a lo retornado (" + retornoToCreate.Cantidad + ")");
+                }
+                existenciaProduccion.Existencia -= retornoToCreate.Cantidad;
+            }
+
             if (existencia == null)
             {
                 existencia = new ExistenciaMaterial { Material = material, Area = almacen, CreadoPorId = userId, Existencia = retornoToCreate.Cantidad, FechaCreacion = DateTime.Now };
