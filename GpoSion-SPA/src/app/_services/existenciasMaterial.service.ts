@@ -8,6 +8,7 @@ import { ExistenciaMaterialGroup } from "../_models/existencia-material-group";
 import { Material } from "../_models/material";
 import { TipoMaterial } from "../_models/tipo-material";
 import { MovimientoMaterial } from "../_models/movimientoMaterial";
+import { RetornoMaterial } from "../_models/retorno-material";
 
 @Injectable({
   providedIn: "root"
@@ -108,5 +109,9 @@ export class ExistenciasMaterialService {
       this.baseUrl + "retornomaterial",
       { params }
     );
+  }
+
+  addRetornoMaterial(retorno: RetornoMaterial) {
+    return this.http.post(this.baseUrl + "retornomaterial", retorno);
   }
 }

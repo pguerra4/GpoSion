@@ -86,6 +86,7 @@ import { EmbarqueEditComponent } from "./embarque-edit/embarque-edit.component";
 import { DetalleEmbarqueEditComponent } from "./detalle-embarque-edit/detalle-embarque-edit.component";
 import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.resolver";
 import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-material-list.component";
+import { RetornoMaterialAddComponent } from "./retorno-material-add/retorno-material-add.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -420,6 +421,11 @@ export const appRoutes: Routes = [
         path: "retornosmaterial",
         component: RetornoMaterialListComponent,
         data: { roles: ["Admin", "Almacen", "Produccion"] }
+      },
+      {
+        path: "addRetorno",
+        component: RetornoMaterialAddComponent,
+        data: { roles: ["Admin", "Almacen"] }
       },
       {
         path: "admin",

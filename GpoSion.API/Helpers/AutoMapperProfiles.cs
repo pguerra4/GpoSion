@@ -80,6 +80,7 @@ namespace GpoSion.API.Helpers
             CreateMap<User, UserForListDto>();
             CreateMap<UserForRegisterDto, User>();
             CreateMap<UserToEditDto, User>();
+            CreateMap<MovimientoMaterial, RetornoMaterialToListDto>();
         }
     }
 }

@@ -140,6 +140,7 @@ import { DetalleEmbarqueEditComponent } from "./detalle-embarque-edit/detalle-em
 import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.resolver";
 import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-material-list.component";
 import { SearchRetornosMaterialPipe } from "./_filters/search-retornos-material.pipe";
+import { RetornoMaterialAddComponent } from "./retorno-material-add/retorno-material-add.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -237,7 +238,8 @@ defineLocales();
     EmbarqueEditComponent,
     DetalleEmbarqueEditComponent,
     RetornoMaterialListComponent,
-    SearchRetornosMaterialPipe
+    SearchRetornosMaterialPipe,
+    RetornoMaterialAddComponent
   ],
   imports: [
     BrowserModule,

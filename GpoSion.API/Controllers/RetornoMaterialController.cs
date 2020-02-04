@@ -31,17 +31,17 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetRetornosMaterial([FromQuery] RetornoMaterialParams retornoParams)
         {
             var movimientos = await _repo.GetMovimientoMateriales(retornoParams);
-
-            return Ok(movimientos);
+            var movsToReturn = _mapper.Map<ICollection<RetornoMaterialToListDto>>(movimientos);
+            return Ok(movsToReturn);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRetornoMaterial(int Id)
         {
             var movimiento = await _repo.GetMovimientoMaterial(Id);
-            // var moldeToReturn = _mapper.Map<MoldeForDetailDto>(molde);
+            var movToReturn = _mapper.Map<RetornoMaterialToListDto>(movimiento);
 
-            return Ok(movimiento);
+            return Ok(movToReturn);
         }
 
         [HttpPost()]
@@ -72,7 +72,7 @@ namespace GpoSion.API.Controllers
                 var localidadMaterial = localidad.MaterialesLocalidad.Where(lm => lm.MaterialId == retornoToCreate.MaterialId).FirstOrDefault();
                 if (localidadMaterial == null)
                 {
-                    localidadMaterial = new LocalidadMaterial { LocalidadId = retornoToCreate.LocalidadId, MaterialId = retornoToCreate.MaterialId, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+                    localidadMaterial = new LocalidadMaterial { LocalidadId = retornoToCreate.LocalidadId, MaterialId = retornoToCreate.MaterialId, Existencia = retornoToCreate.Cantidad, FechaCreacion = DateTime.Now, CreadoPorId = userId };
                     _repo.Add(localidadMaterial);
                 }
                 else
@@ -100,7 +100,7 @@ namespace GpoSion.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                var retToReturn = _mapper.Map<MovimientoMaterialForViajeroDetailDto>(movimientoMaterial);
+                var retToReturn = _mapper.Map<RetornoMaterialToListDto>(movimientoMaterial);
                 return CreatedAtAction("GetRetornoMaterial", new { id = movimientoMaterial.MovimientoMaterialId }, retToReturn);
             }
 

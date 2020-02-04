@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary d-flex justify-content-between">
+            <span>Retorno Material</span>
+        </div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="retornoForm" (ngSubmit)="addRetornoMaterial()" id="retornoForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="material">Material</label>
+                            <input autocomplete="off" [typeahead]="materialesCat" typeaheadOptionField="material" [isAnimated]="true" [ngClass]="{
+                  'is-invalid':
+                    retornoForm.get('materialId').errors &&
+                    retornoForm.get('material').touched
+                }" class="form-control" id="material" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" />
+                            <input type="hidden" id="materialId" formControlName="materialId" />
+                            <div class="invalid-feedback" *ngIf="
+                  retornoForm.get('materialId').hasError('required') &&
+                  retornoForm.get('material').touched
+                ">
+                                El material es requerido.
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="localidad">Localización</label>
+                            <select class="form-control" id="localidadId" formControlName="localidadId">
+                <option
+                  *ngFor="let localidad of localidades"
+                  [value]="localidad.localidadId"
+                >
+                  {{ localidad.localidad }}
+                </option>
+              </select>
+                        </div>
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="cantidad">Cantidad</label>
+                            <input [ngClass]="{
+                  'is-invalid':
+                    retornoForm.get('cantidad').errors &&
+                    retornoForm.get('cantidad').touched
+                }" class="form-control text-right" placeholder="cantidad" formControlName="cantidad" />
+                            <div class="invalid-feedback" *ngIf="
+                  retornoForm.get('cantidad').hasError('required') &&
+                  retornoForm.get('cantidad').touched
+                ">
+                                La cantidad es requerida.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <button class="btn btn-success mr-1" [disabled]="!retornoForm.valid" type="submit">
+                Guardar
+              </button>
+                            <a class="btn btn-danger " [routerLink]="['/retornosmaterial']">
+                Cancelar
+              </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
