@@ -13,7 +13,7 @@ namespace GpoSion.API.Controllers
 {
 
 
-    [Authorize(Policy = "ComprasRole")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProveedoresController : ControllerBase
@@ -46,7 +46,7 @@ namespace GpoSion.API.Controllers
             return Ok(proveedorToReturn);
         }
 
-
+        [Authorize(Policy = "ComprasRole")]
         [HttpPost]
         public async Task<IActionResult> PostProveedor(ProveedorToCreateDto proveedorDto)
         {
@@ -70,6 +70,7 @@ namespace GpoSion.API.Controllers
             throw new Exception("Proveedor no guardado");
         }
 
+        [Authorize(Policy = "ComprasRole")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProveedor(int id, ProveedorForPutDto proveedorDto)
         {

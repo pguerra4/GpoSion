@@ -141,6 +141,7 @@ import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.
 import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-material-list.component";
 import { SearchRetornosMaterialPipe } from "./_filters/search-retornos-material.pipe";
 import { RetornoMaterialAddComponent } from "./retorno-material-add/retorno-material-add.component";
+import { MovimientoProductoListResolver } from "./_resolvers/movimiento-producto-list.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -298,6 +299,7 @@ defineLocales();
     UserEditResolver,
     EmbarqueEditResolver,
     DetalleEmbarqueEditResolver,
+    MovimientoProductoListResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

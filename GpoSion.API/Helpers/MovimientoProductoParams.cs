@@ -4,7 +4,9 @@ namespace GpoSion.API.Helpers
 {
     public class MovimientoProductoParams
     {
-        public DateTime? Fecha { get; set; }
+        public DateTime? FechaInicio { get; set; }
+
+        public DateTime? FechaFin { get; set; }
         public string TipoMovimiento { get; set; }
 
     }

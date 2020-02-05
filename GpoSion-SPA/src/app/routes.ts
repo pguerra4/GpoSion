@@ -87,6 +87,7 @@ import { DetalleEmbarqueEditComponent } from "./detalle-embarque-edit/detalle-em
 import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.resolver";
 import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-material-list.component";
 import { RetornoMaterialAddComponent } from "./retorno-material-add/retorno-material-add.component";
+import { MovimientoProductoListResolver } from "./_resolvers/movimiento-producto-list.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -356,6 +357,7 @@ export const appRoutes: Routes = [
       {
         path: "addMovimientoProducto",
         component: MovimientoProductoAddComponent,
+        resolve: { movimientosProducto: MovimientoProductoListResolver },
         data: { roles: ["Admin", "Almacen", "Produccion"] }
       },
       {

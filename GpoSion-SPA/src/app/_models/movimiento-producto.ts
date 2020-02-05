@@ -8,6 +8,7 @@ export interface MovimientoProducto {
   piezasRechazadas: number;
   purga: number;
   colada: number;
+  localidadId: number;
   localidad: string;
   unidadMedidaIdRechazadas: number;
 }

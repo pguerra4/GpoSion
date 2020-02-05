@@ -29,7 +29,9 @@ namespace GpoSion.API.Models
 
         public string TipoMovimiento { get; set; }
 
-        public string Localidad { get; set; }
+        public int? LocalidadId { get; set; }
+
+        public virtual Localidad Localidad { get; set; }
 
         public int? DetalleEmbarqueId { get; set; }
         public virtual DetalleEmbarque DetalleEmbarque { get; set; }

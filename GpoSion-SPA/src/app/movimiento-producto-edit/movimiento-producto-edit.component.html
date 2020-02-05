@@ -68,8 +68,15 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <label for="localidad">Localidad</label>
-                            <input class="form-control" placeholder="Localidad" type="text" formControlName="localidad" />
+                            <label for="localidad">Localización</label>
+                            <select class="form-control" id="localidadId" formControlName="localidadId">
+                <option
+                  *ngFor="let localidad of localidades"
+                  [value]="localidad.localidadId"
+                >
+                  {{ localidad.localidad }}
+                </option>
+              </select>
                         </div>
                     </div>
                     <div class="row">

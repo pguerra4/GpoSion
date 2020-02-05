@@ -50,7 +50,8 @@ export class NumeroParteService {
     let params = new HttpParams();
     if (movimientoParams != null) {
       params = params.append("TipoMovimiento", movimientoParams.tipoMovimiento);
-      params = params.append("Fecha", movimientoParams.fecha);
+      params = params.append("FechaInicio", movimientoParams.fechaInicio);
+      params = params.append("FechaFin", movimientoParams.fechaFin);
     }
     return this.http.get<MovimientoProducto[]>(
       this.baseUrl + "movimientosproducto",

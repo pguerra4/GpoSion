@@ -31,17 +31,17 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetMovimientosProducto([FromQuery] MovimientoProductoParams movimientoParams)
         {
             var movimientos = await _repo.GetMovimientosProducto(movimientoParams);
-
-            return Ok(movimientos);
+            var movimientosToReturn = _mapper.Map<ICollection<MovimientoProductoToListDto>>(movimientos);
+            return Ok(movimientosToReturn);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMovimientoProducto(int Id)
         {
             var movimiento = await _repo.GetMovimientoProducto(Id);
-            // var moldeToReturn = _mapper.Map<MoldeForDetailDto>(molde);
+            var movimientoToReturn = _mapper.Map<MovimientoProductoToListDto>(movimiento);
 
-            return Ok(movimiento);
+            return Ok(movimientoToReturn);
         }
 
         [HttpPost()]

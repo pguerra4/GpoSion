@@ -9,6 +9,9 @@ export class SearchMovimientoProductoPipe implements PipeTransform {
     movimientos: MovimientoProducto[],
     searchText: string
   ): MovimientoProducto[] {
+    if (movimientos == null) {
+      return null;
+    }
     return movimientos.filter(
       m =>
         m.noParte

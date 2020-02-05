@@ -8,6 +8,8 @@ import { UnidadMedidaService } from "../_services/unidadMedida.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
 import { NumeroParte } from "../_models/numeroParte";
+import { ReciboService } from "../_services/recibo.service";
+import { Localidad } from "../_models/localidad";
 
 @Component({
   selector: "app-movimiento-producto-add",
@@ -19,8 +21,10 @@ export class MovimientoProductoAddComponent implements OnInit {
   movimiento: MovimientoProducto;
   unidadesMedida: UnidadMedida[];
   numerosParte: NumeroParte[];
+  localidades: Localidad[];
 
   constructor(
+    private reciboService: ReciboService,
     private numeroParteService: NumeroParteService,
     private unidadMedidaService: UnidadMedidaService,
     private alertify: AlertifyService,
@@ -32,6 +36,7 @@ export class MovimientoProductoAddComponent implements OnInit {
   ngOnInit() {
     this.localeService.use("es");
     this.loadUnidadesMedida();
+    this.loadLocalidades();
     this.createMovimientoForm();
     this.loadNumerosParte();
   }
@@ -49,7 +54,7 @@ export class MovimientoProductoAddComponent implements OnInit {
         unidadMedidaIdRechazadas: [3],
         purga: [0],
         colada: [0],
-        localidad: [""]
+        localidadId: [1]
       },
       { updateOn: "blur" }
     );
@@ -76,6 +81,13 @@ export class MovimientoProductoAddComponent implements OnInit {
       }
     );
   }
+
+  loadLocalidades() {
+    this.reciboService.getLocalidades().subscribe(res => {
+      this.localidades = res;
+    });
+  }
+
   addMovimiento() {
     this.movimiento = Object.assign({}, this.movimientoForm.value);
     this.movimiento.fecha = this.movimientoForm

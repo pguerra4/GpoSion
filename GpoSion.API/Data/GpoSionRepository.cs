@@ -375,11 +375,15 @@ namespace GpoSion.API.Data
         {
 
             var movimientos = await _context.MovimientosProducto.OrderByDescending(mp => mp.UltimaModificacion).ToListAsync();
-            if (movimientoParams.Fecha.HasValue)
+            if (movimientoParams.FechaInicio.HasValue)
             {
-                movimientos = movimientos.Where(m => m.Fecha.Date == movimientoParams.Fecha.Value.Date).ToList();
+                movimientos = movimientos.Where(m => m.Fecha.Date >= movimientoParams.FechaInicio.Value.Date).ToList();
             }
-            if (movimientoParams.TipoMovimiento != "")
+            if (movimientoParams.FechaFin.HasValue)
+            {
+                movimientos = movimientos.Where(m => m.Fecha.Date <= movimientoParams.FechaFin.Value.Date).ToList();
+            }
+            if (movimientoParams.TipoMovimiento != null && movimientoParams.TipoMovimiento != "")
             {
                 movimientos = movimientos.Where(m => m.TipoMovimiento == movimientoParams.TipoMovimiento).ToList();
             }

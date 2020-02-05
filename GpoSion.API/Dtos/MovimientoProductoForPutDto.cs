@@ -25,7 +25,7 @@ namespace GpoSion.API.Dtos
 
         public string TipoMovimiento { get; set; }
 
-        public string Localidad { get; set; }
+        public int? LocalidadId { get; set; }
 
         public int UnidadMedidaIdRechazadas { get; set; }
 

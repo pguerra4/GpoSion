@@ -8,6 +8,8 @@ import { UnidadMedidaService } from "../_services/unidadMedida.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { BsLocaleService } from "ngx-bootstrap";
+import { Localidad } from "../_models/localidad";
+import { ReciboService } from "../_services/recibo.service";
 
 @Component({
   selector: "app-movimiento-producto-edit",
@@ -19,8 +21,10 @@ export class MovimientoProductoEditComponent implements OnInit {
   movimiento: MovimientoProducto;
   unidadesMedida: UnidadMedida[];
   numerosParte: NumeroParte[];
+  localidades: Localidad[];
 
   constructor(
+    private reciboService: ReciboService,
     private numeroParteService: NumeroParteService,
     private unidadMedidaService: UnidadMedidaService,
     private alertify: AlertifyService,
@@ -36,6 +40,7 @@ export class MovimientoProductoEditComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       this.movimiento = data["movimientoProducto"];
       this.loadUnidadesMedida();
+      this.loadLocalidades();
       this.createMovimientoForm();
       this.loadNumerosParte();
     });
@@ -57,7 +62,7 @@ export class MovimientoProductoEditComponent implements OnInit {
         unidadMedidaIdRechazadas: [3],
         purga: [this.movimiento.purga],
         colada: [this.movimiento.colada],
-        localidad: [this.movimiento.localidad]
+        localidadId: [this.movimiento.localidadId]
       },
       { updateOn: "blur" }
     );
@@ -83,6 +88,12 @@ export class MovimientoProductoEditComponent implements OnInit {
         this.alertify.error(error);
       }
     );
+  }
+
+  loadLocalidades() {
+    this.reciboService.getLocalidades().subscribe(res => {
+      this.localidades = res;
+    });
   }
 
   editMovimiento() {
