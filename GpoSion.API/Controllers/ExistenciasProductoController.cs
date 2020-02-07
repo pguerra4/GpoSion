@@ -33,8 +33,8 @@ namespace GpoSion.API.Controllers
 
 
 
-            // var existenciasToReturn = _mapper.Map<IEnumerable<ExistenciaMaterialToListDto>>(nuevasExistencias);
-            return Ok(ExistenciasProducto);
+            var existenciasToReturn = _mapper.Map<IEnumerable<ExistenciaProductoToListDto>>(ExistenciasProducto);
+            return Ok(existenciasToReturn);
         }
 
 
@@ -42,9 +42,9 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> GetExistenciasProducto(string noParte)
         {
             var existencia = await _repo.GetExistenciaProducto(noParte);
-            // var clienteToReturn = _mapper.Map<ClienteForDetailDto>(cliente);
+            var existenciaToReturn = _mapper.Map<ExistenciaProductoToListDto>(existencia);
 
-            return Ok(existencia);
+            return Ok(existenciaToReturn);
         }
 
     }

@@ -9,6 +9,9 @@ export class SearchExistenciaProductoPipe implements PipeTransform {
     existencias: ExistenciaProducto[],
     searchText: string
   ): ExistenciaProducto[] {
+    if (existencias == null) {
+      return null;
+    }
     return existencias.filter(
       e =>
         e.noParte

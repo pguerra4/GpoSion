@@ -19,6 +19,12 @@
                                 El No. Orden es requerido
                             </div>
                             <div class="invalid-feedback" *ngIf="
+                  ordenCompraForm.get('noOrden').hasError('pattern') &&
+                  ordenCompraForm.get('noOrden').touched
+                ">
+                                El No. Orden solo acepta números.
+                            </div>
+                            <div class="invalid-feedback" *ngIf="
                   ordenCompraForm
                     .get('noOrden')
                     .hasError('numeroOrdenExistente') &&

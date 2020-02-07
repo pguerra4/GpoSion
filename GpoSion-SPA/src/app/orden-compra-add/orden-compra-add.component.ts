@@ -48,7 +48,7 @@ export class OrdenCompraAddComponent implements OnInit {
     const now = new Date();
     this.ordenCompraForm = this.fb.group(
       {
-        noOrden: [null, Validators.required],
+        noOrden: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
         clienteId: [null, Validators.required],
         fecha: [now],
         noParte: [null],

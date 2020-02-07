@@ -142,10 +142,11 @@ namespace GpoSion.API.Data
             var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && mm.Viajero.Existencia != 0)
             .Select(mm => mm.Viajero).Distinct().ToListAsync();
 
-            var localidadesConMaterial = await _context.LocalidadesMateriales.Where(lm => lm.MaterialId == materialId && lm.Existencia > 0).ToListAsync();
+            var localidadesConMaterial = await _context.LocalidadesMateriales.Where(lm => lm.MaterialId == materialId && lm.Existencia > 0
+            && !viajeros.Any(v => v.LocalidadId == lm.LocalidadId)).ToListAsync();
             foreach (var lm in localidadesConMaterial)
             {
-                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = lm.UltimaModificacion.HasValue ? lm.UltimaModificacion.Value : lm.FechaCreacion.Value });
+                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = lm.UltimaModificacion.HasValue ? lm.UltimaModificacion.Value : lm.FechaCreacion.Value });
             }
             viajeros = viajeros.OrderBy(v => v.Fecha).ToList();
 
@@ -398,7 +399,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<ExistenciaProducto>> GetExistenciasProducto()
         {
-            var existencias = await _context.ExistenciasProducto.ToListAsync();
+            var existencias = await _context.ExistenciasProducto.Where(e => e.PiezasCertificadas > 0 || e.PiezasRechazadas > 0).ToListAsync();
             return existencias;
         }
 
