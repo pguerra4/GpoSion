@@ -47,8 +47,10 @@ export class RetornoMaterialListComponent implements OnInit {
   }
 
   onValueChange(value: Date[]) {
-    this.retornoParams.fechaInicio = value[0].toDateString();
-    this.retornoParams.fechaFin = value[1].toDateString();
-    this.loadRetornos();
+    if (value) {
+      this.retornoParams.fechaInicio = value[0].toDateString();
+      this.retornoParams.fechaFin = value[1].toDateString();
+      this.loadRetornos();
+    }
   }
 }

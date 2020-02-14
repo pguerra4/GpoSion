@@ -9,6 +9,9 @@ export class SearchRequerimientosProdPipe implements PipeTransform {
     reqs: RequerimientoMaterial[],
     searchText: string
   ): RequerimientoMaterial[] {
+    if (reqs == null) {
+      return null;
+    }
     return reqs.filter(
       req =>
         req.materiales.filter(

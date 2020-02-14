@@ -6,6 +6,9 @@ import { Material } from "../_models/material";
 })
 export class SearchByMaterialPipe implements PipeTransform {
   transform(materiales: Material[], searchText: string): Material[] {
+    if (materiales == null) {
+      return null;
+    }
     return materiales.filter(
       material =>
         material.material

@@ -19,7 +19,9 @@
                                 <th scope="col">No. Parte</th>
                                 <th scope="col" class="text-right">Piezas Certificadas</th>
                                 <th scope="col" class="text-right">Piezas Rechazadas</th>
+                                <th scope="col">Localidades</th>
                                 <th scope="col">Última Modificación</th>
+                                <th>Localidades</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,7 +37,13 @@
                                 <td class="text-right">
                                     {{ em.piezasRechazadas }}
                                 </td>
+                                <td>
+                                    {{ em.localidades }}
+                                </td>
                                 <td>{{ em.ultimaModificacion | date: "dd-MM-yyyy HH:mm" }}</td>
+                                <td class="text-center">
+                                    <a class="fa fa-cubes" [routerLink]="['/existenciasproducto/' + em.noParte]"></a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

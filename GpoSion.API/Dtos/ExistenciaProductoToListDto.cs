@@ -22,5 +22,7 @@ namespace GpoSion.API.Dtos
         public string ModificadoPorId { get; set; }
 
         public string ModificadoPor { get; set; }
+
+        public string[] Localidades { get; set; }
     }
 }

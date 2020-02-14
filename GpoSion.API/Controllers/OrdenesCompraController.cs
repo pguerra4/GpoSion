@@ -119,5 +119,11 @@ namespace GpoSion.API.Controllers
             return Ok(ordenesToReturn);
         }
 
+        [HttpGet("{id}/existe")]
+        public async Task<IActionResult> ExisteOrdenCompra(long id)
+        {
+            return Ok(await _repo.ExisteOrdenCompra(id));
+        }
+
     }
 }

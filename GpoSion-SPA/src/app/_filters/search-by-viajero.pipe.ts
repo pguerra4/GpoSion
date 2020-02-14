@@ -6,6 +6,9 @@ import { Viajero } from "../_models/viajero";
 })
 export class SearchByViajeroPipe implements PipeTransform {
   transform(viajeros: Viajero[], searchText: string): Viajero[] {
+    if (viajeros == null) {
+      return null;
+    }
     return viajeros.filter(
       v =>
         v.material

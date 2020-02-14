@@ -99,6 +99,32 @@ namespace GpoSion.API.Controllers
                 existencia.ModificadoPorId = userId;
             }
 
+            if (movimientoToCreate.LocalidadId.HasValue && movimientoToCreate.PiezasCertificadas > 0)
+            {
+                var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(movimientoToCreate.LocalidadId.Value, movimientoToCreate.NoParte);
+                if (localidadNumeroParte == null)
+                {
+                    localidadNumeroParte = new LocalidadNumeroParte
+                    {
+                        NoParte = movimientoToCreate.NoParte,
+                        LocalidadId = movimientoToCreate.LocalidadId.Value,
+                        Existencia = movimientoToCreate.PiezasCertificadas,
+                        FechaCreacion = DateTime.Now,
+                        CreadoPorId = userId
+                    };
+                    _repo.Add(localidadNumeroParte);
+                }
+                else
+                {
+                    localidadNumeroParte.Existencia += movimientoToCreate.PiezasCertificadas;
+                    localidadNumeroParte.UltimaModificacion = DateTime.Now;
+                    localidadNumeroParte.ModificadoPorId = userId;
+                }
+
+            }
+
+
+
             if (await _repo.SaveAll())
             {
                 var movimientoToReturn = _mapper.Map<MovimientoProductoToListDto>(movimientoProducto);
@@ -162,6 +188,33 @@ namespace GpoSion.API.Controllers
                     existencia.ModificadoPorId = userId;
                 }
 
+                var localidadNumeroParteOriginal = await _repo.GetLocalidadNumeroParte(movimiento.LocalidadId.Value, movimiento.NoParte);
+
+                localidadNumeroParteOriginal.Existencia -= movimiento.PiezasCertificadas;
+                localidadNumeroParteOriginal.UltimaModificacion = DateTime.Now;
+                localidadNumeroParteOriginal.ModificadoPorId = userId;
+
+                var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(movimientoFP.LocalidadId.Value, movimientoFP.NoParte);
+                if (localidadNumeroParte == null)
+                {
+                    localidadNumeroParte = new LocalidadNumeroParte
+                    {
+                        NoParte = movimientoFP.NoParte,
+                        LocalidadId = movimientoFP.LocalidadId.Value,
+                        Existencia = movimientoFP.PiezasCertificadas,
+                        FechaCreacion = DateTime.Now,
+                        CreadoPorId = userId
+                    };
+                    _repo.Add(localidadNumeroParte);
+                }
+                else
+                {
+                    localidadNumeroParte.Existencia += movimientoFP.PiezasCertificadas;
+                    localidadNumeroParte.UltimaModificacion = DateTime.Now;
+                    localidadNumeroParte.ModificadoPorId = userId;
+                }
+
+
             }
             else
             {
@@ -176,6 +229,60 @@ namespace GpoSion.API.Controllers
                 {
                     existencia = new ExistenciaProducto { NoParte = movimientoFP.NoParte, PiezasCertificadas = movimientoFP.PiezasCertificadas, PiezasRechazadas = (int)movimientoFP.PiezasRechazadas, FechaCreacion = DateTime.Now, CreadoPorId = userId };
                     _repo.Add(existencia);
+                }
+
+                if (movimiento.LocalidadId != movimientoFP.LocalidadId)
+                {
+                    var localidadNumeroParteOriginal = await _repo.GetLocalidadNumeroParte(movimiento.LocalidadId.Value, movimiento.NoParte);
+                    if (localidadNumeroParteOriginal != null)
+                    {
+                        localidadNumeroParteOriginal.Existencia -= movimiento.PiezasCertificadas;
+                        localidadNumeroParteOriginal.UltimaModificacion = DateTime.Now;
+                        localidadNumeroParteOriginal.ModificadoPorId = userId;
+                    }
+
+
+                    var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(movimientoFP.LocalidadId.Value, movimientoFP.NoParte);
+                    if (localidadNumeroParte == null)
+                    {
+                        localidadNumeroParte = new LocalidadNumeroParte
+                        {
+                            NoParte = movimientoFP.NoParte,
+                            LocalidadId = movimientoFP.LocalidadId.Value,
+                            Existencia = movimientoFP.PiezasCertificadas,
+                            FechaCreacion = DateTime.Now,
+                            CreadoPorId = userId
+                        };
+                        _repo.Add(localidadNumeroParte);
+                    }
+                    else
+                    {
+                        localidadNumeroParte.Existencia += movimientoFP.PiezasCertificadas;
+                        localidadNumeroParte.UltimaModificacion = DateTime.Now;
+                        localidadNumeroParte.ModificadoPorId = userId;
+                    }
+                }
+                else
+                {
+                    var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(movimientoFP.LocalidadId.Value, movimientoFP.NoParte);
+                    if (localidadNumeroParte == null)
+                    {
+                        localidadNumeroParte = new LocalidadNumeroParte
+                        {
+                            NoParte = movimientoFP.NoParte,
+                            LocalidadId = movimientoFP.LocalidadId.Value,
+                            Existencia = movimientoFP.PiezasCertificadas,
+                            FechaCreacion = DateTime.Now,
+                            CreadoPorId = userId
+                        };
+                        _repo.Add(localidadNumeroParte);
+                    }
+                    else
+                    {
+                        localidadNumeroParte.Existencia += (movimientoFP.PiezasCertificadas - movimiento.PiezasCertificadas);
+                        localidadNumeroParte.UltimaModificacion = DateTime.Now;
+                        localidadNumeroParte.ModificadoPorId = userId;
+                    }
                 }
             }
 

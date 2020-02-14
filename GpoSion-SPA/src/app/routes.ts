@@ -88,6 +88,10 @@ import { DetalleEmbarqueEditResolver } from "./_resolvers/detalle-embarque-edit.
 import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-material-list.component";
 import { RetornoMaterialAddComponent } from "./retorno-material-add/retorno-material-add.component";
 import { MovimientoProductoListResolver } from "./_resolvers/movimiento-producto-list.resolver";
+import { RetornoMaterialEditComponent } from "./retorno-material-edit/retorno-material-edit.component";
+import { RetornoMaterialEditResolver } from "./_resolvers/retorno-material-edit.resolver";
+import { ExistenciaProductoDetailComponent } from "./existencia-producto-detail/existencia-producto-detail.component";
+import { ExistenciaProductoDetailResolver } from "./_resolvers/existencia-producto-detail.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -394,6 +398,12 @@ export const appRoutes: Routes = [
         data: { roles: ["Admin", "Almacen", "Produccion", "Compras", "Ventas"] }
       },
       {
+        path: "existenciasproducto/:id",
+        component: ExistenciaProductoDetailComponent,
+        resolve: { existenciaProducto: ExistenciaProductoDetailResolver },
+        data: { roles: ["Admin", "Almacen", "Produccion", "Compras", "Ventas"] }
+      },
+      {
         path: "ordenescompraproveedores",
         component: OrdenCompraProveedorListComponent,
         data: { roles: ["Admin", "Compras"] }
@@ -427,6 +437,12 @@ export const appRoutes: Routes = [
       {
         path: "addRetorno",
         component: RetornoMaterialAddComponent,
+        data: { roles: ["Admin", "Almacen"] }
+      },
+      {
+        path: "retornosmaterial/:id",
+        component: RetornoMaterialEditComponent,
+        resolve: { retornoMaterial: RetornoMaterialEditResolver },
         data: { roles: ["Admin", "Almacen"] }
       },
       {

@@ -9,6 +9,9 @@ export class SearchRetornosMaterialPipe implements PipeTransform {
     retornos: MovimientoMaterial[],
     searchText?: string
   ): MovimientoMaterial[] {
+    if (retornos == null) {
+      return null;
+    }
     return retornos.filter(
       ret =>
         ret.material

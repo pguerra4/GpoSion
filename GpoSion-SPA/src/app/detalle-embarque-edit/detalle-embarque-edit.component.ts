@@ -87,6 +87,8 @@ export class DetalleEmbarqueEditComponent implements OnInit {
 
   onSelectNumeroParte(np: any) {
     if (np) {
+      this.detalleEmbarqueForm.get("noOrden").setValue("");
+      this.detalleEmbarqueForm.get("noOrden2").setValue(null);
       this.loadOrdenesCompra(np.value);
     }
   }

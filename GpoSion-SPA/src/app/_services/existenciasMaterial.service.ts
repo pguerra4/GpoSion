@@ -111,7 +111,17 @@ export class ExistenciasMaterialService {
     );
   }
 
+  getRetornoMaterial(id: number) {
+    return this.http.get<RetornoMaterial>(
+      this.baseUrl + "retornomaterial/" + id
+    );
+  }
+
   addRetornoMaterial(retorno: RetornoMaterial) {
     return this.http.post(this.baseUrl + "retornomaterial", retorno);
+  }
+
+  editRetornoMaterial(id: number, retorno: RetornoMaterial) {
+    return this.http.put(this.baseUrl + "retornomaterial/" + id, retorno);
   }
 }

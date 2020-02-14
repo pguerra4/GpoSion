@@ -9,6 +9,9 @@ export class SearchByMaterialExistenciasGroupPipe implements PipeTransform {
     existenciasMaterialGroup: ExistenciaMaterialGroup[],
     searchText: string
   ): ExistenciaMaterialGroup[] {
+    if (existenciasMaterialGroup == null) {
+      return null;
+    }
     return existenciasMaterialGroup.filter(
       existencia =>
         existencia.material

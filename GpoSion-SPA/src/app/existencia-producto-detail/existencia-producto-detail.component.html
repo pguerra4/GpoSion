@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary d-flex justify-content-between">
+            <span> Localidades Producto</span>
+        </div>
+        <div class="card-body">
+            <div class="card-title p-2 table-success">
+                <div class="row">
+                    <div class="col-md-3">
+                        No. Parte: <strong> {{ existencia.noParte }}</strong>
+                    </div>
+                    <div class="col-md-3">
+                        Certificadas: {{ existencia.piezasCertificadas }}
+                    </div>
+                    <div class="col-md-3">
+                        Rechazadas: {{ existencia.piezasRechazadas }}
+                    </div>
+                    <div class="col-md-3">
+                        Última modificación: {{ existencia.ultimaModificacion | date: "dd/MM/yyyy HH:mm" }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-text">
+                <div class="card-subtitle">
+                    Localidades
+                </div>
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <tr class="table-primary">
+                                <th>Localidad</th>
+                                <th class="text-right">Existencia</th>
+                                <th>Fecha Creación</th>
+                                <th>Ultima Modificación</th>
+                                <th>Creado Por</th>
+                                <th>Modificado Por</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of localidadesNumeroParte">
+                                <td>{{ item.localidad }}</td>
+                                <td class="text-right">
+                                    {{ item.existencia | number }}
+                                </td>
+                                <td>{{ item.fechaCreacion | date: "dd/MM/yyyy HH:mm" }}</td>
+                                <td>
+                                    {{ item.ultimaModificacion | date: "dd/MM/yyyy HH:mm" }}
+                                </td>
+                                <td>
+                                    {{ item.creadoPor }}
+                                </td>
+                                <td>
+                                    {{ item.modificadoPor }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

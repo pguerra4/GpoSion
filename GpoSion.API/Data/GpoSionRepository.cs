@@ -142,11 +142,14 @@ namespace GpoSion.API.Data
             var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && mm.Viajero.Existencia != 0)
             .Select(mm => mm.Viajero).Distinct().ToListAsync();
 
+            var FechaMasLejana = viajeros.Min(v => v.Fecha).AddMinutes(-1);
+
+
             var localidadesConMaterial = await _context.LocalidadesMateriales.Where(lm => lm.MaterialId == materialId && lm.Existencia > 0
             && !viajeros.Any(v => v.LocalidadId == lm.LocalidadId)).ToListAsync();
             foreach (var lm in localidadesConMaterial)
             {
-                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = lm.UltimaModificacion.HasValue ? lm.UltimaModificacion.Value : lm.FechaCreacion.Value });
+                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana });
             }
             viajeros = viajeros.OrderBy(v => v.Fecha).ToList();
 
@@ -375,7 +378,7 @@ namespace GpoSion.API.Data
         public async Task<IEnumerable<MovimientoProducto>> GetMovimientosProducto(MovimientoProductoParams movimientoParams)
         {
 
-            var movimientos = await _context.MovimientosProducto.OrderByDescending(mp => mp.UltimaModificacion).ToListAsync();
+            var movimientos = await _context.MovimientosProducto.OrderByDescending(mp => mp.Fecha).ToListAsync();
             if (movimientoParams.FechaInicio.HasValue)
             {
                 movimientos = movimientos.Where(m => m.Fecha.Date >= movimientoParams.FechaInicio.Value.Date).ToList();
@@ -501,6 +504,24 @@ namespace GpoSion.API.Data
         {
             var detalleEmbarque = await _context.DetallesEmbarque.FindAsync(id);
             return detalleEmbarque;
+        }
+
+        public async Task<IEnumerable<LocalidadNumeroParte>> GetLocalidadesNumeroParte(string NoParte)
+        {
+            var localidadesNumeroParte = await _context.LocalidadesNumerosParte.Where(lnp => lnp.NoParte == NoParte && lnp.Existencia > 0).OrderBy(lnp => lnp.UltimaModificacion.HasValue ? lnp.UltimaModificacion : lnp.FechaCreacion).ToListAsync();
+            return localidadesNumeroParte;
+        }
+
+        public async Task<LocalidadNumeroParte> GetLocalidadNumeroParte(int localidadId, string NoParte)
+        {
+            var localidadNumeroParte = await _context.LocalidadesNumerosParte.FindAsync(localidadId, NoParte);
+            return localidadNumeroParte;
+        }
+
+        public async Task<bool> ExisteOrdenCompra(long noOrden)
+        {
+            var ordenCompra = await _context.OrdenesCompra.FindAsync(noOrden);
+            return ordenCompra != null;
         }
     }
 }

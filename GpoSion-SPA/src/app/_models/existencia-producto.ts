@@ -4,4 +4,5 @@ export interface ExistenciaProducto {
   piezasCertificadas: number;
   piezasRechazadas: number;
   ultimaModificacion: Date;
+  localidades?: string[];
 }

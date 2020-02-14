@@ -10,6 +10,7 @@ import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { OrdenCompraDetalle } from "../_models/orden-compra-detalle";
 import { BsDatepickerConfig } from "ngx-bootstrap";
 import { Router } from "@angular/router";
+import { ValidateExistingNumeroOrden } from "../_validators/async-numero-orden-existente.validator";
 
 @Component({
   selector: "app-orden-compra-add",
@@ -48,7 +49,11 @@ export class OrdenCompraAddComponent implements OnInit {
     const now = new Date();
     this.ordenCompraForm = this.fb.group(
       {
-        noOrden: [null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+        noOrden: [
+          null,
+          [Validators.required, Validators.pattern("^[0-9]*$")],
+          [ValidateExistingNumeroOrden.createValidator(this.ordenesService)]
+        ],
         clienteId: [null, Validators.required],
         fecha: [now],
         noParte: [null],

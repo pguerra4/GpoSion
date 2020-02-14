@@ -50,9 +50,11 @@ export class RequerimientoMaterialListComponent implements OnInit {
   }
 
   onValueChange(value: Date[]) {
-    this.requerimientosParams.fechaInicio = value[0].toDateString();
-    this.requerimientosParams.fechaFin = value[1].toDateString();
-    this.loadRequerimientos();
+    if (value) {
+      this.requerimientosParams.fechaInicio = value[0].toDateString();
+      this.requerimientosParams.fechaFin = value[1].toDateString();
+      this.loadRequerimientos();
+    }
   }
 
   surtidosChange() {

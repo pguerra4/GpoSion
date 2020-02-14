@@ -45,8 +45,10 @@ export class EmbarqueListComponent implements OnInit {
     );
   }
   onValueChange(value: Date) {
-    this.embarqueParams.fechaInicio = value[0].toDateString();
-    this.embarqueParams.fechaFin = value[1].toDateString();
-    this.loadEmbarques();
+    if (value) {
+      this.embarqueParams.fechaInicio = value[0].toDateString();
+      this.embarqueParams.fechaFin = value[1].toDateString();
+      this.loadEmbarques();
+    }
   }
 }

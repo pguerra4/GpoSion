@@ -6,6 +6,9 @@ import { NumeroParte } from "../_models/numeroParte";
 })
 export class SearchByNumeroPartePipe implements PipeTransform {
   transform(numerosParte: NumeroParte[], searchText: string): NumeroParte[] {
+    if (numerosParte == null) {
+      return null;
+    }
     return numerosParte.filter(
       np =>
         np.noParte

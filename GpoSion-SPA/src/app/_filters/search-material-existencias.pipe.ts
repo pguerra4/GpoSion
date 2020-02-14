@@ -9,6 +9,9 @@ export class SearchMaterialExistenciasPipe implements PipeTransform {
     existenaciasMaterial: ExistenciaMaterial[],
     searchText: string
   ): ExistenciaMaterial[] {
+    if (existenaciasMaterial == null) {
+      return null;
+    }
     return existenaciasMaterial.filter(
       existencia =>
         existencia.material

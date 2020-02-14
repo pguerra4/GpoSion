@@ -47,7 +47,7 @@ namespace GpoSion.API.Helpers
             .ForMember(dest => dest.NumerosParte, opt => opt.MapFrom(src => src.MoldeadoraNumerosParte.Select(mnp => mnp.NoParte)));
             CreateMap<MoldeadoraToCreateDto, Moldeadora>();
             CreateMap<TipoMaterialToCreateDto, TipoMaterial>();
-            CreateMap<TipoMaterialToEditDto, TipoMaterial>();
+            CreateMap<TipoMaterialToEditDto, TipoMaterial>().ReverseMap();
             CreateMap<ProduccionToCreateDto, Produccion>();
             CreateMap<ProduccionNumeroParteToCreateDto, ProduccionNumeroParte>().ReverseMap();
             CreateMap<Produccion, ProduccionForDetailDto>();
@@ -81,7 +81,9 @@ namespace GpoSion.API.Helpers
             CreateMap<UserForRegisterDto, User>();
             CreateMap<UserToEditDto, User>();
             CreateMap<MovimientoMaterial, RetornoMaterialToListDto>();
-            CreateMap<ExistenciaProducto, ExistenciaProductoToListDto>();
+            CreateMap<ExistenciaProducto, ExistenciaProductoToListDto>()
+            .ForMember(dest => dest.Localidades, opt => opt.MapFrom(src => src.NumeroParte.NumeroParteLocalidades.Where(npl => npl.Existencia > 0).Select(npl => npl.Localidad.Descripcion)));
+            CreateMap<LocalidadNumeroParte, LocalidadNumeroParteToListDto>();
         }
     }
 }

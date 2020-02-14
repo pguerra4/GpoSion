@@ -31,13 +31,17 @@ namespace GpoSion.API.Controllers
         {
             var tiposMaterial = await _repo.GetTiposMaterial();
 
-            return Ok(tiposMaterial);
+            var tiposMaterialToReturn = _mapper.Map<ICollection<TipoMaterialToEditDto>>(tiposMaterial);
+
+            return Ok(tiposMaterialToReturn);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTipoMaterial(int id)
         {
             var tipoMaterial = await _repo.GetTipoMaterial(id);
+
+            var tipoMaterialToReturn = _mapper.Map<TipoMaterialToEditDto>(tipoMaterial);
 
             return Ok(tipoMaterial);
         }

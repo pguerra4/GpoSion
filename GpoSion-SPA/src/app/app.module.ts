@@ -142,6 +142,11 @@ import { RetornoMaterialListComponent } from "./retorno-material-list/retorno-ma
 import { SearchRetornosMaterialPipe } from "./_filters/search-retornos-material.pipe";
 import { RetornoMaterialAddComponent } from "./retorno-material-add/retorno-material-add.component";
 import { MovimientoProductoListResolver } from "./_resolvers/movimiento-producto-list.resolver";
+import { RetornoMaterialEditResolver } from "./_resolvers/retorno-material-edit.resolver";
+import { RetornoMaterialEditComponent } from "./retorno-material-edit/retorno-material-edit.component";
+import { ExistenciaProductoDetailComponent } from "./existencia-producto-detail/existencia-producto-detail.component";
+import { ExistenciaProductoDetailResolver } from "./_resolvers/existencia-producto-detail.resolver";
+import { ValidateExistingNumeroOrden } from "./_validators/async-numero-orden-existente.validator";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -240,7 +245,9 @@ defineLocales();
     DetalleEmbarqueEditComponent,
     RetornoMaterialListComponent,
     SearchRetornosMaterialPipe,
-    RetornoMaterialAddComponent
+    RetornoMaterialAddComponent,
+    RetornoMaterialEditComponent,
+    ExistenciaProductoDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -300,6 +307,9 @@ defineLocales();
     EmbarqueEditResolver,
     DetalleEmbarqueEditResolver,
     MovimientoProductoListResolver,
+    RetornoMaterialEditResolver,
+    ExistenciaProductoDetailResolver,
+    ValidateExistingNumeroOrden,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

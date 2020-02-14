@@ -24,6 +24,5 @@ namespace GpoSion.API.Dtos
         public bool Rechazadas { get; set; }
 
 
-
     }
 }

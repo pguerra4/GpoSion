@@ -7,6 +7,7 @@ import { MovimientoProducto } from "../_models/movimiento-producto";
 import { Embarque } from "../_models/embarque";
 import { ExistenciaProducto } from "../_models/existencia-producto";
 import { DetalleEmbarque } from "../_models/detalle-embarque";
+import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 
 @Injectable({
   providedIn: "root"
@@ -124,6 +125,10 @@ export class NumeroParteService {
     );
   }
 
+  deleteDetalleEmbarque(id: number) {
+    return this.http.delete(this.baseUrl + "detallesembarque/" + id);
+  }
+
   getExistenciasProducto(): Observable<ExistenciaProducto[]> {
     return this.http.get<ExistenciaProducto[]>(
       this.baseUrl + "existenciasproducto"
@@ -141,6 +146,20 @@ export class NumeroParteService {
         id +
         "/existenciaAlmacen?certificadas=" +
         certificadas
+    );
+  }
+
+  getExistenciaProducto(noParte: string): Observable<ExistenciaProducto> {
+    return this.http.get<ExistenciaProducto>(
+      this.baseUrl + "existenciasproducto/" + noParte
+    );
+  }
+
+  getLocalidadesNumeroParte(
+    noParte: string
+  ): Observable<LocalidadNumeroParte[]> {
+    return this.http.get<LocalidadNumeroParte[]>(
+      this.baseUrl + "localidadesnumeroparte/" + noParte
     );
   }
 }

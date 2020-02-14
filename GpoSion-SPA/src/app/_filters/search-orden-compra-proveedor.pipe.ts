@@ -9,6 +9,9 @@ export class SearchOrdenCompraProveedorPipe implements PipeTransform {
     ordenes: OrdenCompraProveedor[],
     searchText: string
   ): OrdenCompraProveedor[] {
+    if (ordenes == null) {
+      return null;
+    }
     return ordenes.filter(
       ord =>
         ord.materiales.filter(

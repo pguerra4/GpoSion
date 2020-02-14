@@ -6,6 +6,9 @@ import { Recibo } from "../_models/recibo";
 })
 export class SearchRecibosPipe implements PipeTransform {
   transform(recibos: Recibo[], searchText: string): Recibo[] {
+    if (recibos == null) {
+      return null;
+    }
     return recibos.filter(
       recibo =>
         recibo.noRecibo

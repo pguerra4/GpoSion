@@ -127,5 +127,11 @@ namespace GpoSion.API.Data
 
         Task<DetalleEmbarque> GetDetalleEmbarque(int id);
 
+        Task<IEnumerable<LocalidadNumeroParte>> GetLocalidadesNumeroParte(string NoParte);
+
+        Task<LocalidadNumeroParte> GetLocalidadNumeroParte(int localidadId, string NoParte);
+
+        Task<bool> ExisteOrdenCompra(long noOrden);
+
     }
 }

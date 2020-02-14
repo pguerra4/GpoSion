@@ -137,7 +137,7 @@ export class EmbarqueEditComponent implements OnInit {
   addDetalle() {
     const detalle: DetalleEmbarque = {
       detalleEmbarqueId: 0,
-      embarqueId: 0,
+      embarqueId: this.embarque.embarqueId,
       noParte: this.embarqueForm.get("noParte").value,
       cajas: +this.embarqueForm.get("cajas").value,
       piezasXCaja: +this.embarqueForm.get("piezasXCaja").value,
@@ -146,21 +146,27 @@ export class EmbarqueEditComponent implements OnInit {
     };
 
     const cert =
-      this.embarqueForm.get("rechazadas").value === "false" ? true : false;
+      this.embarqueForm.get("rechazadas").value === false ? true : false;
 
     this.numeroParteService.existenciasAlmacen(detalle.noParte, cert).subscribe(
       (res: number) => {
         if (res >= detalle.entregadas) {
           if (this.detallesEmbarque.indexOf(detalle) < 0) {
-            this.detallesEmbarque.push(detalle);
+            this.numeroParteService.addDetalleEmbarque(detalle).subscribe(
+              (demb: DetalleEmbarque) => {
+                this.detallesEmbarque.push(demb);
+                this.embarqueForm.get("noParte").setValue(null);
+                this.embarqueForm.get("cajas").setValue(0);
+                this.embarqueForm.get("piezasXCaja").setValue(0);
+                this.embarqueForm.get("entregadas").setValue(0);
+                this.embarqueForm.get("noOrden").setValue(null);
+                this.embarqueForm.get("noOrden2").setValue(null);
+              },
+              error => {
+                this.alertify.error(error);
+              }
+            );
           }
-
-          this.embarqueForm.get("noParte").setValue(null);
-          this.embarqueForm.get("cajas").setValue(0);
-          this.embarqueForm.get("piezasXCaja").setValue(0);
-          this.embarqueForm.get("entregadas").setValue(0);
-          this.embarqueForm.get("noOrden").setValue(null);
-          this.embarqueForm.get("noOrden2").setValue(null);
         } else {
           this.alertify.error(
             "La canidad solicitada excede las existencias en almacen (" +
@@ -176,7 +182,20 @@ export class EmbarqueEditComponent implements OnInit {
   }
 
   deleteDetalle(index: number) {
-    this.detallesEmbarque.splice(index, 1);
+    const detalle = this.detallesEmbarque[index];
+    this.alertify.confirm("¿Desea borrar el detalle?", () => {
+      this.numeroParteService
+        .deleteDetalleEmbarque(detalle.detalleEmbarqueId)
+        .subscribe(
+          () => {
+            this.detallesEmbarque.splice(index, 1);
+            this.alertify.success("detalle borrado");
+          },
+          error => {
+            this.alertify.error("Fallo al borrar el detalle:" + error);
+          }
+        );
+    });
   }
 
   calculaTotal() {

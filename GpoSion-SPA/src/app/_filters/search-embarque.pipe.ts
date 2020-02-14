@@ -6,6 +6,9 @@ import { Embarque } from "../_models/embarque";
 })
 export class SearchEmbarquePipe implements PipeTransform {
   transform(embarques: Embarque[], searchText: string): Embarque[] {
+    if (embarques == null) {
+      return null;
+    }
     return embarques.filter(
       e =>
         e.detallesEmbarque.filter(

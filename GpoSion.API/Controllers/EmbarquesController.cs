@@ -61,6 +61,7 @@ namespace GpoSion.API.Controllers
             foreach (var de in embarque.DetallesEmbarque)
             {
 
+
                 movimiento = new MovimientoProducto
                 {
                     NoParte = de.NoParte,
@@ -83,6 +84,9 @@ namespace GpoSion.API.Controllers
 
                 _repo.Add(movimiento);
 
+
+
+
                 var existencia = await _repo.GetExistenciaProducto(de.NoParte);
                 if (existencia == null)
                     return BadRequest("La solicitud para el No. Parte " + de.NoParte + " no tiene existencias en almacen.");
@@ -95,6 +99,31 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasCertificadas -= de.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+
+
+                    var localidadesNumeroParte = await _repo.GetLocalidadesNumeroParte(de.NoParte);
+                    var localidadesNumeroParteArray = localidadesNumeroParte.OrderBy(npl => npl.UltimaModificacion.HasValue ? npl.UltimaModificacion : npl.FechaCreacion).ThenBy(npl => npl.Existencia).ToArray();
+
+                    decimal total = 0;
+                    var listo = false;
+                    var localidadesCount = localidadesNumeroParte.Count();
+                    var indice = 0;
+                    while (!listo && indice < localidadesCount)
+                    {
+                        if (localidadesNumeroParteArray[indice].Existencia >= (de.Entregadas - total))
+                        {
+                            localidadesNumeroParteArray[indice].Existencia -= (de.Entregadas - total);
+                            listo = true;
+
+                        }
+                        else
+                        {
+                            total += localidadesNumeroParteArray[indice].Existencia;
+                            localidadesNumeroParteArray[indice].Existencia = 0;
+                        }
+                        indice++;
+                    }
+
                 }
                 else
                 {
@@ -104,6 +133,8 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasRechazadas -= de.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+
+
                 }
 
 
@@ -149,6 +180,8 @@ namespace GpoSion.API.Controllers
                 return BadRequest("Ids no coinciden");
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
 
 
             _mapper.Map(embarqueToEdit, embarque);

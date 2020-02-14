@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace GpoSion.API.Models
 {
@@ -27,6 +28,8 @@ namespace GpoSion.API.Models
 
         public string ModificadoPorId { get; set; }
         public virtual User ModificadoPor { get; set; }
+
+        public virtual ICollection<MovimientoProducto> Movimientos { get; set; }
 
 
     }

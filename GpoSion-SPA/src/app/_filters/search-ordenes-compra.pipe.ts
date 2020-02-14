@@ -6,6 +6,9 @@ import { OrdenCompra } from "../_models/orden-compra";
 })
 export class SearchOrdenesCompraPipe implements PipeTransform {
   transform(ordenes: OrdenCompra[], searchText: string): OrdenCompra[] {
+    if (ordenes == null) {
+      return null;
+    }
     return ordenes.filter(
       ord =>
         ord.numerosParte.filter(

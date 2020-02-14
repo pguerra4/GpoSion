@@ -62,4 +62,8 @@ export class OrdenCompraService {
         "/ordenescompraabiertasxnumeroparte"
     );
   }
+
+  existeNoOrden(noOrden: number) {
+    return this.http.get(this.baseUrl + "ordenescompra/" + noOrden + "/existe");
+  }
 }

@@ -68,7 +68,7 @@ namespace GpoSion.API.Controllers
                 Cajas = detalleEmbarque.Cajas,
                 PiezasXCaja = detalleEmbarque.PiezasXCaja,
                 TipoMovimiento = "Agregado Detalle Embarque",
-                DetalleEmbarqueId = detalleEmbarque.DetalleEmbarqueId
+                DetalleEmbarque = detalleEmbarque
             };
             if (!embarque.Rechazadas)
             {
@@ -93,6 +93,30 @@ namespace GpoSion.API.Controllers
                 existencia.PiezasCertificadas -= detalleEmbarque.Entregadas;
                 existencia.UltimaModificacion = DateTime.Now;
                 existencia.ModificadoPorId = userId;
+
+                var localidadesNumeroParte = await _repo.GetLocalidadesNumeroParte(detalleEmbarque.NoParte);
+                var localidadesNumeroParteArray = localidadesNumeroParte.OrderBy(npl => npl.UltimaModificacion.HasValue ? npl.UltimaModificacion : npl.FechaCreacion).ThenBy(npl => npl.Existencia).ToArray();
+
+                decimal total = 0;
+                var listo = false;
+                var localidadesCount = localidadesNumeroParte.Count();
+                var indice = 0;
+                while (!listo && indice < localidadesCount)
+                {
+                    if (localidadesNumeroParteArray[indice].Existencia >= (detalleEmbarque.Entregadas - total))
+                    {
+                        localidadesNumeroParteArray[indice].Existencia -= (detalleEmbarque.Entregadas - total);
+                        listo = true;
+
+                    }
+                    else
+                    {
+                        total += localidadesNumeroParteArray[indice].Existencia;
+                        localidadesNumeroParteArray[indice].Existencia = 0;
+                    }
+                    indice++;
+                }
+
             }
             else
             {
@@ -164,16 +188,54 @@ namespace GpoSion.API.Controllers
                 {
                     if (!embarque.Rechazadas)
                     {
-                        existenciaOriginal.PiezasCertificadas -= detalleEmbarque.Entregadas;
+                        existenciaOriginal.PiezasCertificadas += detalleEmbarque.Entregadas;
                         existenciaOriginal.UltimaModificacion = DateTime.Now;
                         existenciaOriginal.ModificadoPorId = userId;
+
+                        var localidadNumeroParteOriginal = (await _repo.GetLocalidadesNumeroParte(detalleEmbarque.NoParte)).OrderByDescending(npl => npl.UltimaModificacion.HasValue ? npl.UltimaModificacion : npl.FechaCreacion).ThenBy(npl => npl.Existencia).FirstOrDefault();
+                        if (localidadNumeroParteOriginal != null)
+                        {
+                            localidadNumeroParteOriginal.Existencia += detalleEmbarque.Entregadas;
+                        }
+
                     }
                     else
                     {
-                        existenciaOriginal.PiezasRechazadas -= detalleEmbarque.Entregadas;
+                        existenciaOriginal.PiezasRechazadas += detalleEmbarque.Entregadas;
                         existenciaOriginal.UltimaModificacion = DateTime.Now;
                         existenciaOriginal.ModificadoPorId = userId;
                     }
+                }
+
+
+                var existencia = await _repo.GetExistenciaProducto(detalleEmbarqueToEdit.NoParte);
+                if (existencia == null)
+                    return BadRequest("La solicitud para el No. Parte " + detalleEmbarqueToEdit.NoParte + " no tiene existencias en almacen.");
+
+                if (!embarque.Rechazadas)
+                {
+                    if (existencia.PiezasCertificadas < detalleEmbarqueToEdit.Entregadas)
+                        return BadRequest("La solicitud para el No. Parte " + detalleEmbarqueToEdit.NoParte + " excede las existencias en almacen.");
+
+                    existencia.PiezasCertificadas -= detalleEmbarqueToEdit.Entregadas;
+                    existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
+
+                    var localidadNumeroParte = (await _repo.GetLocalidadesNumeroParte(detalleEmbarqueToEdit.NoParte)).Where(npl => npl.Existencia >= detalleEmbarqueToEdit.Entregadas).OrderByDescending(npl => npl.UltimaModificacion.HasValue ? npl.UltimaModificacion : npl.FechaCreacion).ThenBy(npl => npl.Existencia).FirstOrDefault();
+                    if (localidadNumeroParte != null)
+                    {
+                        localidadNumeroParte.Existencia -= detalleEmbarqueToEdit.Entregadas;
+                    }
+
+                }
+                else
+                {
+                    if (existencia.PiezasRechazadas < detalleEmbarqueToEdit.Entregadas)
+                        return BadRequest("La solicitud para el No. Parte " + detalleEmbarqueToEdit.NoParte + " excede las piezas rechazadas en almacen.");
+
+                    existencia.PiezasRechazadas -= detalleEmbarqueToEdit.Entregadas;
+                    existencia.UltimaModificacion = DateTime.Now;
+                    existencia.ModificadoPorId = userId;
                 }
 
 
@@ -193,6 +255,13 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasCertificadas -= diferenciaExistencia;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+
+                    var localidadNumeroParte = (await _repo.GetLocalidadesNumeroParte(detalleEmbarqueToEdit.NoParte)).Where(npl => (npl.Existencia - diferenciaExistencia) >= 0).OrderByDescending(npl => npl.UltimaModificacion.HasValue ? npl.UltimaModificacion : npl.FechaCreacion).ThenBy(npl => npl.Existencia).FirstOrDefault();
+                    if (localidadNumeroParte != null)
+                    {
+                        localidadNumeroParte.Existencia -= diferenciaExistencia;
+                    }
+
                 }
                 else
                 {
@@ -293,6 +362,85 @@ namespace GpoSion.API.Controllers
 
         }
 
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDetalleEmbarque(int id)
+        {
+
+
+
+            var detalleFromRepo = await _repo.GetDetalleEmbarque(id);
+
+            if (detalleFromRepo == null)
+                return NotFound();
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var existenciaProducto = await _repo.GetExistenciaProducto(detalleFromRepo.NoParte);
+            if (existenciaProducto == null)
+            {
+                existenciaProducto = new ExistenciaProducto
+                {
+                    NoParte = detalleFromRepo.NoParte,
+                    FechaCreacion = DateTime.Now,
+                    CreadoPorId = userId
+                };
+
+                if (detalleFromRepo.Embarque.Rechazadas)
+                {
+                    existenciaProducto.PiezasRechazadas += detalleFromRepo.Entregadas;
+                }
+                else
+                {
+                    existenciaProducto.PiezasCertificadas += detalleFromRepo.Entregadas;
+                }
+                _repo.Add(existenciaProducto);
+            }
+            else
+            {
+                if (detalleFromRepo.Embarque.Rechazadas)
+                {
+                    existenciaProducto.PiezasRechazadas += detalleFromRepo.Entregadas;
+                }
+                else
+                {
+                    existenciaProducto.PiezasCertificadas += detalleFromRepo.Entregadas;
+                }
+                existenciaProducto.UltimaModificacion = DateTime.Now;
+                existenciaProducto.ModificadoPorId = userId;
+            }
+
+            if (!detalleFromRepo.Embarque.Rechazadas)
+            {
+                detalleFromRepo.OrdenCompra.NumerosParte.FirstOrDefault(np => np.NoParte == detalleFromRepo.NoParte).PiezasSurtidas -= detalleFromRepo.Entregadas;
+            }
+
+            var localidadesNumeroParte = await _repo.GetLocalidadesNumeroParte(detalleFromRepo.NoParte);
+            if (localidadesNumeroParte != null)
+            {
+                var localidadNumeroParte = localidadesNumeroParte.OrderByDescending(npl => npl.UltimaModificacion.HasValue ? npl.UltimaModificacion : npl.FechaCreacion).ThenBy(npl => npl.Existencia).FirstOrDefault();
+
+                if (localidadNumeroParte != null)
+                {
+                    localidadNumeroParte.Existencia += detalleFromRepo.Entregadas;
+                }
+            }
+
+
+            foreach (var mp in detalleFromRepo.Movimientos)
+            {
+                _repo.Delete(mp);
+            }
+
+            _repo.Delete(detalleFromRepo);
+
+
+
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Fallo el borrado del detalle de embarque " + detalleFromRepo.DetalleEmbarqueId + " probablemente ya este asignada a movimientos.");
+        }
 
         [HttpGet("{id}/Existe")]
         public async Task<IActionResult> ExisteFolioEmbarque(int id)
