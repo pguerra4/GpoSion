@@ -144,17 +144,15 @@ namespace GpoSion.API.Controllers
                         viajero.ModificadoPorId = userId;
                     }
 
-                    var localidad = await _repo.GetLocalidad(rmmDto.LocalidadId);
-                    if (localidad != null)
+
+                    var localidadMaterial = await _repo.GetLocalidadMaterial(rmmDto.LocalidadId, rmmDto.MaterialId);
+                    if (localidadMaterial != null)
                     {
-                        var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == rmmDto.MaterialId).FirstOrDefault();
-                        if (localidadMaterial != null)
-                        {
-                            localidadMaterial.Existencia -= rmmDto.asurtir;
-                            localidadMaterial.ModificadoPorId = userId;
-                            localidadMaterial.UltimaModificacion = DateTime.Now;
-                        }
+                        localidadMaterial.Existencia -= rmmDto.asurtir;
+                        localidadMaterial.ModificadoPorId = userId;
+                        localidadMaterial.UltimaModificacion = DateTime.Now;
                     }
+
 
 
                     if (rmm.Cantidad <= rmm.CantidadEntregada)

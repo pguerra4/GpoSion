@@ -133,5 +133,7 @@ namespace GpoSion.API.Data
 
         Task<bool> ExisteOrdenCompra(long noOrden);
 
+        Task<LocalidadMaterial> GetLocalidadMaterial(int localidadId, int MaterialId);
+
     }
 }

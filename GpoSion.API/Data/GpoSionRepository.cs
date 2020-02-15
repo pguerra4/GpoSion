@@ -139,7 +139,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId)
         {
-            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && mm.Viajero.Existencia != 0)
+            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && mm.Viajero.Existencia > 0)
             .Select(mm => mm.Viajero).Distinct().ToListAsync();
 
             var FechaMasLejana = viajeros.Min(v => v.Fecha).AddMinutes(-1);
@@ -522,6 +522,12 @@ namespace GpoSion.API.Data
         {
             var ordenCompra = await _context.OrdenesCompra.FindAsync(noOrden);
             return ordenCompra != null;
+        }
+
+        public async Task<LocalidadMaterial> GetLocalidadMaterial(int localidadId, int MaterialId)
+        {
+            var localidadMaterial = await _context.LocalidadesMateriales.FindAsync(localidadId, MaterialId);
+            return localidadMaterial;
         }
     }
 }

@@ -37,6 +37,7 @@
                                 </td>
                                 <td>
                                     {{ item.localidad }}
+                                    <input type="hidden" [attr.id]="'localidadId' + i" [attr.name]="'localidadId' + i" formControlName="localidadId" />
                                 </td>
                                 <td class="text-right">
                                     {{ item.existencia | number }}
@@ -67,6 +68,7 @@
                                         Debe capturar una cantidad.
                                     </div>
                                     <input type="hidden" [attr.id]="'id' + i" [attr.name]="'id' + i" formControlName="id" />
+                                    <input type="hidden" [attr.id]="'materialId' + i" [attr.name]="'materialId' + i" formControlName="materialId" />
                                 </td>
                             </tr>
                         </tbody>

@@ -80,22 +80,22 @@ namespace GpoSion.API.Controllers
                 existencia.ModificadoPorId = userId;
             }
 
-            var localidad = await _repo.GetLocalidad(retornoToCreate.LocalidadId);
-            if (localidad != null)
+            //var localidad = await _repo.GetLocalidad(retornoToCreate.LocalidadId);
+            // if (localidad != null)
+            // {
+            var localidadMaterial = await _repo.GetLocalidadMaterial(retornoToCreate.LocalidadId, retornoToCreate.MaterialId);
+            if (localidadMaterial == null)
             {
-                var localidadMaterial = localidad.MaterialesLocalidad.Where(lm => lm.MaterialId == retornoToCreate.MaterialId).FirstOrDefault();
-                if (localidadMaterial == null)
-                {
-                    localidadMaterial = new LocalidadMaterial { LocalidadId = retornoToCreate.LocalidadId, MaterialId = retornoToCreate.MaterialId, Existencia = retornoToCreate.Cantidad, FechaCreacion = DateTime.Now, CreadoPorId = userId };
-                    _repo.Add(localidadMaterial);
-                }
-                else
-                {
-                    localidadMaterial.Existencia += retornoToCreate.Cantidad;
-                    localidadMaterial.UltimaModificacion = DateTime.Now;
-                    localidadMaterial.ModificadoPorId = userId;
-                }
+                localidadMaterial = new LocalidadMaterial { LocalidadId = retornoToCreate.LocalidadId, MaterialId = retornoToCreate.MaterialId, Existencia = retornoToCreate.Cantidad, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+                _repo.Add(localidadMaterial);
             }
+            else
+            {
+                localidadMaterial.Existencia += retornoToCreate.Cantidad;
+                localidadMaterial.UltimaModificacion = DateTime.Now;
+                localidadMaterial.ModificadoPorId = userId;
+            }
+            // }
 
             var movimientoMaterial = new MovimientoMaterial
             {
@@ -139,8 +139,8 @@ namespace GpoSion.API.Controllers
             {
                 if (movimiento.LocalidadId.HasValue)
                 {
-                    var localidadOriginal = await _repo.GetLocalidad(movimiento.LocalidadId.Value);
-                    var localidadMaterialOriginal = localidadOriginal.MaterialesLocalidad.Where(ml => ml.MaterialId == movimiento.MaterialId).FirstOrDefault();
+                    //var localidadOriginal = await _repo.GetLocalidad(movimiento.LocalidadId.Value);
+                    var localidadMaterialOriginal = await _repo.GetLocalidadMaterial(movimiento.LocalidadId.Value, movimiento.MaterialId.Value);
                     if (localidadMaterialOriginal != null)
                     {
                         localidadMaterialOriginal.Existencia -= movimiento.Cantidad;
@@ -149,8 +149,8 @@ namespace GpoSion.API.Controllers
                     }
                 }
 
-                var localidad = await _repo.GetLocalidad(movimientoFP.LocalidadId);
-                var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == movimientoFP.MaterialId).FirstOrDefault();
+                //var localidad = await _repo.GetLocalidad(movimientoFP.LocalidadId);
+                var localidadMaterial = await _repo.GetLocalidadMaterial(movimientoFP.LocalidadId, movimientoFP.MaterialId);
                 if (localidadMaterial == null)
                 {
                     localidadMaterial = new LocalidadMaterial { LocalidadId = movimientoFP.LocalidadId, MaterialId = movimientoFP.MaterialId, Existencia = movimientoFP.Cantidad, FechaCreacion = DateTime.Now, CreadoPorId = userId };
@@ -165,8 +165,8 @@ namespace GpoSion.API.Controllers
             }
             else
             {
-                var localidad = await _repo.GetLocalidad(movimientoFP.LocalidadId);
-                var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == movimientoFP.MaterialId).FirstOrDefault();
+                //var localidad = await _repo.GetLocalidad(movimientoFP.LocalidadId);
+                var localidadMaterial = await _repo.GetLocalidadMaterial(movimientoFP.LocalidadId, movimientoFP.MaterialId);
                 localidadMaterial.Existencia += diferencia;
                 localidadMaterial.ModificadoPorId = userId;
                 localidadMaterial.UltimaModificacion = DateTime.Now;

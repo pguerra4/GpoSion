@@ -93,21 +93,18 @@ namespace GpoSion.API.Controllers
 
                 if (detalle.LocalidadId.HasValue)
                 {
-                    var localidad = await _repo.GetLocalidad(detalle.LocalidadId.Value);
-                    if (localidad != null)
+
+                    var localidadMaterial = await _repo.GetLocalidadMaterial(detalle.LocalidadId.Value, detalle.MaterialId);
+                    if (localidadMaterial == null)
                     {
-                        var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalle.MaterialId).FirstOrDefault();
-                        if (localidadMaterial == null)
-                        {
-                            localidadMaterial = new LocalidadMaterial { MaterialId = detalle.MaterialId, LocalidadId = detalle.LocalidadId.Value, Existencia = detalle.Total, CreadoPorId = userId, FechaCreacion = DateTime.Now };
-                            _repo.Add(localidadMaterial);
-                        }
-                        else
-                        {
-                            localidadMaterial.Existencia += detalle.Total;
-                            localidadMaterial.ModificadoPorId = userId;
-                            localidadMaterial.UltimaModificacion = DateTime.Now;
-                        }
+                        localidadMaterial = new LocalidadMaterial { MaterialId = detalle.MaterialId, LocalidadId = detalle.LocalidadId.Value, Existencia = detalle.Total, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                        _repo.Add(localidadMaterial);
+                    }
+                    else
+                    {
+                        localidadMaterial.Existencia += detalle.Total;
+                        localidadMaterial.ModificadoPorId = userId;
+                        localidadMaterial.UltimaModificacion = DateTime.Now;
                     }
                 }
 
@@ -194,33 +191,31 @@ namespace GpoSion.API.Controllers
             {
                 if (detalleRecibo.LocalidadId != detalleReciboForEdit.LocalidadId)
                 {
-                    var localidadMaterialOriginal = detalleRecibo.Localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalleReciboForEdit.MaterialId).FirstOrDefault();
+                    var localidadMaterialOriginal = await _repo.GetLocalidadMaterial(detalleRecibo.LocalidadId.Value, detalleRecibo.MaterialId);
                     localidadMaterialOriginal.Existencia -= detalleRecibo.Total;
                     localidadMaterialOriginal.ModificadoPorId = userId;
                     localidadMaterialOriginal.UltimaModificacion = DateTime.Now;
 
-                    var localidad = await _repo.GetLocalidad(detalleReciboForEdit.LocalidadId.Value);
-                    if (localidad != null)
+
+                    var localidadMaterial = await _repo.GetLocalidadMaterial(detalleReciboForEdit.LocalidadId.Value, detalleReciboForEdit.MaterialId);
+                    if (localidadMaterial == null)
                     {
-                        var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalleReciboForEdit.MaterialId).FirstOrDefault();
-                        if (localidadMaterial == null)
-                        {
-                            localidadMaterial = new LocalidadMaterial { MaterialId = detalleReciboForEdit.MaterialId, LocalidadId = detalleReciboForEdit.LocalidadId.Value, Existencia = detalleReciboForEdit.Total, CreadoPorId = userId, FechaCreacion = DateTime.Now };
-                            _repo.Add(localidadMaterial);
-                        }
-                        else
-                        {
-                            localidadMaterial.Existencia += detalleReciboForEdit.Total;
-                            localidadMaterial.ModificadoPorId = userId;
-                            localidadMaterial.UltimaModificacion = DateTime.Now;
-                        }
+                        localidadMaterial = new LocalidadMaterial { MaterialId = detalleReciboForEdit.MaterialId, LocalidadId = detalleReciboForEdit.LocalidadId.Value, Existencia = detalleReciboForEdit.Total, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                        _repo.Add(localidadMaterial);
                     }
+                    else
+                    {
+                        localidadMaterial.Existencia += detalleReciboForEdit.Total;
+                        localidadMaterial.ModificadoPorId = userId;
+                        localidadMaterial.UltimaModificacion = DateTime.Now;
+                    }
+
                 }
                 else
                 {
-                    var localidad = await _repo.GetLocalidad(detalleReciboForEdit.LocalidadId.Value);
+                    // var localidad = await _repo.GetLocalidad(detalleReciboForEdit.LocalidadId.Value);
 
-                    var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == detalleReciboForEdit.MaterialId).FirstOrDefault();
+                    var localidadMaterial = await _repo.GetLocalidadMaterial(detalleReciboForEdit.LocalidadId.Value, detalleReciboForEdit.MaterialId);
 
                     localidadMaterial.Existencia += diferencia;
                     localidadMaterial.ModificadoPorId = userId;

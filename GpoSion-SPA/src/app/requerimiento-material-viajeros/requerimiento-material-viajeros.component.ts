@@ -48,7 +48,9 @@ export class RequerimientoMaterialViajerosComponent implements OnInit {
     return this.fb.group({
       viajero: [viajero.viajero],
       localidad: [viajero.localidad],
+      localidadId: [viajero.localidadId],
       existencia: [viajero.existencia],
+      materialId: [viajero.materialId],
       id: [this.material.id],
       asurtir: [
         resto > viajero.existencia ? viajero.existencia : resto,
@@ -95,7 +97,7 @@ export class RequerimientoMaterialViajerosComponent implements OnInit {
     );
     rm.requerimientoMaterialId = this.material.requerimientoMaterialId;
 
-    console.log(rm);
+    // console.log(rm);
     this.requerimientoMaterialService
       .surtirRequerimiento(this.material.requerimientoMaterialId, rm)
       .subscribe(
