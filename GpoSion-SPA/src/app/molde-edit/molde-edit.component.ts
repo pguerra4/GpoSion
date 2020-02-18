@@ -114,7 +114,7 @@ export class MoldeEditComponent implements OnInit {
 
   editMolde() {
     this.molde = Object.assign({}, this.moldeForm.value);
-    console.log(this.molde);
+
     this.moldeService
       .editMolde(+this.route.snapshot.params["id"], this.molde)
       .subscribe(

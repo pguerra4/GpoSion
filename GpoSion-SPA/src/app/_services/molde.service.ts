@@ -37,7 +37,23 @@ export class MoldeService {
     return this.http.delete(this.baseUrl + "moldes/" + id);
   }
 
+  getEstatusMolde(id: number): Observable<EstatusMolde> {
+    return this.http.get<EstatusMolde>(this.baseUrl + "estatusmoldes/" + id);
+  }
+
   getEstatusMoldes(): Observable<EstatusMolde[]> {
     return this.http.get<EstatusMolde[]>(this.baseUrl + "estatusmoldes");
+  }
+
+  addEstatusMolde(estatusMolde: EstatusMolde) {
+    return this.http.post(this.baseUrl + "estatusmoldes", estatusMolde);
+  }
+
+  editEstatusMolde(id: number, estatusMolde: EstatusMolde) {
+    return this.http.put(this.baseUrl + "estatusmoldes/" + id, estatusMolde);
+  }
+
+  deleteEstatusMolde(id: number) {
+    return this.http.delete(this.baseUrl + "estatusmoldes/" + id);
   }
 }

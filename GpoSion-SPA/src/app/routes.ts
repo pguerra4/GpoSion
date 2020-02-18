@@ -93,6 +93,10 @@ import { RetornoMaterialEditResolver } from "./_resolvers/retorno-material-edit.
 import { ExistenciaProductoDetailComponent } from "./existencia-producto-detail/existencia-producto-detail.component";
 import { ExistenciaProductoDetailResolver } from "./_resolvers/existencia-producto-detail.resolver";
 import { MoldeDetailComponent } from "./molde-detail/molde-detail.component";
+import { EstatusMoldeListComponent } from "./estatus-molde-list/estatus-molde-list.component";
+import { EstatusMoldeAddComponent } from "./estatus-molde-add/estatus-molde-add.component";
+import { EstatusMoldeEditComponent } from "./estatus-molde-edit/estatus-molde-edit.component";
+import { EstatusMoldeEditResolver } from "./_resolvers/estatus-molde-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -221,6 +225,22 @@ export const appRoutes: Routes = [
       {
         path: "addMolde",
         component: MoldeAddComponent,
+        data: { roles: ["Admin", "Almacen", "Produccion"] }
+      },
+      {
+        path: "estatusmoldes",
+        component: EstatusMoldeListComponent,
+        data: { roles: ["Admin", "Almacen", "Produccion"] }
+      },
+      {
+        path: "addEstatusMolde",
+        component: EstatusMoldeAddComponent,
+        data: { roles: ["Admin", "Almacen", "Produccion"] }
+      },
+      {
+        path: "estatusmoldes/:id",
+        component: EstatusMoldeEditComponent,
+        resolve: { estatusMolde: EstatusMoldeEditResolver },
         data: { roles: ["Admin", "Almacen", "Produccion"] }
       },
       {

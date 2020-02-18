@@ -86,6 +86,7 @@ namespace GpoSion.API.Helpers
             CreateMap<LocalidadNumeroParte, LocalidadNumeroParteToListDto>();
             CreateMap<EstatusMolde, EstatusMoldeToListDto>();
             CreateMap<MovimientoMolde, MovimientoMoldeForListDto>();
+            CreateMap<EstatusMoldeToCreateDto, EstatusMolde>();
         }
     }
 }

@@ -150,6 +150,10 @@ import { ValidateExistingNumeroOrden } from "./_validators/async-numero-orden-ex
 import { ValidateExistingMolde } from "./_validators/async-molde-existente.validator";
 import { MoldeDetailComponent } from "./molde-detail/molde-detail.component";
 import { SearchProduccionPipe } from "./_filters/search-produccion.pipe";
+import { EstatusMoldeEditResolver } from "./_resolvers/estatus-molde-edit.resolver";
+import { EstatusMoldeListComponent } from "./estatus-molde-list/estatus-molde-list.component";
+import { EstatusMoldeAddComponent } from "./estatus-molde-add/estatus-molde-add.component";
+import { EstatusMoldeEditComponent } from "./estatus-molde-edit/estatus-molde-edit.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -252,7 +256,10 @@ defineLocales();
     RetornoMaterialEditComponent,
     ExistenciaProductoDetailComponent,
     MoldeDetailComponent,
-    SearchProduccionPipe
+    SearchProduccionPipe,
+    EstatusMoldeListComponent,
+    EstatusMoldeAddComponent,
+    EstatusMoldeEditComponent
   ],
   imports: [
     BrowserModule,
@@ -316,6 +323,7 @@ defineLocales();
     ExistenciaProductoDetailResolver,
     ValidateExistingNumeroOrden,
     ValidateExistingMolde,
+    EstatusMoldeEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]
