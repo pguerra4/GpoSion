@@ -147,6 +147,9 @@ import { RetornoMaterialEditComponent } from "./retorno-material-edit/retorno-ma
 import { ExistenciaProductoDetailComponent } from "./existencia-producto-detail/existencia-producto-detail.component";
 import { ExistenciaProductoDetailResolver } from "./_resolvers/existencia-producto-detail.resolver";
 import { ValidateExistingNumeroOrden } from "./_validators/async-numero-orden-existente.validator";
+import { ValidateExistingMolde } from "./_validators/async-molde-existente.validator";
+import { MoldeDetailComponent } from "./molde-detail/molde-detail.component";
+import { SearchProduccionPipe } from "./_filters/search-produccion.pipe";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -247,7 +250,9 @@ defineLocales();
     SearchRetornosMaterialPipe,
     RetornoMaterialAddComponent,
     RetornoMaterialEditComponent,
-    ExistenciaProductoDetailComponent
+    ExistenciaProductoDetailComponent,
+    MoldeDetailComponent,
+    SearchProduccionPipe
   ],
   imports: [
     BrowserModule,
@@ -310,6 +315,7 @@ defineLocales();
     RetornoMaterialEditResolver,
     ExistenciaProductoDetailResolver,
     ValidateExistingNumeroOrden,
+    ValidateExistingMolde,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

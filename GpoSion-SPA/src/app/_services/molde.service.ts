@@ -3,6 +3,7 @@ import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Molde } from "../_models/molde";
+import { EstatusMolde } from "../_models/estatus-molde";
 
 @Injectable({
   providedIn: "root"
@@ -26,5 +27,17 @@ export class MoldeService {
 
   editMolde(id: number, molde: Molde) {
     return this.http.put(this.baseUrl + "moldes/" + id, molde);
+  }
+
+  existeMolde(id: string): Observable<boolean> {
+    return this.http.get<boolean>(this.baseUrl + "moldes/" + id + "/existe");
+  }
+
+  deleteMolde(id: number) {
+    return this.http.delete(this.baseUrl + "moldes/" + id);
+  }
+
+  getEstatusMoldes(): Observable<EstatusMolde[]> {
+    return this.http.get<EstatusMolde[]>(this.baseUrl + "estatusmoldes");
   }
 }

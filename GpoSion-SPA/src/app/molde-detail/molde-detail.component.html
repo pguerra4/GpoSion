@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary d-flex justify-content-between">
+            <span> Movimientos Molde</span>
+        </div>
+        <div class="card-body">
+            <div class="card-title p-2 table-success">
+                <div class="row">
+                    <div class="col-md-2">
+                        Molde: <strong> {{ molde.molde }}</strong>
+                    </div>
+                    <div class="col-md-3">Cliente: {{ molde.cliente }}</div>
+                    <div class="col-md-3">Ubcacion: {{ molde.ubicacion }}</div>
+                    <div class="col-md-2">Estatus: {{ molde.estatusMolde }}</div>
+                    <div class="col-md-2">
+                        Fecha: {{ molde.ultimaModificacion | date: "dd/MM/yyyy" }}
+                    </div>
+                </div>
+            </div>
+            <div class="card-text">
+                <div class="card-subtitle">
+                    Movimientos
+                </div>
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <tr class="table-primary">
+                                <th>Fecha</th>
+                                <th>Estatus</th>
+                                <th>Observaciones</th>
+                                <th>Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of molde.movimientos">
+                                <td>{{ item.fecha | date: "dd/MM/yyyy" }}</td>
+                                <td>
+                                    {{ item.estatusMolde }}
+                                </td>
+                                <td>
+                                    {{ item.observaciones }}
+                                </td>
+                                <td>
+                                    {{ item.creadoPor }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a [routerLink]="['/moldes']">Regresar a moldes </a>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@ import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Molde } from "../_models/molde";
+import { ValidateExistingMolde } from "../_validators/async-molde-existente.validator";
 
 @Component({
   selector: "app-molde-add",
@@ -36,11 +37,18 @@ export class MoldeAddComponent implements OnInit {
   }
 
   createMoldeForm() {
-    this.moldeForm = this.fb.group({
-      molde: ["", Validators.required],
-      clienteId: [null, Validators.required],
-      ubicacionId: [1, Validators.required]
-    });
+    this.moldeForm = this.fb.group(
+      {
+        molde: [
+          "",
+          Validators.required,
+          ValidateExistingMolde.createValidator(this.moldeService)
+        ],
+        clienteId: [null, Validators.required],
+        ubicacionId: [1, Validators.required]
+      },
+      { updateOn: "blur" }
+    );
   }
 
   loadClientes() {

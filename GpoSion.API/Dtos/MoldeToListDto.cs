@@ -22,7 +22,10 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "moldeadora")]
         public String MoldeadoraClave { get; set; }
 
+        public int? EstatusMoldeId { get; set; }
 
+        [JsonProperty(PropertyName = "estatusMolde")]
+        public string EstatusEstatus { get; set; }
 
 
 

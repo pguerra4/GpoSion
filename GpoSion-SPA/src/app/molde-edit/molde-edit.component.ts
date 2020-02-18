@@ -8,6 +8,14 @@ import { AreaService } from "../_services/area.service";
 import { MoldeService } from "../_services/molde.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { ValidateExistingMolde } from "../_validators/async-molde-existente.validator";
+import { EstatusMolde } from "../_models/estatus-molde";
+import {
+  BsDatepickerConfig,
+  BsLocaleService,
+  defineLocale,
+  deLocale
+} from "ngx-bootstrap";
 
 @Component({
   selector: "app-molde-edit",
@@ -20,6 +28,8 @@ export class MoldeEditComponent implements OnInit {
   clientes: Cliente[];
   areas: Area[];
   moldeadoras: any[];
+  estatusMoldes: EstatusMolde[];
+  bsConfig: Partial<BsDatepickerConfig>;
 
   constructor(
     private clienteService: ClienteService,
@@ -28,33 +38,62 @@ export class MoldeEditComponent implements OnInit {
     private alertify: AlertifyService,
     private router: Router,
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private localeService: BsLocaleService
   ) {}
 
   ngOnInit() {
+    this.localeService.use("es");
+    defineLocale("es-us", deLocale);
+    this.loadClientes();
+    this.loadEstatusMoldes();
+    this.loadAreas();
     this.route.data.subscribe(data => {
       // tslint:disable-next-line: no-string-literal
       this.molde = data["molde"];
+      this.createMoldeForm();
     });
-    this.loadClientes();
-    this.loadAreas();
-    this.createMoldeForm();
   }
 
   createMoldeForm() {
-    this.moldeForm = this.fb.group({
-      id: [this.molde.id, Validators.required],
-      molde: [this.molde.molde, Validators.required],
-      clienteId: [this.molde.clienteId, Validators.required],
-      ubicacionId: [this.molde.ubicacionId, Validators.required],
-      moldeadoraId: [this.molde.moldeadoraId]
-    });
+    const now = new Date();
+    this.moldeForm = this.fb.group(
+      {
+        id: [this.molde.id, Validators.required],
+        molde: [
+          this.molde.molde,
+          Validators.required,
+          ValidateExistingMolde.createValidator(
+            this.moldeService,
+            this.molde.molde
+          )
+        ],
+        clienteId: [this.molde.clienteId, Validators.required],
+        ubicacionId: [this.molde.ubicacionId, Validators.required],
+        moldeadoraId: [this.molde.moldeadoraId],
+        estatusMoldeId: [this.molde.estatusMoldeId],
+        observaciones: [null],
+        fecha: [now]
+      },
+      { updateOn: "blur" }
+    );
   }
 
   loadClientes() {
     this.clienteService.getClientes().subscribe(
       (res: Cliente[]) => {
         this.clientes = res;
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
+  }
+
+  loadEstatusMoldes() {
+    this.moldeService.getEstatusMoldes().subscribe(
+      (res: EstatusMolde[]) => {
+        this.estatusMoldes = res;
       },
       error => {
         this.alertify.error(error);

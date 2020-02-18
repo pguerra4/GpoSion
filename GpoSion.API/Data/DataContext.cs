@@ -81,6 +81,10 @@ namespace GpoSion.API.Data
 
         public DbSet<LocalidadNumeroParte> LocalidadesNumerosParte { get; set; }
 
+        public DbSet<EstatusMolde> EstatusMolde { get; set; }
+
+        public DbSet<MovimientoMolde> MovimientosMoldes { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

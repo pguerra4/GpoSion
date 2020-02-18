@@ -181,6 +181,24 @@ export class ReciboDetailComponent implements OnInit {
     this.alertify.success("Material borrado");
   }
 
+  deleteDetalleRecibo(id: number) {
+    this.alertify.confirm("¿Desea borrar el detalle del recibo?", () => {
+      this.reciboService.deleteDetalleRecibo(id).subscribe(
+        () => {
+          this.detallesRecibo.splice(
+            this.detallesRecibo.findIndex(m => m.detalleReciboId === id),
+            1
+          );
+          this.loadRecibo();
+          this.alertify.success("Detalle del recibo borrado");
+        },
+        error => {
+          this.alertify.error("Fallo al borrar el detalle del recibo:" + error);
+        }
+      );
+    });
+  }
+
   isNumber(value: string | number): boolean {
     return value != null && !isNaN(Number(value.toString()));
   }

@@ -251,14 +251,47 @@ namespace GpoSion.API.Controllers
             detalleRecibo.UltimaModificacion = DateTime.Now;
 
 
-
-
-
             await _repo.SaveAll();
             return NoContent();
 
             throw new Exception("Recibo no guardado");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDetalleRecibo(int id)
+        {
+
+
+
+            var detalleReciboFromRepo = await _repo.GetDetalleRecibo(id);
+
+            if (detalleReciboFromRepo == null)
+                return NotFound();
+
+            var movs = detalleReciboFromRepo.Viajero.MovimientosMaterial.Where(mm => mm.Origen == null || (mm.Origen.AreaId == 1 && mm.Destino.AreaId == 1));
+            foreach (var mov in movs)
+            {
+                _repo.Delete(mov);
+            }
+
+            var existencia = await _repo.GetExistenciaPorAreaMaterial(1, detalleReciboFromRepo.MaterialId);
+            if (existencia != null)
+            {
+                existencia.Existencia -= detalleReciboFromRepo.Total;
+            }
+
+            _repo.Delete(detalleReciboFromRepo.Viajero);
+
+            _repo.Delete(detalleReciboFromRepo);
+
+
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            return BadRequest("Fallo el borrado del detalle de recibo  probablemente su viajero ya tenga movimientos fuera de almacen.");
+        }
+
 
     }
 }

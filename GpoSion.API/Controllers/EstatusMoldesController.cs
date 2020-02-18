@@ -16,11 +16,11 @@ namespace GpoSion.API.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class MoldesController : ControllerBase
+    public class EstatusMoldesController : ControllerBase
     {
         private readonly IGpoSionRepository _repo;
         private readonly IMapper _mapper;
-        public MoldesController(IGpoSionRepository repo, IMapper mapper)
+        public EstatusMoldesController(IGpoSionRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;
@@ -28,20 +28,20 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMoldes()
+        public async Task<IActionResult> GetEstatusMoldes()
         {
-            var moldes = await _repo.GetMoldes();
-            var moldesToReturn = _mapper.Map<IEnumerable<MoldeToListDto>>(moldes);
-            return Ok(moldesToReturn);
+            var estatusMoldes = await _repo.GetEstatusMoldes();
+            var estatusToReturn = _mapper.Map<IEnumerable<EstatusMoldeToListDto>>(estatusMoldes);
+            return Ok(estatusToReturn);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMolde(int id)
+        public async Task<IActionResult> GetEstatusMolde(int id)
         {
-            var molde = await _repo.GetMolde(id);
-            var moldeToReturn = _mapper.Map<MoldeForDetailDto>(molde);
+            var estatusMolde = await _repo.GetEstatusMolde(id);
+            var estatusToReturn = _mapper.Map<EstatusMoldeToListDto>(estatusMolde);
 
-            return Ok(moldeToReturn);
+            return Ok(estatusMolde);
         }
 
         [Authorize(Policy = "ProduccionAlmacen")]
@@ -54,7 +54,7 @@ namespace GpoSion.API.Controllers
             molde.FechaCreacion = DateTime.Now;
             molde.CreadoPorId = userId;
 
-
+            _repo.Add(molde);
 
             int estatusId = 1;
             if (moldeforCreationDto.UbicacionAreaId == 2)
@@ -62,16 +62,10 @@ namespace GpoSion.API.Controllers
 
             var movimientoMolde = new MovimientoMolde { EstatusMoldeId = estatusId, Molde = molde, Fecha = DateTime.Now, FechaCreacion = DateTime.Now, CreadoPorId = userId, Observaciones = "Alta de molde en sistema" };
 
-            molde.EstatusMoldeId = estatusId;
-            _repo.Add(molde);
             _repo.Add(movimientoMolde);
 
             if (await _repo.SaveAll())
-            {
-                var moldeToReturn = _mapper.Map<MoldeToListDto>(molde);
-                return CreatedAtAction("GetMolde", new { id = molde.Id }, moldeToReturn);
-            }
-
+                return CreatedAtAction("GetMolde", new { id = molde.Id }, molde);
 
             throw new Exception("Molde no guardado");
         }
@@ -97,7 +91,7 @@ namespace GpoSion.API.Controllers
             molde.UltimaModificacion = moldeFP.UltimaModificacion;
             molde.ModificadoPorId = userId;
 
-            if (molde.EstatusMoldeId != moldeFP.EstatusMoldeId)
+            if (molde.EstatusMoldeId != moldeFP.EstatusMoldeId || moldeFP.Observaciones.Trim() != "")
             {
                 var movimientoMolde = new MovimientoMolde { EstatusMoldeId = moldeFP.EstatusMoldeId.Value, MoldeId = moldeFP.Id, Fecha = moldeFP.Fecha.Value, FechaCreacion = DateTime.Now, CreadoPorId = userId, Observaciones = moldeFP.Observaciones };
 

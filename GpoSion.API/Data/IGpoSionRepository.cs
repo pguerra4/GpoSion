@@ -135,5 +135,13 @@ namespace GpoSion.API.Data
 
         Task<LocalidadMaterial> GetLocalidadMaterial(int localidadId, int MaterialId);
 
+        Task<bool> ExisteMolde(string molde);
+
+        Task<IEnumerable<EstatusMolde>> GetEstatusMoldes();
+
+        Task<EstatusMolde> GetEstatusMolde(int id);
+
+        Task<IEnumerable<Produccion>> GetProducciones(ProduccionParams produccionParams);
+
     }
 }

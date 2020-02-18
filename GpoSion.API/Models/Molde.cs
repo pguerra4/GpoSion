@@ -21,6 +21,10 @@ namespace GpoSion.API.Models
         // public int? MaquinaMoldeadoraId { get; set; }
         // public Moldeadora Maquina { get; set; }
 
+        public int? EstatusMoldeId { get; set; }
+
+        public virtual EstatusMolde Estatus { get; set; }
+
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
@@ -31,6 +35,8 @@ namespace GpoSion.API.Models
 
 
         public virtual ICollection<MoldeNumeroParte> MoldeNumerosParte { get; set; }
+
+        public virtual ICollection<MovimientoMolde> Movimientos { get; set; }
 
     }
 }

@@ -135,6 +135,30 @@ namespace GpoSion.API.Data
                 context.SaveChanges();
             }
 
+            if (!context.EstatusMolde.Any())
+            {
+                var estatus = new EstatusMolde { Estatus = "Almacen", FechaCreacion = DateTime.Now };
+                context.EstatusMolde.Add(estatus);
+                estatus = new EstatusMolde { Estatus = "Producción", FechaCreacion = DateTime.Now };
+                context.EstatusMolde.Add(estatus);
+
+                context.SaveChanges();
+
+                var moldes = context.Moldes.Where(m => m.EstatusMoldeId == null).ToList();
+                foreach (var molde in moldes)
+                {
+                    if (molde.UbicacionAreaId == 1)
+                    {
+                        molde.EstatusMoldeId = 1;
+                    }
+                    else
+                    {
+                        molde.EstatusMoldeId = 2;
+                    }
+                }
+                context.SaveChanges();
+            }
+
         }
 
     }

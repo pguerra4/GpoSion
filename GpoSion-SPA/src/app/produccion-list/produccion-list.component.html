@@ -1,59 +1,95 @@
-<div class="container mt-5">
-    <h4>Existencias</h4>
-    <table class="table table-hover">
-        <thead>
-            <tr class="table-primary">
-                <th scope="col">Material</th>
-                <th scope="col">Almacen</th>
-                <th scope="col">Producción</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="table-secondary">
-                <th scope="row">XXX-000-001</th>
-                <td>1200</td>
-                <td>900</td>
-                <td><a href="#">Movimientos</a></td>
-                <td><a [routerLink]="['/solicitarMaterial','XXX-000-001']">Solicitar</a></td>
-            </tr>
-            <tr class="active">
-                <th scope="row">XXX-000-002</th>
-                <td>576</td>
-                <td>1320</td>
-                <td><a href="#">Movimientos</a></td>
-                <td><a [routerLink]="['/solicitarMaterial','XXX-000-002']">Solicitar</a></td>
-            </tr>
-            <tr class="table-secondary">
-                <th scope="row">XXX-000-003</th>
-                <td>987</td>
-                <td>721</td>
-                <td><a href="#">Movimientos</a></td>
-                <td><a [routerLink]="['/solicitarMaterial','XXX-000-003']">Solicitar</a></td>
-            </tr>
-            <tr class="table-secondary">
-                <th scope="row">XXX-000-004</th>
-                <td>425</td>
-                <td>0</td>
-                <td><a href="#">Movimientos</a></td>
-                <td><a [routerLink]="['/solicitarMaterial','XXX-000-004']">Solicitar</a></td>
-            </tr>
-            <tr class="table-secondary">
-                <th scope="row">XXX-000-005</th>
-                <td>20600</td>
-                <td>1520</td>
-                <td><a href="#">Movimientos</a></td>
-                <td><a [routerLink]="['/solicitarMaterial','XXX-000-005']">Solicitar</a></td>
-            </tr>
-            <tr class="table-secondary">
-                <th scope="row">XXX-000-006</th>
-                <td>850</td>
-                <td>170</td>
-                <td><a href="#">Movimientos</a></td>
-                <td><a [routerLink]="['/solicitarMaterial','XXX-000-006']">Solicitar</a></td>
-            </tr>
-
-        </tbody>
-    </table>
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">
+            Producción
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-md-4">
+                        <a class="btn btn-success" [routerLink]="['/addProduccion']">Capturar Producción</a
+            >
+          </div>
+          <div class="form-group col-md-4">
+            <input
+              class="form-control"
+              placeholder="Fechas"
+              bsDaterangepicker
+              [(ngModel)]="bsRangeValue"
+              [bsConfig]="{ isAnimated: true, showPreviousMonth: true }"
+              (bsValueChange)="onValueChange($event)"
+            />
+          </div>
+          <div class="col-md-4">
+            <input
+              type="text"
+              id="searchTextId"
+              [(ngModel)]="searchText"
+              name="searchText"
+              placeholder="Buscar"
+            />
+            <i class="fa fa-search ml-1"></i>
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div
+          class="table-responsive card border-dark mt-4"
+          *ngFor="let prod of producciones | searchProduccion: searchText"
+        >
+          <div class="card-body">
+            <div class="card-text">
+              <div class="row table-primary">
+                <div class="col-3">
+                  Fecha
+                </div>
+                <div class="col-3">
+                  Moldeadora
+                </div>
+                <div class="col-3">
+                  Purga
+                </div>
+                <div class="col-3">
+                  Colada
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3">
+                  {{ prod.fecha | date: "dd/MM/yyyy" }}
+                </div>
+                <div class="col-3">
+                  {{ prod.moldeadora }}
+                </div>
+                <div class="col-3">
+                  {{ prod.purga }}
+                </div>
+                <div class="col-3">
+                  {{ prod.colada }}
+                </div>
+              </div>
+              <div class="row table-bordered table-success">
+                <div class="col-4 border">No. Parte</div>
+                <div class="col-4 border">Piezas</div>
+                <div class="col-4 border">Scrap</div>
+              </div>
+              <div
+                class="row  table-bordered"
+                *ngFor="let item of prod.produccionNumerosParte"
+              >
+                <div class="col-4 border-right">
+                  {{ item.noParte }}
+                </div>
+                <div class="col-4 border-right">
+                  {{ item.piezas }}
+                </div>
+                <div class="col-4">
+                  {{ item.scrap }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

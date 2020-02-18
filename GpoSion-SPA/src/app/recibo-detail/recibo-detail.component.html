@@ -130,7 +130,7 @@
                             <th class="text-right">Viajero</th>
                             <th>Localización</th>
                             <th>No. Lote</th>
-                            <th *ngIf="!recibo.isComplete">Borrar</th>
+                            <th>Borrar</th>
                             <th *ngIf="recibo.isComplete">Editar</th>
                         </tr>
                     </thead>
@@ -155,7 +155,7 @@
               </td>
               <td>{{ item.localidad }}</td>
               <td>{{ item.noLote }}</td>
-              <td *ngIf="!recibo.isComplete">
+              <td class="text-center" *ngIf="!recibo.isComplete; else borrar2">
                 <span
                   class="btn btn-danger btn-xs"
                   (click)="$event.stopPropagation()"
@@ -164,7 +164,17 @@
                   <span class="fa fa-trash"></span
                 ></span>
               </td>
-              <td *ngIf="recibo.isComplete">
+              <ng-template #borrar2>
+                <td class="text-center">
+                  <span
+                    class="btn btn-danger btn-xs"
+                    (click)="deleteDetalleRecibo(item.detalleReciboId)"
+                  >
+                    <span class="fa fa-trash"></span
+                  ></span>
+                </td>
+              </ng-template>
+              <td class="text-center" *ngIf="recibo.isComplete">
                 <a [routerLink]="['/detalleRecibo/' + item.detalleReciboId]">
                   <span class="btn btn-default btn-xs">
                     <span class="fa fa-edit"></span></span

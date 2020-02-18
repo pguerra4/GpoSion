@@ -529,5 +529,40 @@ namespace GpoSion.API.Data
             var localidadMaterial = await _context.LocalidadesMateriales.FindAsync(localidadId, MaterialId);
             return localidadMaterial;
         }
+
+        public async Task<bool> ExisteMolde(string molde)
+        {
+            var moldeFromRepo = await _context.Moldes.FirstOrDefaultAsync(m => m.ClaveMolde == molde);
+            return moldeFromRepo != null;
+        }
+
+        public async Task<IEnumerable<EstatusMolde>> GetEstatusMoldes()
+        {
+            var estatusMoldes = await _context.EstatusMolde.ToListAsync();
+            return estatusMoldes;
+        }
+
+        public async Task<EstatusMolde> GetEstatusMolde(int id)
+        {
+            var estatusMolde = await _context.EstatusMolde.FindAsync(id);
+            return estatusMolde;
+        }
+
+        public async Task<IEnumerable<Produccion>> GetProducciones(ProduccionParams produccionParams)
+        {
+            var producciones = await _context.Produccion.ToListAsync();
+
+            if (produccionParams.FechaInicio.HasValue && produccionParams.FechaFin.HasValue)
+            {
+                producciones = producciones.Where(e => e.Fecha.Date >= produccionParams.FechaInicio.Value.Date && e.Fecha.Date <= produccionParams.FechaFin.Value.Date).ToList();
+            }
+            else if (produccionParams.FechaInicio.HasValue)
+            {
+                producciones = producciones.Where(e => e.Fecha.Date >= produccionParams.FechaInicio.Value.Date).ToList();
+            }
+
+            return producciones;
+
+        }
     }
 }

@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200217182634_MovimientosMoldes")]
+    partial class MovimientosMoldes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -489,8 +491,6 @@ namespace GpoSion.API.Migrations
 
                     b.Property<string>("CreadoPorId");
 
-                    b.Property<int?>("EstatusMoldeId");
-
                     b.Property<DateTime?>("FechaCreacion");
 
                     b.Property<string>("ModificadoPorId");
@@ -504,8 +504,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("ClienteId");
 
                     b.HasIndex("CreadoPorId");
-
-                    b.HasIndex("EstatusMoldeId");
 
                     b.HasIndex("ModificadoPorId");
 
@@ -1736,10 +1734,6 @@ namespace GpoSion.API.Migrations
                     b.HasOne("GpoSion.API.Models.User", "CreadoPor")
                         .WithMany()
                         .HasForeignKey("CreadoPorId");
-
-                    b.HasOne("GpoSion.API.Models.EstatusMolde", "Estatus")
-                        .WithMany()
-                        .HasForeignKey("EstatusMoldeId");
 
                     b.HasOne("GpoSion.API.Models.User", "ModificadoPor")
                         .WithMany()

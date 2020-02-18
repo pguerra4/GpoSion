@@ -92,6 +92,7 @@ import { RetornoMaterialEditComponent } from "./retorno-material-edit/retorno-ma
 import { RetornoMaterialEditResolver } from "./_resolvers/retorno-material-edit.resolver";
 import { ExistenciaProductoDetailComponent } from "./existencia-producto-detail/existencia-producto-detail.component";
 import { ExistenciaProductoDetailResolver } from "./_resolvers/existencia-producto-detail.resolver";
+import { MoldeDetailComponent } from "./molde-detail/molde-detail.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -208,6 +209,12 @@ export const appRoutes: Routes = [
       {
         path: "moldes/:id",
         component: MoldeEditComponent,
+        resolve: { molde: MoldeEditResolver },
+        data: { roles: ["Admin", "Almacen", "Produccion"] }
+      },
+      {
+        path: "moldeDetail/:id",
+        component: MoldeDetailComponent,
         resolve: { molde: MoldeEditResolver },
         data: { roles: ["Admin", "Almacen", "Produccion"] }
       },

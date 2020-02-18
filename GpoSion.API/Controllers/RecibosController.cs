@@ -70,5 +70,31 @@ namespace GpoSion.API.Controllers
             throw new Exception("Recibo no guardado");
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRecibo(int id)
+        {
+
+
+
+            var reciboFromRepo = await _repo.GetRecibo(id);
+
+            if (reciboFromRepo == null)
+                return NotFound();
+
+            foreach (var item in reciboFromRepo.Detalle)
+            {
+                _repo.Delete(item);
+            }
+
+            _repo.Delete(reciboFromRepo);
+
+
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            return BadRequest("Fallo el borrado del recibo " + reciboFromRepo.NoRecibo + " probablemente ya tenga movimientos y/o viajeros asignados. Borre primero el detalle del recibo.");
+        }
+
     }
 }

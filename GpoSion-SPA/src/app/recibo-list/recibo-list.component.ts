@@ -31,4 +31,22 @@ export class ReciboListComponent implements OnInit {
       }
     );
   }
+
+  deleteRecibo(id: number) {
+    this.alertify.confirm("¿Desea borrar el recibo?", () => {
+      this.reciboService.deleteRecibo(id).subscribe(
+        () => {
+          this.recibos.splice(
+            this.recibos.findIndex(m => m.reciboId === id),
+            1
+          );
+          this.loadRecibos();
+          this.alertify.success("Recibo borrado");
+        },
+        error => {
+          this.alertify.error("Fallo al borrar el recibo:" + error);
+        }
+      );
+    });
+  }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
+using GpoSion.API.Helpers;
 using GpoSion.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,11 +29,11 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducciones()
+        public async Task<IActionResult> GetProducciones([FromQuery] ProduccionParams produccionParams)
         {
-            var moldes = await _repo.GetMoldes();
-            var moldesToReturn = _mapper.Map<IEnumerable<MoldeToListDto>>(moldes);
-            return Ok(moldesToReturn);
+            var producciones = await _repo.GetProducciones(produccionParams);
+            var produccionesToReturn = _mapper.Map<IEnumerable<ProduccionForDetailDto>>(producciones);
+            return Ok(produccionesToReturn);
         }
 
         [HttpGet("{id}")]

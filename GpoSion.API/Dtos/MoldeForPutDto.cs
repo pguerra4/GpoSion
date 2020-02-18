@@ -18,6 +18,12 @@ namespace GpoSion.API.Dtos
         [JsonProperty("moldeadoraId")]
         public int? MaquinaMoldeadoraId { get; set; }
 
+        public int? EstatusMoldeId { get; set; }
+
+        public string Observaciones { get; set; }
+
+        public DateTime? Fecha { get; set; }
+
         public DateTime UltimaModificacion { get; set; }
 
         public MoldeForPutDto()

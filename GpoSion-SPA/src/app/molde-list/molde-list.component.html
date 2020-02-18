@@ -22,19 +22,31 @@
                 <th scope="col">Molde</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Ubicación</th>
+                <th scope="col">Estatus</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let molde of moldes">
-                <th scope="row">{{ molde.molde }}</th>
+                <th scope="row">
+                  <a [routerLink]="['/moldeDetail/' + molde.id]">
+                    {{ molde.molde }}</a
+                  >
+                </th>
                 <td>{{ molde.cliente }}</td>
                 <td>{{ molde.ubicacion }}</td>
+                <td>{{ molde.estatusMolde }}</td>
                 <td class="text-center">
                   <a
                     class="fa fa-edit"
                     [routerLink]="['/moldes/' + molde.id]"
                   ></a>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger" (click)="deleteMolde(molde.id)">
+                    <div class="fa fa-trash"></div>
+                  </button>
                         </td>
                         </tr>
                         </tbody>

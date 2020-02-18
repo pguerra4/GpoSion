@@ -58,4 +58,12 @@ export class ReciboService {
   deleteLocalidad(id: number) {
     return this.http.delete(this.baseUrl + "localidades/" + id);
   }
+
+  deleteRecibo(id: number) {
+    return this.http.delete(this.baseUrl + "recibos/" + id);
+  }
+
+  deleteDetalleRecibo(id: number) {
+    return this.http.delete(this.baseUrl + "detallerecibo/" + id);
+  }
 }

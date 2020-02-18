@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
@@ -30,10 +31,18 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "moldeadora")]
         public String MoldeadoraClave { get; set; }
 
+        [JsonProperty(PropertyName = "estatusMoldeId")]
+        public int? EstatusMoldeId { get; set; }
+
+        [JsonProperty(PropertyName = "estatusMolde")]
+        public String EstatusEstatus { get; set; }
+
         public DateTime FechaCreacion { get; set; }
         public DateTime UltimaModificacion { get; set; }
 
         public string[] NumerosParte { get; set; }
+
+        public ICollection<MovimientoMoldeForListDto> Movimientos { get; set; }
 
 
     }

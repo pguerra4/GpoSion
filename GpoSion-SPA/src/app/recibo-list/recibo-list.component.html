@@ -32,6 +32,7 @@
                 <th scope="col">Descripción</th>
                 <th scope="col">Recibio</th>
                 <th scope="col">Detalle</th>
+                <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
@@ -49,6 +50,11 @@
                     class="fa fa-file-text"
                     [routerLink]="['/recibos/' + recibo.reciboId]"
                   ></a>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger" (click)="deleteRecibo(recibo.reciboId)">
+                    <div class="fa fa-trash"></div>
+                  </button>
                         </td>
                         </tr>
                         </tbody>

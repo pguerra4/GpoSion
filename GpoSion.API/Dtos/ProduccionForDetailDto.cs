@@ -14,7 +14,7 @@ namespace GpoSion.API.Dtos
         public int? MoldeadoraId { get; set; }
 
         [JsonProperty("moldeadora")]
-        public string MoldeadoraMoldeadora { get; set; }
+        public string MoldeadoraClave { get; set; }
 
         public decimal? Purga { get; set; }
 

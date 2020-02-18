@@ -30,4 +30,22 @@ export class MoldeListComponent implements OnInit {
       }
     );
   }
+
+  deleteMolde(id: number) {
+    this.alertify.confirm("¿Desea borrar el molde?", () => {
+      this.moldeService.deleteMolde(id).subscribe(
+        () => {
+          this.moldes.splice(
+            this.moldes.findIndex(m => m.id === id),
+            1
+          );
+          this.loadMoldes();
+          this.alertify.success("Molde borrado");
+        },
+        error => {
+          this.alertify.error("Fallo al borrar el molde:" + error);
+        }
+      );
+    });
+  }
 }
