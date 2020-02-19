@@ -149,7 +149,7 @@ namespace GpoSion.API.Data
             && !viajeros.Any(v => v.LocalidadId == lm.LocalidadId)).ToListAsync();
             foreach (var lm in localidadesConMaterial)
             {
-                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana });
+                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana, Material = lm.Material });
             }
             viajeros = viajeros.OrderBy(v => v.Fecha).ToList();
 

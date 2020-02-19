@@ -49,6 +49,7 @@ namespace GpoSion.API.Controllers
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            motivo.Motivo = motivo.Motivo.Trim();
             motivo.CreadoPorId = userId;
             motivo.FechaCreacion = DateTime.Now;
 
@@ -73,7 +74,7 @@ namespace GpoSion.API.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            motivoFromRepo.Motivo = motivo.Motivo;
+            motivoFromRepo.Motivo = motivo.Motivo.Trim();
             motivoFromRepo.ModificadoPorId = userId;
             motivoFromRepo.UltimaModificacion = DateTime.Now;
 

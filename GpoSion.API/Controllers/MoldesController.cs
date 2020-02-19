@@ -50,6 +50,9 @@ namespace GpoSion.API.Controllers
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            moldeforCreationDto.ClaveMolde = moldeforCreationDto.ClaveMolde.Trim();
+
             var molde = _mapper.Map<Molde>(moldeforCreationDto);
             molde.FechaCreacion = DateTime.Now;
             molde.CreadoPorId = userId;
@@ -90,7 +93,7 @@ namespace GpoSion.API.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 
-            molde.ClaveMolde = moldeFP.ClaveMolde;
+            molde.ClaveMolde = moldeFP.ClaveMolde.Trim();
             molde.ClienteId = moldeFP.ClienteId;
             molde.UbicacionAreaId = moldeFP.UbicacionAreaId;
             // molde.MaquinaMoldeadoraId = moldeFP.MaquinaMoldeadoraId;

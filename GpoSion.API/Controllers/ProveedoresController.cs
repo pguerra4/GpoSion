@@ -51,6 +51,8 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> PostProveedor(ProveedorToCreateDto proveedorDto)
         {
 
+            proveedorDto.Nombre = proveedorDto.Nombre.Trim();
+
             var proveedor = _mapper.Map<Proveedor>(proveedorDto);
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

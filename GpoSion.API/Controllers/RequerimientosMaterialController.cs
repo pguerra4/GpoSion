@@ -108,8 +108,10 @@ namespace GpoSion.API.Controllers
                 {
                     rmm.CantidadEntregada += rmmDto.asurtir;
                     rmm.FechaEntrega = DateTime.Now;
-                    rmm.ViajeroId = rmmDto.Viajero;
-
+                    if (rmmDto.Viajero != 0)
+                    {
+                        rmm.ViajeroId = rmmDto.Viajero;
+                    }
 
 
                     var material = await _repo.GetMaterial(rmm.MaterialId);
@@ -135,7 +137,7 @@ namespace GpoSion.API.Controllers
                         _repo.Add(existenciaProduccion);
                     }
 
-                    if (rmmDto.Viajero.HasValue)
+                    if (rmmDto.Viajero.HasValue && rmmDto.Viajero != 0)
                     {
                         var viajero = await _repo.GetViajero(rmmDto.Viajero.Value);
 

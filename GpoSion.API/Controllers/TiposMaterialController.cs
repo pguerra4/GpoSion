@@ -54,6 +54,9 @@ namespace GpoSion.API.Controllers
                 return BadRequest();
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            tipoMaterialDto.Tipo = tipoMaterialDto.Tipo.Trim();
+
             var tipoMaterial = _mapper.Map<TipoMaterial>(tipoMaterialDto);
 
             tipoMaterial.CreadoPorId = userId;
@@ -75,6 +78,8 @@ namespace GpoSion.API.Controllers
                 return BadRequest();
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            tipoMaterialDto.Tipo = tipoMaterialDto.Tipo.Trim();
 
             var tipoMaterialFromRepo = await _repo.GetTipoMaterial(id);
 

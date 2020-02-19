@@ -18,6 +18,7 @@ import {
 } from "ngx-bootstrap";
 import * as locales from "ngx-bootstrap/locale";
 import { JwtModule } from "@auth0/angular-jwt";
+import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from "ngx-ui-loader";
 
 import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
@@ -274,6 +275,8 @@ defineLocales();
     TypeaheadModule.forRoot(),
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    NgxUiLoaderModule,
+    NgxUiLoaderHttpModule.forRoot({ showForeground: true }),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

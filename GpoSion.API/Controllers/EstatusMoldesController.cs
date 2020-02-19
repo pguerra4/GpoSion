@@ -50,6 +50,9 @@ namespace GpoSion.API.Controllers
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            estatusMoldeforCreationDto.Estatus = estatusMoldeforCreationDto.Estatus.Trim();
+
             var estatusMolde = _mapper.Map<EstatusMolde>(estatusMoldeforCreationDto);
             estatusMolde.FechaCreacion = DateTime.Now;
             estatusMolde.CreadoPorId = userId;
@@ -82,7 +85,7 @@ namespace GpoSion.API.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 
-            estatusMolde.Estatus = estatusMoldeFP.Estatus;
+            estatusMolde.Estatus = estatusMoldeFP.Estatus.Trim();
             estatusMolde.UltimaModificacion = DateTime.Now; ;
             estatusMolde.ModificadoPorId = userId;
 

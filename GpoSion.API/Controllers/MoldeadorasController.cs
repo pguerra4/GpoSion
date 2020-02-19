@@ -51,6 +51,9 @@ namespace GpoSion.API.Controllers
                 return BadRequest("Moldeadora ya existe");
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            moldeadoraToCreateDto.Clave = moldeadoraToCreateDto.Clave.Trim();
+
             var moldeadora = _mapper.Map<Moldeadora>(moldeadoraToCreateDto);
             moldeadora.Estatus = "Detenida";
             moldeadora.CreadoPorId = userId;
@@ -81,7 +84,7 @@ namespace GpoSion.API.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 
-            moldeadora.Clave = moldeadoraFP.Clave;
+            moldeadora.Clave = moldeadoraFP.Clave.Trim();
             moldeadora.UltimaModificacion = DateTime.Now;
             moldeadora.ModificadoPorId = userId;
 

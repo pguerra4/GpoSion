@@ -49,6 +49,9 @@ namespace GpoSion.API.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            clienteDto.Clave = clienteDto.Clave.Trim();
+            clienteDto.Nombre = clienteDto.Nombre.Trim();
+
             var cliente = _mapper.Map<Cliente>(clienteDto);
             cliente.CreadoPorId = userId;
             cliente.FechaCreacion = DateTime.Now;
@@ -75,6 +78,8 @@ namespace GpoSion.API.Controllers
             if (cliente.ClienteId != clienteDto.ClienteId)
                 return BadRequest("Ids no coinciden.");
 
+            clienteDto.Nombre = clienteDto.Nombre.Trim();
+            clienteDto.Clave = clienteDto.Clave.Trim();
 
             _mapper.Map(clienteDto, cliente);
 

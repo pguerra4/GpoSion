@@ -22,9 +22,12 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                            <button class="btn btn-success" [disabled]="!localidadForm.valid" type="submit">
+                            <button class="btn btn-success mr-1" [disabled]="!localidadForm.valid" type="submit">
                 Guardar
               </button>
+                            <a class="btn btn-danger " [routerLink]="['/localidades/']">
+                Cancelar
+              </a>
                         </div>
                     </div>
                 </form>

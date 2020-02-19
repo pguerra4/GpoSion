@@ -70,6 +70,8 @@ namespace GpoSion.API.Controllers
         public async Task<IActionResult> PostNumeroParte(NumeroParteToCreateDto numeroParteforCreationDto)
         {
 
+            numeroParteforCreationDto.NoParte = numeroParteforCreationDto.NoParte.Trim();
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var numeroParte = _mapper.Map<NumeroParte>(numeroParteforCreationDto);

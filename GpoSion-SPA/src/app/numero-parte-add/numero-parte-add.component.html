@@ -143,9 +143,12 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                            <button class="btn btn-success" [disabled]="!numeroParteForm.valid" type="submit">
+                            <button class="btn btn-success mr-1" [disabled]="!numeroParteForm.valid" type="submit">
                 Guardar
               </button>
+                            <a class="btn btn-danger " [routerLink]="['/numerosParte']">
+                Cancelar
+              </a>
                         </div>
                     </div>
                 </form>

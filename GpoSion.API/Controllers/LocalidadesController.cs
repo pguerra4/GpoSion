@@ -49,6 +49,9 @@ namespace GpoSion.API.Controllers
                 return BadRequest("Localidad ya existe");
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            localidadDto.Descripcion = localidadDto.Descripcion.Trim();
+
             var localidad = _mapper.Map<Localidad>(localidadDto);
             localidad.CreadoPorId = userId;
 
@@ -68,6 +71,9 @@ namespace GpoSion.API.Controllers
                 return BadRequest("No coinciden los ids");
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            localidadDto.Descripcion = localidadDto.Descripcion.Trim();
+
             var localidadFromRepo = await _repo.GetLocalidad(id);
             localidadFromRepo.UltimaModificacion = DateTime.Now;
             localidadFromRepo.ModificadoPorId = userId;
