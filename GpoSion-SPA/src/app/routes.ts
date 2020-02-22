@@ -97,6 +97,7 @@ import { EstatusMoldeListComponent } from "./estatus-molde-list/estatus-molde-li
 import { EstatusMoldeAddComponent } from "./estatus-molde-add/estatus-molde-add.component";
 import { EstatusMoldeEditComponent } from "./estatus-molde-edit/estatus-molde-edit.component";
 import { EstatusMoldeEditResolver } from "./_resolvers/estatus-molde-edit.resolver";
+import { EasyqueryComponent } from "./easyquery/easyquery.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -495,6 +496,10 @@ export const appRoutes: Routes = [
       {
         path: "users/changepassword/:id",
         component: ChangePasswordComponent
+      },
+      {
+        path: "easy-query",
+        component: EasyqueryComponent
       }
     ]
   },

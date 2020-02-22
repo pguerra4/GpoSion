@@ -7,6 +7,10 @@
 @import "../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";
 @import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 @import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "../node_modules/@easyquery/ui/dist/assets/css/easyquery.css";
+@import "../node_modules/@easyquery/ui/dist/assets/css/eq-icons-default.css";
+@import "../node_modules/@easyquery/ui/dist/assets/css/eqview.css";
+@import "../node_modules/@easyquery/ui/dist/assets/css/easychart.css";
 body {
     font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, “Helvetica Neue”, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”;
     /* default is 1rem or 16px */

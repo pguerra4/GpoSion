@@ -8,6 +8,7 @@ using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Helpers;
 using GpoSion.API.Models;
+using Korzh.EasyQuery.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,8 @@ namespace GpoSion.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Korzh.EasyQuery.AspNetCore.License.Key = "2omzL3uk_4aUjzHtUdyjYImuCUpayqVK75lJJLpSWUoDHUE305I";
+            Korzh.EasyQuery.AspNetCore.JSLicense.Key = "0uo6BQcy_pU-eeWAgzISFG32v1ACiIboqH0qzo35snsBFJKG1WV";
         }
 
         public IConfiguration Configuration { get; }
@@ -49,6 +52,8 @@ namespace GpoSion.API
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddEasyQuery().UseSqlManager();
+
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
@@ -130,6 +135,12 @@ namespace GpoSion.API
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseEasyQuery(options =>
+            {
+                options.Endpoint = "/api/easyquery";
+                options.UseDbContext<DataContext>();
+                options.UsePaging(25);
+            });
             app.UseMvc(routes =>
             {
                 routes.MapSpaFallbackRoute(

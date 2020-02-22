@@ -61,6 +61,8 @@ namespace GpoSion.API.Controllers
             foreach (var de in embarque.DetallesEmbarque)
             {
 
+                de.FechaCreacion = DateTime.Now;
+                de.CreadoPorId = userId;
 
                 movimiento = new MovimientoProducto
                 {

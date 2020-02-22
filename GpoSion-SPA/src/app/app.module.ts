@@ -155,6 +155,7 @@ import { EstatusMoldeEditResolver } from "./_resolvers/estatus-molde-edit.resolv
 import { EstatusMoldeListComponent } from "./estatus-molde-list/estatus-molde-list.component";
 import { EstatusMoldeAddComponent } from "./estatus-molde-add/estatus-molde-add.component";
 import { EstatusMoldeEditComponent } from "./estatus-molde-edit/estatus-molde-edit.component";
+import { EasyqueryComponent } from "./easyquery/easyquery.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -260,7 +261,8 @@ defineLocales();
     SearchProduccionPipe,
     EstatusMoldeListComponent,
     EstatusMoldeAddComponent,
-    EstatusMoldeEditComponent
+    EstatusMoldeEditComponent,
+    EasyqueryComponent
   ],
   imports: [
     BrowserModule,
