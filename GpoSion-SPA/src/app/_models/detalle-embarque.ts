@@ -6,4 +6,6 @@ export interface DetalleEmbarque {
   cajas: number;
   piezasXCaja: number;
   entregadas: number;
+  localidadId?: number;
+  localidad?: string;
 }

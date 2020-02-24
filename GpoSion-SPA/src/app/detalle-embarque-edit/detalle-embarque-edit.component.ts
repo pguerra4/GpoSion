@@ -9,6 +9,7 @@ import { AlertifyService } from "../_services/alertify.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { BsLocaleService } from "ngx-bootstrap";
 import { Embarque } from "../_models/embarque";
+import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 
 @Component({
   selector: "app-detalle-embarque-edit",
@@ -18,6 +19,7 @@ import { Embarque } from "../_models/embarque";
 export class DetalleEmbarqueEditComponent implements OnInit {
   detalleEmbarqueForm: FormGroup;
   detalleEmbarque: DetalleEmbarque;
+  localidadesNumeroParte: LocalidadNumeroParte[];
   embarque: Embarque;
   numerosParte: NumeroParte[];
   ordenesCompra: OrdenCompra[];
@@ -38,9 +40,11 @@ export class DetalleEmbarqueEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       // tslint:disable-next-line: no-string-literal
       this.detalleEmbarque = data["detalleEmbarque"];
-      this.createDetalleEmbarqueForm();
+
       this.loadEmbarque();
       this.loadOrdenesCompra(this.detalleEmbarque.noParte);
+      this.loadLocalidades(this.detalleEmbarque.noParte);
+      this.createDetalleEmbarqueForm();
     });
   }
 
@@ -55,6 +59,7 @@ export class DetalleEmbarqueEditComponent implements OnInit {
         noParte: [this.detalleEmbarque.noParte, Validators.required],
         noOrden: [this.detalleEmbarque.noOrden.toString(), Validators.required],
         noOrden2: [this.detalleEmbarque.noOrden],
+        localidadId: [this.detalleEmbarque.localidadId],
         cajas: [this.detalleEmbarque.cajas],
         piezasXCaja: [this.detalleEmbarque.piezasXCaja],
         entregadas: [this.detalleEmbarque.entregadas, Validators.required]
@@ -89,7 +94,9 @@ export class DetalleEmbarqueEditComponent implements OnInit {
     if (np) {
       this.detalleEmbarqueForm.get("noOrden").setValue("");
       this.detalleEmbarqueForm.get("noOrden2").setValue(null);
+      this.ordenesCompra = null;
       this.loadOrdenesCompra(np.value);
+      this.loadLocalidades(np.value);
     }
   }
 
@@ -110,6 +117,18 @@ export class DetalleEmbarqueEditComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  loadLocalidades(noParte: string) {
+    this.localidadesNumeroParte = null;
+    this.numeroParteService.getLocalidadesNumeroParte(noParte).subscribe(
+      (res: LocalidadNumeroParte[]) => {
+        this.localidadesNumeroParte = res;
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
   }
 
   editDetalleEmbarque() {

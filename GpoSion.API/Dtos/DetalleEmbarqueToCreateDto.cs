@@ -14,5 +14,7 @@ namespace GpoSion.API.Dtos
 
         public int Entregadas { get; set; }
 
+        public int? LocalidadId { get; set; }
+
     }
 }

@@ -21,6 +21,9 @@ namespace GpoSion.API.Models
 
         public int Entregadas { get; set; }
 
+        public int? LocalidadId { get; set; }
+        public virtual Localidad Localidad { get; set; }
+
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }

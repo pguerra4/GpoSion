@@ -34,20 +34,34 @@
       </div>
       <div class="card-text">
         <div class="table-responsive">
-          <table class="table table-hover table-bordered table-striped mt-1">
+          <table class="table table-hover table-bordered mt-1">
             <thead>
               <tr class="table-primary">
                 <th scope="col">Fecha</th>
                 <th scope="col">Folio</th>
                 <th scope="col">Cliente</th>
-                <th scope="col">No. Partes</th>
+                <th scope="col">
+                  No. Parte
+                </th>
+                <th scope="col">
+                  Piezas
+                </th>
                 <th scope="col">Tipo</th>
                 <th scope="col">Editar</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody
+              *ngFor="
+                let embarque of embarques | searchEmbarque: searchText;
+                let i = index
+              "
+            >
               <tr
-                *ngFor="let embarque of embarques | searchEmbarque: searchText"
+                [ngClass]="{ 'table-secondary': i % 2 == 0 }"
+                *ngFor="
+                  let detalleEmbarque of embarque.detallesEmbarque;
+                  let j = index
+                "
               >
                 <td>
                   {{ embarque.fecha | date: "dd-MM-yyyy" }}
@@ -59,19 +73,17 @@
                   {{ embarque.cliente }}
                 </td>
                 <td>
-                  <div
-                    *ngFor="let detalleEmbarque of embarque.detallesEmbarque"
-                  >
-                    {{ detalleEmbarque.noParte }} ({{
-                      detalleEmbarque.entregadas
-                    }})
-                  </div>
+                  {{ detalleEmbarque.noParte }}
                 </td>
+                <td>{{ detalleEmbarque.entregadas }}</td>
+
                 <td>
                   {{ embarque.rechazadas ? "Rechazadas" : "Certificadas" }}
                 </td>
+
                 <td>
                   <a
+                    *ngIf="j === 0"
                     class="fa fa-edit"
                     [routerLink]="['/embarques/' + embarque.embarqueId]"
                   ></a>

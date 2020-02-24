@@ -21,7 +21,7 @@
                                 <th scope="col" class="text-right">Piezas Rechazadas</th>
                                 <th scope="col">Localidades</th>
                                 <th scope="col">Última Modificación</th>
-                                <!-- <th>Localidades</th> -->
+                                <th>Localidades</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,9 +41,9 @@
                                     {{ em.localidades }}
                                 </td>
                                 <td>{{ em.ultimaModificacion | date: "dd-MM-yyyy HH:mm" }}</td>
-                                <!-- <td class="text-center">
+                                <td class="text-center">
                                     <a class="fa fa-cubes" [routerLink]="['/existenciasproducto/' + em.noParte]"></a>
-                                </td> -->
+                                </td>
                             </tr>
                         </tbody>
                     </table>

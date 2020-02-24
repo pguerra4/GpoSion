@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace GpoSion.API.Dtos
 {
     public class DetalleEmbarqueToListDto
@@ -7,6 +9,11 @@ namespace GpoSion.API.Dtos
         public int EmbarqueId { get; set; }
 
         public string NoParte { get; set; }
+
+        public int? LocalidadId { get; set; }
+
+        [JsonProperty(PropertyName = "localidad")]
+        public string LocalidadDescripcion { get; set; }
 
         public long? NoOrden { get; set; }
 

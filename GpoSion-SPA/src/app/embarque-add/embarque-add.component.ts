@@ -12,6 +12,7 @@ import { AlertifyService } from "../_services/alertify.service";
 import { Router } from "@angular/router";
 import { BsLocaleService } from "ngx-bootstrap";
 import { ValidateExistingFolioEmbarque } from "../_validators/async-folio-embarque-existente.validator";
+import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 
 @Component({
   selector: "app-embarque-add",
@@ -22,6 +23,7 @@ export class EmbarqueAddComponent implements OnInit {
   embarqueForm: FormGroup;
   embarque: Embarque;
   detallesEmbarque: DetalleEmbarque[] = new Array();
+  localidadesNumeroParte: LocalidadNumeroParte[];
   clientes: Cliente[];
   numerosParte: NumeroParte[];
   ordenesCompra: OrdenCompra[];
@@ -59,6 +61,7 @@ export class EmbarqueAddComponent implements OnInit {
         noParte: [""],
         noOrden: [""],
         noOrden2: [""],
+        localidadId: [null],
         cajas: [0],
         piezasXCaja: [0],
         entregadas: [0]
@@ -94,6 +97,7 @@ export class EmbarqueAddComponent implements OnInit {
   onSelectNumeroParte(np: any) {
     if (np) {
       this.loadOrdenesCompra(np.value);
+      this.loadLocalidades(np.value);
     }
   }
 
@@ -104,6 +108,9 @@ export class EmbarqueAddComponent implements OnInit {
   }
 
   loadOrdenesCompra(noParte: string) {
+    this.embarqueForm.get("noOrden").setValue(null);
+    this.embarqueForm.get("noOrden2").setValue(null);
+    this.ordenesCompra = null;
     this.ordenCompraService
       .getOrdenesCompraAbiertasXNumroParte(noParte)
       .subscribe(
@@ -114,6 +121,18 @@ export class EmbarqueAddComponent implements OnInit {
           this.alertify.error(error);
         }
       );
+  }
+
+  loadLocalidades(noParte: string) {
+    this.localidadesNumeroParte = null;
+    this.numeroParteService.getLocalidadesNumeroParte(noParte).subscribe(
+      (res: LocalidadNumeroParte[]) => {
+        this.localidadesNumeroParte = res;
+      },
+      error => {
+        this.alertify.error(error);
+      }
+    );
   }
 
   addEmbarque() {
@@ -135,44 +154,61 @@ export class EmbarqueAddComponent implements OnInit {
   }
 
   addDetalle() {
-    const detalle: DetalleEmbarque = {
-      detalleEmbarqueId: 0,
-      embarqueId: 0,
-      noParte: this.embarqueForm.get("noParte").value,
-      cajas: +this.embarqueForm.get("cajas").value,
-      piezasXCaja: +this.embarqueForm.get("piezasXCaja").value,
-      entregadas: +this.embarqueForm.get("entregadas").value,
-      noOrden: +this.embarqueForm.get("noOrden").value
-    };
-
-    const cert =
-      this.embarqueForm.get("rechazadas").value === "false" ? true : false;
-
-    this.numeroParteService.existenciasAlmacen(detalle.noParte, cert).subscribe(
-      (res: number) => {
-        if (res >= detalle.entregadas) {
-          if (this.detallesEmbarque.indexOf(detalle) < 0) {
-            this.detallesEmbarque.push(detalle);
-          }
-
-          this.embarqueForm.get("noParte").setValue(null);
-          this.embarqueForm.get("cajas").setValue(0);
-          this.embarqueForm.get("piezasXCaja").setValue(0);
-          this.embarqueForm.get("entregadas").setValue(0);
-          this.embarqueForm.get("noOrden").setValue(null);
-          this.embarqueForm.get("noOrden2").setValue(null);
-        } else {
-          this.alertify.error(
-            "La canidad solicitada excede las existencias en almacen (" +
-              res +
-              ")"
-          );
-        }
-      },
-      error => {
-        this.alertify.error(error);
-      }
+    const localidad = this.localidadesNumeroParte.find(
+      l => l.localidadId === +this.embarqueForm.get("localidadId").value
     );
+
+    if (localidad.existencia < +this.embarqueForm.get("entregadas").value) {
+      this.alertify.error(
+        "La canidad solicitada excede las existencias en la localidad (" +
+          localidad.existencia +
+          ")"
+      );
+    } else {
+      const detalle: DetalleEmbarque = {
+        detalleEmbarqueId: 0,
+        embarqueId: 0,
+        noParte: this.embarqueForm.get("noParte").value,
+        cajas: +this.embarqueForm.get("cajas").value,
+        piezasXCaja: +this.embarqueForm.get("piezasXCaja").value,
+        entregadas: +this.embarqueForm.get("entregadas").value,
+        noOrden: +this.embarqueForm.get("noOrden").value,
+        localidadId: +this.embarqueForm.get("localidadId").value,
+        localidad: localidad.localidad
+      };
+
+      const cert =
+        this.embarqueForm.get("rechazadas").value === "false" ? true : false;
+
+      this.numeroParteService
+        .existenciasAlmacen(detalle.noParte, cert)
+        .subscribe(
+          (res: number) => {
+            if (res >= detalle.entregadas) {
+              if (this.detallesEmbarque.indexOf(detalle) < 0) {
+                this.detallesEmbarque.push(detalle);
+              }
+
+              this.embarqueForm.get("noParte").setValue(null);
+              this.embarqueForm.get("cajas").setValue(0);
+              this.embarqueForm.get("piezasXCaja").setValue(0);
+              this.embarqueForm.get("entregadas").setValue(0);
+              this.embarqueForm.get("noOrden").setValue(null);
+              this.embarqueForm.get("noOrden2").setValue(null);
+              this.embarqueForm.get("localidadId").setValue(null);
+            } else {
+              this.alertify.error(
+                "La canidad solicitada excede las existencias en almacen (" +
+                  res +
+                  ")"
+              );
+            }
+          },
+          error => {
+            this.alertify.error(error);
+          }
+        );
+    }
   }
 
   deleteDetalle(index: number) {

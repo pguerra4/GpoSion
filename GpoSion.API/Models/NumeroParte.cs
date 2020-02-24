@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Korzh.EasyQuery;
 
 namespace GpoSion.API.Models
 {
@@ -18,10 +19,13 @@ namespace GpoSion.API.Models
         [Column(TypeName = "decimal(18, 3)")]
         public decimal Costo { get; set; }
 
+        [EqEntityAttr(UseInResult = true, UseInConditions = false)]
         public string Descripcion { get; set; }
 
+        [EqEntityAttr(UseInResult = true, UseInConditions = false)]
         public string LeyendaPieza { get; set; }
 
+        [EqEntityAttr(UseInResult = true, UseInConditions = false)]
         public string UrlImagenPieza { get; set; }
 
         public int? MaterialId { get; set; }

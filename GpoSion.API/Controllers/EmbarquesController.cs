@@ -73,7 +73,8 @@ namespace GpoSion.API.Controllers
                     Cajas = de.Cajas,
                     PiezasXCaja = de.PiezasXCaja,
                     TipoMovimiento = "Embarque",
-                    DetalleEmbarqueId = de.DetalleEmbarqueId
+                    DetalleEmbarqueId = de.DetalleEmbarqueId,
+                    LocalidadId = de.LocalidadId
                 };
                 if (!embarque.Rechazadas)
                 {
@@ -103,27 +104,10 @@ namespace GpoSion.API.Controllers
                     existencia.ModificadoPorId = userId;
 
 
-                    var localidadesNumeroParte = await _repo.GetLocalidadesNumeroParte(de.NoParte);
-                    var localidadesNumeroParteArray = localidadesNumeroParte.OrderBy(npl => npl.UltimaModificacion.HasValue ? npl.UltimaModificacion : npl.FechaCreacion).ThenBy(npl => npl.Existencia).ToArray();
-
-                    decimal total = 0;
-                    var listo = false;
-                    var localidadesCount = localidadesNumeroParte.Count();
-                    var indice = 0;
-                    while (!listo && indice < localidadesCount)
+                    var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(de.LocalidadId.Value, de.NoParte);
+                    if (localidadNumeroParte != null)
                     {
-                        if (localidadesNumeroParteArray[indice].Existencia >= (de.Entregadas - total))
-                        {
-                            localidadesNumeroParteArray[indice].Existencia -= (de.Entregadas - total);
-                            listo = true;
-
-                        }
-                        else
-                        {
-                            total += localidadesNumeroParteArray[indice].Existencia;
-                            localidadesNumeroParteArray[indice].Existencia = 0;
-                        }
-                        indice++;
+                        localidadNumeroParte.Existencia -= de.Entregadas;
                     }
 
                 }
