@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using Korzh.EasyQuery;
 using Microsoft.AspNetCore.Identity;
 
 namespace GpoSion.API.Models
 {
+    [EqEntity(UseInResult = false, UseInConditions = false)]
     public class User : IdentityUser
     {
 
