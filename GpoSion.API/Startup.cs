@@ -30,6 +30,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
+
 namespace GpoSion.API
 {
     public class Startup
@@ -148,18 +149,26 @@ namespace GpoSion.API
                 {
                     loaderOptions.HidePrimaryKeys = false;
                 });
-                // options.UseModelTuner(model =>
-                // {
-                //     model.EntityRoot.Scan(null, (attr) =>
-                //     {
+                options.UseModelTuner(model =>
+                {
+                    model.EntityRoot.Scan((entity) =>
+                    {
+                        if (entity.Id != null)
+                            if (entity.Name.StartsWith("Asp"))
+                            {
+                                entity.UseInResult = false;
+                                entity.UseInConditions = false;
+                            }
+                    }, (attr) =>
+                                  {
 
-                //         if (attr.ID == "DetalleEmbarqueNumeroParte")
-                //         {
-                //             attr.Caption = "NoParte";
-                //             attr.DefaultEditor = model.DefaultTextEditor;
-                //         }
-                //     });
-                // });
+                                      if (attr.ID == "DetalleEmbarque.NoParte")
+                                      {
+                                          attr.Caption = "NoParte";
+                                          attr.DefaultEditor = model.DefaultTextEditor;
+                                      }
+                                  });
+                });
                 options.UsePaging(25);
             });
             app.UseMvc(routes =>

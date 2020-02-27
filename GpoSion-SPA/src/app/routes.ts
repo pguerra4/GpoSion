@@ -98,6 +98,9 @@ import { EstatusMoldeAddComponent } from "./estatus-molde-add/estatus-molde-add.
 import { EstatusMoldeEditComponent } from "./estatus-molde-edit/estatus-molde-edit.component";
 import { EstatusMoldeEditResolver } from "./_resolvers/estatus-molde-edit.resolver";
 import { EasyqueryComponent } from "./easyquery/easyquery.component";
+import { ExistenciaProductoEditComponent } from "./existencia-producto-edit/existencia-producto-edit.component";
+import { LocalidadNumeroParteEditComponent } from "./localidad-numero-parte-edit/localidad-numero-parte-edit.component";
+import { LocalidadNumeroParteEditResolver } from "./_resolvers/localidad-numero-parte-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -430,6 +433,18 @@ export const appRoutes: Routes = [
         component: ExistenciaProductoDetailComponent,
         resolve: { existenciaProducto: ExistenciaProductoDetailResolver },
         data: { roles: ["Admin", "Almacen", "Produccion", "Compras", "Ventas"] }
+      },
+      {
+        path: "editExistenciaProducto/:id",
+        component: ExistenciaProductoEditComponent,
+        resolve: { existenciaProducto: ExistenciaProductoDetailResolver },
+        data: { roles: ["Admin", "Almacen", "Produccion"] }
+      },
+      {
+        path: "localidadesnumeroparte/:localidadId/:noParte",
+        component: LocalidadNumeroParteEditComponent,
+        resolve: { localidadNumeroParte: LocalidadNumeroParteEditResolver },
+        data: { roles: ["Admin", "Almacen", "Produccion"] }
       },
       {
         path: "ordenescompraproveedores",

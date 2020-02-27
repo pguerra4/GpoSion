@@ -5,6 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FileUploadModule } from "ng2-file-upload";
 import { TypeaheadModule } from "ngx-bootstrap/typeahead";
+import { i18n } from "@easyquery/core";
 import {
   OwlDateTimeModule,
   OwlNativeDateTimeModule,
@@ -156,6 +157,9 @@ import { EstatusMoldeListComponent } from "./estatus-molde-list/estatus-molde-li
 import { EstatusMoldeAddComponent } from "./estatus-molde-add/estatus-molde-add.component";
 import { EstatusMoldeEditComponent } from "./estatus-molde-edit/estatus-molde-edit.component";
 import { EasyqueryComponent } from "./easyquery/easyquery.component";
+import { ExistenciaProductoEditComponent } from "./existencia-producto-edit/existencia-producto-edit.component";
+import { LocalidadNumeroParteEditComponent } from "./localidad-numero-parte-edit/localidad-numero-parte-edit.component";
+import { LocalidadNumeroParteEditResolver } from "./_resolvers/localidad-numero-parte-edit.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -167,6 +171,142 @@ function defineLocales() {
   }
 }
 defineLocales();
+
+var spanishLocaleInfo = {
+  englishName: "Spanish",
+  displayName: "Español",
+  settings: {
+    dateFormat: "dd/MM/yyyy",
+    decimalSeparator: "."
+  },
+  texts: {
+    AltMenuAttribute: "Atributo",
+    AltMenuConstantExpression: "Constante",
+    ButtonApply: "Aplicar",
+    ButtonCancel: "Cancelar",
+    ButtonOK: "OK",
+    ButtonClear: "Limpiar",
+    ButtonEnable: "Cambiar habilitado",
+    MenuEnable: "Habilitar",
+    MenuParameterization: "Parametrizado",
+    MenuJoinCond: "Usar en JOIN",
+    ButtonDelete: "Borrar",
+    ButtonAddCondition: "agregar condición",
+    ButtonAddPredicate: "agregar grupo de condiciones",
+    ButtonSelectAll: "Seleccionar todo",
+    ButtonDeselectAll: "Limpiar selección",
+    ButtonAddColumns: "Agregar columna(s)",
+    ButtonAddConditions: "Agregar condición(es)",
+
+    CmdAddConditionAfter: "Agregar nueva condición despues de la fila actual",
+    CmdAddConditionInto: "Agregar a una nueva condición",
+    CmdAddPredicateAfter: "Abrir llave despues de la fila actual",
+    CmdAddPredicateInto: "Abrir llave",
+    CmdClickToAddCondition: "[Agregar nueva condición]",
+    CmdDeleteRow: "Borrar esta fila",
+    ErrIncorrectPredicateTitleFormat:
+      "Formato del titulo del predicado incorrecto",
+    ErrNotNumber: " no es un número",
+    ErrIncorrectInteger: "Valor entero incorrecto",
+    ErrIncorrectNumberList: "formato de lista incorrecto",
+    False: "Falso",
+    LinkTypeAll: "todo",
+    LinkTypeAny: "cualquier",
+    LinkTypeNone: "ningun",
+    LinkTypeNotAll: "no todos",
+    ConjAll: "y",
+    ConjAny: "o",
+    ConjNotAll: "y",
+    ConjNone: "o",
+    MsgApplySelection: "[Aplicar selección]",
+    MsgAs: "como",
+    MsgEmptyList: "(lista vacía)",
+    MsgEmptyListValue: "[seleccionar valor]",
+    MsgEmptyScalarValue: "[capturar valor]",
+    MsgSubQueryValue: "[editar sub-consulta]",
+    MsgEmptyAttrValue: "[seleccionar atributo]",
+    MsgEmptyCustomSql: "[capturar expresión SQL]",
+    MsgCustomSql: "[SQL Personalizado]",
+    MsgNoResult: "Sin resultado",
+    MsgResultCount: "{0} registros encontrados",
+
+    MsgOf: "de",
+    PredicateTitle: "{lt} de los siguientes aplican",
+    RootPredicateTitle:
+      "Seleccionar registros donde {lt} de los siguientes aplican",
+    StrAddConditions: "Agregar condiciones",
+    SubQueryDialogTitle: "Editar sub-consulta",
+    SubQueryColumnTitle: "Columna:",
+    SubQueryEmptyColumn: "[seleccionar columna]",
+    SubQueryQueryPanelCaption: "Condiciones",
+    True: "Verdadero",
+
+    ButtonSorting: "Ordenar",
+    ButtonToAggr: "Cambiar a columna de agregación",
+    ButtonToSimple: "Cambiar a columna simple",
+    CmdAscending: "Ascendente",
+    CmdClickToAddColumn: "[Agregar nueva columna]",
+    CmdDeleteColumn: "Borrar columna",
+    CmdDeleteSorting: "Borrar ordenamiento",
+    CmdDescending: "Descendente",
+    CmdGroupSort: "Ordenar",
+    CmdNotSorted: "No ordenadar",
+    ColTypeAggrFunc: "Función de agregación",
+    ColTypeCompound: "Calculado",
+    ColTypeGroup: "Tipo columna",
+    ColTypeSimple: "Columna simple",
+    HeaderExpression: "Expresión",
+    HeaderSorting: "Ordenar",
+    HeaderTitle: "titulo",
+    SortHeaderColumn: "Columna",
+    SortHeaderSorting: "Ordenar",
+    StrAddColumns: "Agregar columnas",
+    CustomExpression: "Expresión personalizada",
+
+    CmdMoveToStart: "Mover al inicio",
+    CmdMoveRight: "Mover a la derecha",
+    CmdMoveLeft: "Mover a la izquierda",
+    CmdMoveToEnd: "Mover al final",
+    ButtonMenu: "Mostrar menu",
+    CmdToSimple: "No agregada",
+
+    CmdMoveToFirst: "Mover al primero",
+    CmdMoveToPrev: "Mover al anterior",
+    CmdMoveToNext: "Mover al siguiente",
+    CmdMoveToLast: "Mover al último",
+
+    //FilterBar
+    StrNoFilterDefined: "Sin filtros definidos",
+    StrNoFilterClickToAdd:
+      "Sin filtros definidos. Click para agregar nueva condición",
+
+    //DateTime macroses
+    Today: "Hoy",
+    Yesterday: "Ayer",
+    Tomorrow: "Mañana",
+    FirstDayOfMonth: "Primer día del mes",
+    LastDayOfMonth: "Último día del mes",
+    FirstDayOfWeek: "Primer día de la semana",
+    FirstDayOfYear: "Primer día del año",
+    FirstDayOfNextWeek: "Primer día de la siguiente semana",
+    FirstDayOfNextMonth: "Primer día del siguiente mes",
+    FirstDayOfNextYear: "Primer día del próximo año",
+    Now: "Ahora",
+    HourStart: "Al inicio de esta hora",
+    Midnight: "Medianoche",
+    Noon: "Mediodia",
+
+    Entities: {},
+    Attributes: {},
+    Operators: {
+      Equal: "es igual a"
+    },
+    AggreateFunction: {}
+  }
+};
+
+i18n.updateLocaleInfo("es", spanishLocaleInfo);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -262,7 +402,9 @@ defineLocales();
     EstatusMoldeListComponent,
     EstatusMoldeAddComponent,
     EstatusMoldeEditComponent,
-    EasyqueryComponent
+    EasyqueryComponent,
+    ExistenciaProductoEditComponent,
+    LocalidadNumeroParteEditComponent
   ],
   imports: [
     BrowserModule,
@@ -329,6 +471,7 @@ defineLocales();
     ValidateExistingNumeroOrden,
     ValidateExistingMolde,
     EstatusMoldeEditResolver,
+    LocalidadNumeroParteEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

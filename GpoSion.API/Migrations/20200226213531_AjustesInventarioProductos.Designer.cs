@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200226213531_AjustesInventarioProductos")]
+    partial class AjustesInventarioProductos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,11 +39,13 @@ namespace GpoSion.API.Migrations
 
                     b.Property<DateTime>("Fecha");
 
-                    b.Property<int?>("LocalidadId");
+                    b.Property<int?>("LocalidadNumeroParteId");
+
+                    b.Property<int?>("LocalidadNumeroParteLocalidadId");
+
+                    b.Property<string>("LocalidadNumeroParteNoParte");
 
                     b.Property<string>("Motivo");
-
-                    b.Property<string>("NoParte");
 
                     b.HasKey("AjusteInventarioProductoId");
 
@@ -49,7 +53,7 @@ namespace GpoSion.API.Migrations
 
                     b.HasIndex("ExistenciaProductoId");
 
-                    b.HasIndex("LocalidadId", "NoParte");
+                    b.HasIndex("LocalidadNumeroParteLocalidadId", "LocalidadNumeroParteNoParte");
 
                     b.ToTable("AjustesInventarioProductos");
                 });
@@ -1549,7 +1553,7 @@ namespace GpoSion.API.Migrations
 
                     b.HasOne("GpoSion.API.Models.LocalidadNumeroParte", "LocalidadNumeroParte")
                         .WithMany()
-                        .HasForeignKey("LocalidadId", "NoParte");
+                        .HasForeignKey("LocalidadNumeroParteLocalidadId", "LocalidadNumeroParteNoParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Cliente", b =>

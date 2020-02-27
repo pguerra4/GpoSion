@@ -101,6 +101,8 @@ namespace GpoSion.API.Data
 
         Task<ExistenciaProducto> GetExistenciaProducto(string NoParte);
 
+        Task<ExistenciaProducto> GetExistenciaProductoPorId(int id);
+
         Task<IEnumerable<ExistenciaProducto>> GetExistenciasProducto();
 
         Task<IEnumerable<OrdenCompra>> GetOrdenesCompraAbiertasXNumeroParte(string noParte);

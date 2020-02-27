@@ -4,55 +4,22 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200226222438_RemoveAjustesInventarioProductos")]
+    partial class RemoveAjustesInventarioProductos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("GpoSion.API.Models.AjusteInventarioProducto", b =>
-                {
-                    b.Property<int>("AjusteInventarioProductoId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreadoPorId");
-
-                    b.Property<string>("CreadorPorId");
-
-                    b.Property<int>("ExistenciaFinal");
-
-                    b.Property<int>("ExistenciaOriginal");
-
-                    b.Property<int?>("ExistenciaProductoId");
-
-                    b.Property<DateTime>("Fecha");
-
-                    b.Property<int?>("LocalidadId");
-
-                    b.Property<string>("Motivo");
-
-                    b.Property<string>("NoParte");
-
-                    b.HasKey("AjusteInventarioProductoId");
-
-                    b.HasIndex("CreadorPorId");
-
-                    b.HasIndex("ExistenciaProductoId");
-
-                    b.HasIndex("LocalidadId", "NoParte");
-
-                    b.ToTable("AjustesInventarioProductos");
-                });
 
             modelBuilder.Entity("GpoSion.API.Models.Area", b =>
                 {
@@ -1535,21 +1502,6 @@ namespace GpoSion.API.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.AjusteInventarioProducto", b =>
-                {
-                    b.HasOne("GpoSion.API.Models.User", "CreadorPor")
-                        .WithMany()
-                        .HasForeignKey("CreadorPorId");
-
-                    b.HasOne("GpoSion.API.Models.ExistenciaProducto", "ExistenciaProducto")
-                        .WithMany()
-                        .HasForeignKey("ExistenciaProductoId");
-
-                    b.HasOne("GpoSion.API.Models.LocalidadNumeroParte", "LocalidadNumeroParte")
-                        .WithMany()
-                        .HasForeignKey("LocalidadId", "NoParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.Cliente", b =>

@@ -82,7 +82,7 @@ namespace GpoSion.API.Helpers
             CreateMap<UserToEditDto, User>();
             CreateMap<MovimientoMaterial, RetornoMaterialToListDto>();
             CreateMap<ExistenciaProducto, ExistenciaProductoToListDto>()
-            .ForMember(dest => dest.Localidades, opt => opt.MapFrom(src => src.NumeroParte.NumeroParteLocalidades.Where(npl => npl.Existencia > 0).Select(npl => npl.Localidad.Descripcion)));
+            .ForMember(dest => dest.Localidades, opt => opt.MapFrom(src => src.NumeroParte.NumeroParteLocalidades.Where(npl => npl.Existencia > 0)));
             CreateMap<LocalidadNumeroParte, LocalidadNumeroParteToListDto>();
             CreateMap<EstatusMolde, EstatusMoldeToListDto>();
             CreateMap<MovimientoMolde, MovimientoMoldeForListDto>();

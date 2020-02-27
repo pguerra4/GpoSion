@@ -6,6 +6,9 @@ using GpoSion.API.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using GpoSion.API.Models;
+using System;
 
 namespace GpoSion.API.Controllers
 {
@@ -45,6 +48,52 @@ namespace GpoSion.API.Controllers
             var existenciaToReturn = _mapper.Map<ExistenciaProductoToListDto>(existencia);
 
             return Ok(existenciaToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutExistenciasProducto(int id, ExistenciaProductoToEditDto existenciaFP)
+        {
+            var existencia = await _repo.GetExistenciaProductoPorId(id);
+            if (existencia == null)
+                return NotFound();
+            if (existencia.ExistenciaProductoId != existenciaFP.ExistenciaProductoId)
+                return BadRequest("Ids no coinciden.");
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var movimiento = new MovimientoProducto
+            {
+                NoParte = existencia.NoParte,
+                PiezasCertificadas = existenciaFP.PiezasCertificadas,
+                Fecha = DateTime.Now,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId,
+                TipoMovimiento = "Ajuste existencia"
+            };
+
+            _repo.Add(movimiento);
+
+
+            var ajuste = new AjusteInventarioProducto
+            {
+                Fecha = DateTime.Now,
+                Motivo = existenciaFP.Motivo,
+                CreadoPorId = userId,
+                ExistenciaOriginal = existencia.PiezasCertificadas,
+                ExistenciaFinal = existenciaFP.PiezasCertificadas,
+                ExistenciaProductoId = existencia.ExistenciaProductoId,
+                NoParte = existencia.NoParte
+            };
+
+            _repo.Add(ajuste);
+
+            existencia.PiezasCertificadas = existenciaFP.PiezasCertificadas;
+            existencia.ModificadoPorId = userId;
+            existencia.UltimaModificacion = DateTime.Now;
+
+            await _repo.SaveAll();
+
+            return NoContent();
         }
 
     }

@@ -7,4 +7,5 @@ export interface LocalidadNumeroParte {
   ultimaModificacion?: Date;
   creadoPor?: string;
   modificadoPor?: string;
+  motivo?: string;
 }

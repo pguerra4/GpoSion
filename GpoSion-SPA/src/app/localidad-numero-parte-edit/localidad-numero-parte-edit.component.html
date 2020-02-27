@@ -1,0 +1,102 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary d-flex justify-content-between">
+            <span> Ajustar Existencia en Localidad Producto</span>
+        </div>
+        <div class="card-body">
+            <div class="card-title p-2">
+                <form [formGroup]="localidadExistenciaForm" (ngSubmit)="editLocalidadExistencia()" id="localidadExistenciaForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="noParte">No. Parte</label>
+                            <strong class="form-control">
+                {{ localidadExistencia.noParte }}</strong
+              >
+              <input type="hidden" name="noParte" formControlName="noParte" />
+            </div>
+            <div class="col-md-4">
+              <label for="localidadId">Localidad</label>
+              <strong class="form-control">
+                {{ localidadExistencia.localidad }}</strong
+              >
+              <input
+                type="hidden"
+                name="localidadId"
+                formControlName="localidadId"
+              />
+            </div>
+            <div class="form-group col-sm-11 col-md-4 col-lg-4">
+              <label for="existencia">Existencia</label>
+              <input
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    localidadExistenciaForm.get('existencia').errors &&
+                    localidadExistenciaForm.get('existencia').touched
+                }"
+                placeholder="Existencias"
+                type="number"
+                formControlName="existencia"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  localidadExistenciaForm
+                    .get('existencia')
+                    .hasError('required') &&
+                  localidadExistenciaForm.get('existencia').touched
+                "
+              >
+                La existencia es requerida.
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12">
+              <label for="motivo">Motivo del ajuste</label>
+              <input
+                class="form-control"
+                placeholder="Motivo"
+                type="text"
+                formControlName="motivo"
+                [ngClass]="{
+                  'is-invalid':
+                    localidadExistenciaForm.get('motivo').errors &&
+                    localidadExistenciaForm.get('motivo').touched
+                }"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  localidadExistenciaForm.get('motivo').hasError('required') &&
+                  localidadExistenciaForm.get('motivo').touched
+                "
+              >
+                El motivo del ajuste es requerido.
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12">
+              <button
+                class="btn btn-success mr-1"
+                [disabled]="!localidadExistenciaForm.valid"
+                type="submit"
+              >
+                Guardar
+              </button>
+              <a
+                class="btn btn-danger "
+                [routerLink]="[
+                  '/editExistenciaProducto/' + localidadExistencia.noParte
+                ]"
+              >
+                Cancelar
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 
 namespace GpoSion.API.Dtos
 {
@@ -23,6 +23,6 @@ namespace GpoSion.API.Dtos
 
         public string ModificadoPor { get; set; }
 
-        public string[] Localidades { get; set; }
+        public ICollection<LocalidadNumeroParteToListDto> Localidades { get; set; }
     }
 }

@@ -4,16 +4,16 @@
       <input id="QueryContentJson" type="hidden" value="@ViewBag.QueryJson" />
       -->
     <div class="eqv-header">
-        <div class="eqv-title">EasyQuery</div>
+        <div class="eqv-title">MMS</div>
         <div class="eqv-sub-title">
-            Friendly ad-hoc query builder for your web-site
+            Reporteador
         </div>
     </div>
     <div id="eqv-content">
         <div class="eqv-header-panel">
             <div class="eqv-entities-block">
                 <hr class="eqv-entities-hr eqv-hr" />
-                <div class="eqv-entities-title">Entities</div>
+                <div class="eqv-entities-title">Tablas</div>
                 <div class="eqv-entities-panel-container">
                     <!-- EntitiesPanel widget placeholder -->
                     <div id="EntitiesPanel" onselectstart="return false"></div>
@@ -23,7 +23,7 @@
             <div class="eqv-central-block">
                 <div class="eqv-columns-block">
                     <hr class="eqv-columns-hr eqv-hr" />
-                    <div class="eqv-columns-title">Columns</div>
+                    <div class="eqv-columns-title">Columnas</div>
                     <div class="eqv-columns-panel-container">
                         <!-- ColumnsPanel widget placeholder -->
                         <div id="ColumnsPanel"></div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="eqv-conditions-block">
                     <hr class="eqv-conditions-hr eqv-hr" />
-                    <div class="eqv-conditions-title">Conditions</div>
+                    <div class="eqv-conditions-title">Condiciones</div>
                     <div class="eqv-query-panel-container">
                         <!-- QueryPanel widget placeholder -->
                         <div id="QueryPanel"></div>
@@ -41,29 +41,34 @@
 
             <div class="eqv-menu-block">
                 <hr class="eqv-menu-hr eqv-hr" />
-                <div class="eqv-menu-title">Query Menu</div>
+                <div class="eqv-menu-title">Menu consulta</div>
                 <div class="eqv-menu-content">
                     <div id="QueryNameLabel"></div>
 
-                    <a id="ClearQueryButton" class="eqv-button">Clear</a>
+                    <a id="ClearQueryButton" class="eqv-button">Limpiar</a>
 
                     <div class="eqv-dropdown-container">
-                        <a id="LoadQueryButton" href="javascript::void(0)" class="eqv-button eqv-drop-button">Load <span style="float: right">▼</span></a
+                        <a id="LoadQueryButton" href="javascript::void(0)" class="eqv-button eqv-drop-button">Cargar <span style="float: right">▼</span></a
             >
             <div class="eqv-dropdown-content"></div>
           </div>
 
           <div class="eqv-dropdown-container">
             <a id="StorageDropButton" class="eqv-button eqv-drop-button"
-              >Storage <span style="float: right">▼</span></a
+              >Almacenamiento <span style="float: right">▼</span></a
             >
             <div class="eqv-dropdown-content">
-              <a id="NewQueryButton" href="javascript::void(0)">New query</a>
-                        <a id="SaveQueryButton" href="javascript::void(0)">Save query</a>
-                        <a id="CopyQueryButton" href="javascript::void(0)">Save query as...</a
+              <a id="NewQueryButton" href="javascript::void(0)"
+                >Nueva consulta</a
+              >
+              <a id="SaveQueryButton" href="javascript::void(0)"
+                >Guardar consulta</a
+              >
+              <a id="CopyQueryButton" href="javascript::void(0)"
+                >Guardar consulta como...</a
               >
               <a id="RemoveQueryButton" href="javascript::void(0)"
-                >Remove query</a
+                >Borrar consulta</a
               >
             </div>
           </div>
@@ -72,7 +77,7 @@
             id="ExecuteQueryButton"
             href="javascript::void(0)"
             class="eqv-button eqv-button-execute"
-            >Execute</a
+            >Ejecutar</a
           >
 
           <!--
@@ -95,7 +100,7 @@
       <div class="eqv-result-panel">
         <hr class="eqv-result-panel-hr eqv-hr" />
         <div class="eqv-result-panel-title">
-          Result
+          Resultado
           <span
             id="ResultCount"
             style="display:none; margin-left:20px; font-size:small"
@@ -105,10 +110,10 @@
               class="eqjs-export"
               href="javascript:void(0)"
               data-format="excel-html"
-              >Export to Excel</a
+              >Exportar a Excel</a
             >
             <a class="eqjs-export" href="javascript:void(0)" data-format="csv"
-              >Export to CSV</a
+              >Exportar a CSV</a
             >
           </span>
         </div>
@@ -118,7 +123,7 @@
     </div>
   </div>
   <div id="eqv-footer">
-    <div class="eqv-copyright">
+    <!-- <div class="eqv-copyright">
       (c) Copyright 2006-2019
       <a href="https://korzh.com/" target="_blank">Korzh.com</a>
                     </div>
@@ -127,5 +132,6 @@
                         <a href="https://korzh.com/easyquery" target="_blank">EasyQuery</a> |
                         <a href="http://demo.easyquerybuilder.com" target="_blank">Live demos</a>
                     </div>
-                </div>
+                </div> -->
             </div>
+        </div>

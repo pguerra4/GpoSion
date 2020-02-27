@@ -12,5 +12,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.6"/>
     <PackageReference Include="Korzh.EasyQuery.AspNetCore" Version="5.3.3"/>
     <PackageReference Include="Korzh.EasyQuery.EntityFrameworkCore.Relational" Version="5.3.3"/>
+    <PackageReference Include="Korzh.EasyQuery.EntityFrameworkCore.Identity" Version="5.3.3"/>
   </ItemGroup>
 </Project>

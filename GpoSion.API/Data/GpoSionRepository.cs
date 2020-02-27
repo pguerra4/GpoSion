@@ -406,6 +406,13 @@ namespace GpoSion.API.Data
             return existencias;
         }
 
+
+        public async Task<ExistenciaProducto> GetExistenciaProductoPorId(int id)
+        {
+            var existencia = await _context.ExistenciasProducto.FindAsync(id);
+            return existencia;
+        }
+
         public async Task<Embarque> GetEmbarque(int id)
         {
             var embarque = await _context.Embarques.FirstOrDefaultAsync(e => e.EmbarqueId == id);

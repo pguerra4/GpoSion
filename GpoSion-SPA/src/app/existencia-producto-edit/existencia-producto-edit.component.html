@@ -1,0 +1,136 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary d-flex justify-content-between">
+            <span> Ajustar Existencia Producto</span>
+        </div>
+        <div class="card-body">
+            <div class="card-title p-2">
+                <form [formGroup]="existenciaForm" (ngSubmit)="editExistencia()" id="existenciaForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="noParte">No. Parte</label>
+                            <strong class="form-control"> {{ existencia.noParte }}</strong>
+                            <input type="hidden" name="existenciaProductoId" formControlName="existenciaProductoId" />
+                            <input type="hidden" name="noParte" formControlName="noParte" />
+                        </div>
+                        <div class="form-group col-sm-11 col-md-4 col-lg-4">
+                            <label for="piezasCertificadas">Piezas Certificadas</label>
+                            <input class="form-control" [ngClass]="{
+                  'is-invalid':
+                    existenciaForm.get('piezasCertificadas').errors &&
+                    existenciaForm.get('piezasCertificadas').touched
+                }" placeholder="Certificadas" type="number" formControlName="piezasCertificadas" />
+                            <div class="invalid-feedback" *ngIf="
+                  existenciaForm
+                    .get('piezasCertificadas')
+                    .hasError('required') &&
+                  existenciaForm.get('piezasCertificadas').touched
+                ">
+                                Piezas Certificadas son requeridas
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-11 col-md-4 col-lg-4">
+                            <label for="piezasRechazadas">Piezas Rechazadas</label>
+                            <input class="form-control" placeholder="Rechazadas" type="number" [ngClass]="{
+                  'is-invalid':
+                    existenciaForm.get('piezasRechazadas').errors &&
+                    existenciaForm.get('piezasRechazadas').touched
+                }" formControlName="piezasRechazadas" />
+                            <div class="invalid-feedback" *ngIf="
+                  existenciaForm.get('piezasRechazadas').hasError('required') &&
+                  existenciaForm.get('piezasRechazadas').touched
+                ">
+                                Piezas Rechazadas son requeridas
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <label for="motivo">Motivo del ajuste</label>
+                            <input class="form-control" placeholder="Motivo" type="text" formControlName="motivo" [ngClass]="{
+                  'is-invalid':
+                    existenciaForm.get('motivo').errors &&
+                    existenciaForm.get('motivo').touched
+                }" />
+                            <div class="invalid-feedback" *ngIf="
+                  existenciaForm.get('motivo').hasError('required') &&
+                  existenciaForm.get('motivo').touched
+                ">
+                                El motivo del ajuste es requerido.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success mr-1" [disabled]="!existenciaForm.valid" type="submit">
+                Guardar
+              </button>
+                            <a class="btn btn-danger " [routerLink]="['/existenciasproducto']">
+                Cancelar
+              </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                            <label for="localidadId">Localidad</label>
+                            <select class="form-control" id="localidadId" formControlName="localidadId">
+                <option
+                  *ngFor="let localidad of localidades"
+                  [value]="localidad.localidadId"
+                >
+                  {{ localidad.localidad }}
+                </option>
+              </select>
+                        </div>
+                        <div class="form-group col-sm-11 col-md-5 col-lg-5">
+                            <label for="existencia">Existencia</label>
+                            <input class="form-control" placeholder="existencia" type="number" formControlName="existencia" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="agregar">Agregar Localidad</label>
+                            <button class="btn btn-success btn-xs form-control" type="button" [disabled]="
+                  !existenciaForm.get('localidadId').value ||
+                  !existenciaForm.get('existencia').value ||
+                  !existenciaForm.get('motivo').value
+                " (click)="addLocalidad()">
+                <span class="fa fa-plus-circle "> </span>
+              </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-text">
+                <div class="card-subtitle">
+                    Localidades
+                </div>
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <tr class="table-primary">
+                                <th>Localidad</th>
+                                <th class="text-right">Existencia</th>
+                                <th>Editar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of localidadesNumeroParte">
+                                <td>{{ item.localidad }}</td>
+                                <td class="text-right">
+                                    {{ item.existencia | number }}
+                                </td>
+                                <td>
+                                    <a class="fa fa-edit" [routerLink]="[
+                      '/localidadesnumeroparte/' +
+                        item.localidadId +
+                        '/' +
+                        item.noParte
+                    ]"></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

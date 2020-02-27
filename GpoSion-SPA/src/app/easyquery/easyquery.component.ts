@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from "@angular/core";
-import { EqContext } from "@easyquery/core";
+import { EqContext, i18n } from "@easyquery/core";
 import { EqViewOptions, AdvancedSearchView } from "@easyquery/ui";
 import "@easyquery/enterprise";
 import { environment } from "src/environments/environment";
@@ -20,6 +20,7 @@ export class EasyqueryComponent implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit() {
+    i18n.setCurrentLocale("es");
     const options: EqViewOptions = {
       enableExport: true,
       loadModelOnStart: true,

@@ -162,4 +162,38 @@ export class NumeroParteService {
       this.baseUrl + "localidadesnumeroparte/" + noParte
     );
   }
+
+  getLocalidadNumeroParte(
+    localidadId: number,
+    noParte: string
+  ): Observable<LocalidadNumeroParte> {
+    return this.http.get<LocalidadNumeroParte>(
+      this.baseUrl + "localidadesnumeroparte/" + localidadId + "/" + noParte
+    );
+  }
+
+  addLocalidadNumeroParte(localidadNumeroParte: LocalidadNumeroParte) {
+    return this.http.post(
+      this.baseUrl + "localidadesnumeroparte",
+      localidadNumeroParte
+    );
+  }
+
+  editExistencia(id: number, existencia: ExistenciaProducto) {
+    return this.http.put(
+      this.baseUrl + "existenciasproducto/" + id,
+      existencia
+    );
+  }
+
+  editLocalidadNumeroParte(
+    localidadId: number,
+    noParte: string,
+    localidadExistencia: LocalidadNumeroParte
+  ) {
+    return this.http.put(
+      this.baseUrl + "localidadesnumeroparte/" + localidadId + "/" + noParte,
+      localidadExistencia
+    );
+  }
 }

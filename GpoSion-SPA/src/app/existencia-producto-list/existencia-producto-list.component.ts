@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ExistenciaProducto } from "../_models/existencia-producto";
 import { NumeroParteService } from "../_services/numeroParte.service";
 import { AlertifyService } from "../_services/alertify.service";
+import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 
 @Component({
   selector: "app-existencia-producto-list",
@@ -30,5 +31,13 @@ export class ExistenciaProductoListComponent implements OnInit {
         this.alertify.error(error);
       }
     );
+  }
+
+  comparaExistencias(em: ExistenciaProducto): boolean {
+    let suma = em.localidades
+      .map(lnp => lnp.existencia)
+      .reduce((a, b) => a + b);
+
+    return suma !== em.piezasCertificadas;
   }
 }
