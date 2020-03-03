@@ -123,6 +123,21 @@ namespace GpoSion.API.Controllers
 
             }
 
+            var epp = await _repo.GetExistenciaProductoProduccionXNumeroParte(movimientoToCreate.NoParte);
+            if (epp != null)
+            {
+                epp.PiezasCertificadas -= movimientoToCreate.PiezasCertificadas;
+                epp.PiezasRechazadas -= (int)movimientoToCreate.PiezasRechazadas;
+                if (epp.PiezasCertificadas < 0)
+                    epp.PiezasCertificadas = 0;
+
+                if (epp.PiezasRechazadas < 0)
+                    epp.PiezasRechazadas = 0;
+
+                epp.ModificadoPorId = userId;
+                epp.UltimaModificacion = DateTime.Now;
+            }
+
 
 
             if (await _repo.SaveAll())
@@ -215,6 +230,32 @@ namespace GpoSion.API.Controllers
                 }
 
 
+                var eppOriginal = await _repo.GetExistenciaProductoProduccionXNumeroParte(movimiento.NoParte);
+                if (eppOriginal != null)
+                {
+                    eppOriginal.PiezasCertificadas += movimiento.PiezasCertificadas;
+                    eppOriginal.PiezasRechazadas += (int)movimiento.PiezasRechazadas;
+
+                    eppOriginal.ModificadoPorId = userId;
+                    eppOriginal.UltimaModificacion = DateTime.Now;
+                }
+
+                var epp = await _repo.GetExistenciaProductoProduccionXNumeroParte(movimientoFP.NoParte);
+                if (epp != null)
+                {
+                    epp.PiezasCertificadas -= movimientoFP.PiezasCertificadas;
+                    epp.PiezasRechazadas -= (int)movimientoFP.PiezasRechazadas;
+                    if (epp.PiezasCertificadas < 0)
+                        epp.PiezasCertificadas = 0;
+
+                    if (epp.PiezasRechazadas < 0)
+                        epp.PiezasRechazadas = 0;
+
+                    epp.ModificadoPorId = userId;
+                    epp.UltimaModificacion = DateTime.Now;
+                }
+
+
             }
             else
             {
@@ -283,6 +324,21 @@ namespace GpoSion.API.Controllers
                         localidadNumeroParte.UltimaModificacion = DateTime.Now;
                         localidadNumeroParte.ModificadoPorId = userId;
                     }
+                }
+
+                var epp = await _repo.GetExistenciaProductoProduccionXNumeroParte(movimientoFP.NoParte);
+                if (epp != null)
+                {
+                    epp.PiezasCertificadas -= (movimientoFP.PiezasCertificadas - movimiento.PiezasCertificadas);
+                    epp.PiezasRechazadas -= (int)(movimientoFP.PiezasRechazadas - movimiento.PiezasRechazadas);
+                    if (epp.PiezasCertificadas < 0)
+                        epp.PiezasCertificadas = 0;
+
+                    if (epp.PiezasRechazadas < 0)
+                        epp.PiezasRechazadas = 0;
+
+                    epp.ModificadoPorId = userId;
+                    epp.UltimaModificacion = DateTime.Now;
                 }
             }
 

@@ -571,5 +571,39 @@ namespace GpoSion.API.Data
             return producciones;
 
         }
+
+        public async Task<PlaneacionProduccion> GetPlaneacionProduccion(int año, int semana, string noParte)
+        {
+            var planeacion = await _context.PlaneacionProduccion.FindAsync(año, semana, noParte);
+            return planeacion;
+        }
+
+        public async Task<IEnumerable<PlaneacionProduccion>> GetPlaneacionesProduccion(PlaneacionProduccionParams ppParams)
+        {
+            var planeaciones = await _context.PlaneacionProduccion.ToListAsync();
+            if (ppParams.Año.HasValue && ppParams.Semana.HasValue)
+            {
+                planeaciones = planeaciones.Where(pp => pp.semana == ppParams.Semana && pp.año == ppParams.Año).ToList();
+            }
+            return planeaciones;
+        }
+
+        public async Task<ExistenciaProductoProduccion> GetExistenciaProductoProduccionXNumeroParte(string noParte)
+        {
+            var existencia = await _context.ExistenciasProductoProduccion.FirstOrDefaultAsync(epp => epp.NoParte == noParte);
+            return existencia;
+        }
+
+        public async Task<ExistenciaProductoProduccion> GetExistenciaProductoProduccion(int id)
+        {
+            var existencia = await _context.ExistenciasProductoProduccion.FindAsync(id);
+            return existencia;
+        }
+
+        public async Task<IEnumerable<ExistenciaProductoProduccion>> GetExistenciasProductoProduccion()
+        {
+            var existencias = await _context.ExistenciasProductoProduccion.ToListAsync();
+            return existencias;
+        }
     }
 }

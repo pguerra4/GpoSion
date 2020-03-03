@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Planeación Producción</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="planeacionForm" (ngSubmit)="addPlaneacion()" id="planeacionForm">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="semana">Semana</label>
+                            <input class="form-control" formControlName="fecha" placeholder="Semana" bsDatepicker [bsConfig]="{
+                  isAnimated: true,
+                  showPreviousMonth: true,
+                  selectWeek: true
+                }" (bsValueChange)="onValueChange($event)" [ngClass]="{
+                  'is-invalid':
+                    (planeacionForm.get('semana').errors &&
+                      planeacionForm.get('fecha').touched) ||
+                    (planeacionForm.get('year').errors &&
+                      planeacionForm.get('fecha').touched)
+                }" />
+                            <input type="hidden" id="semana" formControlName="semana" />
+                            <input type="hidden" id="year" formControlName="year" />
+                            <div class="invalid-feedback" *ngIf="
+                  (planeacionForm.get('semana').errors &&
+                    planeacionForm.get('fecha').touched) ||
+                  (planeacionForm.get('year').errors &&
+                    planeacionForm.get('fecha').touched)
+                ">
+                                La semana es requerida
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noParte">No. Parte</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    planeacionForm.get('noParte').errors &&
+                    planeacionForm.get('noParte').touched
+                }" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" formControlName="noParte" placeholder="No. Parte" />
+                            <div class="invalid-feedback" *ngIf="
+                  planeacionForm.get('noParte').hasError('required') &&
+                  planeacionForm.get('noParte').touched
+                ">
+                                El No. Parte es requerido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="cantidad">Cantidad</label>
+                            <input type="text" [ngClass]="{
+                  'is-invalid':
+                    planeacionForm.get('cantidad').errors &&
+                    planeacionForm.get('cantidad').touched
+                }" class="form-control" formControlName="cantidad" placeholder="Piezas" />
+                            <div class="invalid-feedback" *ngIf="
+                  planeacionForm.get('cantidad').hasError('required') &&
+                  planeacionForm.get('cantidad').touched
+                ">
+                                La cantidad planeada es requerida
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                            <button class="btn btn-success mr-1" [disabled]="!planeacionForm.valid" type="submit">
+                Guardar</button
+              ><a
+                class="btn btn-danger "
+                [routerLink]="['/planeacionproduccion/']"
+              >
+                Cancelar
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -145,5 +145,15 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<Produccion>> GetProducciones(ProduccionParams produccionParams);
 
+        Task<PlaneacionProduccion> GetPlaneacionProduccion(int año, int semana, string noParte);
+
+        Task<IEnumerable<PlaneacionProduccion>> GetPlaneacionesProduccion(PlaneacionProduccionParams ppParams);
+
+        Task<ExistenciaProductoProduccion> GetExistenciaProductoProduccionXNumeroParte(string noParte);
+
+        Task<ExistenciaProductoProduccion> GetExistenciaProductoProduccion(int id);
+
+        Task<IEnumerable<ExistenciaProductoProduccion>> GetExistenciasProductoProduccion();
+
     }
 }

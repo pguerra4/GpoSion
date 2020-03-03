@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="card broder-primary mt-4">
+        <div class="card-header text-primary">Planeación Producción</div>
+        <div class="card-body">
+            <div class="card-text">
+                <form [formGroup]="planeacionForm" (ngSubmit)="editPlaneacion()" id="planeacionForm">
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="semana">Semana</label>
+                            <span class="form-control">{{ planeacion.semana }}</span>
+                            <input type="hidden" id="year" formControlName="year" />
+                            <input type="hidden" id="semana" formControlName="semana" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                            <label for="noParte">No. Parte</label>
+                            <span type="text" class="form-control">{{
+                planeacion.noParte
+              }}</span
+              ><input type="hidden" id="noParte" formControlName="noParte" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-6 col-lg-6">
+              <label for="cantidad">Cantidad</label>
+              <input
+                type="text"
+                [ngClass]="{
+                  'is-invalid':
+                    planeacionForm.get('cantidad').errors &&
+                    planeacionForm.get('cantidad').touched
+                }"
+                class="form-control"
+                formControlName="cantidad"
+                placeholder="Piezas"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  planeacionForm.get('cantidad').hasError('required') &&
+                  planeacionForm.get('cantidad').touched
+                "
+              >
+                La cantidad planeada es requerida
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12 col-md-12 col-lg-12">
+              <button
+                class="btn btn-success mr-1"
+                [disabled]="!planeacionForm.valid"
+                type="submit"
+              >
+                Guardar</button
+              ><a
+                class="btn btn-danger "
+                [routerLink]="['/planeacionproduccion/']"
+              >
+                Cancelar
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -48,7 +48,7 @@ namespace GpoSion.API.Controllers
         [HttpPost()]
         public async Task<IActionResult> PostProduccion(ProduccionToCreateDto produccionToCreateDto)
         {
-
+            produccionToCreateDto.Fecha = produccionToCreateDto.Fecha.ToLocalTime();
 
             var prod = _mapper.Map<Produccion>(produccionToCreateDto);
 
@@ -80,6 +80,20 @@ namespace GpoSion.API.Controllers
                 var np = await _repo.GetNumeroParte(pnp.NoParte);
                 total += pnp.Piezas * np.Peso;
                 total += pnp.Scrap * np.Peso;
+                var epp = await _repo.GetExistenciaProductoProduccionXNumeroParte(pnp.NoParte);
+                if (epp == null)
+                {
+                    epp = new ExistenciaProductoProduccion { NoParte = np.NoParte, PiezasCertificadas = pnp.Piezas, PiezasRechazadas = pnp.Scrap, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                    _repo.Add(epp);
+                }
+                else
+                {
+                    epp.PiezasCertificadas += pnp.Piezas;
+                    epp.PiezasRechazadas += pnp.Scrap;
+                    epp.ModificadoPorId = userId;
+                    epp.UltimaModificacion = DateTime.Now;
+                }
+
             }
 
             total += prod.Colada.Value + prod.Purga.Value;

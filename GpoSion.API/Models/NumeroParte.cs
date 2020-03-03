@@ -53,5 +53,7 @@ namespace GpoSion.API.Models
         public virtual ICollection<ExistenciaProducto> ExistenciasProducto { get; set; }
 
         public virtual ICollection<LocalidadNumeroParte> NumeroParteLocalidades { get; set; }
+
+        public virtual ICollection<ExistenciaProductoProduccion> ExistenciasProductoProduccion { get; set; }
     }
 }

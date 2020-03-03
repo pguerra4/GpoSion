@@ -160,6 +160,12 @@ import { EasyqueryComponent } from "./easyquery/easyquery.component";
 import { ExistenciaProductoEditComponent } from "./existencia-producto-edit/existencia-producto-edit.component";
 import { LocalidadNumeroParteEditComponent } from "./localidad-numero-parte-edit/localidad-numero-parte-edit.component";
 import { LocalidadNumeroParteEditResolver } from "./_resolvers/localidad-numero-parte-edit.resolver";
+import { PlaneacionProduccionListComponent } from "./planeacion-produccion-list/planeacion-produccion-list.component";
+import { SearchPlaneacionProduccionPipe } from "./_filters/search-planeacion-produccion.pipe";
+import { DatePipe } from "@angular/common";
+import { PlaneacionProduccionAddComponent } from "./planeacion-produccion-add/planeacion-produccion-add.component";
+import { PlaneacionProduccionEditComponent } from "./planeacion-produccion-edit/planeacion-produccion-edit.component";
+import { PlaneacionProduccionEditResolver } from "./_resolvers/planeacion-produccion-edit.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -404,7 +410,11 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     EstatusMoldeEditComponent,
     EasyqueryComponent,
     ExistenciaProductoEditComponent,
-    LocalidadNumeroParteEditComponent
+    LocalidadNumeroParteEditComponent,
+    PlaneacionProduccionListComponent,
+    SearchPlaneacionProduccionPipe,
+    PlaneacionProduccionAddComponent,
+    PlaneacionProduccionEditComponent
   ],
   imports: [
     BrowserModule,
@@ -472,6 +482,8 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     ValidateExistingMolde,
     EstatusMoldeEditResolver,
     LocalidadNumeroParteEditResolver,
+    DatePipe,
+    PlaneacionProduccionEditResolver,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
   ],
   bootstrap: [AppComponent]

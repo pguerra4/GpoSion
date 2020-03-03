@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200302175324_ExistenciaProductoProduccion")]
+    partial class ExistenciaProductoProduccion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -362,7 +364,10 @@ namespace GpoSion.API.Migrations
 
                     b.Property<string>("ModificadoPorId");
 
-                    b.Property<string>("NoParte");
+                    b.Property<string>("NoParte")
+                        .IsRequired();
+
+                    b.Property<string>("NumeroParteNoParte");
 
                     b.Property<int>("PiezasCertificadas");
 
@@ -372,11 +377,14 @@ namespace GpoSion.API.Migrations
 
                     b.HasKey("ExistenciaProductoProduccionId");
 
+                    b.HasAlternateKey("NoParte")
+                        .HasName("AlternateKey_ExistenciaProductoProduccionNoParte");
+
                     b.HasIndex("CreadoPorId");
 
                     b.HasIndex("ModificadoPorId");
 
-                    b.HasIndex("NoParte");
+                    b.HasIndex("NumeroParteNoParte");
 
                     b.ToTable("ExistenciasProductoProduccion");
                 });
@@ -1757,8 +1765,8 @@ namespace GpoSion.API.Migrations
                         .HasForeignKey("ModificadoPorId");
 
                     b.HasOne("GpoSion.API.Models.NumeroParte", "NumeroParte")
-                        .WithMany("ExistenciasProductoProduccion")
-                        .HasForeignKey("NoParte");
+                        .WithMany()
+                        .HasForeignKey("NumeroParteNoParte");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.HistorialOrdenCompra", b =>

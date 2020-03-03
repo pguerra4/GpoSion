@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200302233935_dropExistenciaProductoProduccion")]
+    partial class dropExistenciaProductoProduccion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -378,7 +380,7 @@ namespace GpoSion.API.Migrations
 
                     b.HasIndex("NoParte");
 
-                    b.ToTable("ExistenciasProductoProduccion");
+                    b.ToTable("ExistenciaProductoProduccion");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.HistorialOrdenCompra", b =>

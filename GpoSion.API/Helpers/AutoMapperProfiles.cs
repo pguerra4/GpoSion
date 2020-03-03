@@ -87,6 +87,7 @@ namespace GpoSion.API.Helpers
             CreateMap<EstatusMolde, EstatusMoldeToListDto>();
             CreateMap<MovimientoMolde, MovimientoMoldeForListDto>();
             CreateMap<EstatusMoldeToCreateDto, EstatusMolde>();
+            CreateMap<PlaneacionProduccionToCreateDto, PlaneacionProduccion>().ReverseMap();
         }
     }
 }

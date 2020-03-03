@@ -101,6 +101,10 @@ import { EasyqueryComponent } from "./easyquery/easyquery.component";
 import { ExistenciaProductoEditComponent } from "./existencia-producto-edit/existencia-producto-edit.component";
 import { LocalidadNumeroParteEditComponent } from "./localidad-numero-parte-edit/localidad-numero-parte-edit.component";
 import { LocalidadNumeroParteEditResolver } from "./_resolvers/localidad-numero-parte-edit.resolver";
+import { PlaneacionProduccionListComponent } from "./planeacion-produccion-list/planeacion-produccion-list.component";
+import { PlaneacionProduccionAddComponent } from "./planeacion-produccion-add/planeacion-produccion-add.component";
+import { PlaneacionProduccionEditResolver } from "./_resolvers/planeacion-produccion-edit.resolver";
+import { PlaneacionProduccionEditComponent } from "./planeacion-produccion-edit/planeacion-produccion-edit.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -333,6 +337,22 @@ export const appRoutes: Routes = [
       {
         path: "addProduccion",
         component: ProduccionAddComponent,
+        data: { roles: ["Admin", "Produccion"] }
+      },
+      {
+        path: "planeacionproduccion",
+        component: PlaneacionProduccionListComponent,
+        data: { roles: ["Admin", "Produccion"] }
+      },
+      {
+        path: "addPlaneacion",
+        component: PlaneacionProduccionAddComponent,
+        data: { roles: ["Admin", "Produccion"] }
+      },
+      {
+        path: "planeacionproduccion/:año/:semana/:noParte",
+        component: PlaneacionProduccionEditComponent,
+        resolve: { planeacion: PlaneacionProduccionEditResolver },
         data: { roles: ["Admin", "Produccion"] }
       },
       { path: "lists", component: MaterialAddComponent },
