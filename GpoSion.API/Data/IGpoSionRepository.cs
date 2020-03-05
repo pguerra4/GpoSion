@@ -129,6 +129,8 @@ namespace GpoSion.API.Data
 
         Task<DetalleEmbarque> GetDetalleEmbarque(int id);
 
+        Task<IEnumerable<DetalleEmbarque>> GetDetalleEmbarques(ReporteParams reporteParams);
+
         Task<IEnumerable<LocalidadNumeroParte>> GetLocalidadesNumeroParte(string NoParte);
 
         Task<LocalidadNumeroParte> GetLocalidadNumeroParte(int localidadId, string NoParte);
@@ -154,6 +156,8 @@ namespace GpoSion.API.Data
         Task<ExistenciaProductoProduccion> GetExistenciaProductoProduccion(int id);
 
         Task<IEnumerable<ExistenciaProductoProduccion>> GetExistenciasProductoProduccion();
+
+
 
     }
 }

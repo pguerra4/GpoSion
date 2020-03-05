@@ -1,0 +1,15 @@
+<div class="card mb-4">
+    <div class="card-header">
+        Top 10 Numeros Parte Embarcados
+    </div>
+    <div class="card-body">
+        <div *ngFor="let np of numerosParte" class="row">
+            <div class="col-md-6">
+                <span>{{ np.noParte }}</span>
+            </div>
+            <div class="col-md-6">
+                <span>{{ np.piezasentregadas }}</span>
+            </div>
+        </div>
+    </div>
+</div>

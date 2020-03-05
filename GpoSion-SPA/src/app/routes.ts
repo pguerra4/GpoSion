@@ -105,6 +105,8 @@ import { PlaneacionProduccionListComponent } from "./planeacion-produccion-list/
 import { PlaneacionProduccionAddComponent } from "./planeacion-produccion-add/planeacion-produccion-add.component";
 import { PlaneacionProduccionEditResolver } from "./_resolvers/planeacion-produccion-edit.resolver";
 import { PlaneacionProduccionEditComponent } from "./planeacion-produccion-edit/planeacion-produccion-edit.component";
+import { GraficaEmbarquesComponent } from "./grafica-embarques/grafica-embarques.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -535,6 +537,10 @@ export const appRoutes: Routes = [
       {
         path: "easy-query",
         component: EasyqueryComponent
+      },
+      {
+        path: "dashboard",
+        component: DashboardComponent
       }
     ]
   },

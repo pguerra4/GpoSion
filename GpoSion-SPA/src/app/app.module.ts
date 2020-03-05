@@ -20,6 +20,7 @@ import {
 import * as locales from "ngx-bootstrap/locale";
 import { JwtModule } from "@auth0/angular-jwt";
 import { NgxUiLoaderModule, NgxUiLoaderHttpModule } from "ngx-ui-loader";
+import { ChartsModule } from "ng2-charts";
 
 import { AppComponent } from "./app.component";
 import { NavComponent } from "./nav/nav.component";
@@ -166,6 +167,11 @@ import { DatePipe } from "@angular/common";
 import { PlaneacionProduccionAddComponent } from "./planeacion-produccion-add/planeacion-produccion-add.component";
 import { PlaneacionProduccionEditComponent } from "./planeacion-produccion-edit/planeacion-produccion-edit.component";
 import { PlaneacionProduccionEditResolver } from "./_resolvers/planeacion-produccion-edit.resolver";
+import { GraficaEmbarquesComponent } from "./grafica-embarques/grafica-embarques.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { GraficaEmbarquesNumeroParteComponent } from "./grafica-embarques-numero-parte/grafica-embarques-numero-parte.component";
+import { EmbarquesTotalesComponent } from "./embarques-totales/embarques-totales.component";
+import { EmbarquesTop10Component } from "./embarques-top10/embarques-top10.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -414,7 +420,12 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     PlaneacionProduccionListComponent,
     SearchPlaneacionProduccionPipe,
     PlaneacionProduccionAddComponent,
-    PlaneacionProduccionEditComponent
+    PlaneacionProduccionEditComponent,
+    GraficaEmbarquesComponent,
+    DashboardComponent,
+    GraficaEmbarquesNumeroParteComponent,
+    EmbarquesTotalesComponent,
+    EmbarquesTop10Component
   ],
   imports: [
     BrowserModule,
@@ -431,6 +442,7 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     OwlNativeDateTimeModule,
     NgxUiLoaderModule,
     NgxUiLoaderHttpModule.forRoot({ showForeground: true }),
+    ChartsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
