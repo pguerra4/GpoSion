@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from "chart.js";
 import { Label } from "ng2-charts";
 import { ReportesService } from "../_services/reportes.service";
 import { AlertifyService } from "../_services/alertify.service";
+import { Params, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-grafica-embarques",
@@ -10,7 +11,7 @@ import { AlertifyService } from "../_services/alertify.service";
   styleUrls: ["./grafica-embarques.component.css"]
 })
 export class GraficaEmbarquesComponent implements OnInit {
-  @Input() reporteParams: any;
+  reporteParams: Params;
   public barChartOptions: ChartOptions = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
@@ -41,7 +42,8 @@ export class GraficaEmbarquesComponent implements OnInit {
 
   constructor(
     private reportesService: ReportesService,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -55,21 +57,29 @@ export class GraficaEmbarquesComponent implements OnInit {
     //   new Date().getMonth() - 1,
     //   new Date().getDate() + 3
     // ).toDateString();
-    this.loadData();
+    this.route.queryParams.subscribe(params => {
+      this.reporteParams = params;
+      this.loadData();
+    });
   }
 
   loadData() {
-    this.reportesService
-      .getReporteEmbarquesPorFecha(this.reporteParams)
-      .subscribe(
-        (res: any) => {
-          this.barChartLabels = res.leyendas;
-          this.barChartData = res.datos;
-          // this.barChartData = res;
-        },
-        error => {
-          this.alertify.error(error);
-        }
-      );
+    if (this.reporteParams.hasOwnProperty("fechaInicio")) {
+      this.reportesService
+        .getReporteEmbarquesPorFecha(this.reporteParams)
+        .subscribe(
+          (res: any) => {
+            this.barChartLabels = res.leyendas;
+            this.barChartData = res.datos;
+            // this.barChartData = res;
+          },
+          error => {
+            this.alertify.error(error);
+          }
+        );
+    } else {
+      this.barChartLabels = [];
+      this.barChartData = [{ data: [] }];
+    }
   }
 }

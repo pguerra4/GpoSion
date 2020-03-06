@@ -3,9 +3,10 @@
         Embarques por numero de parte
     </div>
     <div class="card-body">
-        <div style="display: block">
-            <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [options]="pieChartOptions" [legend]="pieChartLegend" [chartType]="pieChartType">
-      </canvas>
-        </div>
+        <a [routerLink]="['/graficaembarquesnpfull']" [queryParams]="reporteParams">
+            <div style="display: block">
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [options]="pieChartOptions" [legend]="pieChartLegend" [chartType]="pieChartType">
+        </canvas></div>
+        </a>
     </div>
 </div>

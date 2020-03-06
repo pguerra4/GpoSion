@@ -1,22 +1,26 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { ChartOptions, ChartType, ChartDataSets } from "chart.js";
+import { ChartOptions, ChartType } from "chart.js";
 import { Label } from "ng2-charts";
 import { ReportesService } from "../_services/reportes.service";
 import { AlertifyService } from "../_services/alertify.service";
-import { Params, ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router, Params } from "@angular/router";
+import { BsLocaleService } from "ngx-bootstrap";
 
 @Component({
-  selector: "app-grafica-embarques-numero-parte",
-  templateUrl: "./grafica-embarques-numero-parte.component.html",
-  styleUrls: ["./grafica-embarques-numero-parte.component.css"]
+  selector: "app-grafica-embarques-np-full",
+  templateUrl: "./grafica-embarques-np-full.component.html",
+  styleUrls: ["./grafica-embarques-np-full.component.css"]
 })
-export class GraficaEmbarquesNumeroParteComponent implements OnInit {
+export class GraficaEmbarquesNpFullComponent implements OnInit {
   reporteParams: Params;
+  bsValue = new Date();
+  bsRangeValue: Date[];
+  minDate = new Date();
 
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
-      position: "top"
+      position: "bottom"
     },
     plugins: {
       datalabels: {
@@ -30,36 +34,12 @@ export class GraficaEmbarquesNumeroParteComponent implements OnInit {
 
   public pieChartLabels: Label[];
   public pieChartType: ChartType = "pie";
-  public pieChartLegend = false;
+  public pieChartLegend = true;
 
   public pieChartData: number[] = [
     300,
     300,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
+    300,
     300,
     500,
     100,
@@ -86,7 +66,6 @@ export class GraficaEmbarquesNumeroParteComponent implements OnInit {
     500,
     100,
     500,
-    300,
     500,
     100,
     500,
@@ -112,59 +91,6 @@ export class GraficaEmbarquesNumeroParteComponent implements OnInit {
     500,
     100,
     500,
-    300,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    300,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    100,
-    500,
-    300,
     500,
     100,
     500,
@@ -221,30 +147,49 @@ export class GraficaEmbarquesNumeroParteComponent implements OnInit {
   constructor(
     private reportesService: ReportesService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private localeService: BsLocaleService,
+    private router: Router
   ) {}
 
   ngOnInit() {
+    this.localeService.use("es");
     this.route.queryParams.subscribe(params => {
       this.reporteParams = params;
+      this.minDate = new Date(this.reporteParams.fechaInicio);
+      this.bsValue = new Date(this.reporteParams.fechaFin);
+      this.bsRangeValue = [this.minDate, this.bsValue];
       this.loadData();
     });
   }
 
   loadData() {
-    if (this.reporteParams.hasOwnProperty("fechaInicio")) {
-      this.reportesService
-        .getReporteEmbarquesNumeroParte(this.reporteParams)
-        .subscribe(
-          (res: any) => {
-            this.pieChartLabels = res.leyendas;
-            this.pieChartData = res.datos[0].data;
-            // this.barChartData = res;
-          },
-          error => {
-            this.alertify.error(error);
-          }
-        );
+    this.reportesService
+      .getReporteEmbarquesNumeroParte(this.reporteParams)
+      .subscribe(
+        (res: any) => {
+          this.pieChartLabels = res.leyendas;
+          this.pieChartData = res.datos[0].data;
+          // this.barChartData = res;
+        },
+        error => {
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  onValueChange(value: Date) {
+    if (value) {
+      this.reporteParams = {
+        fechaInicio: value[0].toDateString(),
+        fechaFin: value[1].toDateString()
+      };
+      this.loadData();
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: this.reporteParams,
+        queryParamsHandling: "merge"
+      });
     }
   }
 }

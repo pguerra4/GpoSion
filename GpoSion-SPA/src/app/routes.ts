@@ -107,6 +107,8 @@ import { PlaneacionProduccionEditResolver } from "./_resolvers/planeacion-produc
 import { PlaneacionProduccionEditComponent } from "./planeacion-produccion-edit/planeacion-produccion-edit.component";
 import { GraficaEmbarquesComponent } from "./grafica-embarques/grafica-embarques.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { GraficaEmbarquesFullComponent } from "./grafica-embarques-full/grafica-embarques-full.component";
+import { GraficaEmbarquesNpFullComponent } from "./grafica-embarques-np-full/grafica-embarques-np-full.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -541,6 +543,14 @@ export const appRoutes: Routes = [
       {
         path: "dashboard",
         component: DashboardComponent
+      },
+      {
+        path: "graficaembarquesfull",
+        component: GraficaEmbarquesFullComponent
+      },
+      {
+        path: "graficaembarquesnpfull",
+        component: GraficaEmbarquesNpFullComponent
       }
     ]
   },

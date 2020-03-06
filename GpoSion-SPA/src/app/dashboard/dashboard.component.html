@@ -7,17 +7,17 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            <app-grafica-embarques [reporteParams]="reporteParams" #graficaEmbarques></app-grafica-embarques>
+            <app-grafica-embarques #graficaEmbarques></app-grafica-embarques>
         </div>
         <div class="col-md-4">
-            <app-grafica-embarques-numero-parte [reporteParams]="reporteParams" #graficaEmbarquesNP></app-grafica-embarques-numero-parte>
+            <app-grafica-embarques-numero-parte #graficaEmbarquesNP></app-grafica-embarques-numero-parte>
         </div>
         <div class="col-md-4">
-            <app-embarques-totales [reporteParams]="reporteParams" #EmbarquesT></app-embarques-totales>
+            <app-embarques-totales #EmbarquesT></app-embarques-totales>
         </div>
 
         <div class="col-md-4">
-            <app-embarques-top10 [reporteParams]="reporteParams" #EmbarquesTop10></app-embarques-top10>
+            <app-embarques-top10 #EmbarquesTop10></app-embarques-top10>
         </div>
     </div>
 </div>

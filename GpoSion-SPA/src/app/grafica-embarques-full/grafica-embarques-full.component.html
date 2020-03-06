@@ -1,0 +1,23 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="fechas">Fechas</label>
+            <input class="form-control" placeholder="Fechas" bsDaterangepicker [(ngModel)]="bsRangeValue" [bsConfig]="{ isAnimated: true, showPreviousMonth: true }" (bsValueChange)="onValueChange($event)" />
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="card-title">Embarques por fecha</div>
+            <div class="card-text">
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+          </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a [routerLink]="['/dashboard']" [queryParams]="reporteParams">Dashboard</a
+      >
+    </div>
+  </div>
+</div>

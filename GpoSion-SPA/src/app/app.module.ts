@@ -172,6 +172,8 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { GraficaEmbarquesNumeroParteComponent } from "./grafica-embarques-numero-parte/grafica-embarques-numero-parte.component";
 import { EmbarquesTotalesComponent } from "./embarques-totales/embarques-totales.component";
 import { EmbarquesTop10Component } from "./embarques-top10/embarques-top10.component";
+import { GraficaEmbarquesFullComponent } from "./grafica-embarques-full/grafica-embarques-full.component";
+import { GraficaEmbarquesNpFullComponent } from "./grafica-embarques-np-full/grafica-embarques-np-full.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -425,7 +427,9 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     DashboardComponent,
     GraficaEmbarquesNumeroParteComponent,
     EmbarquesTotalesComponent,
-    EmbarquesTop10Component
+    EmbarquesTop10Component,
+    GraficaEmbarquesFullComponent,
+    GraficaEmbarquesNpFullComponent
   ],
   imports: [
     BrowserModule,
