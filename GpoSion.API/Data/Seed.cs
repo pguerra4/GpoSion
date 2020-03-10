@@ -42,7 +42,20 @@ namespace GpoSion.API.Data
                 }
             }
 
+            if (!roleManager.Roles.Any(r => r.Name == "AlmacenProducto"))
+            {
+                var roles = new List<Role>
+                    {
+                        new Role{Name = "AlmacenProducto"},
+                        new Role{Name = "AlmacenMateriaPrima"}
+                    };
 
+                foreach (var role in roles)
+                {
+                    roleManager.CreateAsync(role).Wait();
+                }
+
+            }
 
         }
         public static void SeedClientes(DataContext context)

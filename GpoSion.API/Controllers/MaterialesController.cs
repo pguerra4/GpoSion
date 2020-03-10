@@ -53,7 +53,7 @@ namespace GpoSion.API.Controllers
             return Ok(viajerosToReturn);
         }
 
-        [Authorize(Policy = "AlmacenRole")]
+        [Authorize(Policy = "AlmacenMateriaPrimaRole")]
         [HttpPost()]
         public async Task<IActionResult> PostMaterial(MaterialforPostDto materialDto)
         {
@@ -73,7 +73,7 @@ namespace GpoSion.API.Controllers
             throw new Exception("Material no guardado");
         }
 
-        [Authorize(Policy = "AlmacenRole")]
+        [Authorize(Policy = "AlmacenMateriaPrimaRole")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMaterial(int id, MaterialForPutDto materialDto)
         {
@@ -98,13 +98,14 @@ namespace GpoSion.API.Controllers
             return NoContent();
         }
 
+
         [HttpGet("{material}/existe/{id}")]
         public async Task<IActionResult> ExisteMaterial(string material, int id)
         {
             return Ok(await _repo.ExisteMaterial(material, id));
         }
 
-        [Authorize(Policy = "AlmacenRole")]
+        [Authorize(Policy = "AlmacenMateriaPrimaRole")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMaterial(int id)
         {

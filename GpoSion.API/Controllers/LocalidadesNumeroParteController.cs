@@ -14,7 +14,7 @@ namespace GpoSion.API.Controllers
 {
 
 
-    [Authorize(Policy = "AlmacenRole")]
+    [Authorize(Policy = "AlmacenProductoRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class LocalidadesNumeroParteController : ControllerBase

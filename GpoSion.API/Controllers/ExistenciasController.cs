@@ -11,7 +11,7 @@ namespace GpoSion.API.Controllers
 {
 
 
-    [Authorize(Policy = "ProduccionAlmacen")]
+    [Authorize(Policy = "AlmacenMateriaPrimaProdRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class ExistenciasController : ControllerBase

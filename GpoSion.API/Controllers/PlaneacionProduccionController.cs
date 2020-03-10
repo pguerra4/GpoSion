@@ -38,7 +38,8 @@ namespace GpoSion.API.Controllers
                 noParte = pp.NoParte,
                 cantidad = pp.cantidad,
                 existenciaAlmacen = pp.NumeroParte.ExistenciasProducto.Where(ep => ep.PiezasCertificadas > 0).Sum(ep => ep.PiezasCertificadas),
-                existenciaProduccion = pp.NumeroParte.ExistenciasProductoProduccion.Where(epp => epp.PiezasCertificadas > 0).Sum(epp => epp.PiezasCertificadas)
+                existenciaProduccion = pp.NumeroParte.ExistenciasProductoProduccion.Where(epp => epp.PiezasCertificadas > 0).Sum(epp => epp.PiezasCertificadas),
+                moldeadoras = pp.NumeroParte.MoldeadorasNumeroParte.Where(mnp => mnp.Moldeadora.Estatus == "Operando").Select(mnp => mnp.Moldeadora.Clave)
             });
 
             // var planeacionesToReturn = _mapper.Map<IEnumerable<PlaneacionProduccionToCreateDto>>(planeaciones);

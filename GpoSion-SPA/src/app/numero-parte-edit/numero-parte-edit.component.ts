@@ -224,7 +224,7 @@ export class NumeroParteEditComponent implements OnInit {
         "numerosParte/" +
         this.route.snapshot.params["id"] +
         "/Photo",
-      // authToken: "Bearer " + localStorage.getItem("token"),
+      authToken: "Bearer " + localStorage.getItem("token"),
       isHTML5: true,
       allowedFileType: ["image"],
       removeAfterUpload: true,

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
-    [Authorize(Policy = "AlmacenRole")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class LocalidadesController : ControllerBase

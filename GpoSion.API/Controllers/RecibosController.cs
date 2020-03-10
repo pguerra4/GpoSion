@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
-    [Authorize(Policy = "AlmacenRole")]
+    [Authorize(Policy = "AlmacenMateriaPrimaRole")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class RecibosController : ControllerBase

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GpoSion.API.Controllers
 {
 
-    [Authorize(Policy = "VentasRole")]
+    [Authorize(Policy = "AlmacenProductoVentasRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdenesCompraController : ControllerBase
@@ -110,6 +110,7 @@ namespace GpoSion.API.Controllers
 
             return NoContent();
         }
+
 
         [HttpGet("{noParte}/OrdenesCompraAbiertasXNumeroParte")]
         public async Task<IActionResult> GetOrdenesCompraAbiertasXNumeroParte(string noParte)

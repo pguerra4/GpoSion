@@ -297,7 +297,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Moldeadora>> GetMoldeadoras()
         {
-            var moldeadoras = await _context.Moldeadoras.ToListAsync();
+            var moldeadoras = await _context.Moldeadoras.OrderByDescending(m => m.Estatus).ToListAsync();
             return moldeadoras;
         }
 

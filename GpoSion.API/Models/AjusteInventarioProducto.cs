@@ -12,7 +12,7 @@ namespace GpoSion.API.Models
 
         public string CreadoPorId { get; set; }
 
-        public virtual User CreadorPor { get; set; }
+        public virtual User CreadoPor { get; set; }
 
         public int ExistenciaOriginal { get; set; }
         public int ExistenciaFinal { get; set; }

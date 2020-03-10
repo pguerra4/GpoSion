@@ -120,71 +120,80 @@ export const appRoutes: Routes = [
       {
         path: "materiales",
         component: MaterialListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "addMaterial",
         component: MaterialAddComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "materiales/:id",
         component: MaterialEditComponent,
         resolve: { material: MaterialEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "materiales/:id/viajeros",
         component: MaterialViajerosListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "recibos",
         component: ReciboListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "recibos/:id",
         component: ReciboDetailComponent,
         canDeactivate: [PreventUnsavedChanges],
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "detalleRecibo/:id",
         component: DetalleReciboEditComponent,
         resolve: { detalleRecibo: DetalleReciboEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "viajeros/:id",
         component: ViajeroDetailComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "viajeroedit/:id",
         component: ViajeroEditComponent,
         resolve: { viajero: ViajeroEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "viajeros",
         component: ViajeroListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "addRecibo",
         component: ReciboAddComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "existencias",
         component: ExistenciasMaterialListComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion", "Compras", "Ventas"] }
+        data: {
+          roles: [
+            "Admin",
+            "Almacen",
+            "Produccion",
+            "Compras",
+            "Ventas",
+            "AlmacenMateriaPrima"
+          ]
+        }
       },
       {
         path: "addAlmacen",
         component: ExistenciasAddComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "produccion",
@@ -303,18 +312,18 @@ export const appRoutes: Routes = [
       {
         path: "tiposmaterial",
         component: TipoMaterialListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "addTipoMaterial",
         component: TipoMaterialAddComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "tiposmaterial/:id",
         component: TipoMaterialEditComponent,
         resolve: { tipoMaterial: TipoMaterialEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
       },
       {
         path: "ordenescompra",
@@ -411,64 +420,82 @@ export const appRoutes: Routes = [
       {
         path: "movimientosproducto",
         component: MovimientoProductoListComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
       },
       {
         path: "addMovimientoProducto",
         component: MovimientoProductoAddComponent,
         resolve: { movimientosProducto: MovimientoProductoListResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
       },
       {
         path: "movimientosproducto/:id",
         component: MovimientoProductoEditComponent,
         resolve: { movimientoProducto: MovimientoProductoEditResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
       },
       {
         path: "embarques",
         component: EmbarqueListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
       },
       {
         path: "addEmbarque",
         component: EmbarqueAddComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
       },
       {
         path: "embarques/:id",
         component: EmbarqueEditComponent,
         resolve: { embarque: EmbarqueEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
       },
       {
         path: "detallesEmbarque/:id",
         component: DetalleEmbarqueEditComponent,
         resolve: { detalleEmbarque: DetalleEmbarqueEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
       },
       {
         path: "existenciasproducto",
         component: ExistenciaProductoListComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion", "Compras", "Ventas"] }
+        data: {
+          roles: [
+            "Admin",
+            "Almacen",
+            "Produccion",
+            "Compras",
+            "Ventas",
+            "AlmacenProducto"
+          ]
+        }
       },
       {
         path: "existenciasproducto/:id",
         component: ExistenciaProductoDetailComponent,
         resolve: { existenciaProducto: ExistenciaProductoDetailResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion", "Compras", "Ventas"] }
+        data: {
+          roles: [
+            "Admin",
+            "Almacen",
+            "Produccion",
+            "Compras",
+            "Ventas",
+            "AlmacenProducto"
+          ]
+        }
       },
       {
         path: "editExistenciaProducto/:id",
         component: ExistenciaProductoEditComponent,
         resolve: { existenciaProducto: ExistenciaProductoDetailResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
       },
       {
         path: "localidadesnumeroparte/:localidadId/:noParte",
         component: LocalidadNumeroParteEditComponent,
         resolve: { localidadNumeroParte: LocalidadNumeroParteEditResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
       },
       {
         path: "ordenescompraproveedores",
@@ -483,18 +510,24 @@ export const appRoutes: Routes = [
       {
         path: "localidades",
         component: LocalidadListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: {
+          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"]
+        }
       },
       {
         path: "addLocalidad",
         component: LocalidadAddComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: {
+          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"]
+        }
       },
       {
         path: "localidades/:id",
         component: LocalidadEditComponent,
         resolve: { localidad: LocalidadEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: {
+          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"]
+        }
       },
       {
         path: "retornosmaterial",

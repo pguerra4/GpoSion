@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GpoSion.API.Controllers
 {
-    [Authorize(Policy = "AlmacenRole")]
+    [Authorize(Policy = "AlmacenProductoRole")]
     [Route("api/[controller]")]
     [ApiController]
     public class DetallesEmbarqueController : ControllerBase

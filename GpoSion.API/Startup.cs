@@ -94,6 +94,11 @@ namespace GpoSion.API
                 options.AddPolicy("VentasRole", policy => policy.RequireRole("Admin", "Ventas"));
                 options.AddPolicy("CalidadRole", policy => policy.RequireRole("Admin", "Calidad"));
                 options.AddPolicy("SistemasRole", policy => policy.RequireRole("Admin", "Sistemas"));
+                options.AddPolicy("AlmacenProductoRole", policy => policy.RequireRole("Admin", "AlmacenProducto", "Almacen"));
+                options.AddPolicy("AlmacenMateriaPrimaRole", policy => policy.RequireRole("Admin", "AlmacenMateriaPrima", "Almacen"));
+                options.AddPolicy("AlmacenMateriaPrimaProdRole", policy => policy.RequireRole("Admin", "AlmacenMateriaPrima", "Almacen", "Produccion"));
+                options.AddPolicy("AlmacenProductoProdRole", policy => policy.RequireRole("Admin", "AlmacenProducto", "Almacen", "Produccion"));
+                options.AddPolicy("AlmacenProductoVentasRole", policy => policy.RequireRole("Admin", "AlmacenProducto", "Almacen", "Ventas"));
             });
 
             services.AddMvc(options =>

@@ -1,7 +1,9 @@
-<div class="card mb-2" [ngClass]="
+<div class="card mb-2 " [ngClass]="
     moldeadora.estatus == 'Operando' ? 'border-success' : 'border-danger'
   ">
-    <div class="card-header">
+    <div class="card-header " [ngClass]="
+      moldeadora.estatus == 'Operando' ? 'bg-success text-light' : 'text-dark'
+    ">
         {{ moldeadora.moldeadora }} {{ moldeadora.estatus }}
     </div>
     <div class="card-body">
@@ -23,12 +25,12 @@
         this.moldeadora.ultimoMotivoParo !== 1
       " class="text-danger">
             {{ hoursDisplay ? hoursDisplay : "00" }} : {{ minutesDisplay && minutesDisplay
-            <=59 ? minutesDisplay : "00" }} : {{ secondsDisplay && secondsDisplay <=59 ? secondsDisplay : "00" }} <br />
+            <= 59 ? minutesDisplay : "00" }} : {{ secondsDisplay && secondsDisplay <= 59 ? secondsDisplay : "00" }} <br />
         </h1>
     </div>
     <div class="card-footer">
         <div class="btn-group d-flex">
-            <button class="btn btn-success w-100" [routerLink]="['/moldeadoras/' + moldeadora.moldeadoraId]">
+            <button class="btn btn-warning w-100" [routerLink]="['/moldeadoras/' + moldeadora.moldeadoraId]">
         Setup
       </button>
 

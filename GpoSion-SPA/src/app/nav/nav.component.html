@@ -3,16 +3,24 @@
         <a class="navbar-brand" [routerLink]="['/home']">MMS</a>
 
         <ul *ngIf="loggedIn()" class="nav nav-pills navbar-nav mr-auto">
-            <li class="nav-item dropdown" routerLinkActive="active" dropdown *appHasRole="['Admin', 'Almacen', 'Produccion', 'Ventas', 'Compras']">
+            <li class="nav-item dropdown" routerLinkActive="active" dropdown *appHasRole="[
+          'Admin',
+          'Almacen',
+          'Produccion',
+          'Ventas',
+          'Compras',
+          'AlmacenMateriaPrima',
+          'AlmacenProducto'
+        ]">
                 <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Almacén
         </a>
                 <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
-                    <a class="dropdown-item" [routerLink]="['/materiales']" *appHasRole="['Admin', 'Almacen', 'Ventas']">Listado de Materias Primas</a
+                    <a class="dropdown-item" [routerLink]="['/materiales']" *appHasRole="['Admin', 'Almacen', 'Ventas', 'AlmacenMateriaPrima']">Listado de Materias Primas</a
           >
           <a
             class="dropdown-item"
             [routerLink]="['/recibos']"
-            *appHasRole="['Admin', 'Almacen']"
+            *appHasRole="['Admin', 'Almacen', 'AlmacenMateriaPrima']"
             >Recibos Materia Prima</a
           >
           <a
@@ -23,7 +31,8 @@
               'Almacen',
               'Produccion',
               'Ventas',
-              'Compras'
+              'Compras',
+              'AlmacenMateriaPrima'
             ]"
             >Inventario de Materia Prima</a
           >
@@ -35,7 +44,8 @@
               'Almacen',
               'Produccion',
               'Ventas',
-              'Compras'
+              'Compras',
+              'AlmacenProducto'
             ]"
             >Inventario de Producto Terminado</a
           >
@@ -54,7 +64,7 @@
           <a
             class="dropdown-item"
             [routerLink]="['/viajeros']"
-            *appHasRole="['Admin', 'Almacen']"
+            *appHasRole="['Admin', 'Almacen', 'AlmacenMateriaPrima']"
             >Viajeros</a
           >
           <a
@@ -78,26 +88,31 @@
           <a
             class="dropdown-item"
             [routerLink]="['/tiposmaterial']"
-            *appHasRole="['Admin', 'Almacen']"
+            *appHasRole="['Admin', 'Almacen', 'AlmacenMateriaPrima']"
             >Tipos Materia Prima</a
           >
 
           <a
             class="dropdown-item"
             [routerLink]="['/movimientosproducto']"
-            *appHasRole="['Admin', 'Almacen']"
+            *appHasRole="['Admin', 'Almacen', 'AlmacenProducto']"
             >Recepción de Producto Terminado</a
           >
           <a
             class="dropdown-item"
             [routerLink]="['/embarques']"
-            *appHasRole="['Admin', 'Almacen']"
+            *appHasRole="['Admin', 'Almacen', 'AlmacenProducto']"
             >Embarques</a
           >
           <a
             class="dropdown-item"
             [routerLink]="['/localidades']"
-            *appHasRole="['Admin', 'Almacen']"
+            *appHasRole="[
+              'Admin',
+              'Almacen',
+              'AlmacenMateriaPrima',
+              'AlmacenProducto'
+            ]"
             >Localidades</a
           >
           <a

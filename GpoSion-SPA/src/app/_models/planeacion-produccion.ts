@@ -5,4 +5,5 @@ export interface PlaneacionProduccion {
   cantidad: number;
   existenciaAlmacen?: number;
   existenciaProduccion?: number;
+  moldeadoras?: string[];
 }
