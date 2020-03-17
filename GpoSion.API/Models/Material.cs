@@ -15,6 +15,8 @@ namespace GpoSion.API.Models
 
         public virtual UnidadMedida UnidadMedida { get; set; }
 
+        public int StockMinimo { get; set; }
+
 
         public int? TipoMaterialId { get; set; }
         public virtual TipoMaterial TipoMaterial { get; set; }

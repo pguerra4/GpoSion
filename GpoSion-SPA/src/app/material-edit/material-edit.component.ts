@@ -52,6 +52,7 @@ export class MaterialEditComponent implements OnInit {
           )
         ],
         descripcion: [this.material.descripcion],
+        stockMinimo: [this.material.stockMinimo],
         unidadMedidaId: [this.material.unidadMedidaId, Validators.required],
         tipoMaterialId: [this.material.tipoMaterialId, Validators.required]
       },

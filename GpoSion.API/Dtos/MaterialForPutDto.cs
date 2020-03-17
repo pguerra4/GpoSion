@@ -17,5 +17,7 @@ namespace GpoSion.API.Dtos
 
         public decimal Cantidad { get; set; }
 
+        public int StockMinimo { get; set; }
+
     }
 }

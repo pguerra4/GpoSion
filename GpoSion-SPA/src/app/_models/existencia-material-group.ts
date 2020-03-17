@@ -5,4 +5,5 @@ export interface ExistenciaMaterialGroup {
   produccion: number;
   cliente: string;
   ultimaModificacion: Date;
+  stockMinimo?: number;
 }

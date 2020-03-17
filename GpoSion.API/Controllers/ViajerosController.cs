@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
+using GpoSion.API.Helpers;
 using GpoSion.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,9 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetViajeros()
+        public async Task<IActionResult> GetViajeros([FromQuery] ViajeroParams viajeroParams)
         {
-            var viajeros = await _repo.GetViajeros();
+            var viajeros = await _repo.GetViajeros(viajeroParams);
             var viajerosToReturn = _mapper.Map<IEnumerable<ViajeroToListDto>>(viajeros);
             return Ok(viajerosToReturn);
         }

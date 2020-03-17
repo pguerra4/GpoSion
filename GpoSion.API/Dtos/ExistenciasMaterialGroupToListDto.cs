@@ -9,6 +9,7 @@ namespace GpoSion.API.Dtos
         public decimal Almacen { get; set; }
 
         public decimal Produccion { get; set; }
+        public int StockMinimo { get; set; }
 
         public DateTime UltimaModificacion { get; set; }
     }

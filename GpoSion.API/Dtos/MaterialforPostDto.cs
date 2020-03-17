@@ -13,5 +13,7 @@ namespace GpoSion.API.Dtos
 
         public int TipoMaterialId { get; set; }
 
+        public int StockMinimo { get; set; }
+
     }
 }

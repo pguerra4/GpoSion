@@ -39,71 +39,59 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                                    <label for="descripcion">Peso</label>
-                                    <div class="input-group margin-bottom">
-                                        <input type="number" class="form-control" formControlName="peso" placeholder="Peso" style="text-align: right" />
-                                        <span class="input-group-addon input-source-observer">Lbs</span
-                    >
-                  </div>
-                </div>
-                <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                  <label for="descripcion">Precio</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    formControlName="costo"
-                    placeholder="Precio"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12  col-md-6 col-lg-6">
-                  <label for="urlImagenPieza">Imagen</label>
-                  <input type="file" ng2FileSelect [uploader]="uploader" />
-                </div>
-                <div
-                  class="col-md-9"
-                  style="margin-bottom: 40px"
-                  *ngIf="uploader?.queue?.length"
-                >
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th width="50%">Nombre</th>
-                        <th>Tamaño</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let item of uploader.queue">
-                        <td>
-                          <strong>{{ item?.file?.name }}</strong>
-                        </td>
-                        <td *ngIf="uploader.options.isHTML5" nowrap>
-                          {{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                                    <label for="peso">Peso</label>
+                                    <div class="input-group">
+                                        <input class="form-control" formControlName="peso" placeholder="Peso" aria-invalid="false" style="text-align: right" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">Lbs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-12 col-md-6 col-lg-6">
+                                    <label for="precio">Precio</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" formControlName="costo" placeholder="Precio" style="text-align: right" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12  col-md-6 col-lg-6">
+                                    <label for="urlImagenPieza">Imagen</label>
+                                    <input type="file" ng2FileSelect [uploader]="uploader" />
+                                </div>
+                                <div class="col-md-9" style="margin-bottom: 40px" *ngIf="uploader?.queue?.length">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th width="50%">Nombre</th>
+                                                <th>Tamaño</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of uploader.queue">
+                                                <td>
+                                                    <strong>{{ item?.file?.name }}</strong>
+                                                </td>
+                                                <td *ngIf="uploader.options.isHTML5" nowrap>
+                                                    {{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
 
-                  <div>
-                    <div>
-                      Progreso:
-                      <div class="progress mb-4">
-                        <div
-                          class="progress-bar"
-                          role="progressbar"
-                          [ngStyle]="{ width: uploader.progress + '%' }"
-                        ></div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      class="btn btn-success btn-s"
-                      (click)="uploader.uploadAll()"
-                      [disabled]="!uploader.getNotUploadedItems().length"
-                    >
+                                    <div>
+                                        <div>
+                                            Progreso:
+                                            <div class="progress mb-4">
+                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ width: uploader.progress + '%' }"></div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                       <span class="fa fa-upload"></span> Subir
-                                        </button>
+                    </button>
                                         <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
                       <span class="fa fa-ban"></span> Cancelar
                     </button>

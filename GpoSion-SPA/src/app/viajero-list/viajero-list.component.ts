@@ -11,6 +11,8 @@ import { Viajero } from "../_models/viajero";
 export class ViajeroListComponent implements OnInit {
   viajeros: Viajero[];
   searchText = "";
+  viajeroParams: any = {};
+  historico = false;
 
   constructor(
     private existenciasService: ExistenciasMaterialService,
@@ -18,11 +20,12 @@ export class ViajeroListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.viajeroParams.mostrarHistorico = this.historico;
     this.loadViajeros();
   }
 
   loadViajeros() {
-    this.existenciasService.getViajeros().subscribe(
+    this.existenciasService.getViajeros(this.viajeroParams).subscribe(
       (res: Viajero[]) => {
         this.viajeros = res;
       },
@@ -30,5 +33,10 @@ export class ViajeroListComponent implements OnInit {
         this.alertify.error(error);
       }
     );
+  }
+
+  historicoChange() {
+    this.viajeroParams.mostrarHistorico = this.historico;
+    this.loadViajeros();
   }
 }

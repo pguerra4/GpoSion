@@ -32,7 +32,9 @@
                                 <td scope="row">
                                     {{ em.noParte }}
                                 </td>
-                                <td class="text-right" [ngClass]="{ 'text-danger': em.piezasCertificadas < 0 }">
+                                <td class="text-right" [ngClass]="{
+                    'text-danger': em.piezasCertificadas < 0
+                  }">
                                     {{ em.piezasCertificadas }}
                                 </td>
                                 <td class="text-right">

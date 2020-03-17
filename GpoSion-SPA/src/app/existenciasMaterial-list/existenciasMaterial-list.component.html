@@ -19,11 +19,14 @@
                                 <th scope="col">Materia Prima</th>
                                 <th scope="col" class="text-right">Almacen</th>
                                 <th scope="col" class="text-right">Producción</th>
+                                <th scope="col" class="text-right">Stock Mínimo</th>
                                 <th scope="col">Última Modificación</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let em of existencias | searchByMaterialeg: searchText">
+                            <tr *ngFor="let em of existencias | searchByMaterialeg: searchText" [ngClass]="{
+                  'table-warning': em.almacen < em.stockMinimo
+                }">
                                 <th scope="row">
                                     <a [routerLink]="[
                       '/materiales/' + em.materialId + '/viajeros'
@@ -31,9 +34,19 @@
                     {{ em.material }}</a
                   >
                 </th>
-                <td class="text-right">{{ em.almacen | number: "1.2-3" }}</td>
+                <td
+                  class="text-right"
+                  [ngClass]="{
+                    'text-danger': em.almacen < em.stockMinimo
+                  }"
+                >
+                  {{ em.almacen | number: "1.2-3" }}
+                </td>
                 <td class="text-right">
                   {{ em.produccion | number: "1.2-3" }}
+                </td>
+                <td class="text-right">
+                  {{ em.stockMinimo }}
                 </td>
                 <td>{{ em.ultimaModificacion | date: "dd-MM-yyyy HH:mm" }}</td>
               </tr>

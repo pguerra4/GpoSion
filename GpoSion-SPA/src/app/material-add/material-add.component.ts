@@ -43,6 +43,7 @@ export class MaterialAddComponent implements OnInit {
           ValidateExistingMaterial.createValidator(this.existenciasService, 0)
         ],
         descripcion: [""],
+        stockMinimo: [0],
         unidadMedidaId: [1, Validators.required],
         tipoMaterialId: [1, Validators.required]
       },

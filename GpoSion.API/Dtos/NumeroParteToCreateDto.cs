@@ -21,6 +21,7 @@ namespace GpoSion.API.Dtos
 
         public string UrlImagenPieza { get; set; }
 
+
         public int? MaterialId { get; set; }
 
         public ICollection<MaterialNumeroParteToListDto> Materiales { get; set; }

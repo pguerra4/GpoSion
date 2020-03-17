@@ -53,15 +53,22 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <label for="descripcion">Peso</label>
-                            <div class="input-group margin-bottom">
-                                <input type="number" class="form-control" formControlName="peso" placeholder="Peso" style="text-align: right" />
-                                <span class="input-group-addon input-source-observer">Lbs</span>
+                            <label for="peso">Peso</label>
+                            <div class="input-group">
+                                <input class="form-control" formControlName="peso" placeholder="Peso" aria-invalid="false" style="text-align: right" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Lbs</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
-                            <label for="descripcion">Precio</label>
-                            <input type="number" class="form-control" formControlName="costo" placeholder="Precio" />
+                            <label for="precio">Precio</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" formControlName="costo" placeholder="Precio" style="text-align: right" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">

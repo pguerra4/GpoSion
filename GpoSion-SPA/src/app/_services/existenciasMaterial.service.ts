@@ -34,8 +34,15 @@ export class ExistenciasMaterialService {
     return this.http.get<Viajero>(this.baseUrl + "viajeros/" + id);
   }
 
-  getViajeros(): Observable<Viajero[]> {
-    return this.http.get<Viajero[]>(this.baseUrl + "viajeros/");
+  getViajeros(viajeroParams?): Observable<Viajero[]> {
+    let params = new HttpParams();
+    if (viajeroParams != null) {
+      params = params.append(
+        "MostrarHistorico",
+        viajeroParams.mostrarHistorico
+      );
+    }
+    return this.http.get<Viajero[]>(this.baseUrl + "viajeros/", { params });
   }
 
   getViajerosPorMaterial(materialId: number): Observable<Viajero[]> {

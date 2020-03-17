@@ -52,7 +52,7 @@ namespace GpoSion.API.Data
 
         Task<DetalleRecibo> GetDetalleRecibo(int Id);
 
-        Task<IEnumerable<Viajero>> GetViajeros();
+        Task<IEnumerable<Viajero>> GetViajeros(ViajeroParams viajeroParams);
 
         Task<IEnumerable<Molde>> GetMoldes();
 

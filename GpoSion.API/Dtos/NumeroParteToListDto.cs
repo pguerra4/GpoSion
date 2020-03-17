@@ -21,6 +21,8 @@ namespace GpoSion.API.Dtos
 
         public string UrlImagenPieza { get; set; }
 
+
+
         // public int? MaterialId { get; set; }
         // public string MaterialClaveMaterial { get; set; }
 

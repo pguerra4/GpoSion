@@ -1,5 +1,3 @@
-import { UnidadMedida } from "./unidadMedida";
-import { Cliente } from "./cliente";
 export interface Material {
   materialId: number;
   material: string;
@@ -8,4 +6,5 @@ export interface Material {
   unidadMedida: string;
   tipoMaterialId: number;
   tipoMaterial: string;
+  stockMinimo: number;
 }

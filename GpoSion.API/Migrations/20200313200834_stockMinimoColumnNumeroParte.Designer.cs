@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200313200834_stockMinimoColumnNumeroParte")]
+    partial class stockMinimoColumnNumeroParte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -506,8 +508,6 @@ namespace GpoSion.API.Migrations
 
                     b.Property<string>("ModificadoPorId");
 
-                    b.Property<int>("StockMinimo");
-
                     b.Property<int?>("TipoMaterialId");
 
                     b.Property<DateTime?>("UltimaModificacion");
@@ -896,6 +896,8 @@ namespace GpoSion.API.Migrations
 
                     b.Property<decimal>("Peso")
                         .HasColumnType("decimal(18, 4)");
+
+                    b.Property<int>("StockMinimo");
 
                     b.Property<DateTime?>("UltimaModificacion");
 

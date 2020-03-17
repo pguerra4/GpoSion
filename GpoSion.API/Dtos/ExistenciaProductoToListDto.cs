@@ -9,6 +9,7 @@ namespace GpoSion.API.Dtos
 
         public string NoParte { get; set; }
 
+        public int StockMinimo { get; set; }
 
         public int PiezasCertificadas { get; set; }
         public int PiezasRechazadas { get; set; }

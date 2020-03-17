@@ -21,6 +21,7 @@ namespace GpoSion.API.Dtos
 
         [JsonProperty(PropertyName = "tipoMaterial")]
         public string TipoMaterialTipo { get; set; }
+        public int StockMinimo { get; set; }
 
     }
 }

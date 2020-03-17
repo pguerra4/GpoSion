@@ -62,7 +62,7 @@ namespace GpoSion.API.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var material = new Material { UnidadMedida = um, FechaCreacion = DateTime.Now, ClaveMaterial = materialDto.ClaveMaterial.Trim(), Descripcion = materialDto.Descripcion, TipoMaterialId = materialDto.TipoMaterialId, CreadoPorId = userId };
+            var material = new Material { UnidadMedida = um, FechaCreacion = DateTime.Now, ClaveMaterial = materialDto.ClaveMaterial.Trim(), Descripcion = materialDto.Descripcion, TipoMaterialId = materialDto.TipoMaterialId, CreadoPorId = userId, StockMinimo = materialDto.StockMinimo };
             // _mapper.Map(materialDto, material);
 
             _repo.Add(material);
@@ -92,6 +92,7 @@ namespace GpoSion.API.Controllers
             material.UnidadMedida = um;
             material.ModificadoPorId = userId;
             material.UltimaModificacion = DateTime.Now;
+            material.StockMinimo = materialDto.StockMinimo;
 
             await _repo.SaveAll();
 

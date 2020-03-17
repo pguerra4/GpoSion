@@ -243,9 +243,13 @@ namespace GpoSion.API.Data
             return detalleRecibo;
         }
 
-        public async Task<IEnumerable<Viajero>> GetViajeros()
+        public async Task<IEnumerable<Viajero>> GetViajeros(ViajeroParams viajeroParams)
         {
             var viajeros = await _context.Viajeros.OrderBy(v => v.Fecha).ToListAsync();
+            if (!viajeroParams.MostrarHistorico.HasValue || !viajeroParams.MostrarHistorico.Value)
+            {
+                viajeros = viajeros.Where(v => v.Existencia > 0).ToList();
+            }
             return viajeros;
         }
 
