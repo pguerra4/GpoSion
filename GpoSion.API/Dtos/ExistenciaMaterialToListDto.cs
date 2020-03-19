@@ -27,5 +27,7 @@ namespace GpoSion.API.Dtos
 
         public string[] NumerosParte { get; set; }
 
+        
+
     }
 }

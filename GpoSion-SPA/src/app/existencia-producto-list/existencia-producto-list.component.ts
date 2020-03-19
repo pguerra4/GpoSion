@@ -34,9 +34,10 @@ export class ExistenciaProductoListComponent implements OnInit {
   }
 
   comparaExistencias(em: ExistenciaProducto): boolean {
-    let suma = em.localidades
-      .map(lnp => lnp.existencia)
-      .reduce((a, b) => a + b);
+    let suma = 0;
+    if (em.localidades.length > 0) {
+      suma = em.localidades.map(lnp => lnp.existencia).reduce((a, b) => a + b);
+    }
 
     return suma !== em.piezasCertificadas;
   }
