@@ -7,9 +7,11 @@ using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Helpers;
+using GpoSion.API.hub;
 using GpoSion.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace GpoSion.API.Controllers
 {
@@ -21,9 +23,12 @@ namespace GpoSion.API.Controllers
     {
         private readonly IGpoSionRepository _repo;
         private readonly IMapper _mapper;
-        public RequerimientosMaterialController(IGpoSionRepository repo, IMapper mapper)
+        private readonly IHubContext<NotifyHub, ITypedHubClient> _hubContext;
+
+        public RequerimientosMaterialController(IGpoSionRepository repo, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext)
         {
             _mapper = mapper;
+            _hubContext = hubContext;
             _repo = repo;
 
         }
@@ -63,11 +68,12 @@ namespace GpoSion.API.Controllers
 
             nuevoReq.Materiales = new List<RequerimientoMaterialMaterial>();
 
-
+            var mats = "";
 
             foreach (RequerimientoMaterialMaterial rmm in materiales)
             {
                 nuevoReq.Materiales.Add(rmm);
+                mats += rmm.Material.ClaveMaterial + "  ";
             }
 
 
@@ -75,6 +81,7 @@ namespace GpoSion.API.Controllers
             if (await _repo.SaveAll())
             {
                 var reqToReturn = _mapper.Map<RequerimientoMaterialForDetailDto>(nuevoReq);
+                await _hubContext.Clients.All.BroadcastMessage("Info", "Hay un nuevo requerimiento de material(es) " + mats);
                 return CreatedAtAction("GetRequerimiento", new { id = nuevoReq.RequerimientoMaterialId }, reqToReturn);
             }
 
@@ -123,6 +130,12 @@ namespace GpoSion.API.Controllers
                     existenciaAlmacen.Existencia -= rmmDto.asurtir;
                     existenciaAlmacen.UltimaModificacion = DateTime.Now;
                     existenciaAlmacen.ModificadoPorId = userId;
+
+
+                    if (existenciaAlmacen.Existencia < material.StockMinimo)
+                    {
+                        await _hubContext.Clients.All.BroadcastMessage("Warning", "El material " + material.ClaveMaterial + " se esta acabando");
+                    }
 
                     var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, material.MaterialId);
                     if (existenciaProduccion != null)

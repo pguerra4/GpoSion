@@ -29,7 +29,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-
+using GpoSion.API.hub;
 
 namespace GpoSion.API
 {
@@ -108,6 +108,7 @@ namespace GpoSion.API
                 options.Filters.Add(new AuthorizeFilter(policy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
+            services.AddSignalR();
             services.AddAutoMapper(typeof(GpoSionRepository).Assembly);
             services.AddScoped<IGpoSionRepository, GpoSionRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -143,7 +144,7 @@ namespace GpoSion.API
             }
 
             //app.UseHttpsRedirection();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials().WithOrigins("http://localhost:4200"));
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
@@ -176,6 +177,12 @@ namespace GpoSion.API
                 });
                 options.UsePaging(25);
             });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotifyHub>("/api/notify");
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapSpaFallbackRoute(

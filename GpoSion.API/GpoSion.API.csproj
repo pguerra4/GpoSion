@@ -13,5 +13,6 @@
     <PackageReference Include="Korzh.EasyQuery.AspNetCore" Version="5.3.3"/>
     <PackageReference Include="Korzh.EasyQuery.EntityFrameworkCore.Relational" Version="5.3.3"/>
     <PackageReference Include="Korzh.EasyQuery.EntityFrameworkCore.Identity" Version="5.3.3"/>
+    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.1"/>
   </ItemGroup>
 </Project>

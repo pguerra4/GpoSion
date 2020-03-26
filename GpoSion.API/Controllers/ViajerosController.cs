@@ -7,9 +7,11 @@ using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
 using GpoSion.API.Helpers;
+using GpoSion.API.hub;
 using GpoSion.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace GpoSion.API.Controllers
 {
@@ -20,9 +22,12 @@ namespace GpoSion.API.Controllers
     {
         private readonly IGpoSionRepository _repo;
         private readonly IMapper _mapper;
-        public ViajerosController(IGpoSionRepository repo, IMapper mapper)
+        private readonly IHubContext<NotifyHub, ITypedHubClient> _hubContext;
+
+        public ViajerosController(IGpoSionRepository repo, IMapper mapper, IHubContext<NotifyHub, ITypedHubClient> hubContext)
         {
             _mapper = mapper;
+            _hubContext = hubContext;
             _repo = repo;
 
         }
@@ -63,6 +68,11 @@ namespace GpoSion.API.Controllers
             var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, viajero.Material.MaterialId);
 
             existenciaMaterial.Existencia += nvaExistencia;
+
+            if (existenciaMaterial.Existencia < viajero.Material.StockMinimo)
+            {
+                await _hubContext.Clients.All.BroadcastMessage("Warning", "El material " + viajero.Material.ClaveMaterial + " se esta acabando");
+            }
 
             var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = viajero.Material, Viajero = viajero, ViajeroId = viajero.ViajeroId, Cantidad = nvaExistencia, FechaCreacion = DateTime.Now, CreadoPorId = userId, MotivoMovimiento = viajeroFP.MotivoMovimiento, LocalidadId = viajeroFP.LocalidadId };
 
