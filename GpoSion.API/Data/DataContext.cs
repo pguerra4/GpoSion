@@ -91,6 +91,8 @@ namespace GpoSion.API.Data
 
         public DbSet<ExistenciaProductoProduccion> ExistenciasProductoProduccion { get; set; }
 
+        public DbSet<Mensaje> Mensajes { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -138,6 +140,8 @@ namespace GpoSion.API.Data
             modelBuilder.Entity<LocalidadMaterial>().HasOne(lm => lm.Material).WithMany(n => n.MaterialLocalidades).HasForeignKey(lm => lm.MaterialId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PlaneacionProduccion>().HasKey(pp => new { pp.año, pp.semana, pp.NoParte });
+
+            modelBuilder.Entity<MoldeNumeroParte>().Property(mnp => mnp.Cavidades).HasDefaultValue(1);
 
             // modelBuilder.Entity<ExistenciaProductoProduccion>()
             //         .HasAlternateKey(epp => epp.NoParte)

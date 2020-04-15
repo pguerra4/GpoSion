@@ -16,9 +16,9 @@ export class NumeroParteEditResolver implements Resolve<NumeroParte> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<NumeroParte> {
     return this.numeroParteService.getNumeroParte(route.params["id"]).pipe(
-      catchError(error => {
+      catchError((error) => {
         this.alertify.error("Problema obteniendo Numero de Parte");
-        this.router.navigate(["/existencias"]);
+        this.router.navigate(["/numerosParte"]);
         return of(null);
       })
     );

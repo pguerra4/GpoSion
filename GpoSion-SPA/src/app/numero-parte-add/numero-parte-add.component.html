@@ -55,7 +55,7 @@
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="peso">Peso</label>
                             <div class="input-group">
-                                <input class="form-control" formControlName="peso" placeholder="Peso" aria-invalid="false" style="text-align: right" />
+                                <input class="form-control" formControlName="peso" placeholder="Peso" aria-invalid="false" style="text-align: right;" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">Lbs</span>
                                 </div>
@@ -64,7 +64,7 @@
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="precio">Precio</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" formControlName="costo" placeholder="Precio" style="text-align: right" />
+                                <input type="number" class="form-control" formControlName="costo" placeholder="Precio" style="text-align: right;" />
                                 <div class="input-group-append">
                                     <span class="input-group-text">$</span>
                                 </div>
@@ -86,7 +86,7 @@
                                         </div>
                                         <div class="col-md-1">
                                             <button class="btn btn-success btn-xs" type="button" [disabled]="!numeroParteForm.get('materialId').value" (click)="addMaterial()">
-                        <span class="fa fa-plus-circle "> </span>
+                        <span class="fa fa-plus-circle"> </span>
                       </button>
                                         </div>
                                     </div>
@@ -123,20 +123,35 @@
                             <div class="card">
                                 <div class="card-header text-primary">Moldes</div>
                                 <div class="card-body">
-                                    <input autocomplete="off" [typeahead]="moldesCat" typeaheadOptionField="molde" [isAnimated]="true" class="form-control" id="molde" formControlName="molde" placeholder="Molde" (typeaheadOnSelect)="onSelectMolde($event)" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input autocomplete="off" [typeahead]="moldesCat" typeaheadOptionField="molde" [isAnimated]="true" class="form-control" id="molde" formControlName="molde" placeholder="Molde" (typeaheadOnSelect)="onSelectMolde($event)" />
+                                            <input type="hidden" id="moldeId" formControlName="moldeId" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" id="cavidades" formControlName="cavidades" placeholder="Cavidades" />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="btn btn-success btn-xs" type="button" [disabled]="!numeroParteForm.get('moldeId').value" (click)="addMolde()">
+                        <span class="fa fa-plus-circle"> </span>
+                      </button>
+                                        </div>
+                                    </div>
                                     <div class="table-responsive mt-2">
                                         <table id="moldesTable" class="table table-hover table-bordered table-striped">
                                             <thead>
                                                 <tr class="table-primary">
                                                     <th>Molde</th>
+                                                    <th>Cavidades</th>
                                                     <th>Borrar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr *ngFor="let molde of moldes">
-                                                    <td scope="row">{{ molde.molde }}</td>
+                                                    <td scope="row">{{ molde.molde.molde }}</td>
+                                                    <td>{{ molde.cavidades }}</td>
                                                     <td>
-                                                        <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMolde(molde.id)">
+                                                        <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMolde(molde.molde.id)">
                               <span class="fa fa-trash"></span
                             ></span>
                                                     </td>
@@ -153,7 +168,7 @@
                             <button class="btn btn-success mr-1" [disabled]="!numeroParteForm.valid" type="submit">
                 Guardar
               </button>
-                            <a class="btn btn-danger " [routerLink]="['/numerosParte']">
+                            <a class="btn btn-danger" [routerLink]="['/numerosParte']">
                 Cancelar
               </a>
                         </div>

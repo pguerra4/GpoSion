@@ -36,13 +36,13 @@ namespace GpoSion.API.Helpers
             CreateMap<Molde, MoldeForDetailDto>()
             .ForMember(dest => dest.NumerosParte, opt => opt.MapFrom(src => src.MoldeNumerosParte.Select(mnp => mnp.NoParte)));
             CreateMap<MoldeForCreationDto, Molde>();
-            CreateMap<MoldeForPutDto, Molde>();
+            CreateMap<MoldeForPutDto, Molde>().ReverseMap();
             CreateMap<MaterialNumeroParte, MaterialNumeroParteToListDto>().ReverseMap();
             CreateMap<NumeroParte, NumeroParteToListDto>();
             CreateMap<NumeroParteToCreateDto, NumeroParte>();
             CreateMap<NumeroParte, NumeroParteForDetailDto>()
             .ForMember(dest => dest.Materiales, opt => opt.MapFrom(src => src.MaterialesNumeroParte))
-            .ForMember(dest => dest.Moldes, opt => opt.MapFrom(src => src.MoldesNumeroParte.Select(mnp => mnp.Molde)));
+            .ForMember(dest => dest.Moldes, opt => opt.MapFrom(src => src.MoldesNumeroParte));
             CreateMap<Moldeadora, MoldeadoraToListDto>()
             .ForMember(dest => dest.NumerosParte, opt => opt.MapFrom(src => src.MoldeadoraNumerosParte.Select(mnp => mnp.NoParte)));
             CreateMap<MoldeadoraToCreateDto, Moldeadora>();
@@ -88,6 +88,7 @@ namespace GpoSion.API.Helpers
             CreateMap<MovimientoMolde, MovimientoMoldeForListDto>();
             CreateMap<EstatusMoldeToCreateDto, EstatusMolde>();
             CreateMap<PlaneacionProduccionToCreateDto, PlaneacionProduccion>().ReverseMap();
+            CreateMap<MoldeNumeroParte, MoldeNumeroParteToListDto>().ReverseMap();
         }
     }
 }

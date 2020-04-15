@@ -24,7 +24,7 @@ namespace GpoSion.API.Dtos
 
         public ICollection<MaterialNumeroParteToListDto> Materiales { get; set; }
 
-        public ICollection<MoldeToListDto> Moldes { get; set; }
+        public ICollection<MoldeNumeroParteToListDto> Moldes { get; set; }
 
     }
 }

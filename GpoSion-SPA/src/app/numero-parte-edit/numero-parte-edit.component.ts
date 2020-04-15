@@ -14,11 +14,12 @@ import { Molde } from "../_models/molde";
 import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 import { MoldeService } from "../_services/molde.service";
 import { MaterialNumeroParte } from "../_models/materialNumeroParte";
+import { MoldeNumeroParte } from "../_models/molde-numero-parte";
 
 @Component({
   selector: "app-numero-parte-edit",
   templateUrl: "./numero-parte-edit.component.html",
-  styleUrls: ["./numero-parte-edit.component.css"]
+  styleUrls: ["./numero-parte-edit.component.css"],
 })
 export class NumeroParteEditComponent implements OnInit {
   numeroParteForm: FormGroup;
@@ -31,7 +32,7 @@ export class NumeroParteEditComponent implements OnInit {
   materialesCat: Material[];
   materiales: MaterialNumeroParte[] = new Array();
   moldesCat: Molde[];
-  moldes: Molde[] = new Array();
+  moldes: MoldeNumeroParte[] = new Array();
 
   constructor(
     private clienteService: ClienteService,
@@ -46,7 +47,7 @@ export class NumeroParteEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       // tslint:disable-next-line: no-string-literal
       this.numeroParte = data["numeroParte"];
       this.moldes = this.numeroParte.moldes;
@@ -81,7 +82,9 @@ export class NumeroParteEditComponent implements OnInit {
       material: [null],
       materialId: [null],
       cantidad: [null],
-      molde: [null]
+      molde: [null],
+      moldeId: [null],
+      cavidades: [1],
     });
   }
 
@@ -90,7 +93,7 @@ export class NumeroParteEditComponent implements OnInit {
       (res: Cliente[]) => {
         this.clientes = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -102,7 +105,7 @@ export class NumeroParteEditComponent implements OnInit {
         this.materialesCat = res;
         console.log(this.materialesCat);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -113,7 +116,7 @@ export class NumeroParteEditComponent implements OnInit {
       (res: Molde[]) => {
         this.moldesCat = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -135,11 +138,11 @@ export class NumeroParteEditComponent implements OnInit {
 
   addMaterial() {
     const mat = this.materialesCat.find(
-      m => m.materialId === this.numeroParteForm.get("materialId").value
+      (m) => m.materialId === this.numeroParteForm.get("materialId").value
     );
     const matnp: MaterialNumeroParte = {
       material: mat,
-      cantidad: +this.numeroParteForm.get("cantidad").value
+      cantidad: +this.numeroParteForm.get("cantidad").value,
     };
 
     if (this.materiales.indexOf(matnp) < 0) {
@@ -150,51 +153,59 @@ export class NumeroParteEditComponent implements OnInit {
     this.numeroParteForm.get("cantidad").setValue(null);
   }
 
-  addNumeroParte() {
-    this.numeroParte = Object.assign({}, this.numeroParteForm.value);
-    this.numeroParte.materiales = new Array();
-    this.materiales.forEach(material => {
-      this.numeroParte.materiales.push(material);
-    });
-    this.numeroParte.moldes = new Array();
-    this.moldes.forEach(molde => {
-      this.numeroParte.moldes.push(molde);
-    });
+  // addNumeroParte() {
+  //   this.numeroParte = Object.assign({}, this.numeroParteForm.value);
+  //   this.numeroParte.materiales = new Array();
+  //   this.materiales.forEach((material) => {
+  //     this.numeroParte.materiales.push(material);
+  //   });
+  //   this.numeroParte.moldes = new Array();
+  //   this.moldes.forEach((molde) => {
+  //     this.numeroParte.moldes.push(molde);
+  //   });
 
-    this.numeroParteService.addNumeroParte(this.numeroParte).subscribe(
-      (res: NumeroParte) => {
-        this.alertify.success("Guardado");
-        this.router.navigate(["numerosParte"]);
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
-  }
+  //   this.numeroParteService.addNumeroParte(this.numeroParte).subscribe(
+  //     (res: NumeroParte) => {
+  //       this.alertify.success("Guardado");
+  //       this.router.navigate(["numerosParte"]);
+  //     },
+  //     (error) => {
+  //       this.alertify.error(error);
+  //     }
+  //   );
+  // }
 
   onSelectMolde(item: any) {
-    if (this.moldes.find(m => m.id === item.item.id) === undefined) {
-      this.moldes.push(item.item);
+    this.numeroParteForm.get("moldeId").setValue(item.item.id);
+  }
+
+  addMolde() {
+    const mol = this.moldesCat.find(
+      (m) => m.id === this.numeroParteForm.get("moldeId").value
+    );
+    const molnp: MoldeNumeroParte = {
+      molde: mol,
+      cavidades: +this.numeroParteForm.get("cavidades").value,
+    };
+    if (this.moldes.indexOf(molnp) < 0) {
+      this.moldes.push(molnp);
     }
 
     this.numeroParteForm.get("molde").setValue(null);
+    this.numeroParteForm.get("moldeId").setValue(null);
+    this.numeroParteForm.get("cavidades").setValue(1);
   }
 
   deleteMaterial(materialId: number) {
-    console.log(this.materiales);
-    console.log(materialId);
-    console.log(
-      this.materiales.findIndex(m => m.material.materialId === materialId)
-    );
     this.materiales.splice(
-      this.materiales.findIndex(m => m.material.materialId === materialId),
+      this.materiales.findIndex((m) => m.material.materialId === materialId),
       1
     );
   }
 
   deleteMolde(id: number) {
     this.moldes.splice(
-      this.moldes.findIndex(m => m.id === id),
+      this.moldes.findIndex((m) => m.molde.id === id),
       1
     );
   }
@@ -211,7 +222,7 @@ export class NumeroParteEditComponent implements OnInit {
           this.alertify.success("Guardado");
           this.router.navigate(["numerosParte"]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -229,10 +240,10 @@ export class NumeroParteEditComponent implements OnInit {
       allowedFileType: ["image"],
       removeAfterUpload: true,
       autoUpload: false,
-      maxFileSize: 10 * 1024 * 1024
+      maxFileSize: 10 * 1024 * 1024,
     });
 
-    this.uploader.onAfterAddingFile = file => {
+    this.uploader.onAfterAddingFile = (file) => {
       file.withCredentials = false;
       if (this.uploader.queue.length > 1) {
         this.uploader.queue.splice(0, 1);

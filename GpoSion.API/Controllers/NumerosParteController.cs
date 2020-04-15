@@ -89,9 +89,9 @@ namespace GpoSion.API.Controllers
             if (numeroParteforCreationDto.Moldes.Count > 0)
             {
                 var moldes = new List<MoldeNumeroParte>();
-                foreach (MoldeForPutDto molde in numeroParteforCreationDto.Moldes)
+                foreach (MoldeNumeroParteToListDto molde in numeroParteforCreationDto.Moldes)
                 {
-                    moldes.Add(new MoldeNumeroParte { MoldeId = molde.Id });
+                    moldes.Add(new MoldeNumeroParte { MoldeId = molde.Molde.Id, Cavidades = molde.Cavidades });
                 }
                 numeroParte.MoldesNumeroParte = moldes;
             }
@@ -157,9 +157,9 @@ namespace GpoSion.API.Controllers
                     numeroParte.MoldesNumeroParte.Clear();
                 }
                 var moldes = new List<MoldeNumeroParte>();
-                foreach (MoldeForPutDto molde in numeroParteFP.Moldes)
+                foreach (MoldeNumeroParteToListDto molde in numeroParteFP.Moldes)
                 {
-                    moldes.Add(new MoldeNumeroParte { MoldeId = molde.Id });
+                    moldes.Add(new MoldeNumeroParte { MoldeId = molde.Molde.Id, Cavidades = molde.Cavidades });
                 }
                 numeroParte.MoldesNumeroParte = moldes;
             }

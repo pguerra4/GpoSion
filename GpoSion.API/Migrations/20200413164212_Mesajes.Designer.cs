@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200413164212_Mesajes")]
+    partial class Mesajes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -622,10 +624,6 @@ namespace GpoSion.API.Migrations
                     b.Property<int>("MoldeId");
 
                     b.Property<string>("NoParte");
-
-                    b.Property<int>("Cavidades")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
 
                     b.HasKey("MoldeId", "NoParte");
 

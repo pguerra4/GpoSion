@@ -12,11 +12,12 @@ import { ExistenciasMaterialService } from "../_services/existenciasMaterial.ser
 import { MoldeService } from "../_services/molde.service";
 import { ValidateExistingNumeroParte } from "../_validators/async-numero-parte-existente.validator";
 import { MaterialNumeroParte } from "../_models/materialNumeroParte";
+import { MoldeNumeroParte } from "../_models/molde-numero-parte";
 
 @Component({
   selector: "app-numero-parte-add",
   templateUrl: "./numero-parte-add.component.html",
-  styleUrls: ["./numero-parte-add.component.css"]
+  styleUrls: ["./numero-parte-add.component.css"],
 })
 export class NumeroParteAddComponent implements OnInit {
   numeroParteForm: FormGroup;
@@ -25,7 +26,7 @@ export class NumeroParteAddComponent implements OnInit {
   materialesCat: Material[];
   materiales: MaterialNumeroParte[] = new Array();
   moldesCat: Molde[];
-  moldes: Molde[] = new Array();
+  moldes: MoldeNumeroParte[] = new Array();
 
   constructor(
     private clienteService: ClienteService,
@@ -50,7 +51,7 @@ export class NumeroParteAddComponent implements OnInit {
         noParte: [
           "",
           Validators.required,
-          ValidateExistingNumeroParte.createValidator(this.numeroParteService)
+          ValidateExistingNumeroParte.createValidator(this.numeroParteService),
         ],
         clienteId: [null, Validators.required],
         descripcion: [null],
@@ -60,7 +61,9 @@ export class NumeroParteAddComponent implements OnInit {
         material: [null],
         materialId: [null],
         cantidad: [null],
-        molde: [null]
+        molde: [null],
+        moldeId: [null],
+        cavidades: [1],
       },
       { updateOn: "blur" }
     );
@@ -71,7 +74,7 @@ export class NumeroParteAddComponent implements OnInit {
       (res: Cliente[]) => {
         this.clientes = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -83,7 +86,7 @@ export class NumeroParteAddComponent implements OnInit {
         this.materialesCat = res;
         console.log(this.materialesCat);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -94,7 +97,7 @@ export class NumeroParteAddComponent implements OnInit {
       (res: Molde[]) => {
         this.moldesCat = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -106,11 +109,11 @@ export class NumeroParteAddComponent implements OnInit {
 
   addMaterial() {
     const mat = this.materialesCat.find(
-      m => m.materialId === this.numeroParteForm.get("materialId").value
+      (m) => m.materialId === this.numeroParteForm.get("materialId").value
     );
     const matnp: MaterialNumeroParte = {
       material: mat,
-      cantidad: +this.numeroParteForm.get("cantidad").value
+      cantidad: +this.numeroParteForm.get("cantidad").value,
     };
 
     if (this.materiales.indexOf(matnp) < 0) {
@@ -122,23 +125,37 @@ export class NumeroParteAddComponent implements OnInit {
   }
 
   onSelectMolde(item: any) {
-    if (this.moldes.indexOf(item.item) < 0) {
-      this.moldes.push(item.item);
+    // console.log(item);
+    this.numeroParteForm.get("moldeId").setValue(item.item.id);
+  }
+
+  addMolde() {
+    const mol = this.moldesCat.find(
+      (m) => m.id === this.numeroParteForm.get("moldeId").value
+    );
+    const molnp: MoldeNumeroParte = {
+      molde: mol,
+      cavidades: +this.numeroParteForm.get("cavidades").value,
+    };
+    if (this.moldes.indexOf(molnp) < 0) {
+      this.moldes.push(molnp);
     }
 
     this.numeroParteForm.get("molde").setValue(null);
+    this.numeroParteForm.get("moldeId").setValue(null);
+    this.numeroParteForm.get("cavidades").setValue(1);
   }
 
   deleteMaterial(materialId: number) {
     this.materiales.splice(
-      this.materiales.findIndex(m => m.material.materialId === materialId),
+      this.materiales.findIndex((m) => m.material.materialId === materialId),
       1
     );
   }
 
   deleteMolde(id: number) {
     this.moldes.splice(
-      this.moldes.findIndex(m => m.id === id),
+      this.moldes.findIndex((m) => m.molde.id === id),
       1
     );
   }
@@ -146,11 +163,11 @@ export class NumeroParteAddComponent implements OnInit {
   addNumeroParte() {
     this.numeroParte = Object.assign({}, this.numeroParteForm.value);
     this.numeroParte.materiales = new Array();
-    this.materiales.forEach(material => {
+    this.materiales.forEach((material) => {
       this.numeroParte.materiales.push(material);
     });
     this.numeroParte.moldes = new Array();
-    this.moldes.forEach(molde => {
+    this.moldes.forEach((molde) => {
       this.numeroParte.moldes.push(molde);
     });
 
@@ -159,7 +176,7 @@ export class NumeroParteAddComponent implements OnInit {
         this.alertify.success("Guardado");
         this.router.navigate(["numerosParte"]);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );

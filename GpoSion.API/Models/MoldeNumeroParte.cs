@@ -1,3 +1,5 @@
+
+
 namespace GpoSion.API.Models
 {
     public class MoldeNumeroParte
@@ -7,6 +9,8 @@ namespace GpoSion.API.Models
 
         public string NoParte { get; set; }
         public virtual NumeroParte NumeroParte { get; set; }
+
+        public int Cavidades { get; set; }
 
     }
 }

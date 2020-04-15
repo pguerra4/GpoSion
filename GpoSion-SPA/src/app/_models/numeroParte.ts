@@ -1,5 +1,5 @@
-import { Molde } from "./molde";
 import { MaterialNumeroParte } from "./materialNumeroParte";
+import { MoldeNumeroParte } from "./molde-numero-parte";
 
 export interface NumeroParte {
   noParte: string;
@@ -11,5 +11,5 @@ export interface NumeroParte {
   leyendaPieza: string;
   urlImagenPieza: string;
   materiales: MaterialNumeroParte[];
-  moldes: Molde[];
+  moldes: MoldeNumeroParte[];
 }
