@@ -68,6 +68,8 @@ namespace GpoSion.API.Controllers
             var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, viajero.Material.MaterialId);
 
             existenciaMaterial.Existencia += nvaExistencia;
+            existenciaMaterial.ModificadoPorId = userId;
+            existenciaMaterial.UltimaModificacion = DateTime.Now;
 
             if (existenciaMaterial.Existencia < viajero.Material.StockMinimo)
             {

@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: "app-moldeadora-add",
   templateUrl: "./moldeadora-add.component.html",
-  styleUrls: ["./moldeadora-add.component.css"]
+  styleUrls: ["./moldeadora-add.component.css"],
 })
 export class MoldeadoraAddComponent implements OnInit {
   moldeadora: Moldeadora;
@@ -23,7 +23,8 @@ export class MoldeadoraAddComponent implements OnInit {
 
   createMoldeadoraForm() {
     this.moldeadoraForm = this.fb.group({
-      moldeadora: ["", Validators.required]
+      moldeadora: ["", Validators.required],
+      disparosPorHora: [null],
     });
   }
 
@@ -38,7 +39,7 @@ export class MoldeadoraAddComponent implements OnInit {
         this.alertify.success("Guardado");
         this.router.navigate(["moldeadoraslist"]);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );

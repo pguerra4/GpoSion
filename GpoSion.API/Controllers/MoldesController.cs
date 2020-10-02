@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GpoSion.API.Data;
 using GpoSion.API.Dtos;
+using GpoSion.API.Helpers;
 using GpoSion.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +29,9 @@ namespace GpoSion.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMoldes()
+        public async Task<IActionResult> GetMoldes([FromQuery] MoldesParams moldesParams)
         {
-            var moldes = await _repo.GetMoldes();
+            var moldes = await _repo.GetMoldes(moldesParams);
             var moldesToReturn = _mapper.Map<IEnumerable<MoldeToListDto>>(moldes);
             return Ok(moldesToReturn);
         }

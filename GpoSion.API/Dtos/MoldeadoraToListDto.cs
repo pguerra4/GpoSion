@@ -14,6 +14,8 @@ namespace GpoSion.API.Dtos
 
         public string Estatus { get; set; }
 
+        public decimal DisparosPorHora { get; set; }
+
         public int? MoldeId { get; set; }
         [JsonProperty("molde")]
         public string MoldeClaveMolde { get; set; }

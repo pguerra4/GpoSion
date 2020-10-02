@@ -12,6 +12,8 @@ namespace GpoSion.API.Dtos
         [JsonProperty("moldeadora")]
         public string Clave { get; set; }
 
+        public decimal DisparosPorHora { get; set; }
+
 
     }
 }

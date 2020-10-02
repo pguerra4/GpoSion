@@ -85,6 +85,7 @@ namespace GpoSion.API.Controllers
 
 
             moldeadora.Clave = moldeadoraFP.Clave.Trim();
+            moldeadora.DisparosPorHora = moldeadoraFP.DisparosPorHora;
             moldeadora.UltimaModificacion = DateTime.Now;
             moldeadora.ModificadoPorId = userId;
 
@@ -187,6 +188,8 @@ namespace GpoSion.API.Controllers
             moldeadora.UltimaModificacion = DateTime.Now;
             moldeadora.ModificadoPorId = userId;
             moldeadora.UltimoMotivoParo = null;
+
+
 
             var movimiento = new MovimientoMoldeadora
             {

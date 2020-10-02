@@ -9,13 +9,13 @@ import { i18n } from "@easyquery/core";
 import {
   OwlDateTimeModule,
   OwlNativeDateTimeModule,
-  OWL_DATE_TIME_LOCALE
+  OWL_DATE_TIME_LOCALE,
 } from "ng-pick-datetime";
 import {
   BsDropdownModule,
   ModalModule,
   BsDatepickerModule,
-  defineLocale
+  defineLocale,
 } from "ngx-bootstrap";
 import * as locales from "ngx-bootstrap/locale";
 import { JwtModule } from "@auth0/angular-jwt";
@@ -174,6 +174,7 @@ import { EmbarquesTotalesComponent } from "./embarques-totales/embarques-totales
 import { EmbarquesTop10Component } from "./embarques-top10/embarques-top10.component";
 import { GraficaEmbarquesFullComponent } from "./grafica-embarques-full/grafica-embarques-full.component";
 import { GraficaEmbarquesNpFullComponent } from "./grafica-embarques-np-full/grafica-embarques-np-full.component";
+import { UserProfileEditResolver } from "./_resolvers/user-profile-edit.resolver";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -191,7 +192,7 @@ var spanishLocaleInfo = {
   displayName: "Español",
   settings: {
     dateFormat: "dd/MM/yyyy",
-    decimalSeparator: "."
+    decimalSeparator: ".",
   },
   texts: {
     AltMenuAttribute: "Atributo",
@@ -313,10 +314,10 @@ var spanishLocaleInfo = {
     Entities: {},
     Attributes: {},
     Operators: {
-      Equal: "es igual a"
+      Equal: "es igual a",
     },
-    AggreateFunction: {}
-  }
+    AggreateFunction: {},
+  },
 };
 
 i18n.updateLocaleInfo("es", spanishLocaleInfo);
@@ -429,7 +430,7 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     EmbarquesTotalesComponent,
     EmbarquesTop10Component,
     GraficaEmbarquesFullComponent,
-    GraficaEmbarquesNpFullComponent
+    GraficaEmbarquesNpFullComponent,
   ],
   imports: [
     BrowserModule,
@@ -451,10 +452,10 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
       config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: ["localhost:5005"],
-        blacklistedRoutes: ["localhost:5005/api/auth"]
-      }
+        blacklistedRoutes: ["localhost:5005/api/auth"],
+      },
     }),
-    RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload" })
+    RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload" }),
   ],
   providers: [
     ErrorInterceptorProvider,
@@ -500,8 +501,9 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     LocalidadNumeroParteEditResolver,
     DatePipe,
     PlaneacionProduccionEditResolver,
-    { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" }
+    UserProfileEditResolver,
+    { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

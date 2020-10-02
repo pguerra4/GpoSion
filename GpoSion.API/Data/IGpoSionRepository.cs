@@ -54,7 +54,7 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<Viajero>> GetViajeros(ViajeroParams viajeroParams);
 
-        Task<IEnumerable<Molde>> GetMoldes();
+        Task<IEnumerable<Molde>> GetMoldes(MoldesParams moldesParams);
 
         Task<Molde> GetMolde(int Id);
 

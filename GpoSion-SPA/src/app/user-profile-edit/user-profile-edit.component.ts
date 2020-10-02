@@ -8,7 +8,7 @@ import { UserProfileService } from "../_services/user-profile.service";
 @Component({
   selector: "app-user-profile-edit",
   templateUrl: "./user-profile-edit.component.html",
-  styleUrls: ["./user-profile-edit.component.css"]
+  styleUrls: ["./user-profile-edit.component.css"],
 })
 export class UserProfileEditComponent implements OnInit {
   user: User;
@@ -23,7 +23,12 @@ export class UserProfileEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadUser(this.route.snapshot.params["id"]);
+    this.route.data.subscribe((data) => {
+      // tslint:disable-next-line: no-string-literal
+      this.user = data["user"];
+      this.createUserForm();
+    });
+    //this.loadUser(this.route.snapshot.params["id"]);
   }
 
   createUserForm() {
@@ -32,21 +37,21 @@ export class UserProfileEditComponent implements OnInit {
       nombre: [this.user.nombre],
       paterno: [this.user.paterno],
       materno: [this.user.materno],
-      eMail: [this.user.eMail]
+      eMail: [this.user.eMail],
     });
   }
 
-  loadUser(id: string) {
-    this.userService.getUser(id).subscribe(
-      (res: User) => {
-        this.user = res;
-        this.createUserForm();
-      },
-      error => {
-        this.alertify.error(error);
-      }
-    );
-  }
+  // loadUser(id: string) {
+  //   this.userService.getUser(id).subscribe(
+  //     (res: User) => {
+  //       this.user = res;
+  //       this.createUserForm();
+  //     },
+  //     error => {
+  //       this.alertify.error(error);
+  //     }
+  //   );
+  // }
 
   editUser() {
     this.user = Object.assign({}, this.userForm.value);
@@ -58,7 +63,7 @@ export class UserProfileEditComponent implements OnInit {
           this.alertify.success("Guardado");
           this.router.navigate(["home"]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );

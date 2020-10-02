@@ -53,10 +53,14 @@ namespace GpoSion.API.Controllers
             if (user.Id != userToEdit.Id)
                 return BadRequest("Ids no coinciden");
 
-            userToEdit.eMail = userToEdit.eMail.Trim();
+            if (userToEdit.eMail != null)
+                userToEdit.eMail = userToEdit.eMail.Trim();
+
             userToEdit.Nombre = userToEdit.Nombre.Trim();
             userToEdit.Paterno = userToEdit.Paterno.Trim();
-            userToEdit.Materno = userToEdit.Materno.Trim();
+
+            if (userToEdit.Materno != null)
+                userToEdit.Materno = userToEdit.Materno.Trim();
 
 
             _mapper.Map(userToEdit, user);

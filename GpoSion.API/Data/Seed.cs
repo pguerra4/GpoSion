@@ -171,6 +171,18 @@ namespace GpoSion.API.Data
                 }
                 context.SaveChanges();
             }
+            else
+            {
+                var molde = context.EstatusMolde.Where(m => m.Estatus == "Devolución a cliente").FirstOrDefault();
+                if (molde == null)
+                {
+                    var estatus = new EstatusMolde { Estatus = "Devolución a cliente", FechaCreacion = DateTime.Now };
+                    context.EstatusMolde.Add(estatus);
+
+                    context.SaveChanges();
+                }
+
+            }
 
         }
 

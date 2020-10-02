@@ -2,6 +2,7 @@
     <div class="card border-primary mt-4">
         <div class="card-header text-primary d-flex justify-content-between">
             <span> Movimientos Molde</span>
+            <a class="fa fa-edit" [routerLink]="['/moldes/' + molde.id]"> Editar</a>
         </div>
         <div class="card-body">
             <div class="card-title p-2 table-success">
@@ -18,9 +19,7 @@
                 </div>
             </div>
             <div class="card-text">
-                <div class="card-subtitle">
-                    Movimientos
-                </div>
+                <div class="card-subtitle">Movimientos</div>
                 <div class="table-responsive">
                     <table id="mytable" class="table table-bordred table-striped">
                         <thead>

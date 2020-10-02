@@ -1,20 +1,24 @@
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Molde } from "../_models/molde";
 import { EstatusMolde } from "../_models/estatus-molde";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class MoldeService {
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  getMoldes(): Observable<Molde[]> {
-    return this.http.get<Molde[]>(this.baseUrl + "moldes");
+  getMoldes(moldesParams?): Observable<Molde[]> {
+    let params = new HttpParams();
+    if (moldesParams != null) {
+      params = params.append("Estatus", moldesParams.estatus);
+    }
+    return this.http.get<Molde[]>(this.baseUrl + "moldes", { params });
   }
 
   getMolde(id: number): Observable<Molde> {

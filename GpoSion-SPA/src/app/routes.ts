@@ -109,6 +109,7 @@ import { GraficaEmbarquesComponent } from "./grafica-embarques/grafica-embarques
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { GraficaEmbarquesFullComponent } from "./grafica-embarques-full/grafica-embarques-full.component";
 import { GraficaEmbarquesNpFullComponent } from "./grafica-embarques-np-full/grafica-embarques-np-full.component";
+import { UserProfileEditResolver } from "./_resolvers/user-profile-edit.resolver";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -120,61 +121,61 @@ export const appRoutes: Routes = [
       {
         path: "materiales",
         component: MaterialListComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "addMaterial",
         component: MaterialAddComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "materiales/:id",
         component: MaterialEditComponent,
         resolve: { material: MaterialEditResolver },
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "materiales/:id/viajeros",
         component: MaterialViajerosListComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "recibos",
         component: ReciboListComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "recibos/:id",
         component: ReciboDetailComponent,
         canDeactivate: [PreventUnsavedChanges],
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "detalleRecibo/:id",
         component: DetalleReciboEditComponent,
         resolve: { detalleRecibo: DetalleReciboEditResolver },
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "viajeros/:id",
         component: ViajeroDetailComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "viajeroedit/:id",
         component: ViajeroEditComponent,
         resolve: { viajero: ViajeroEditResolver },
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "viajeros",
         component: ViajeroListComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "addRecibo",
         component: ReciboAddComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "existencias",
@@ -186,275 +187,275 @@ export const appRoutes: Routes = [
             "Produccion",
             "Compras",
             "Ventas",
-            "AlmacenMateriaPrima"
-          ]
-        }
+            "AlmacenMateriaPrima",
+          ],
+        },
       },
       {
         path: "addAlmacen",
         component: ExistenciasAddComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "produccion",
         component: ProduccionListComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "requerimientoMaterial",
         component: RequerimientoMaterialComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "requerimientos",
         component: RequerimientoMaterialListComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "requerimientosprod",
         component: RequerimientoProdListComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen"] },
       },
       {
         path: "requerimientos/:id",
         component: RequerimientoMaterialProdComponent,
         resolve: { req: RequerimientoMaterialProdResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen"] },
       },
       {
         path: "solicitarMaterial/:id",
         component: MaterialProdComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "moldes",
         component: MoldeListComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "moldes/:id",
         component: MoldeEditComponent,
         resolve: { molde: MoldeEditResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "moldeDetail/:id",
         component: MoldeDetailComponent,
         resolve: { molde: MoldeEditResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "addMolde",
         component: MoldeAddComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "estatusmoldes",
         component: EstatusMoldeListComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "addEstatusMolde",
         component: EstatusMoldeAddComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "estatusmoldes/:id",
         component: EstatusMoldeEditComponent,
         resolve: { estatusMolde: EstatusMoldeEditResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "numerosParte",
         component: NumerosParteListComponent,
-        data: { roles: ["Admin", "Almacen", "Ventas"] }
+        data: { roles: ["Admin", "Almacen", "Ventas"] },
       },
       {
         path: "numerosParte/:id",
         component: NumeroParteEditComponent,
         resolve: { numeroParte: NumeroParteEditResolver },
-        data: { roles: ["Admin", "Almacen", "Ventas"] }
+        data: { roles: ["Admin", "Almacen", "Ventas"] },
       },
       {
         path: "addNumeroParte",
         component: NumeroParteAddComponent,
-        data: { roles: ["Admin", "Almacen", "Ventas"] }
+        data: { roles: ["Admin", "Almacen", "Ventas"] },
       },
       {
         path: "moldeadoras",
         component: MoldeadoraListComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "moldeadoraslist",
         component: MoldeadoraSimpleListComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "moldeadoras/:id",
         component: MoldeadoraSetupComponent,
         resolve: { moldeadora: MoldeadoraEditResolver },
         runGuardsAndResolvers: "always",
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "moldeadorasedit/:id",
         component: MoldeadoraEditComponent,
         resolve: { moldeadora: MoldeadoraEditResolver },
         runGuardsAndResolvers: "always",
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "addMoldeadora",
         component: MoldeadoraAddComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "tiposmaterial",
         component: TipoMaterialListComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "addTipoMaterial",
         component: TipoMaterialAddComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "tiposmaterial/:id",
         component: TipoMaterialEditComponent,
         resolve: { tipoMaterial: TipoMaterialEditResolver },
-        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {
         path: "ordenescompra",
         component: OrdenCompraListComponent,
-        data: { roles: ["Admin", "Ventas"] }
+        data: { roles: ["Admin", "Ventas"] },
       },
       {
         path: "addOrdenCompra",
         component: OrdenCompraAddComponent,
-        data: { roles: ["Admin", "Ventas"] }
+        data: { roles: ["Admin", "Ventas"] },
       },
       {
         path: "ordenescompra/:id",
         component: OrdenCompraEditComponent,
         resolve: { ordenCompra: OrdenCompraEditResolver },
-        data: { roles: ["Admin", "Ventas"] }
+        data: { roles: ["Admin", "Ventas"] },
       },
       {
         path: "detallesordencompra/:id",
         component: DetalleOrdenCompraEditComponent,
         resolve: { detalleOrdenCompra: DetalleOrdenCompraEditResolver },
-        data: { roles: ["Admin", "Ventas"] }
+        data: { roles: ["Admin", "Ventas"] },
       },
       {
         path: "addProduccion",
         component: ProduccionAddComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "planeacionproduccion",
         component: PlaneacionProduccionListComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "addPlaneacion",
         component: PlaneacionProduccionAddComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "planeacionproduccion/:año/:semana/:noParte",
         component: PlaneacionProduccionEditComponent,
         resolve: { planeacion: PlaneacionProduccionEditResolver },
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       { path: "lists", component: MaterialAddComponent },
       {
         path: "motivostiempomuerto",
         component: MotivoTiempoMuertoListComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "addMotivoTiempoMuerto",
         component: MotivoTiempoMuertoAddComponent,
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "motivostiempomuerto/:id",
         component: MotivoTiempoMuertoEditComponent,
         resolve: { motivoTiempoMuerto: MotivoTiempoMuertoEditResolver },
-        data: { roles: ["Admin", "Produccion"] }
+        data: { roles: ["Admin", "Produccion"] },
       },
       {
         path: "clientes",
         component: ClienteListComponent,
-        data: { roles: ["Admin", "Ventas"] }
+        data: { roles: ["Admin", "Ventas"] },
       },
       {
         path: "addCliente",
         component: ClienteAddComponent,
-        data: { roles: ["Admin", "Ventas"] }
+        data: { roles: ["Admin", "Ventas"] },
       },
       {
         path: "clientes/:id",
         component: ClienteEditComponent,
         resolve: { cliente: ClienteEditResolver },
-        data: { roles: ["Admin", "Ventas"] }
+        data: { roles: ["Admin", "Ventas"] },
       },
       {
         path: "proveedores",
         component: ProveedorListComponent,
-        data: { roles: ["Admin", "Compras"] }
+        data: { roles: ["Admin", "Compras"] },
       },
       {
         path: "addProveedor",
         component: ProveedorAddComponent,
-        data: { roles: ["Admin", "Compras"] }
+        data: { roles: ["Admin", "Compras"] },
       },
       {
         path: "proveedores/:id",
         component: ProveedorEditComponent,
         resolve: { proveedor: ProveedorEditResolver },
-        data: { roles: ["Admin", "Compras"] }
+        data: { roles: ["Admin", "Compras"] },
       },
       {
         path: "movimientosproducto",
         component: MovimientoProductoListComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] },
       },
       {
         path: "addMovimientoProducto",
         component: MovimientoProductoAddComponent,
         resolve: { movimientosProducto: MovimientoProductoListResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] },
       },
       {
         path: "movimientosproducto/:id",
         component: MovimientoProductoEditComponent,
         resolve: { movimientoProducto: MovimientoProductoEditResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] },
       },
       {
         path: "embarques",
         component: EmbarqueListComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] },
       },
       {
         path: "addEmbarque",
         component: EmbarqueAddComponent,
-        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] },
       },
       {
         path: "embarques/:id",
         component: EmbarqueEditComponent,
         resolve: { embarque: EmbarqueEditResolver },
-        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] },
       },
       {
         path: "detallesEmbarque/:id",
         component: DetalleEmbarqueEditComponent,
         resolve: { detalleEmbarque: DetalleEmbarqueEditResolver },
-        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "AlmacenProducto"] },
       },
       {
         path: "existenciasproducto",
@@ -466,9 +467,9 @@ export const appRoutes: Routes = [
             "Produccion",
             "Compras",
             "Ventas",
-            "AlmacenProducto"
-          ]
-        }
+            "AlmacenProducto",
+          ],
+        },
       },
       {
         path: "existenciasproducto/:id",
@@ -481,111 +482,112 @@ export const appRoutes: Routes = [
             "Produccion",
             "Compras",
             "Ventas",
-            "AlmacenProducto"
-          ]
-        }
+            "AlmacenProducto",
+          ],
+        },
       },
       {
         path: "editExistenciaProducto/:id",
         component: ExistenciaProductoEditComponent,
         resolve: { existenciaProducto: ExistenciaProductoDetailResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] },
       },
       {
         path: "localidadesnumeroparte/:localidadId/:noParte",
         component: LocalidadNumeroParteEditComponent,
         resolve: { localidadNumeroParte: LocalidadNumeroParteEditResolver },
-        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] }
+        data: { roles: ["Admin", "Almacen", "Produccion", "AlmacenProducto"] },
       },
       {
         path: "ordenescompraproveedores",
         component: OrdenCompraProveedorListComponent,
-        data: { roles: ["Admin", "Compras"] }
+        data: { roles: ["Admin", "Compras"] },
       },
       {
         path: "addOrdenCompraProveedor",
         component: OrdenCompraProveedorAddComponent,
-        data: { roles: ["Admin", "Compras"] }
+        data: { roles: ["Admin", "Compras"] },
       },
       {
         path: "localidades",
         component: LocalidadListComponent,
         data: {
-          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"]
-        }
+          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"],
+        },
       },
       {
         path: "addLocalidad",
         component: LocalidadAddComponent,
         data: {
-          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"]
-        }
+          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"],
+        },
       },
       {
         path: "localidades/:id",
         component: LocalidadEditComponent,
         resolve: { localidad: LocalidadEditResolver },
         data: {
-          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"]
-        }
+          roles: ["Admin", "Almacen", "AlmacenMateriaPrima", "AlmacenProducto"],
+        },
       },
       {
         path: "retornosmaterial",
         component: RetornoMaterialListComponent,
-        data: { roles: ["Admin", "Almacen", "Produccion"] }
+        data: { roles: ["Admin", "Almacen", "Produccion"] },
       },
       {
         path: "addRetorno",
         component: RetornoMaterialAddComponent,
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen"] },
       },
       {
         path: "retornosmaterial/:id",
         component: RetornoMaterialEditComponent,
         resolve: { retornoMaterial: RetornoMaterialEditResolver },
-        data: { roles: ["Admin", "Almacen"] }
+        data: { roles: ["Admin", "Almacen"] },
       },
       {
         path: "admin",
         component: AdminPanelComponent,
-        data: { roles: ["Admin"] }
+        data: { roles: ["Admin"] },
       },
       {
         path: "admin/users/:id",
         component: UserEditComponent,
         resolve: { user: UserEditResolver },
-        data: { roles: ["Admin"] }
+        data: { roles: ["Admin"] },
       },
       {
         path: "addUser",
         component: UserRegisterComponent,
-        data: { roles: ["Admin"] }
+        data: { roles: ["Admin"] },
       },
       {
         path: "users/:id",
-        component: UserProfileEditComponent
+        component: UserProfileEditComponent,
+        resolve: { user: UserProfileEditResolver },
       },
       {
         path: "users/changepassword/:id",
-        component: ChangePasswordComponent
+        component: ChangePasswordComponent,
       },
       {
         path: "easy-query",
-        component: EasyqueryComponent
+        component: EasyqueryComponent,
       },
       {
         path: "dashboard",
-        component: DashboardComponent
+        component: DashboardComponent,
       },
       {
         path: "graficaembarquesfull",
-        component: GraficaEmbarquesFullComponent
+        component: GraficaEmbarquesFullComponent,
       },
       {
         path: "graficaembarquesnpfull",
-        component: GraficaEmbarquesNpFullComponent
-      }
-    ]
+        component: GraficaEmbarquesNpFullComponent,
+      },
+    ],
   },
-  { path: "**", redirectTo: "", pathMatch: "full" }
+  { path: "**", redirectTo: "", pathMatch: "full" },
 ];

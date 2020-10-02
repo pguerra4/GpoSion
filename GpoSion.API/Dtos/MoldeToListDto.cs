@@ -27,7 +27,7 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "estatusMolde")]
         public string EstatusEstatus { get; set; }
 
-
+        public DateTime? UltimaModificacion { get; set; }
 
     }
 }

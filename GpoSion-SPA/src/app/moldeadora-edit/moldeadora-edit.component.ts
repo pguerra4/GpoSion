@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-moldeadora-edit",
   templateUrl: "./moldeadora-edit.component.html",
-  styleUrls: ["./moldeadora-edit.component.css"]
+  styleUrls: ["./moldeadora-edit.component.css"],
 })
 export class MoldeadoraEditComponent implements OnInit {
   moldeadora: Moldeadora;
@@ -25,12 +25,13 @@ export class MoldeadoraEditComponent implements OnInit {
   createMoldeadoraForm() {
     this.moldeadoraForm = this.fb.group({
       moldeadoraId: [this.moldeadora.moldeadoraId, Validators.required],
-      moldeadora: [this.moldeadora.moldeadora, Validators.required]
+      moldeadora: [this.moldeadora.moldeadora, Validators.required],
+      disparosPorHora: [this.moldeadora.disparosPorHora],
     });
   }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       // tslint:disable-next-line: no-string-literal
       this.moldeadora = data["moldeadora"];
       this.createMoldeadoraForm();
@@ -46,7 +47,7 @@ export class MoldeadoraEditComponent implements OnInit {
           this.alertify.success("Guardado");
           this.router.navigate(["moldeadoraslist"]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );

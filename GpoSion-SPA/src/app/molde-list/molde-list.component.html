@@ -9,8 +9,21 @@
             >
           </div>
           <div class="col-md-4">
-            <!-- <input type="text" id="searchTextId" [(ngModel)]="searchText" name="searchText" placeholder="Buscar" />
-                        <i class="fa fa-search ml-1"></i> -->
+            <label for="estatusMoldeId" class="col-xs-2">Estatus</label>
+            <div class="col-xs-8">
+              <select
+                class="form-control"
+                id="estatusMoldeId"
+                (change)="onChange($event)"
+              >
+                <option
+                  *ngFor="let estatus of estatusMoldes"
+                  [value]="estatus.estatusMoldeId"
+                >
+                  {{ estatus.estatus }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -23,6 +36,7 @@
                 <th scope="col">Cliente</th>
                 <th scope="col">Ubicación</th>
                 <th scope="col">Estatus</th>
+                <th scope="col">Última Modificación</th>
                 <th scope="col">Editar</th>
                 <th scope="col">Borrar</th>
               </tr>
@@ -37,6 +51,9 @@
                 <td>{{ molde.cliente }}</td>
                 <td>{{ molde.ubicacion }}</td>
                 <td>{{ molde.estatusMolde }}</td>
+                <td>
+                  {{ molde.ultimaModificacion | date: "dd-MM-yyyy HH:mm" }}
+                </td>
                 <td class="text-center">
                   <a
                     class="fa fa-edit"

@@ -253,9 +253,14 @@ namespace GpoSion.API.Data
             return viajeros;
         }
 
-        public async Task<IEnumerable<Molde>> GetMoldes()
+        public async Task<IEnumerable<Molde>> GetMoldes(MoldesParams moldesParams)
         {
             var moldes = await _context.Moldes.ToListAsync();
+            if (moldesParams != null)
+                if (moldesParams.Estatus.HasValue && moldesParams.Estatus.Value != 0)
+                {
+                    moldes = moldes.Where(m => m.EstatusMoldeId == moldesParams.Estatus.Value).ToList();
+                }
             return moldes;
         }
 

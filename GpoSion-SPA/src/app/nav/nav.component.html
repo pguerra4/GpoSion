@@ -14,7 +14,13 @@
         ]">
                 <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Almacén
         </a>
-                <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                <div class="dropdown-menu" *dropdownMenu x-placement="bottom-start" style="
+            position: absolute;
+            transform: translate3d(0px, 40px, 0px);
+            top: 0px;
+            left: 0px;
+            will-change: transform;
+          ">
                     <a class="dropdown-item" [routerLink]="['/materiales']" *appHasRole="['Admin', 'Almacen', 'Ventas', 'AlmacenMateriaPrima']">Listado de Materias Primas</a
           >
           <a
@@ -130,7 +136,7 @@
         *appHasRole="['Admin', 'Produccion']"
       >
         <a
-          class="nav-link  dropdown-toggle"
+          class="nav-link dropdown-toggle"
           dropdownToggle
           data-toggle="dropdown"
           role="button"
@@ -142,7 +148,13 @@
           class="dropdown-menu"
           *dropdownMenu
           x-placement="bottom-start"
-          style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"
+          style="
+            position: absolute;
+            transform: translate3d(0px, 40px, 0px);
+            top: 0px;
+            left: 0px;
+            will-change: transform;
+          "
         >
           <a class="dropdown-item" [routerLink]="['/requerimientos']"
             >Requerimientos Materia Prima</a
@@ -168,7 +180,7 @@
         *appHasRole="['Admin', 'Compras']"
       >
         <a
-          class="nav-link  dropdown-toggle"
+          class="nav-link dropdown-toggle"
           dropdownToggle
           data-toggle="dropdown"
           role="button"
@@ -180,7 +192,13 @@
           class="dropdown-menu"
           *dropdownMenu
           x-placement="bottom-start"
-          style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"
+          style="
+            position: absolute;
+            transform: translate3d(0px, 40px, 0px);
+            top: 0px;
+            left: 0px;
+            will-change: transform;
+          "
         >
           <a class="dropdown-item" [routerLink]="['/ordenescompraproveedores']"
             >Ordenes Compra Proveedores</a
@@ -197,7 +215,7 @@
         *appHasRole="['Admin', 'Ventas']"
       >
         <a
-          class="nav-link  dropdown-toggle"
+          class="nav-link dropdown-toggle"
           dropdownToggle
           data-toggle="dropdown"
           role="button"
@@ -209,7 +227,13 @@
           class="dropdown-menu"
           *dropdownMenu
           x-placement="bottom-start"
-          style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"
+          style="
+            position: absolute;
+            transform: translate3d(0px, 40px, 0px);
+            top: 0px;
+            left: 0px;
+            will-change: transform;
+          "
         >
           <a class="dropdown-item" [routerLink]="['/ordenescompra']"
             >Ordenes Compra</a
@@ -221,19 +245,25 @@
                 <a class="nav-link" [routerLink]="['/easy-query']">Reporteador</a>
             </li>
             <li *appHasRole="['Admin']" class="nav-item dropdown" routerLinkActive="active" dropdown>
-                <a class="nav-link  dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administración</a
+                <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administración</a
         >
         <div
           class="dropdown-menu"
           *dropdownMenu
           x-placement="bottom-start"
-          style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;"
+          style="
+            position: absolute;
+            transform: translate3d(0px, 40px, 0px);
+            top: 0px;
+            left: 0px;
+            will-change: transform;
+          "
         >
           <a class="dropdown-item" [routerLink]="['/admin']">Usuarios</a>
     </div>
     </li>
     </ul>
-    <div class="dropdown" dropdown style="float: right; padding: 13px">
+    <!-- <div class="dropdown" dropdown style="float: right; padding: 13px">
         <a class="nav-link  dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" style="padding-right: 0px;">
             <i class="fa fa-bell-o" style="font-size: 20px; float: right; color: black">
         </i
@@ -287,9 +317,9 @@
           <a href="#" class="dropdown-menu-header" style="display: block;"></a>
         </li>
       </ul>
-    </div>
+    </div> -->
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
-      <a class="dropdown-toggle text-light" dropdownToggle>
+        <a class="dropdown-toggle text-light" dropdownToggle>
         {{
           authService.decodedToken?.given_name +
             " " +
@@ -297,12 +327,13 @@
         }}
       </a>
 
-      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <div class="dropdown-menu mt-3" *dropdownMenu>
+            <a class="dropdown-item" href="/users/{{ authService.decodedToken?.nameid }}"><i class="fa fa-user"></i>Editar Perfil</a
+        >
         <a
           class="dropdown-item"
-          href="/users/{{ authService.decodedToken?.nameid }}"
-          ><i class="fa fa-user"></i>Editar Perfil</a>
-        <a class="dropdown-item" href="/users/changepassword/{{ authService.decodedToken?.nameid }}"><i class="fa fa-lock"></i>Cambiar contraseña</a
+          href="/users/changepassword/{{ authService.decodedToken?.nameid }}"
+          ><i class="fa fa-lock"></i>Cambiar contraseña</a
         >
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="logout()"
