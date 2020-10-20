@@ -179,6 +179,33 @@ namespace GpoSion.API.Controllers
         }
 
 
+        [HttpPut("changepassword/{id}")]
+        public async Task<IActionResult> ChangePassword(string id, UserForPasswordChangeDto userToEdit)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+                return BadRequest("Usuario no válido");
+
+            user.UltimaModificacion = DateTime.Now;
+            user.ModificadoPorId = userId;
+
+            var result = await _userManager.RemovePasswordAsync(user);
+
+
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
+
+            var result2 = await _userManager.AddPasswordAsync(user, userToEdit.NewPassword);
+
+            if (result2.Succeeded)
+                return NoContent();
+
+            return BadRequest(result2.Errors);
+        }
+
+
     }
 
     public class UserWithRoles

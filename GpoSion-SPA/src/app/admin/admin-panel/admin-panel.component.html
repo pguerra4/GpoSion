@@ -29,6 +29,7 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Roles</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Contraseña</th>
                 <th scope="col">Borrar</th>
               </tr>
             </thead>
@@ -42,6 +43,9 @@
                     class="fa fa-edit"
                     [routerLink]="['/admin/users/' + user.id]"
                   ></a>
+                        </td>
+                        <td class="text-center">
+                            <a class="fa fa-lock" [routerLink]="['/admin/changepassword/' + user.id]"></a>
                         </td>
                         <td>
                             <button class="btn btn-danger" (click)="deleteUser(user.id)">

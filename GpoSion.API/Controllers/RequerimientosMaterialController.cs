@@ -68,12 +68,12 @@ namespace GpoSion.API.Controllers
 
             nuevoReq.Materiales = new List<RequerimientoMaterialMaterial>();
 
-            var mats = "";
+            // var mats = "";
 
             foreach (RequerimientoMaterialMaterial rmm in materiales)
             {
                 nuevoReq.Materiales.Add(rmm);
-                mats += rmm.Material.ClaveMaterial + "  ";
+                // mats += rmm.Material.ClaveMaterial + "  ";
             }
 
 
@@ -81,7 +81,7 @@ namespace GpoSion.API.Controllers
             if (await _repo.SaveAll())
             {
                 var reqToReturn = _mapper.Map<RequerimientoMaterialForDetailDto>(nuevoReq);
-                await _hubContext.Clients.All.BroadcastMessage("Info", "Hay un nuevo requerimiento de material(es) " + mats);
+                // await _hubContext.Clients.All.BroadcastMessage("Info", "Hay un nuevo requerimiento de material(es) " + mats);
                 return CreatedAtAction("GetRequerimiento", new { id = nuevoReq.RequerimientoMaterialId }, reqToReturn);
             }
 

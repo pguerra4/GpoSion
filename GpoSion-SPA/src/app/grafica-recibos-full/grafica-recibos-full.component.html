@@ -5,23 +5,23 @@
             <input class="form-control" placeholder="Fechas" bsDaterangepicker [(ngModel)]="bsRangeValue" [bsConfig]="{ isAnimated: true, showPreviousMonth: true }" (bsValueChange)="onValueChange($event)" />
         </div>
         <div class="form-group col-md-4">
-            <label for="NoParte">No. Parte</label>
-            <input type="text" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" [(ngModel)]="noParte" placeholder="No. Parte" (typeaheadOnSelect)="onSelectNumeroParte($event)" (ngModelChange)="noParteChange()" />
+            <label for="Material">Materia Prima</label>
+            <input type="text" [typeahead]="materiales" typeaheadOptionField="material" [isAnimated]="true" class="form-control" [(ngModel)]="material" placeholder="Materia Prima" (typeaheadOnSelect)="onSelectMaterial($event)" (ngModelChange)="materialChange()" />
         </div>
     </div>
     <div class="card mb-4">
         <div class="card-body">
-            <div class="card-title">Embarques por fecha</div>
+            <div class="card-title">Recibos por fecha</div>
             <div class="card-text">
                 <div style="display: block">
                     <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
-          </canvas>
+        </canvas>
                 </div>
             </div>
         </div>
         <div class="card-footer">
-            <a [routerLink]="['/dashboard']" [queryParams]="reporteParams">Dashboard</a
-      >
-    </div>
+            <a [routerLink]="['/dashboardrecibos']" [queryParams]="reporteParams">Dashboard Recibos</a
+    >
   </div>
+</div>
 </div>

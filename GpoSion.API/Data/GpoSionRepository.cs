@@ -632,5 +632,23 @@ namespace GpoSion.API.Data
             }
             return detalleEmbarques;
         }
+
+        public async Task<IEnumerable<DetalleRecibo>> GetDetalleRecibos(ReporteParams reporteParams)
+        {
+            var detalleRecibos = await _context.DetalleRecibos.Where(dr => dr.Recibo.IsComplete).ToListAsync();
+            if (reporteParams.FechaInicio.HasValue)
+            {
+                detalleRecibos = detalleRecibos.Where(de => de.Recibo.FechaEntrada >= reporteParams.FechaInicio).ToList();
+            }
+            if (reporteParams.FechaFin.HasValue)
+            {
+                detalleRecibos = detalleRecibos.Where(de => de.Recibo.FechaEntrada <= reporteParams.FechaFin.Value.AddDays(1)).ToList();
+            }
+            if (reporteParams.MaterialId.HasValue && reporteParams.MaterialId != 0)
+            {
+                detalleRecibos = detalleRecibos.Where(de => de.MaterialId == reporteParams.MaterialId).ToList();
+            }
+            return detalleRecibos;
+        }
     }
 }

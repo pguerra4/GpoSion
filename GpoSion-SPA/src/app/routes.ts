@@ -110,6 +110,10 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { GraficaEmbarquesFullComponent } from "./grafica-embarques-full/grafica-embarques-full.component";
 import { GraficaEmbarquesNpFullComponent } from "./grafica-embarques-np-full/grafica-embarques-np-full.component";
 import { UserProfileEditResolver } from "./_resolvers/user-profile-edit.resolver";
+import { ChangePasswordAdminComponent } from "./change-password-admin/change-password-admin.component";
+import { DashboardRecibosComponent } from "./dashboard-recibos/dashboard-recibos.component";
+import { GraficaRecibosFullComponent } from "./grafica-recibos-full/grafica-recibos-full.component";
+import { GraficaRecibosMaterialFullComponent } from "./grafica-recibos-material-full/grafica-recibos-material-full.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -558,6 +562,11 @@ export const appRoutes: Routes = [
         data: { roles: ["Admin"] },
       },
       {
+        path: "admin/changepassword/:id",
+        component: ChangePasswordAdminComponent,
+        data: { roles: ["Admin"] },
+      },
+      {
         path: "addUser",
         component: UserRegisterComponent,
         data: { roles: ["Admin"] },
@@ -586,6 +595,21 @@ export const appRoutes: Routes = [
       {
         path: "graficaembarquesnpfull",
         component: GraficaEmbarquesNpFullComponent,
+      },
+      {
+        path: "dashboardrecibos",
+        component: DashboardRecibosComponent,
+        data: { roles: ["Admin", "Almacen"] },
+      },
+      {
+        path: "graficarecibosfull",
+        component: GraficaRecibosFullComponent,
+        data: { roles: ["Admin", "Almacen"] },
+      },
+      {
+        path: "graficarecibosmaterialfull",
+        component: GraficaRecibosMaterialFullComponent,
+        data: { roles: ["Admin", "Almacen"] },
       },
     ],
   },

@@ -157,6 +157,8 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<ExistenciaProductoProduccion>> GetExistenciasProductoProduccion();
 
+        Task<IEnumerable<DetalleRecibo>> GetDetalleRecibos(ReporteParams reporteParams);
+
 
 
     }

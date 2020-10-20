@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { User } from "../_models/user";
+import { ChangePassword } from '../_models/change-password';
 
 @Injectable({
   providedIn: "root"
@@ -33,5 +34,9 @@ export class AdminService {
 
   deleteUser(id: string) {
     return this.http.delete(this.baseUrl + "admin/" + id);
+  }
+
+  changePassword(id: string, user: ChangePassword) {
+    return this.http.put(this.baseUrl + "admin/changepassword/" + id, user);
   }
 }

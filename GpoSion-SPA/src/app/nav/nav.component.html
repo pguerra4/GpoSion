@@ -125,8 +125,14 @@
             class="dropdown-item"
             [routerLink]="['/dashboard']"
             *appHasRole="['Admin', 'Almacen']"
-            >Dashboard</a
+            >Dashboard Embarques</a
           >
+          <a
+          class="dropdown-item"
+          [routerLink]="['/dashboardrecibos']"
+          *appHasRole="['Admin', 'Almacen']"
+          >Dashboard Recibos</a
+        >
         </div>
       </li>
       <li

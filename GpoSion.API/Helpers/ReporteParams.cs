@@ -10,5 +10,7 @@ namespace GpoSion.API.Helpers
         public int? ClienteId { get; set; }
 
         public string NoParte { get; set; }
+
+        public int? MaterialId { get; set; }
     }
 }

@@ -1,0 +1,12 @@
+<div class="card mb-4">
+    <div class="card-header">
+        Recibos por materia prima
+    </div>
+    <div class="card-body">
+        <a [routerLink]="['/graficarecibosmaterialfull']" [queryParams]="reporteParams">
+            <div style="display: block">
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [options]="pieChartOptions" [legend]="pieChartLegend" [chartType]="pieChartType">
+      </canvas></div>
+        </a>
+    </div>
+</div>

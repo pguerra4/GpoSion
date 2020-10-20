@@ -175,6 +175,14 @@ import { EmbarquesTop10Component } from "./embarques-top10/embarques-top10.compo
 import { GraficaEmbarquesFullComponent } from "./grafica-embarques-full/grafica-embarques-full.component";
 import { GraficaEmbarquesNpFullComponent } from "./grafica-embarques-np-full/grafica-embarques-np-full.component";
 import { UserProfileEditResolver } from "./_resolvers/user-profile-edit.resolver";
+import { ChangePasswordAdminComponent } from './change-password-admin/change-password-admin.component';
+import { GraficaRecibosComponent } from './grafica-recibos/grafica-recibos.component';
+import { DashboardRecibosComponent } from './dashboard-recibos/dashboard-recibos.component';
+import { GraficaRecibosMaterialComponent } from './grafica-recibos-material/grafica-recibos-material.component';
+import { GraficaRecibosFullComponent } from './grafica-recibos-full/grafica-recibos-full.component';
+import { GraficaRecibosMaterialFullComponent } from './grafica-recibos-material-full/grafica-recibos-material-full.component';
+import { RecibosTotalesComponent } from './recibos-totales/recibos-totales.component';
+import { RecibosTop10Component } from './recibos-top10/recibos-top10.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -323,7 +331,7 @@ var spanishLocaleInfo = {
 i18n.updateLocaleInfo("es", spanishLocaleInfo);
 
 @NgModule({
-  declarations: [
+  declarations: [								
     AppComponent,
     NavComponent,
     HomeComponent,
@@ -431,7 +439,15 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     EmbarquesTop10Component,
     GraficaEmbarquesFullComponent,
     GraficaEmbarquesNpFullComponent,
-  ],
+      ChangePasswordAdminComponent,
+      GraficaRecibosComponent,
+      DashboardRecibosComponent,
+      GraficaRecibosMaterialComponent,
+      GraficaRecibosFullComponent,
+      GraficaRecibosMaterialFullComponent,
+      RecibosTotalesComponent,
+      RecibosTop10Component
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

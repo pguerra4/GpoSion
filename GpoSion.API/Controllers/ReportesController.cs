@@ -130,5 +130,101 @@ namespace GpoSion.API.Controllers
 
             return Ok(top10);
         }
+
+        [HttpGet("recibosporfecha")]
+        public async Task<IActionResult> GetReporteRecibosPorFecha([FromQuery] ReporteParams reporteParams)
+        {
+            var recibos = await _repo.GetDetalleRecibos(reporteParams);
+
+            var fechas = recibos.Select(e => e.Recibo.FechaEntrada.Value.Date.ToShortDateString()).Distinct().OrderBy(e => e);
+
+            var datos = new List<GraphData>();
+
+            GraphData data;
+
+            var numerosParte = recibos.Select(e => e.Material).Distinct();
+            foreach (Material noParte in numerosParte)
+            {
+
+                var valores = new List<int>();
+                foreach (var fecha in fechas)
+                {
+                    valores.Add(recibos.Where(e => e.MaterialId == noParte.MaterialId && e.Recibo.FechaEntrada.Value.Date.ToShortDateString() == fecha).Sum(e => Convert.ToInt32(e.Total)));
+                }
+                data = new GraphData { Label = noParte.ClaveMaterial, Data = valores };
+                datos.Add(data);
+            }
+
+            var resultado = new GraphDataWLabel { Datos = datos, Leyendas = fechas };
+
+
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("recibosmaterial")]
+        public async Task<IActionResult> GetReporteRecibosMaterial([FromQuery] ReporteParams reporteParams)
+        {
+            var recibos = await _repo.GetDetalleRecibos(reporteParams);
+
+
+
+            var datos = new List<GraphData>();
+
+            GraphData data;
+
+            var materiales = recibos.Select(e => e.Material.ClaveMaterial).Distinct().OrderBy(e => e);
+            var valores = recibos.GroupBy(e => e.MaterialId).OrderBy(e => e.Key).Select(e => new { Piezas = e.Sum(x => Convert.ToInt32(x.Total)) }).Select(y => y.Piezas);
+
+
+            data = new GraphData { Data = valores };
+            datos.Add(data);
+
+
+            var resultado = new GraphDataWLabel { Datos = datos, Leyendas = materiales };
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("recibos")]
+        public async Task<IActionResult> GetReporteRecibos([FromQuery] ReporteParams reporteParams)
+        {
+            var recibos = await _repo.GetDetalleRecibos(reporteParams);
+
+
+
+            var recibosCount = recibos.Select(de => de.Recibo.NoRecibo).Distinct().Count();
+
+
+
+            var materialCount = recibos.Select(e => e.Material.MaterialId).Distinct().Count();
+
+            var totalRecibido = recibos.Sum(de => de.Total);
+
+
+
+
+
+            var resultado = new { recibos = recibosCount, materiales = materialCount, totalRecibido = totalRecibido };
+
+            return Ok(resultado);
+        }
+
+        [HttpGet("recibosTop10")]
+        public async Task<IActionResult> GetReporteRecibosTop10([FromQuery] ReporteParams reporteParams)
+        {
+            var recibos = await _repo.GetDetalleRecibos(reporteParams);
+
+
+            var top10 = recibos.GroupBy(de => de.Material.ClaveMaterial).Select(de => new
+            {
+                material = de.Key,
+                totalRecibido = de.Sum(d => d.Total)
+            }).OrderByDescending(g => g.totalRecibido).Take(10);
+
+
+            return Ok(top10);
+        }
+
     }
 }

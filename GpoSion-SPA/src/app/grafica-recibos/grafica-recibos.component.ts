@@ -1,16 +1,16 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Params } from "@angular/router";
 import { ChartOptions, ChartType, ChartDataSets } from "chart.js";
 import { Label } from "ng2-charts";
-import { ReportesService } from "../_services/reportes.service";
 import { AlertifyService } from "../_services/alertify.service";
-import { Params, ActivatedRoute } from "@angular/router";
+import { ReportesService } from "../_services/reportes.service";
 
 @Component({
-  selector: "app-grafica-embarques",
-  templateUrl: "./grafica-embarques.component.html",
-  styleUrls: ["./grafica-embarques.component.css"],
+  selector: "app-grafica-recibos",
+  templateUrl: "./grafica-recibos.component.html",
+  styleUrls: ["./grafica-recibos.component.scss"],
 })
-export class GraficaEmbarquesComponent implements OnInit {
+export class GraficaRecibosComponent implements OnInit {
   reporteParams: Params;
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -56,16 +56,6 @@ export class GraficaEmbarquesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.reporteParams.fechaInicio = new Date(
-    //   new Date().getFullYear(),
-    //   new Date().getMonth() - 1,
-    //   new Date().getDate() + 2
-    // ).toDateString();
-    // this.reporteParams.fechaFin = new Date(
-    //   new Date().getFullYear(),
-    //   new Date().getMonth() - 1,
-    //   new Date().getDate() + 3
-    // ).toDateString();
     this.route.queryParams.subscribe((params) => {
       this.reporteParams = params;
       this.loadData();
@@ -75,7 +65,7 @@ export class GraficaEmbarquesComponent implements OnInit {
   loadData() {
     if (this.reporteParams.hasOwnProperty("fechaInicio")) {
       this.reportesService
-        .getReporteEmbarquesPorFecha(this.reporteParams)
+        .getReporteRecibosPorFecha(this.reporteParams)
         .subscribe(
           (res: any) => {
             this.barChartLabels = res.leyendas;

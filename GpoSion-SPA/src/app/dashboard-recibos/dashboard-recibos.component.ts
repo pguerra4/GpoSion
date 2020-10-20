@@ -1,29 +1,28 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { BsLocaleService } from "ngx-bootstrap";
-import { GraficaEmbarquesComponent } from "../grafica-embarques/grafica-embarques.component";
-import { GraficaEmbarquesNumeroParteComponent } from "../grafica-embarques-numero-parte/grafica-embarques-numero-parte.component";
-import { EmbarquesTotalesComponent } from "../embarques-totales/embarques-totales.component";
-import { EmbarquesTop10Component } from "../embarques-top10/embarques-top10.component";
-import { Params, ActivatedRoute, Router } from "@angular/router";
-import { NumeroParte } from "../_models/numeroParte";
-import { NumeroParteService } from "../_services/numeroParte.service";
+import { GraficaRecibosMaterialComponent } from "../grafica-recibos-material/grafica-recibos-material.component";
+import { GraficaRecibosComponent } from "../grafica-recibos/grafica-recibos.component";
+import { RecibosTop10Component } from "../recibos-top10/recibos-top10.component";
+import { RecibosTotalesComponent } from "../recibos-totales/recibos-totales.component";
+import { Material } from "../_models/material";
 import { AlertifyService } from "../_services/alertify.service";
-import { compileNgModule } from "@angular/compiler";
+import { ExistenciasMaterialService } from "../_services/existenciasMaterial.service";
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.css"],
+  selector: "app-dashboard-recibos",
+  templateUrl: "./dashboard-recibos.component.html",
+  styleUrls: ["./dashboard-recibos.component.scss"],
 })
-export class DashboardComponent implements OnInit {
-  @ViewChild("graficaEmbarques", { static: true })
-  graficaEmbarques: GraficaEmbarquesComponent;
-  @ViewChild("graficaEmbarquesNP", { static: true })
-  graficaEmbarquesNP: GraficaEmbarquesNumeroParteComponent;
-  @ViewChild("EmbarquesT", { static: true })
-  embarquesT: EmbarquesTotalesComponent;
-  @ViewChild("EmbarquesTop10", { static: true })
-  embarquesTop10: EmbarquesTop10Component;
+export class DashboardRecibosComponent implements OnInit {
+  @ViewChild("graficaRecibos", { static: true })
+  graficaRecibos: GraficaRecibosComponent;
+  @ViewChild("graficaRecibosMaterial", { static: true })
+  graficaEmbarquesNP: GraficaRecibosMaterialComponent;
+  @ViewChild("RecibosT", { static: true })
+  recibosT: RecibosTotalesComponent;
+  @ViewChild("RecibosTop10", { static: true })
+  recibosTop10: RecibosTop10Component;
 
   reporteParams: Params;
   bsValue = new Date();
@@ -31,11 +30,12 @@ export class DashboardComponent implements OnInit {
   minDate = new Date();
   fechaInicio: any;
   fechaFin: any;
-  noParte: string;
-  numerosParte: NumeroParte[];
+  materialId: number;
+  material: string;
+  materiales: Material[];
 
   constructor(
-    private numeroParteService: NumeroParteService,
+    private materialService: ExistenciasMaterialService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
     private localeService: BsLocaleService,
@@ -48,14 +48,14 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.localeService.use("es");
-    this.loadNumerosParte();
+    this.loadMateriales();
     this.route.queryParams.subscribe((params) => {
       if (params.hasOwnProperty("fechaInicio")) {
         this.reporteParams = params;
         this.minDate = new Date(this.reporteParams.fechaInicio);
         this.bsValue = new Date(this.reporteParams.fechaFin);
         this.bsRangeValue = [this.minDate, this.bsValue];
-        this.noParte = this.reporteParams.noParte;
+        this.materialId = this.reporteParams.materialId;
       }
     });
 
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
       this.reporteParams = {
         fechaInicio: value[0].toDateString(),
         fechaFin: value[1].toDateString(),
-        noParte: this.noParte,
+        materialId: this.materialId,
       };
       this.router.navigate([], {
         relativeTo: this.route,
@@ -83,13 +83,14 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onSelectNumeroParte($event) {
+  onSelectMaterial($event) {
     if ($event) {
-      this.noParte = $event.value;
+      this.material = $event.value;
+      this.materialId = $event.item.materialId;
       this.reporteParams = {
         fechaInicio: this.fechaInicio,
         fechaFin: this.fechaFin,
-        noParte: this.noParte,
+        materialId: this.materialId,
       };
       this.router.navigate([], {
         relativeTo: this.route,
@@ -98,8 +99,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  noParteChange() {
-    this.noParte = null;
+  materialChange() {
+    this.material = null;
     this.reporteParams = {
       fechaInicio: this.fechaInicio,
       fechaFin: this.fechaFin,
@@ -110,10 +111,15 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  loadNumerosParte() {
-    this.numeroParteService.getNumerosParte().subscribe(
-      (res: NumeroParte[]) => {
-        this.numerosParte = res;
+  loadMateriales() {
+    this.materialService.getMateriales().subscribe(
+      (res: Material[]) => {
+        this.materiales = res;
+        if (this.materialId != null) {
+          this.material = this.materiales.find(
+            (m) => m.materialId == this.materialId
+          ).material;
+        }
       },
       (error) => {
         this.alertify.error(error);
