@@ -218,7 +218,10 @@ namespace GpoSion.API.Data
                         {
                             var existencia = viajrs.Where(v => v.LocalidadId == lm.LocalidadId).Sum(v => v.Existencia);
                             var nvaExistencia = lm.Existencia - existencia;
-                            viajrs.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = nvaExistencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana, Material = lm.Material });
+                            if (nvaExistencia > 0)
+                            {
+                                viajrs.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = nvaExistencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana, Material = lm.Material });
+                            }
                         }
                         viajrs = viajrs.OrderBy(v => v.Fecha).ToList();
 
