@@ -65,6 +65,8 @@ namespace GpoSion.API.Controllers
             {
                 NoParte = existencia.NoParte,
                 PiezasCertificadas = existenciaFP.PiezasCertificadas,
+                ExistenciaAlmacenInicial = existencia.PiezasCertificadas,
+                ExistenciaAlmacenFinal = existenciaFP.PiezasCertificadas,
                 Fecha = DateTime.Now,
                 FechaCreacion = DateTime.Now,
                 CreadoPorId = userId,

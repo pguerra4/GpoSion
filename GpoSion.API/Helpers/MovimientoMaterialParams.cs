@@ -2,14 +2,13 @@ using System;
 
 namespace GpoSion.API.Helpers
 {
-    public class MovimientoProductoParams
+    public class MovimientoMaterialParams
     {
         public DateTime? FechaInicio { get; set; }
 
         public DateTime? FechaFin { get; set; }
-        public string TipoMovimiento { get; set; }
 
-        public string NoParte { get; set; }
+        public int? MaterialId { get; set; }
 
     }
 }

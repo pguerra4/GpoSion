@@ -114,6 +114,8 @@ import { ChangePasswordAdminComponent } from "./change-password-admin/change-pas
 import { DashboardRecibosComponent } from "./dashboard-recibos/dashboard-recibos.component";
 import { GraficaRecibosFullComponent } from "./grafica-recibos-full/grafica-recibos-full.component";
 import { GraficaRecibosMaterialFullComponent } from "./grafica-recibos-material-full/grafica-recibos-material-full.component";
+import { MovimientoMaterialListComponent } from "./movimiento-material-list/movimiento-material-list.component";
+import { MovimientoProductoReportComponent } from "./movimiento-producto-report/movimiento-producto-report.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -609,6 +611,16 @@ export const appRoutes: Routes = [
       {
         path: "graficarecibosmaterialfull",
         component: GraficaRecibosMaterialFullComponent,
+        data: { roles: ["Admin", "Almacen"] },
+      },
+      {
+        path: "movimientosMaterial",
+        component: MovimientoMaterialListComponent,
+        data: { roles: ["Admin", "Almacen"] },
+      },
+      {
+        path: "reporteMovimientosProducto",
+        component: MovimientoProductoReportComponent,
         data: { roles: ["Admin", "Almacen"] },
       },
     ],

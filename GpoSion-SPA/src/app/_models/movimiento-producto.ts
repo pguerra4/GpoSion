@@ -11,4 +11,7 @@ export interface MovimientoProducto {
   localidadId: number;
   localidad: string;
   unidadMedidaIdRechazadas: number;
+  tipoMovimiento: string;
+  existenciaAlmacenInicial?: number;
+  existenciaAlmacenFinal?: number;
 }

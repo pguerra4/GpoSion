@@ -29,6 +29,12 @@ namespace GpoSion.API.Models
 
         public string TipoMovimiento { get; set; }
 
+               
+        public int? ExistenciaAlmacenInicial { get; set; }
+
+        
+        public int? ExistenciaAlmacenFinal { get; set; }
+
         public int? LocalidadId { get; set; }
 
         public virtual Localidad Localidad { get; set; }

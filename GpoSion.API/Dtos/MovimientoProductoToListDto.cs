@@ -31,6 +31,11 @@ namespace GpoSion.API.Dtos
         [JsonProperty(PropertyName = "localidad")]
         public string LocalidadDescripcion { get; set; }
 
+        public int? ExistenciaAlmacenInicial { get; set; }
+
+
+        public int? ExistenciaAlmacenFinal { get; set; }
+
 
 
     }

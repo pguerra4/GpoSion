@@ -8,7 +8,7 @@ import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-movimiento-producto-list",
   templateUrl: "./movimiento-producto-list.component.html",
-  styleUrls: ["./movimiento-producto-list.component.css"]
+  styleUrls: ["./movimiento-producto-list.component.css"],
 })
 export class MovimientoProductoListComponent implements OnInit {
   movimientos: MovimientoProducto[];
@@ -32,7 +32,7 @@ export class MovimientoProductoListComponent implements OnInit {
   ngOnInit() {
     this.localeService.use("es");
 
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       // tslint:disable-next-line: no-string-literal
       this.movimientos = data["movimientosProducto"];
     });
@@ -46,10 +46,10 @@ export class MovimientoProductoListComponent implements OnInit {
     this.numeroParteService
       .getMovimientosProducto(this.movimientoParams)
       .subscribe(
-        res => {
+        (res) => {
           this.movimientos = res;
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -57,6 +57,7 @@ export class MovimientoProductoListComponent implements OnInit {
 
   onValueChange(value: Date) {
     if (value) {
+      this.movimientoParams.tipoMovimiento = "Entrada Almacen";
       this.movimientoParams.fechaInicio = value[0].toDateString();
       this.movimientoParams.fechaFin = value[1].toDateString();
       this.loadMovimientos();

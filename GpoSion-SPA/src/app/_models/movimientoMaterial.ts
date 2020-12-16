@@ -10,4 +10,6 @@ export interface MovimientoMaterial {
   creadoPor: string;
   localidadId?: number;
   localidad?: string;
+  existenciaInicial?: number;
+  existenciaFinal?: number;
 }

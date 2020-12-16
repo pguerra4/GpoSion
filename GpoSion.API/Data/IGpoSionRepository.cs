@@ -159,6 +159,8 @@ namespace GpoSion.API.Data
 
         Task<IEnumerable<DetalleRecibo>> GetDetalleRecibos(ReporteParams reporteParams);
 
+        Task<IEnumerable<MovimientoMaterial>> GetMovimientosMaterial(MovimientoMaterialParams movimientoParams);
+
 
 
     }

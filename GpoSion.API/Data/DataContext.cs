@@ -93,6 +93,8 @@ namespace GpoSion.API.Data
 
         public DbSet<Mensaje> Mensajes { get; set; }
 
+        public DbSet<Parametro> Parametros { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

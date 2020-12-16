@@ -76,7 +76,7 @@ namespace GpoSion.API.Controllers
             movimientoProducto.FechaCreacion = DateTime.Now;
             movimientoProducto.CreadoPorId = userId;
 
-            _repo.Add(movimientoProducto);
+
 
             var existencia = await _repo.GetExistenciaProducto(movimientoToCreate.NoParte);
             if (existencia == null)
@@ -90,14 +90,21 @@ namespace GpoSion.API.Controllers
                     CreadoPorId = userId
                 };
                 _repo.Add(existencia);
+
+                movimientoProducto.ExistenciaAlmacenInicial = 0;
+                movimientoProducto.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
             }
             else
             {
+                movimientoProducto.ExistenciaAlmacenInicial = existencia.PiezasCertificadas;
                 existencia.PiezasCertificadas += movimientoToCreate.PiezasCertificadas;
                 existencia.PiezasRechazadas += (int)movimientoToCreate.PiezasRechazadas;
                 existencia.UltimaModificacion = DateTime.Now;
                 existencia.ModificadoPorId = userId;
+                movimientoProducto.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
             }
+
+            _repo.Add(movimientoProducto);
 
             if (movimientoToCreate.LocalidadId.HasValue && movimientoToCreate.PiezasCertificadas > 0)
             {
@@ -261,14 +268,19 @@ namespace GpoSion.API.Controllers
             {
                 if (existencia != null)
                 {
+                    movimiento.ExistenciaAlmacenInicial = existencia.PiezasCertificadas;
                     existencia.PiezasCertificadas += (movimientoFP.PiezasCertificadas - movimiento.PiezasCertificadas);
                     existencia.PiezasRechazadas += ((int)movimientoFP.PiezasRechazadas - movimiento.PiezasRechazadas);
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+                    movimiento.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
                 }
                 else
                 {
+                    movimiento.ExistenciaAlmacenInicial = 0;
                     existencia = new ExistenciaProducto { NoParte = movimientoFP.NoParte, PiezasCertificadas = movimientoFP.PiezasCertificadas, PiezasRechazadas = (int)movimientoFP.PiezasRechazadas, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+                    movimiento.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
+
                     _repo.Add(existencia);
                 }
 

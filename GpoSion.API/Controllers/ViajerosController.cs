@@ -66,60 +66,61 @@ namespace GpoSion.API.Controllers
             var almacen = almacenes.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
 
             var existenciaMaterial = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, viajero.Material.MaterialId);
+            var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = viajero.Material, Viajero = viajero, ViajeroId = viajero.ViajeroId, Cantidad = nvaExistencia, FechaCreacion = DateTime.Now, CreadoPorId = userId, MotivoMovimiento = viajeroFP.MotivoMovimiento, LocalidadId = viajeroFP.LocalidadId };
 
-            existenciaMaterial.Existencia += nvaExistencia;
+            movMaterial.ExistenciaInicial = existenciaMaterial.Existencia;
+
+            var viajeros = await _repo.GetViajerosPorMaterial(viajero.Material.MaterialId);
+            var existenciaCalculada = viajeros.Sum(v => v.Existencia);
+
+            existenciaMaterial.Existencia = existenciaCalculada + nvaExistencia;
             existenciaMaterial.ModificadoPorId = userId;
             existenciaMaterial.UltimaModificacion = DateTime.Now;
+            movMaterial.ExistenciaFinal = existenciaMaterial.Existencia;
+
+            viajero.MovimientosMaterial.Add(movMaterial);
 
             if (existenciaMaterial.Existencia < viajero.Material.StockMinimo)
             {
                 await _hubContext.Clients.All.BroadcastMessage("Warning", "El material " + viajero.Material.ClaveMaterial + " se esta acabando");
             }
 
-            var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = viajero.Material, Viajero = viajero, ViajeroId = viajero.ViajeroId, Cantidad = nvaExistencia, FechaCreacion = DateTime.Now, CreadoPorId = userId, MotivoMovimiento = viajeroFP.MotivoMovimiento, LocalidadId = viajeroFP.LocalidadId };
 
-            viajero.MovimientosMaterial.Add(movMaterial);
 
             if (viajero.LocalidadId != viajeroFP.LocalidadId)
             {
                 if (viajero.LocalidadId.HasValue)
                 {
-                    var localidadOriginal = await _repo.GetLocalidad(viajero.LocalidadId.Value);
-                    if (localidadOriginal != null)
+
+                    var localidadMaterialOriginal = await _repo.GetLocalidadMaterial(viajero.LocalidadId.Value, viajero.MaterialId);
+                    if (localidadMaterialOriginal != null)
                     {
-                        var localidadMaterialOriginal = localidadOriginal.MaterialesLocalidad.Where(ml => ml.MaterialId == viajero.MaterialId).FirstOrDefault();
-                        if (localidadMaterialOriginal != null)
-                        {
-                            localidadMaterialOriginal.Existencia -= viajero.Existencia;
-                            localidadMaterialOriginal.ModificadoPorId = userId;
-                            localidadMaterialOriginal.UltimaModificacion = DateTime.Now;
-                        }
+                        localidadMaterialOriginal.Existencia -= viajero.Existencia;
+                        localidadMaterialOriginal.ModificadoPorId = userId;
+                        localidadMaterialOriginal.UltimaModificacion = DateTime.Now;
                     }
+
                 }
 
-                var localidad = await _repo.GetLocalidad(viajeroFP.LocalidadId.Value);
-                if (localidad != null)
+
+                var localidadMaterial = await _repo.GetLocalidadMaterial(viajeroFP.LocalidadId.Value, viajeroFP.MaterialId);
+                if (localidadMaterial == null)
                 {
-                    var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == viajeroFP.MaterialId).FirstOrDefault();
-                    if (localidadMaterial == null)
-                    {
-                        localidadMaterial = new LocalidadMaterial { MaterialId = viajeroFP.MaterialId, LocalidadId = viajeroFP.LocalidadId.Value, Existencia = viajeroFP.Existencia, CreadoPorId = userId, FechaCreacion = DateTime.Now };
-                        _repo.Add(localidadMaterial);
-                    }
-                    else
-                    {
-                        localidadMaterial.Existencia += viajeroFP.Existencia;
-                        localidadMaterial.ModificadoPorId = userId;
-                        localidadMaterial.UltimaModificacion = DateTime.Now;
-                    }
+                    localidadMaterial = new LocalidadMaterial { MaterialId = viajeroFP.MaterialId, LocalidadId = viajeroFP.LocalidadId.Value, Existencia = viajeroFP.Existencia, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                    _repo.Add(localidadMaterial);
                 }
+                else
+                {
+                    localidadMaterial.Existencia += viajeroFP.Existencia;
+                    localidadMaterial.ModificadoPorId = userId;
+                    localidadMaterial.UltimaModificacion = DateTime.Now;
+                }
+
 
             }
             else
             {
-                var localidad = await _repo.GetLocalidad(viajeroFP.LocalidadId.Value);
-
-                var localidadMaterial = localidad.MaterialesLocalidad.Where(ml => ml.MaterialId == viajeroFP.MaterialId).FirstOrDefault();
+                var localidadMaterial = await _repo.GetLocalidadMaterial(viajeroFP.LocalidadId.Value, viajeroFP.MaterialId);
 
                 localidadMaterial.Existencia += nvaExistencia;
                 localidadMaterial.ModificadoPorId = userId;

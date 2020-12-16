@@ -123,14 +123,18 @@ namespace GpoSion.API.Controllers
 
                     var material = await _repo.GetMaterial(rmm.MaterialId);
 
-                    var mm = new MovimientoMaterial { Fecha = rmm.FechaEntrega.Value, Material = material, Cantidad = rmmDto.asurtir, Origen = almacen, Destino = produccion, ViajeroId = rmm.ViajeroId, RequerimientoMaterialMaterialId = req.RequerimientoMaterialId, RequerimientoMaterialMaterial = rmm, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
-                    _repo.Add(mm);
+                    var mm = new MovimientoMaterial { Fecha = rmm.FechaEntrega.Value, Material = material, Cantidad = rmmDto.asurtir, Origen = almacen, Destino = produccion, ViajeroId = rmm.ViajeroId, RequerimientoMaterialMaterialId = req.RequerimientoMaterialId, RequerimientoMaterialMaterial = rmm, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId, MotivoMovimiento = "Requerimiento Producción" };
+
 
                     var existenciaAlmacen = await _repo.GetExistenciaPorAreaMaterial(almacen.AreaId, material.MaterialId);
+                    mm.ExistenciaInicial = existenciaAlmacen.Existencia;
                     existenciaAlmacen.Existencia -= rmmDto.asurtir;
                     existenciaAlmacen.UltimaModificacion = DateTime.Now;
                     existenciaAlmacen.ModificadoPorId = userId;
+                    mm.ExistenciaFinal = existenciaAlmacen.Existencia;
 
+
+                    _repo.Add(mm);
 
                     if (existenciaAlmacen.Existencia < material.StockMinimo)
                     {

@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="card border-primary mt-4">
+        <div class="card-header text-primary">
+            Entradas de producto
+        </div>
+        <div class="card-body">
+            <div class="card-title">
+                <div class="row d-flex justify-content-between">
+                    <!-- <div class="col-md-4">
+                      <a class="btn btn-success" [routerLink]="['/addMovimientoProducto']">Recibir Producto</a
+          >
+        </div> -->
+                    <div class="form-group col-md-4">
+                        <label for="Fechas">Fechas</label>
+                        <input class="form-control" placeholder="Fechas" bsDaterangepicker [(ngModel)]="bsRangeValue" [bsConfig]="{ isAnimated: true, showPreviousMonth: true }" (bsValueChange)="onValueChange($event)" />
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="NoParte">No. Parte</label>
+                        <input type="text" [typeahead]="numerosParte" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" [(ngModel)]="noParte" placeholder="No. Parte" (typeaheadOnSelect)="onSelectNumeroParte($event)" (ngModelChange)="noParteChange()" />
+                    </div>
+                </div>
+            </div>
+            <div class="card-text">
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-striped mt-1">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col">Fecha</th>
+                                <th scope="col">No. Parte</th>
+                                <th scope="col">Cajas</th>
+                                <th scope="col">Piezas Caja</th>
+                                <th scope="col">Certificadas</th>
+                                <th scope="col">Rechazadas</th>
+                                <th scope="col">Localidad</th>
+                                <th scope="col">Movimiento</th>
+                                <th scope="col">Existencia Inicial</th>
+                                <th scope="col">Existencia Final</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="
+                let movimiento of movimientos
+                  ">
+                                <td>
+                                    {{ movimiento.fecha | date: "dd-MM-yyyy" }}
+                                </td>
+                                <td>
+                                    {{ movimiento.noParte }}
+                                </td>
+                                <td>
+                                    {{ movimiento.cajas }}
+                                </td>
+                                <td>
+                                    {{ movimiento.piezasXCaja }}
+                                </td>
+                                <td>
+                                    {{ movimiento.piezasCertificadas }}
+                                </td>
+
+                                <td>
+                                    {{ movimiento.piezasRechazadas }}
+                                </td>
+                                <td>
+                                    {{ movimiento.localidad }}
+                                </td>
+                                <td>
+                                    {{ movimiento.tipoMovimiento }}
+                                </td>
+
+                                <td>
+                                    {{ movimiento.existenciaAlmacenInicial }}
+                                </td>
+                                <td>
+                                    {{ movimiento.existenciaAlmacenFinal }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

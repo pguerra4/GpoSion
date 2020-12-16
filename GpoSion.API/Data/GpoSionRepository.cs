@@ -142,14 +142,21 @@ namespace GpoSion.API.Data
             var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && mm.Viajero.Existencia > 0)
             .Select(mm => mm.Viajero).Distinct().ToListAsync();
 
-            var FechaMasLejana = viajeros.Min(v => v.Fecha).AddMinutes(-1);
+            DateTime FechaMasLejana = DateTime.Now;
+
+            if (viajeros.Count > 0)
+            {
+                FechaMasLejana = viajeros.Min(v => v.Fecha).AddMinutes(-1);
+            }
 
 
             var localidadesConMaterial = await _context.LocalidadesMateriales.Where(lm => lm.MaterialId == materialId && lm.Existencia > 0
-            && !viajeros.Any(v => v.LocalidadId == lm.LocalidadId)).ToListAsync();
+            && !viajeros.Any(v => v.LocalidadId == lm.LocalidadId && v.Existencia == lm.Existencia)).ToListAsync();
             foreach (var lm in localidadesConMaterial)
             {
-                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = lm.Existencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana, Material = lm.Material });
+                var existencia = viajeros.Where(v => v.LocalidadId == lm.LocalidadId).Sum(v => v.Existencia);
+                var nvaExistencia = lm.Existencia - existencia;
+                viajeros.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = nvaExistencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana, Material = lm.Material });
             }
             viajeros = viajeros.OrderBy(v => v.Fecha).ToList();
 
@@ -400,6 +407,10 @@ namespace GpoSion.API.Data
             {
                 movimientos = movimientos.Where(m => m.TipoMovimiento == movimientoParams.TipoMovimiento).ToList();
             }
+            if (movimientoParams.NoParte != null && movimientoParams.NoParte != "")
+            {
+                movimientos = movimientos.Where(m => m.NoParte == movimientoParams.NoParte).ToList();
+            }
             return movimientos;
         }
 
@@ -542,7 +553,7 @@ namespace GpoSion.API.Data
 
         public async Task<LocalidadMaterial> GetLocalidadMaterial(int localidadId, int MaterialId)
         {
-            var localidadMaterial = await _context.LocalidadesMateriales.FindAsync(localidadId, MaterialId);
+            var localidadMaterial = await _context.LocalidadesMateriales.FirstOrDefaultAsync(l => l.LocalidadId == localidadId && l.MaterialId == MaterialId);
             return localidadMaterial;
         }
 
@@ -649,6 +660,24 @@ namespace GpoSion.API.Data
                 detalleRecibos = detalleRecibos.Where(de => de.MaterialId == reporteParams.MaterialId).ToList();
             }
             return detalleRecibos;
+        }
+
+        public async Task<IEnumerable<MovimientoMaterial>> GetMovimientosMaterial(MovimientoMaterialParams movimientoParams)
+        {
+            var movimientosMateriales = await _context.MovimientosMaterial.ToListAsync();
+            if (movimientoParams.MaterialId.HasValue)
+            {
+                movimientosMateriales = movimientosMateriales.Where(mm => mm.MaterialId == movimientoParams.MaterialId).ToList();
+            }
+            if (movimientoParams.FechaInicio.HasValue)
+            {
+                movimientosMateriales = movimientosMateriales.Where(mm => mm.Fecha >= movimientoParams.FechaInicio).ToList();
+            }
+            if (movimientoParams.FechaFin.HasValue)
+            {
+                movimientosMateriales = movimientosMateriales.Where(mm => mm.Fecha <= movimientoParams.FechaFin).ToList();
+            }
+            return movimientosMateriales;
         }
     }
 }

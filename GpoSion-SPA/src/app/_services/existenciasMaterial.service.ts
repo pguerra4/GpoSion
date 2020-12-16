@@ -11,7 +11,7 @@ import { MovimientoMaterial } from "../_models/movimientoMaterial";
 import { RetornoMaterial } from "../_models/retorno-material";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class ExistenciasMaterialService {
   baseUrl = environment.apiUrl;
@@ -130,5 +130,25 @@ export class ExistenciasMaterialService {
 
   editRetornoMaterial(id: number, retorno: RetornoMaterial) {
     return this.http.put(this.baseUrl + "retornomaterial/" + id, retorno);
+  }
+
+  getMovimientosMaterial(movimientoParams?) {
+    let params = new HttpParams();
+    if (movimientoParams != null) {
+      if (movimientoParams.fechaInicio != null) {
+        params = params.append("FechaInicio", movimientoParams.fechaInicio);
+      }
+      if (movimientoParams.fechaFin != null) {
+        params = params.append("FechaFin", movimientoParams.fechaFin);
+      }
+      if (movimientoParams.materialId != null) {
+        params = params.append("MaterialId", movimientoParams.materialId);
+      }
+    }
+
+    return this.http.get<MovimientoMaterial[]>(
+      this.baseUrl + "movimientomaterial",
+      { params }
+    );
   }
 }

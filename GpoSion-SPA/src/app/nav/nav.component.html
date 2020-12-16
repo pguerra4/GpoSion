@@ -133,6 +133,18 @@
           *appHasRole="['Admin', 'Almacen']"
           >Dashboard Recibos</a
         >
+        <a
+        class="dropdown-item"
+        [routerLink]="['/movimientosMaterial']"
+        *appHasRole="['Admin', 'Almacen']"
+        >Movimientos Materia Prima</a
+      >
+      <a
+      class="dropdown-item"
+      [routerLink]="['/reporteMovimientosProducto']"
+      *appHasRole="['Admin', 'Almacen']"
+      >Movimientos Producto</a
+    >
         </div>
       </li>
       <li

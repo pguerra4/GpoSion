@@ -68,17 +68,36 @@ namespace GpoSion.API.Controllers
                 existenciaProduccion.Existencia -= retornoToCreate.Cantidad;
             }
 
+            var movimientoMaterial = new MovimientoMaterial
+            {
+                Fecha = DateTime.Now,
+                Material = material,
+                Cantidad = retornoToCreate.Cantidad,
+                Origen = produccion,
+                Destino = almacen,
+                MotivoMovimiento = "Retorno Material",
+                LocalidadId = retornoToCreate.LocalidadId,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId
+            };
+
             if (existencia == null)
             {
                 existencia = new ExistenciaMaterial { Material = material, Area = almacen, CreadoPorId = userId, Existencia = retornoToCreate.Cantidad, FechaCreacion = DateTime.Now };
+                movimientoMaterial.ExistenciaInicial = 0;
+                movimientoMaterial.ExistenciaFinal = existencia.Existencia;
                 _repo.Add(existencia);
             }
             else
             {
+                movimientoMaterial.ExistenciaInicial = existencia.Existencia;
                 existencia.Existencia += retornoToCreate.Cantidad;
                 existencia.UltimaModificacion = DateTime.Now;
                 existencia.ModificadoPorId = userId;
+                movimientoMaterial.ExistenciaFinal = existencia.Existencia;
             }
+
+            _repo.Add(movimientoMaterial);
 
             //var localidad = await _repo.GetLocalidad(retornoToCreate.LocalidadId);
             // if (localidad != null)
@@ -97,20 +116,9 @@ namespace GpoSion.API.Controllers
             }
             // }
 
-            var movimientoMaterial = new MovimientoMaterial
-            {
-                Fecha = DateTime.Now,
-                Material = material,
-                Cantidad = retornoToCreate.Cantidad,
-                Origen = produccion,
-                Destino = almacen,
-                MotivoMovimiento = "Retorno Material",
-                LocalidadId = retornoToCreate.LocalidadId,
-                FechaCreacion = DateTime.Now,
-                CreadoPorId = userId
-            };
 
-            _repo.Add(movimientoMaterial);
+
+
 
             if (await _repo.SaveAll())
             {
@@ -134,6 +142,10 @@ namespace GpoSion.API.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var diferencia = movimientoFP.Cantidad - movimiento.Cantidad;
+
+            var areas = await _repo.GetAreas();
+            var almacen = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
+            var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
 
             if (movimiento.LocalidadId != movimientoFP.LocalidadId)
             {
@@ -176,24 +188,36 @@ namespace GpoSion.API.Controllers
             {
                 var existenciaOriginal = await _repo.GetExistenciaPorAreaMaterial(1, movimiento.MaterialId.Value);
 
+                var mm = new MovimientoMaterial { Fecha = DateTime.Now, Material = movimiento.Material, Cantidad = movimiento.Cantidad, Origen = produccion, Destino = almacen, ViajeroId = movimiento.ViajeroId, FechaCreacion = DateTime.Now, CreadoPorId = userId, MotivoMovimiento = "Edición retorno material con cambio de material" };
+
+
+                mm.ExistenciaInicial = existenciaOriginal.Existencia;
                 existenciaOriginal.Existencia -= movimiento.Cantidad;
                 existenciaOriginal.UltimaModificacion = DateTime.Now;
                 existenciaOriginal.ModificadoPorId = userId;
+                mm.ExistenciaFinal = existenciaOriginal.Existencia;
+
+                _repo.Add(mm);
 
                 var existencia = await _repo.GetExistenciaPorAreaMaterial(1, movimientoFP.MaterialId);
                 if (existencia == null)
                 {
-                    var areas = await _repo.GetAreas();
-                    var almacen = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
+                    // var areas = await _repo.GetAreas();
+                    // var almacen = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
                     var material = await _repo.GetMaterial(movimientoFP.MaterialId);
                     existencia = new ExistenciaMaterial { Material = material, Area = almacen, CreadoPorId = userId, Existencia = movimientoFP.Cantidad, FechaCreacion = DateTime.Now };
                     _repo.Add(existencia);
+                    movimiento.MotivoMovimiento = "Edición retorno de material";
+                    movimiento.ExistenciaFinal = existencia.Existencia;
                 }
                 else
                 {
+                    movimiento.ExistenciaInicial = existencia.Existencia;
                     existencia.Existencia += movimientoFP.Cantidad;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+                    movimiento.MotivoMovimiento = "Edición retorno de material";
+                    movimiento.ExistenciaFinal = existencia.Existencia;
                 }
 
             }
@@ -201,9 +225,12 @@ namespace GpoSion.API.Controllers
             {
                 var existencia = await _repo.GetExistenciaPorAreaMaterial(1, movimientoFP.MaterialId);
 
+                movimiento.ExistenciaInicial = existencia.Existencia;
                 existencia.Existencia += diferencia;
                 existencia.UltimaModificacion = DateTime.Now;
                 existencia.ModificadoPorId = userId;
+                movimiento.MotivoMovimiento = "Edición retorno de material";
+                movimiento.ExistenciaFinal = existencia.Existencia;
 
             }
 

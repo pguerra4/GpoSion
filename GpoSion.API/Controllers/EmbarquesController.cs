@@ -85,7 +85,6 @@ namespace GpoSion.API.Controllers
                     movimiento.PiezasRechazadas = de.Entregadas;
                 }
 
-                _repo.Add(movimiento);
 
 
 
@@ -99,10 +98,11 @@ namespace GpoSion.API.Controllers
                     if (existencia.PiezasCertificadas < de.Entregadas)
                         return BadRequest("La solicitud para el No. Parte " + de.NoParte + " excede las existencias en almacen.");
 
+                    movimiento.ExistenciaAlmacenInicial = existencia.PiezasCertificadas;
                     existencia.PiezasCertificadas -= de.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
-
+                    movimiento.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
 
                     var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(de.LocalidadId.Value, de.NoParte);
                     if (localidadNumeroParte != null)
@@ -122,6 +122,9 @@ namespace GpoSion.API.Controllers
 
 
                 }
+
+                _repo.Add(movimiento);
+
 
 
                 var orden = await _repo.GetOrdenCompra(de.NoOrden.Value);

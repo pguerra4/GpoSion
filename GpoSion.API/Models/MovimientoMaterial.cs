@@ -38,6 +38,12 @@ namespace GpoSion.API.Models
 
         public virtual Localidad Localidad { get; set; }
 
+         [Column(TypeName = "decimal(18, 3)")]
+        public decimal? ExistenciaInicial { get; set; }
+
+         [Column(TypeName = "decimal(18, 3)")]
+        public decimal? ExistenciaFinal { get; set; }
+
         public int? RequerimientoMaterialMaterialId { get; set; }
         public virtual RequerimientoMaterialMaterial RequerimientoMaterialMaterial { get; set; }
 

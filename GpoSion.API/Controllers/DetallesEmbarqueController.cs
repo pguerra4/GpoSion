@@ -80,7 +80,7 @@ namespace GpoSion.API.Controllers
                 movimiento.PiezasRechazadas = detalleEmbarque.Entregadas;
             }
 
-            _repo.Add(movimiento);
+
 
             var existencia = await _repo.GetExistenciaProducto(detalleEmbarque.NoParte);
             if (existencia == null)
@@ -91,9 +91,11 @@ namespace GpoSion.API.Controllers
                 if (existencia.PiezasCertificadas < detalleEmbarque.Entregadas)
                     return BadRequest("La solicitud para el No. Parte " + detalleEmbarque.NoParte + " excede las existencias en almacen.");
 
+                movimiento.ExistenciaAlmacenInicial = existencia.PiezasCertificadas;
                 existencia.PiezasCertificadas -= detalleEmbarque.Entregadas;
                 existencia.UltimaModificacion = DateTime.Now;
                 existencia.ModificadoPorId = userId;
+                movimiento.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
 
                 var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleEmbarque.LocalidadId.Value, detalleEmbarque.NoParte);
                 localidadNumeroParte.Existencia -= detalleEmbarque.Entregadas;
@@ -106,10 +108,13 @@ namespace GpoSion.API.Controllers
                 if (existencia.PiezasRechazadas < detalleEmbarque.Entregadas)
                     return BadRequest("La solicitud para el No. Parte " + detalleEmbarque.NoParte + " excede las piezas rechazadas en almacen.");
 
+
                 existencia.PiezasRechazadas -= detalleEmbarque.Entregadas;
                 existencia.UltimaModificacion = DateTime.Now;
                 existencia.ModificadoPorId = userId;
             }
+
+            _repo.Add(movimiento);
 
 
             var orden = await _repo.GetOrdenCompra(detalleEmbarque.NoOrden.Value);
@@ -167,16 +172,60 @@ namespace GpoSion.API.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 
+
+            MovimientoProducto movimiento;
+
+            movimiento = new MovimientoProducto
+            {
+                NoParte = detalleEmbarqueToEdit.NoParte,
+                Fecha = DateTime.Now,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId,
+                Cajas = detalleEmbarqueToEdit.Cajas,
+                PiezasXCaja = detalleEmbarqueToEdit.PiezasXCaja,
+                TipoMovimiento = "Modificación Detalle Embarque",
+                DetalleEmbarqueId = detalleEmbarqueToEdit.DetalleEmbarqueId,
+                LocalidadId = detalleEmbarqueToEdit.LocalidadId
+            };
+            if (!embarque.Rechazadas)
+            {
+                movimiento.PiezasCertificadas = detalleEmbarqueToEdit.Entregadas;
+            }
+            else
+            {
+                movimiento.PiezasRechazadas = detalleEmbarqueToEdit.Entregadas;
+            }
+
+
+
+
             if (detalleEmbarque.NoParte != detalleEmbarqueToEdit.NoParte)
             {
+                MovimientoProducto newMovimiento;
+
+                newMovimiento = new MovimientoProducto
+                {
+                    NoParte = detalleEmbarque.NoParte,
+                    Fecha = DateTime.Now,
+                    FechaCreacion = DateTime.Now,
+                    CreadoPorId = userId,
+                    Cajas = detalleEmbarqueToEdit.Cajas,
+                    PiezasXCaja = detalleEmbarqueToEdit.PiezasXCaja,
+                    TipoMovimiento = "Modificación Detalle Embarque con cambio de No. Parte",
+                    DetalleEmbarqueId = detalleEmbarque.DetalleEmbarqueId,
+                    LocalidadId = detalleEmbarque.LocalidadId
+                };
                 var existenciaOriginal = await _repo.GetExistenciaProducto(detalleEmbarque.NoParte);
                 if (existenciaOriginal != null)
                 {
                     if (!embarque.Rechazadas)
                     {
+                        newMovimiento.ExistenciaAlmacenInicial = existenciaOriginal.PiezasCertificadas;
                         existenciaOriginal.PiezasCertificadas += detalleEmbarque.Entregadas;
                         existenciaOriginal.UltimaModificacion = DateTime.Now;
                         existenciaOriginal.ModificadoPorId = userId;
+                        newMovimiento.ExistenciaAlmacenFinal = existenciaOriginal.PiezasCertificadas;
+
                         if (detalleEmbarque.LocalidadId.HasValue)
                         {
                             var localidadNumeroParteOriginal = await _repo.GetLocalidadNumeroParte(detalleEmbarque.LocalidadId.Value, detalleEmbarque.NoParte);
@@ -198,6 +247,7 @@ namespace GpoSion.API.Controllers
                     }
                 }
 
+                _repo.Add(newMovimiento);
 
                 var existencia = await _repo.GetExistenciaProducto(detalleEmbarqueToEdit.NoParte);
                 if (existencia == null)
@@ -208,9 +258,11 @@ namespace GpoSion.API.Controllers
                     if (existencia.PiezasCertificadas < detalleEmbarqueToEdit.Entregadas)
                         return BadRequest("La solicitud para el No. Parte " + detalleEmbarqueToEdit.NoParte + " excede las existencias en almacen.");
 
+                    movimiento.ExistenciaAlmacenInicial = existencia.PiezasCertificadas;
                     existencia.PiezasCertificadas -= detalleEmbarqueToEdit.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+                    movimiento.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
 
                     var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleEmbarqueToEdit.LocalidadId.Value, detalleEmbarqueToEdit.NoParte);
                     if (localidadNumeroParte != null)
@@ -245,9 +297,11 @@ namespace GpoSion.API.Controllers
                     if ((existencia.PiezasCertificadas + detalleEmbarque.Entregadas) < detalleEmbarqueToEdit.Entregadas)
                         return BadRequest("La solicitud para el No. Parte " + detalleEmbarqueToEdit.NoParte + " excede las existencias en almacen.");
 
+                    movimiento.ExistenciaAlmacenInicial = existencia.PiezasCertificadas;
                     existencia.PiezasCertificadas -= diferenciaExistencia;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+                    movimiento.ExistenciaAlmacenFinal = existencia.PiezasCertificadas;
 
                     var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleEmbarqueToEdit.LocalidadId.Value, detalleEmbarqueToEdit.NoParte);
                     if (localidadNumeroParte != null)
@@ -270,6 +324,9 @@ namespace GpoSion.API.Controllers
 
 
             }
+
+
+            _repo.Add(movimiento);
 
             var diferencia = detalleEmbarqueToEdit.Entregadas - detalleEmbarque.Entregadas;
 
@@ -311,33 +368,6 @@ namespace GpoSion.API.Controllers
             }
 
 
-            MovimientoProducto movimiento;
-
-
-
-            movimiento = new MovimientoProducto
-            {
-                NoParte = detalleEmbarqueToEdit.NoParte,
-                Fecha = DateTime.Now,
-                FechaCreacion = DateTime.Now,
-                CreadoPorId = userId,
-                Cajas = detalleEmbarqueToEdit.Cajas,
-                PiezasXCaja = detalleEmbarqueToEdit.PiezasXCaja,
-                TipoMovimiento = "Modificación Detalle Embarque",
-                DetalleEmbarqueId = detalleEmbarqueToEdit.DetalleEmbarqueId,
-                LocalidadId = detalleEmbarqueToEdit.LocalidadId
-            };
-            if (!embarque.Rechazadas)
-            {
-                movimiento.PiezasCertificadas = detalleEmbarqueToEdit.Entregadas;
-            }
-            else
-            {
-                movimiento.PiezasRechazadas = detalleEmbarqueToEdit.Entregadas;
-            }
-
-            _repo.Add(movimiento);
-
 
 
             _mapper.Map(detalleEmbarqueToEdit, detalleEmbarque);
@@ -372,6 +402,22 @@ namespace GpoSion.API.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+
+            MovimientoProducto newMovimiento;
+
+            newMovimiento = new MovimientoProducto
+            {
+                NoParte = detalleFromRepo.NoParte,
+                Fecha = DateTime.Now,
+                FechaCreacion = DateTime.Now,
+                CreadoPorId = userId,
+                Cajas = detalleFromRepo.Cajas,
+                PiezasXCaja = detalleFromRepo.PiezasXCaja,
+                TipoMovimiento = "Borrado de detalle de embarque",
+                DetalleEmbarqueId = null,
+                LocalidadId = detalleFromRepo.LocalidadId
+            };
+
             var existenciaProducto = await _repo.GetExistenciaProducto(detalleFromRepo.NoParte);
             if (existenciaProducto == null)
             {
@@ -388,7 +434,9 @@ namespace GpoSion.API.Controllers
                 }
                 else
                 {
+                    newMovimiento.ExistenciaAlmacenInicial = existenciaProducto.PiezasCertificadas;
                     existenciaProducto.PiezasCertificadas += detalleFromRepo.Entregadas;
+                    newMovimiento.ExistenciaAlmacenFinal = existenciaProducto.PiezasCertificadas;
                 }
                 _repo.Add(existenciaProducto);
             }
@@ -400,7 +448,9 @@ namespace GpoSion.API.Controllers
                 }
                 else
                 {
+                    newMovimiento.ExistenciaAlmacenInicial = existenciaProducto.PiezasCertificadas;
                     existenciaProducto.PiezasCertificadas += detalleFromRepo.Entregadas;
+                    newMovimiento.ExistenciaAlmacenFinal = existenciaProducto.PiezasCertificadas;
                 }
                 existenciaProducto.UltimaModificacion = DateTime.Now;
                 existenciaProducto.ModificadoPorId = userId;

@@ -10,7 +10,7 @@ import { DetalleEmbarque } from "../_models/detalle-embarque";
 import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class NumeroParteService {
   baseUrl = environment.apiUrl;
@@ -25,7 +25,7 @@ export class NumeroParteService {
       }
     }
     return this.http.get<NumeroParte[]>(this.baseUrl + "numerosParte", {
-      params
+      params,
     });
   }
 
@@ -50,10 +50,24 @@ export class NumeroParteService {
   getMovimientosProducto(movimientoParams?): Observable<MovimientoProducto[]> {
     let params = new HttpParams();
     if (movimientoParams != null) {
-      params = params.append("TipoMovimiento", movimientoParams.tipoMovimiento);
-      params = params.append("FechaInicio", movimientoParams.fechaInicio);
-      params = params.append("FechaFin", movimientoParams.fechaFin);
+      if (movimientoParams.fechaInicio != null) {
+        params = params.append("FechaInicio", movimientoParams.fechaInicio);
+      }
+      if (movimientoParams.fechaInicio != null) {
+        params = params.append("FechaFin", movimientoParams.fechaFin);
+      }
+      if (movimientoParams.tipoMovimiento != null) {
+        params = params.append(
+          "TipoMovimiento",
+          movimientoParams.tipoMovimiento
+        );
+      }
+
+      if (movimientoParams.noParte != null) {
+        params = params.append("NoParte", movimientoParams.noParte);
+      }
     }
+
     return this.http.get<MovimientoProducto[]>(
       this.baseUrl + "movimientosproducto",
       { params }

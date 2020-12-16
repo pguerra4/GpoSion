@@ -4,14 +4,16 @@ using GpoSion.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GpoSion.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201103192046_columnsExistenciasMovMaterial")]
+    partial class columnsExistenciasMovMaterial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -880,10 +882,6 @@ namespace GpoSion.API.Migrations
 
                     b.Property<int?>("DetalleEmbarqueId");
 
-                    b.Property<int?>("ExistenciaAlmacenFinal");
-
-                    b.Property<int?>("ExistenciaAlmacenInicial");
-
                     b.Property<DateTime>("Fecha");
 
                     b.Property<DateTime?>("FechaCreacion");
@@ -1118,20 +1116,6 @@ namespace GpoSion.API.Migrations
                     b.HasIndex("NoOrden");
 
                     b.ToTable("OrdenCompraProveedorDetalles");
-                });
-
-            modelBuilder.Entity("GpoSion.API.Models.Parametro", b =>
-                {
-                    b.Property<string>("Clave")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Comentarios");
-
-                    b.Property<string>("Valor");
-
-                    b.HasKey("Clave");
-
-                    b.ToTable("Parametros");
                 });
 
             modelBuilder.Entity("GpoSion.API.Models.PlaneacionProduccion", b =>

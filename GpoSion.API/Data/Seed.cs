@@ -184,6 +184,77 @@ namespace GpoSion.API.Data
 
             }
 
+            if (!context.Parametros.Any())
+            {
+                var parametro = new Parametro { Clave = "Ajuste Existencia Material Automatico", Valor = "0", Comentarios = "Si el valor de este parametro es 1, entonces al iniciar el sistema se realizara un ajuste automático de existencias de materia prima de acuerdo a lo que hay en los viajeros y localidades." };
+                context.Parametros.Add(parametro);
+                context.SaveChanges();
+            }
+            else
+            {
+                var param = context.Parametros.Where(p => p.Clave == "Ajuste Existencia Material Automatico").FirstOrDefault();
+                if (param != null && param.Valor == "1")
+                {
+                    var almacenes = context.Areas;
+                    var almacen = almacenes.FirstOrDefault(a => a.NombreArea.ToLower() == "almacen");
+
+                    var materiales = context.Materiales;
+                    foreach (var m in materiales)
+                    {
+                        var viajrs = context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == m.MaterialId && mm.ViajeroId != null && mm.Viajero.Existencia > 0)
+                      .Select(mm => mm.Viajero).Distinct().ToList();
+
+                        DateTime FechaMasLejana = DateTime.Now;
+
+                        if (viajrs.Count() > 0)
+                        {
+                            FechaMasLejana = viajrs.Min(v => v.Fecha).AddMinutes(-1);
+                        }
+
+
+                        var localidadesConMaterial = context.LocalidadesMateriales.Where(lm => lm.MaterialId == m.MaterialId && lm.Existencia > 0
+                        && !viajrs.Any(v => v.LocalidadId == lm.LocalidadId && v.Existencia == lm.Existencia)).ToList();
+                        foreach (var lm in localidadesConMaterial)
+                        {
+                            var existencia = viajrs.Where(v => v.LocalidadId == lm.LocalidadId).Sum(v => v.Existencia);
+                            var nvaExistencia = lm.Existencia - existencia;
+                            viajrs.Add(new Viajero { ViajeroId = 0, LocalidadId = lm.LocalidadId, Localizacion = lm.Localidad, Existencia = nvaExistencia, MaterialId = lm.MaterialId, Fecha = FechaMasLejana, Material = lm.Material });
+                        }
+                        viajrs = viajrs.OrderBy(v => v.Fecha).ToList();
+
+
+                        var existenciaMaterialT = context.ExistenciasMaterial.FirstOrDefault(em => em.Area.AreaId == almacen.AreaId && em.Material.MaterialId == m.MaterialId);
+                        if (existenciaMaterialT != null)
+                        {
+
+                            var existenciaInicial = existenciaMaterialT.Existencia;
+                            var existenciaCalculada = viajrs.Sum(v => v.Existencia);
+                            var diferencia = existenciaCalculada - existenciaInicial;
+
+                            if (diferencia != 0)
+                            {
+                                existenciaMaterialT.Existencia = existenciaCalculada;
+
+                                // existenciaMaterialT.UltimaModificacion = DateTime.Now;
+
+                                var movMaterial = new MovimientoMaterial { Fecha = DateTime.Now, Origen = almacen, Destino = almacen, Material = m, Cantidad = diferencia, FechaCreacion = DateTime.Now, MotivoMovimiento = "Ajuste automático existencias", LocalidadId = null, ExistenciaInicial = existenciaInicial, ExistenciaFinal = existenciaCalculada };
+
+                                context.MovimientosMaterial.Add(movMaterial);
+
+                                context.SaveChanges();
+                            }
+
+                        }
+
+
+                    }
+
+                    param.Valor = "0";
+                    context.SaveChanges();
+
+                }
+            }
+
         }
 
     }
