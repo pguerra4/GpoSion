@@ -14,7 +14,7 @@ import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 @Component({
   selector: "app-detalle-embarque-edit",
   templateUrl: "./detalle-embarque-edit.component.html",
-  styleUrls: ["./detalle-embarque-edit.component.css"]
+  styleUrls: ["./detalle-embarque-edit.component.css"],
 })
 export class DetalleEmbarqueEditComponent implements OnInit {
   detalleEmbarqueForm: FormGroup;
@@ -37,7 +37,7 @@ export class DetalleEmbarqueEditComponent implements OnInit {
 
   ngOnInit() {
     this.localeService.use("es");
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       // tslint:disable-next-line: no-string-literal
       this.detalleEmbarque = data["detalleEmbarque"];
 
@@ -53,7 +53,7 @@ export class DetalleEmbarqueEditComponent implements OnInit {
       {
         detalleEmbarqueId: [
           this.detalleEmbarque.detalleEmbarqueId,
-          Validators.required
+          Validators.required,
         ],
         embarqueId: [this.detalleEmbarque.embarqueId, Validators.required],
         noParte: [this.detalleEmbarque.noParte, Validators.required],
@@ -62,7 +62,7 @@ export class DetalleEmbarqueEditComponent implements OnInit {
         localidadId: [this.detalleEmbarque.localidadId],
         cajas: [this.detalleEmbarque.cajas],
         piezasXCaja: [this.detalleEmbarque.piezasXCaja],
-        entregadas: [this.detalleEmbarque.entregadas, Validators.required]
+        entregadas: [this.detalleEmbarque.entregadas, Validators.required],
       },
       { updateOn: "blur" }
     );
@@ -79,12 +79,12 @@ export class DetalleEmbarqueEditComponent implements OnInit {
             (res2: NumeroParte[]) => {
               this.numerosParte = res2;
             },
-            error => {
+            (error) => {
               this.alertify.error(error);
             }
           );
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -113,7 +113,7 @@ export class DetalleEmbarqueEditComponent implements OnInit {
         (res: OrdenCompra[]) => {
           this.ordenesCompra = res;
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -124,8 +124,20 @@ export class DetalleEmbarqueEditComponent implements OnInit {
     this.numeroParteService.getLocalidadesNumeroParte(noParte).subscribe(
       (res: LocalidadNumeroParte[]) => {
         this.localidadesNumeroParte = res;
+        const localidad = this.localidadesNumeroParte.find(
+          (l) => l.localidadId === +this.detalleEmbarque.localidadId
+        );
+        if (localidad == undefined) {
+          this.localidadesNumeroParte.push({
+            localidadId: +this.detalleEmbarque.localidadId,
+            localidad: this.detalleEmbarque.localidad,
+            noParte: this.detalleEmbarque.noParte,
+            existencia: 0,
+            rechazadas: 0,
+          });
+        }
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -143,10 +155,10 @@ export class DetalleEmbarqueEditComponent implements OnInit {
         (res: DetalleEmbarque) => {
           this.alertify.success("Guardado");
           this.router.navigate([
-            "embarques/" + this.detalleEmbarque.embarqueId
+            "embarques/" + this.detalleEmbarque.embarqueId,
           ]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );

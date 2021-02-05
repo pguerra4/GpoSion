@@ -57,12 +57,13 @@ namespace GpoSion.API.Controllers
             var lnp = await _repo.GetLocalidadNumeroParte(lnpFP.LocalidadId, lnpFP.NoParte);
             if (lnp == null)
             {
-                lnp = new LocalidadNumeroParte { LocalidadId = lnpFP.LocalidadId, NoParte = lnpFP.NoParte, Existencia = lnpFP.Existencia, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                lnp = new LocalidadNumeroParte { LocalidadId = lnpFP.LocalidadId, NoParte = lnpFP.NoParte, Existencia = lnpFP.Existencia, Rechazadas = lnpFP.Rechazadas, CreadoPorId = userId, FechaCreacion = DateTime.Now };
                 _repo.Add(lnp);
             }
             else
             {
                 lnp.Existencia = lnpFP.Existencia;
+                lnp.Rechazadas = lnpFP.Rechazadas;
                 lnp.UltimaModificacion = DateTime.Now;
                 lnp.ModificadoPorId = userId;
             }
@@ -71,6 +72,7 @@ namespace GpoSion.API.Controllers
             {
                 NoParte = lnpFP.NoParte,
                 PiezasCertificadas = (int)lnpFP.Existencia,
+                PiezasRechazadas = (int)lnpFP.Rechazadas,
                 Fecha = DateTime.Now,
                 FechaCreacion = DateTime.Now,
                 CreadoPorId = userId,
@@ -120,6 +122,7 @@ namespace GpoSion.API.Controllers
             {
                 NoParte = lnp.NoParte,
                 PiezasCertificadas = (int)lnpFP.Existencia,
+                PiezasRechazadas = (int)lnpFP.Rechazadas,
                 Fecha = DateTime.Now,
                 FechaCreacion = DateTime.Now,
                 CreadoPorId = userId,
@@ -143,6 +146,7 @@ namespace GpoSion.API.Controllers
             _repo.Add(ajuste);
 
             lnp.Existencia = lnpFP.Existencia;
+            lnp.Rechazadas = lnpFP.Rechazadas;
             lnp.ModificadoPorId = userId;
             lnp.UltimaModificacion = DateTime.Now;
 

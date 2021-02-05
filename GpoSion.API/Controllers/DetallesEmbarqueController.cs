@@ -112,6 +112,11 @@ namespace GpoSion.API.Controllers
                 existencia.PiezasRechazadas -= detalleEmbarque.Entregadas;
                 existencia.UltimaModificacion = DateTime.Now;
                 existencia.ModificadoPorId = userId;
+
+                var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleEmbarque.LocalidadId.Value, detalleEmbarque.NoParte);
+                localidadNumeroParte.Rechazadas -= detalleEmbarque.Entregadas;
+                localidadNumeroParte.ModificadoPorId = userId;
+                localidadNumeroParte.UltimaModificacion = DateTime.Now;
             }
 
             _repo.Add(movimiento);
@@ -244,6 +249,18 @@ namespace GpoSion.API.Controllers
                         existenciaOriginal.PiezasRechazadas += detalleEmbarque.Entregadas;
                         existenciaOriginal.UltimaModificacion = DateTime.Now;
                         existenciaOriginal.ModificadoPorId = userId;
+
+                        if (detalleEmbarque.LocalidadId.HasValue)
+                        {
+                            var localidadNumeroParteOriginal = await _repo.GetLocalidadNumeroParte(detalleEmbarque.LocalidadId.Value, detalleEmbarque.NoParte);
+                            if (localidadNumeroParteOriginal != null)
+                            {
+                                localidadNumeroParteOriginal.Rechazadas += detalleEmbarque.Entregadas;
+                                localidadNumeroParteOriginal.ModificadoPorId = userId;
+                                localidadNumeroParteOriginal.UltimaModificacion = DateTime.Now;
+                            }
+                        }
+
                     }
                 }
 
@@ -281,6 +298,14 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasRechazadas -= detalleEmbarqueToEdit.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+
+                    var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleEmbarqueToEdit.LocalidadId.Value, detalleEmbarqueToEdit.NoParte);
+                    if (localidadNumeroParte != null)
+                    {
+                        localidadNumeroParte.Rechazadas -= detalleEmbarqueToEdit.Entregadas;
+                        localidadNumeroParte.ModificadoPorId = userId;
+                        localidadNumeroParte.UltimaModificacion = DateTime.Now;
+                    }
                 }
 
 
@@ -320,6 +345,14 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasRechazadas -= diferenciaExistencia;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
+
+                    var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleEmbarqueToEdit.LocalidadId.Value, detalleEmbarqueToEdit.NoParte);
+                    if (localidadNumeroParte != null)
+                    {
+                        localidadNumeroParte.Rechazadas -= diferenciaExistencia;
+                        localidadNumeroParte.ModificadoPorId = userId;
+                        localidadNumeroParte.UltimaModificacion = DateTime.Now;
+                    }
                 }
 
 
@@ -367,10 +400,17 @@ namespace GpoSion.API.Controllers
                 ocd.ModificadoPorId = userId;
             }
 
+            var localidadFinal = await _repo.GetLocalidad(detalleEmbarqueToEdit.LocalidadId.Value);
 
 
-
-            _mapper.Map(detalleEmbarqueToEdit, detalleEmbarque);
+            // _mapper.Map(detalleEmbarqueToEdit, detalleEmbarque);
+            detalleEmbarque.LocalidadId = detalleEmbarqueToEdit.LocalidadId;
+            detalleEmbarque.Entregadas = detalleEmbarqueToEdit.Entregadas;
+            detalleEmbarque.NoOrden = detalleEmbarqueToEdit.NoOrden;
+            detalleEmbarque.NoParte = detalleEmbarqueToEdit.NoParte;
+            detalleEmbarque.PiezasXCaja = detalleEmbarqueToEdit.PiezasXCaja;
+            detalleEmbarque.Cajas = detalleEmbarqueToEdit.Cajas;
+            detalleEmbarque.Localidad = localidadFinal;
             detalleEmbarque.UltimaModificacion = DateTime.Now;
             detalleEmbarque.ModificadoPorId = userId;
 
@@ -461,12 +501,20 @@ namespace GpoSion.API.Controllers
                 detalleFromRepo.OrdenCompra.NumerosParte.FirstOrDefault(np => np.NoParte == detalleFromRepo.NoParte).PiezasSurtidas -= detalleFromRepo.Entregadas;
             }
 
-            if (detalleFromRepo.LocalidadId.HasValue)
+            if (detalleFromRepo.LocalidadId.HasValue && !detalleFromRepo.Embarque.Rechazadas)
             {
                 var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleFromRepo.LocalidadId.Value, detalleFromRepo.NoParte);
                 if (localidadNumeroParte != null)
                 {
                     localidadNumeroParte.Existencia += detalleFromRepo.Entregadas;
+                }
+            }
+            else if (detalleFromRepo.LocalidadId.HasValue && detalleFromRepo.Embarque.Rechazadas)
+            {
+                var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(detalleFromRepo.LocalidadId.Value, detalleFromRepo.NoParte);
+                if (localidadNumeroParte != null)
+                {
+                    localidadNumeroParte.Rechazadas += detalleFromRepo.Entregadas;
                 }
             }
 

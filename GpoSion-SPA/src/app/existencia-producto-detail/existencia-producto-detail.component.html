@@ -30,6 +30,7 @@
                             <tr class="table-primary">
                                 <th>Localidad</th>
                                 <th class="text-right">Existencia</th>
+                                <th class="text-right">Rechazadas</th>
                                 <th>Fecha Creación</th>
                                 <th>Ultima Modificación</th>
                                 <th>Creado Por</th>
@@ -41,6 +42,9 @@
                                 <td>{{ item.localidad }}</td>
                                 <td class="text-right">
                                     {{ item.existencia | number }}
+                                </td>
+                                <td class="text-right">
+                                    {{ item.rechazadas | number }}
                                 </td>
                                 <td>{{ item.fechaCreacion | date: "dd/MM/yyyy HH:mm" }}</td>
                                 <td>

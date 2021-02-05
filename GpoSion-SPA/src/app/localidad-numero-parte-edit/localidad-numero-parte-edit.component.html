@@ -7,14 +7,14 @@
             <div class="card-title p-2">
                 <form [formGroup]="localidadExistenciaForm" (ngSubmit)="editLocalidadExistencia()" id="localidadExistenciaForm">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="noParte">No. Parte</label>
                             <strong class="form-control">
                 {{ localidadExistencia.noParte }}</strong
               >
               <input type="hidden" name="noParte" formControlName="noParte" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <label for="localidadId">Localidad</label>
               <strong class="form-control">
                 {{ localidadExistencia.localidad }}</strong
@@ -25,7 +25,7 @@
                 formControlName="localidadId"
               />
             </div>
-            <div class="form-group col-sm-11 col-md-4 col-lg-4">
+            <div class="form-group col-sm-12 col-md-3 col-lg-3">
               <label for="existencia">Existencia</label>
               <input
                 class="form-control"
@@ -50,6 +50,32 @@
                 La existencia es requerida.
               </div>
             </div>
+            <div class="form-group col-sm-12 col-md-3 col-lg-3">
+              <label for="rechazadas">Rechazadas</label>
+              <input
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    localidadExistenciaForm.get('rechazadas').errors &&
+                    localidadExistenciaForm.get('rechazadas').touched
+                }"
+                placeholder="Rechazadas"
+                type="number"
+                formControlName="rechazadas"
+              />
+              <div
+                class="invalid-feedback"
+                *ngIf="
+                  localidadExistenciaForm
+                    .get('rechazadas')
+                    .hasError('required') &&
+                  localidadExistenciaForm.get('rechazadas').touched
+                "
+              >
+                Las piezas rechazadas son requerida.
+              </div>
+            </div>
+
           </div>
           <div class="row">
             <div class="form-group col-sm-12 col-md-12 col-lg-12">

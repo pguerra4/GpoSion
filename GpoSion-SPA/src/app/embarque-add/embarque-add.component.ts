@@ -17,7 +17,7 @@ import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 @Component({
   selector: "app-embarque-add",
   templateUrl: "./embarque-add.component.html",
-  styleUrls: ["./embarque-add.component.css"]
+  styleUrls: ["./embarque-add.component.css"],
 })
 export class EmbarqueAddComponent implements OnInit {
   embarqueForm: FormGroup;
@@ -53,7 +53,9 @@ export class EmbarqueAddComponent implements OnInit {
         folio: [
           null,
           Validators.required,
-          ValidateExistingFolioEmbarque.createValidator(this.numeroParteService)
+          ValidateExistingFolioEmbarque.createValidator(
+            this.numeroParteService
+          ),
         ],
         fecha: [now],
         leNo: [""],
@@ -64,7 +66,7 @@ export class EmbarqueAddComponent implements OnInit {
         localidadId: [null],
         cajas: [0],
         piezasXCaja: [0],
-        entregadas: [0]
+        entregadas: [0],
       },
       { updateOn: "blur" }
     );
@@ -75,7 +77,7 @@ export class EmbarqueAddComponent implements OnInit {
       (res: Cliente[]) => {
         this.clientes = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -88,7 +90,7 @@ export class EmbarqueAddComponent implements OnInit {
       (res: NumeroParte[]) => {
         this.numerosParte = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -117,7 +119,7 @@ export class EmbarqueAddComponent implements OnInit {
         (res: OrdenCompra[]) => {
           this.ordenesCompra = res;
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -129,7 +131,7 @@ export class EmbarqueAddComponent implements OnInit {
       (res: LocalidadNumeroParte[]) => {
         this.localidadesNumeroParte = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -138,7 +140,7 @@ export class EmbarqueAddComponent implements OnInit {
   addEmbarque() {
     this.embarque = Object.assign({}, this.embarqueForm.value);
     this.embarque.detallesEmbarque = new Array();
-    this.detallesEmbarque.forEach(detalle => {
+    this.detallesEmbarque.forEach((detalle) => {
       this.embarque.detallesEmbarque.push(detalle);
     });
 
@@ -147,7 +149,7 @@ export class EmbarqueAddComponent implements OnInit {
         this.alertify.success("Guardado");
         this.router.navigate(["embarques"]);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -155,13 +157,27 @@ export class EmbarqueAddComponent implements OnInit {
 
   addDetalle() {
     const localidad = this.localidadesNumeroParte.find(
-      l => l.localidadId === +this.embarqueForm.get("localidadId").value
+      (l) => l.localidadId === +this.embarqueForm.get("localidadId").value
     );
 
-    if (localidad.existencia < +this.embarqueForm.get("entregadas").value) {
+    console.log();
+
+    if (
+      !this.embarqueForm.get("rechazadas").value &&
+      localidad.existencia < +this.embarqueForm.get("entregadas").value
+    ) {
       this.alertify.error(
         "La canidad solicitada excede las existencias en la localidad (" +
           localidad.existencia +
+          ")"
+      );
+    } else if (
+      this.embarqueForm.get("rechazadas").value &&
+      localidad.rechazadas < +this.embarqueForm.get("entregadas").value
+    ) {
+      this.alertify.error(
+        "La canidad solicitada excede las rechazadas en la localidad (" +
+          localidad.rechazadas +
           ")"
       );
     } else {
@@ -174,7 +190,7 @@ export class EmbarqueAddComponent implements OnInit {
         entregadas: +this.embarqueForm.get("entregadas").value,
         noOrden: +this.embarqueForm.get("noOrden").value,
         localidadId: +this.embarqueForm.get("localidadId").value,
-        localidad: localidad.localidad
+        localidad: localidad.localidad,
       };
 
       const cert =
@@ -204,7 +220,7 @@ export class EmbarqueAddComponent implements OnInit {
               );
             }
           },
-          error => {
+          (error) => {
             this.alertify.error(error);
           }
         );

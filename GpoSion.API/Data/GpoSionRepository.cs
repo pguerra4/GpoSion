@@ -539,7 +539,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<LocalidadNumeroParte>> GetLocalidadesNumeroParte(string NoParte)
         {
-            var localidadesNumeroParte = await _context.LocalidadesNumerosParte.Where(lnp => lnp.NoParte == NoParte && lnp.Existencia > 0).OrderBy(lnp => lnp.UltimaModificacion.HasValue ? lnp.UltimaModificacion : lnp.FechaCreacion).ToListAsync();
+            var localidadesNumeroParte = await _context.LocalidadesNumerosParte.Where(lnp => lnp.NoParte == NoParte && (lnp.Existencia > 0 || lnp.Rechazadas > 0)).OrderBy(lnp => lnp.UltimaModificacion.HasValue ? lnp.UltimaModificacion : lnp.FechaCreacion).ToListAsync();
             return localidadesNumeroParte;
         }
 

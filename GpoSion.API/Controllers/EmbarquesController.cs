@@ -119,7 +119,11 @@ namespace GpoSion.API.Controllers
                     existencia.PiezasRechazadas -= de.Entregadas;
                     existencia.UltimaModificacion = DateTime.Now;
                     existencia.ModificadoPorId = userId;
-
+                    var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(de.LocalidadId.Value, de.NoParte);
+                    if (localidadNumeroParte != null)
+                    {
+                        localidadNumeroParte.Rechazadas -= de.Entregadas;
+                    }
 
                 }
 

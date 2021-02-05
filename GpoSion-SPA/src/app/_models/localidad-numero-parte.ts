@@ -3,6 +3,7 @@ export interface LocalidadNumeroParte {
   localidad: string;
   noParte: string;
   existencia: number;
+  rechazadas?: number;
   fechaCreacion?: Date;
   ultimaModificacion?: Date;
   creadoPor?: string;

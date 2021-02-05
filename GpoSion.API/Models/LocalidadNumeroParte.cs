@@ -14,6 +14,9 @@ namespace GpoSion.API.Models
         [Column(TypeName = "decimal(18, 4)")]
         public decimal Existencia { get; set; }
 
+        [Column(TypeName = "decimal(18, 4)")]
+        public decimal Rechazadas { get; set; }
+
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }

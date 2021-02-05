@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-localidad-numero-parte-edit",
   templateUrl: "./localidad-numero-parte-edit.component.html",
-  styleUrls: ["./localidad-numero-parte-edit.component.css"]
+  styleUrls: ["./localidad-numero-parte-edit.component.css"],
 })
 export class LocalidadNumeroParteEditComponent implements OnInit {
   localidadExistenciaForm: FormGroup;
@@ -23,7 +23,7 @@ export class LocalidadNumeroParteEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       // tslint:disable-next-line: no-string-literal
       this.localidadExistencia = data["localidadNumeroParte"];
       this.createLocalidadExistenciaForm();
@@ -36,7 +36,8 @@ export class LocalidadNumeroParteEditComponent implements OnInit {
         localidadId: [this.localidadExistencia.localidadId],
         noParte: [this.localidadExistencia.noParte, Validators.required],
         existencia: [this.localidadExistencia.existencia, Validators.required],
-        motivo: [null, Validators.required]
+        rechazadas: [this.localidadExistencia.rechazadas, Validators.required],
+        motivo: [null, Validators.required],
       },
       { updateOn: "blur" }
     );
@@ -58,10 +59,10 @@ export class LocalidadNumeroParteEditComponent implements OnInit {
         (res: LocalidadNumeroParte) => {
           this.alertify.success("Guardado");
           this.router.navigate([
-            "editExistenciaProducto/" + this.localidadExistencia.noParte
+            "editExistenciaProducto/" + this.localidadExistencia.noParte,
           ]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );

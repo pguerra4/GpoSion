@@ -65,6 +65,7 @@ namespace GpoSion.API.Controllers
             {
                 NoParte = existencia.NoParte,
                 PiezasCertificadas = existenciaFP.PiezasCertificadas,
+                PiezasRechazadas = existenciaFP.PiezasRechazadas,
                 ExistenciaAlmacenInicial = existencia.PiezasCertificadas,
                 ExistenciaAlmacenFinal = existenciaFP.PiezasCertificadas,
                 Fecha = DateTime.Now,
@@ -90,6 +91,7 @@ namespace GpoSion.API.Controllers
             _repo.Add(ajuste);
 
             existencia.PiezasCertificadas = existenciaFP.PiezasCertificadas;
+            existencia.PiezasRechazadas = existenciaFP.PiezasRechazadas;
             existencia.ModificadoPorId = userId;
             existencia.UltimaModificacion = DateTime.Now;
 

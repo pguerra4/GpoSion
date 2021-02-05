@@ -9,6 +9,8 @@ namespace GpoSion.API.Dtos
 
         public int PiezasCertificadas { get; set; }
 
+        public int PiezasRechazadas { get; set; }
+
         public string Motivo { get; set; }
 
     }

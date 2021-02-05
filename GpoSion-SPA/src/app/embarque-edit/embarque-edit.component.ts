@@ -17,7 +17,7 @@ import { LocalidadNumeroParte } from "../_models/localidad-numero-parte";
 @Component({
   selector: "app-embarque-edit",
   templateUrl: "./embarque-edit.component.html",
-  styleUrls: ["./embarque-edit.component.css"]
+  styleUrls: ["./embarque-edit.component.css"],
 })
 export class EmbarqueEditComponent implements OnInit {
   embarqueForm: FormGroup;
@@ -41,7 +41,7 @@ export class EmbarqueEditComponent implements OnInit {
 
   ngOnInit() {
     this.localeService.use("es");
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       // tslint:disable-next-line: no-string-literal
       this.embarque = data["embarque"];
       this.detallesEmbarque = this.embarque.detallesEmbarque;
@@ -62,7 +62,7 @@ export class EmbarqueEditComponent implements OnInit {
           ValidateExistingFolioEmbarque.createValidator(
             this.numeroParteService,
             this.embarque.folio
-          )
+          ),
         ],
         fecha: [new Date(this.embarque.fecha)],
         leNo: [this.embarque.leNo],
@@ -73,7 +73,7 @@ export class EmbarqueEditComponent implements OnInit {
         localidadId: [null],
         cajas: [0],
         piezasXCaja: [0],
-        entregadas: [0]
+        entregadas: [0],
       },
       { updateOn: "blur" }
     );
@@ -85,7 +85,7 @@ export class EmbarqueEditComponent implements OnInit {
       (res: NumeroParte[]) => {
         this.numerosParte = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -114,7 +114,7 @@ export class EmbarqueEditComponent implements OnInit {
         (res: OrdenCompra[]) => {
           this.ordenesCompra = res;
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -126,7 +126,7 @@ export class EmbarqueEditComponent implements OnInit {
       (res: LocalidadNumeroParte[]) => {
         this.localidadesNumeroParte = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -135,7 +135,7 @@ export class EmbarqueEditComponent implements OnInit {
   editEmbarque() {
     this.embarque = Object.assign({}, this.embarqueForm.value);
     this.embarque.detallesEmbarque = new Array();
-    this.detallesEmbarque.forEach(detalle => {
+    this.detallesEmbarque.forEach((detalle) => {
       this.embarque.detallesEmbarque.push(detalle);
     });
 
@@ -146,7 +146,7 @@ export class EmbarqueEditComponent implements OnInit {
           this.alertify.success("Guardado");
           this.router.navigate(["embarques"]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -154,13 +154,25 @@ export class EmbarqueEditComponent implements OnInit {
 
   addDetalle() {
     const localidad = this.localidadesNumeroParte.find(
-      l => l.localidadId === +this.embarqueForm.get("localidadId").value
+      (l) => l.localidadId === +this.embarqueForm.get("localidadId").value
     );
 
-    if (localidad.existencia < +this.embarqueForm.get("entregadas").value) {
+    if (
+      !this.embarqueForm.get("rechazadas").value &&
+      localidad.existencia < +this.embarqueForm.get("entregadas").value
+    ) {
       this.alertify.error(
         "La canidad solicitada excede las existencias en la localidad (" +
           localidad.existencia +
+          ")"
+      );
+    } else if (
+      this.embarqueForm.get("rechazadas").value &&
+      localidad.rechazadas < +this.embarqueForm.get("entregadas").value
+    ) {
+      this.alertify.error(
+        "La canidad solicitada excede las rechazadas en la localidad (" +
+          localidad.rechazadas +
           ")"
       );
     } else {
@@ -173,7 +185,7 @@ export class EmbarqueEditComponent implements OnInit {
         entregadas: +this.embarqueForm.get("entregadas").value,
         noOrden: +this.embarqueForm.get("noOrden").value,
         localidadId: +this.embarqueForm.get("localidadId").value,
-        localidad: localidad.localidad
+        localidad: localidad.localidad,
       };
 
       const cert =
@@ -196,7 +208,7 @@ export class EmbarqueEditComponent implements OnInit {
                     this.embarqueForm.get("noOrden2").setValue(null);
                     this.embarqueForm.get("localidadId").setValue(null);
                   },
-                  error => {
+                  (error) => {
                     this.alertify.error(error);
                   }
                 );
@@ -209,7 +221,7 @@ export class EmbarqueEditComponent implements OnInit {
               );
             }
           },
-          error => {
+          (error) => {
             this.alertify.error(error);
           }
         );
@@ -233,7 +245,7 @@ export class EmbarqueEditComponent implements OnInit {
             this.embarqueForm.get("localidadId").setValue(null);
             this.alertify.success("detalle borrado");
           },
-          error => {
+          (error) => {
             this.alertify.error("Fallo al borrar el detalle:" + error);
           }
         );

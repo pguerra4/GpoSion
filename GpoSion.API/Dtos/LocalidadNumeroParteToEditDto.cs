@@ -8,6 +8,8 @@ namespace GpoSion.API.Dtos
 
         public decimal Existencia { get; set; }
 
+        public decimal Rechazadas { get; set; }
+
         public string Motivo { get; set; }
     }
 }

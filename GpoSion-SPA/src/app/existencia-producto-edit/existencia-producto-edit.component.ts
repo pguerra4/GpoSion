@@ -11,7 +11,7 @@ import { ReciboService } from "../_services/recibo.service";
 @Component({
   selector: "app-existencia-producto-edit",
   templateUrl: "./existencia-producto-edit.component.html",
-  styleUrls: ["./existencia-producto-edit.component.css"]
+  styleUrls: ["./existencia-producto-edit.component.css"],
 })
 export class ExistenciaProductoEditComponent implements OnInit {
   existenciaForm: FormGroup;
@@ -29,7 +29,7 @@ export class ExistenciaProductoEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       // tslint:disable-next-line: no-string-literal
       this.existencia = data["existenciaProducto"];
       this.loadLocalidadesNumeroParte();
@@ -41,20 +41,21 @@ export class ExistenciaProductoEditComponent implements OnInit {
       {
         existenciaProductoId: [
           this.existencia.existenciaProductoId,
-          Validators.required
+          Validators.required,
         ],
         noParte: [this.existencia.noParte, Validators.required],
         piezasCertificadas: [
           this.existencia.piezasCertificadas,
-          Validators.required
+          Validators.required,
         ],
         piezasRechazadas: [
           this.existencia.piezasRechazadas,
-          Validators.required
+          Validators.required,
         ],
         motivo: [null, Validators.required],
         localidadId: [null],
-        existencia: [0]
+        existencia: [0],
+        rechazadas: [0],
       },
       { updateOn: "blur" }
     );
@@ -68,7 +69,7 @@ export class ExistenciaProductoEditComponent implements OnInit {
           this.localidadesNumeroParte = res;
           this.loadLocalidades();
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -79,14 +80,14 @@ export class ExistenciaProductoEditComponent implements OnInit {
       (res: Localidad[]) => {
         this.localidades = res;
         this.localidades = this.localidades.filter(
-          l =>
+          (l) =>
             this.localidadesNumeroParte.findIndex(
-              lnp => lnp.localidadId === l.localidadId
+              (lnp) => lnp.localidadId === l.localidadId
             ) === -1
         );
         this.createExistenciaForm();
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -102,7 +103,7 @@ export class ExistenciaProductoEditComponent implements OnInit {
           this.alertify.success("Guardado");
           this.router.navigate(["existenciasproducto"]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -113,14 +114,15 @@ export class ExistenciaProductoEditComponent implements OnInit {
       localidad: "",
       noParte: this.existenciaForm.get("noParte").value,
       existencia: +this.existenciaForm.get("existencia").value,
+      rechazadas: +this.existenciaForm.get("rechazadas").value,
       localidadId: +this.existenciaForm.get("localidadId").value,
-      motivo: this.existenciaForm.get("motivo").value
+      motivo: this.existenciaForm.get("motivo").value,
     };
     this.numeroParteService.addLocalidadNumeroParte(lnp).subscribe(
       (res: LocalidadNumeroParte) => {
         this.loadLocalidadesNumeroParte();
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );

@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-12 col-md-4 col-lg-4">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="localidadId">Localidad</label>
                             <select class="form-control" id="localidadId" formControlName="localidadId">
                 <option
@@ -82,15 +82,20 @@
                 </option>
               </select>
                         </div>
-                        <div class="form-group col-sm-11 col-md-5 col-lg-5">
+                        <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="existencia">Existencia</label>
                             <input class="form-control" placeholder="existencia" type="number" formControlName="existencia" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="form-group col-sm-11 col-md-3 col-lg-3">
+                            <label for="rechazadas">Rechazadas</label>
+                            <input class="form-control" placeholder="rechazadas" type="number" formControlName="rechazadas" />
+                        </div>
+                        <div class="col-sm-1 col-md-3">
                             <label for="agregar">Agregar Localidad</label>
                             <button class="btn btn-success btn-xs form-control" type="button" [disabled]="
-                  !existenciaForm.get('localidadId').value ||
-                  !existenciaForm.get('existencia').value ||
+                  !existenciaForm.get('localidadId').value || (
+                  !existenciaForm.get('existencia').value &&
+                  !existenciaForm.get('rechazadas').value )||
                   !existenciaForm.get('motivo').value
                 " (click)="addLocalidad()">
                 <span class="fa fa-plus-circle "> </span>
@@ -109,6 +114,7 @@
                             <tr class="table-primary">
                                 <th>Localidad</th>
                                 <th class="text-right">Existencia</th>
+                                <th class="text-right">Rechazadas</th>
                                 <th>Editar</th>
                             </tr>
                         </thead>
@@ -117,6 +123,9 @@
                                 <td>{{ item.localidad }}</td>
                                 <td class="text-right">
                                     {{ item.existencia | number }}
+                                </td>
+                                <td class="text-right">
+                                    {{ item.rechazadas | number }}
                                 </td>
                                 <td>
                                     <a class="fa fa-edit" [routerLink]="[

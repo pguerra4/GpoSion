@@ -14,6 +14,8 @@ namespace GpoSion.API.Dtos
 
         public decimal Existencia { get; set; }
 
+        public decimal Rechazadas { get; set; }
+
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }

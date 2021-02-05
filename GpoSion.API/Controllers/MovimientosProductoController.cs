@@ -106,7 +106,7 @@ namespace GpoSion.API.Controllers
 
             _repo.Add(movimientoProducto);
 
-            if (movimientoToCreate.LocalidadId.HasValue && movimientoToCreate.PiezasCertificadas > 0)
+            if (movimientoToCreate.LocalidadId.HasValue && (movimientoToCreate.PiezasCertificadas > 0 || movimientoToCreate.PiezasRechazadas > 0))
             {
                 var localidadNumeroParte = await _repo.GetLocalidadNumeroParte(movimientoToCreate.LocalidadId.Value, movimientoToCreate.NoParte);
                 if (localidadNumeroParte == null)
@@ -116,6 +116,7 @@ namespace GpoSion.API.Controllers
                         NoParte = movimientoToCreate.NoParte,
                         LocalidadId = movimientoToCreate.LocalidadId.Value,
                         Existencia = movimientoToCreate.PiezasCertificadas,
+                        Rechazadas = movimientoToCreate.PiezasRechazadas,
                         FechaCreacion = DateTime.Now,
                         CreadoPorId = userId
                     };
@@ -124,6 +125,7 @@ namespace GpoSion.API.Controllers
                 else
                 {
                     localidadNumeroParte.Existencia += movimientoToCreate.PiezasCertificadas;
+                    localidadNumeroParte.Rechazadas += movimientoToCreate.PiezasRechazadas;
                     localidadNumeroParte.UltimaModificacion = DateTime.Now;
                     localidadNumeroParte.ModificadoPorId = userId;
                 }
@@ -213,6 +215,7 @@ namespace GpoSion.API.Controllers
                 var localidadNumeroParteOriginal = await _repo.GetLocalidadNumeroParte(movimiento.LocalidadId.Value, movimiento.NoParte);
 
                 localidadNumeroParteOriginal.Existencia -= movimiento.PiezasCertificadas;
+                localidadNumeroParteOriginal.Rechazadas -= movimiento.PiezasRechazadas;
                 localidadNumeroParteOriginal.UltimaModificacion = DateTime.Now;
                 localidadNumeroParteOriginal.ModificadoPorId = userId;
 
@@ -224,6 +227,7 @@ namespace GpoSion.API.Controllers
                         NoParte = movimientoFP.NoParte,
                         LocalidadId = movimientoFP.LocalidadId.Value,
                         Existencia = movimientoFP.PiezasCertificadas,
+                        Rechazadas = movimientoFP.PiezasRechazadas,
                         FechaCreacion = DateTime.Now,
                         CreadoPorId = userId
                     };
@@ -232,6 +236,7 @@ namespace GpoSion.API.Controllers
                 else
                 {
                     localidadNumeroParte.Existencia += movimientoFP.PiezasCertificadas;
+                    localidadNumeroParte.Rechazadas += movimientoFP.PiezasRechazadas;
                     localidadNumeroParte.UltimaModificacion = DateTime.Now;
                     localidadNumeroParte.ModificadoPorId = userId;
                 }
@@ -290,6 +295,7 @@ namespace GpoSion.API.Controllers
                     if (localidadNumeroParteOriginal != null)
                     {
                         localidadNumeroParteOriginal.Existencia -= movimiento.PiezasCertificadas;
+                        localidadNumeroParteOriginal.Rechazadas -= movimiento.PiezasRechazadas;
                         localidadNumeroParteOriginal.UltimaModificacion = DateTime.Now;
                         localidadNumeroParteOriginal.ModificadoPorId = userId;
                     }
@@ -303,6 +309,7 @@ namespace GpoSion.API.Controllers
                             NoParte = movimientoFP.NoParte,
                             LocalidadId = movimientoFP.LocalidadId.Value,
                             Existencia = movimientoFP.PiezasCertificadas,
+                            Rechazadas = movimientoFP.PiezasRechazadas,
                             FechaCreacion = DateTime.Now,
                             CreadoPorId = userId
                         };
@@ -311,6 +318,7 @@ namespace GpoSion.API.Controllers
                     else
                     {
                         localidadNumeroParte.Existencia += movimientoFP.PiezasCertificadas;
+                        localidadNumeroParte.Rechazadas += movimientoFP.PiezasRechazadas;
                         localidadNumeroParte.UltimaModificacion = DateTime.Now;
                         localidadNumeroParte.ModificadoPorId = userId;
                     }
@@ -325,6 +333,7 @@ namespace GpoSion.API.Controllers
                             NoParte = movimientoFP.NoParte,
                             LocalidadId = movimientoFP.LocalidadId.Value,
                             Existencia = movimientoFP.PiezasCertificadas,
+                            Rechazadas = movimientoFP.PiezasRechazadas,
                             FechaCreacion = DateTime.Now,
                             CreadoPorId = userId
                         };
@@ -333,6 +342,7 @@ namespace GpoSion.API.Controllers
                     else
                     {
                         localidadNumeroParte.Existencia += (movimientoFP.PiezasCertificadas - movimiento.PiezasCertificadas);
+                        localidadNumeroParte.Rechazadas += (movimientoFP.PiezasRechazadas - movimiento.PiezasRechazadas);
                         localidadNumeroParte.UltimaModificacion = DateTime.Now;
                         localidadNumeroParte.ModificadoPorId = userId;
                     }

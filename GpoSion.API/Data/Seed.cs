@@ -256,6 +256,31 @@ namespace GpoSion.API.Data
                     context.SaveChanges();
 
                 }
+
+                param = context.Parametros.Where(p => p.Clave == "Actualizar Rechazadas en Localidades").FirstOrDefault();
+                if (param != null && param.Valor == "1")
+                {
+                    var movs = context.MovimientosProducto.Where(m => m.TipoMovimiento == "Entrada Almacen" && m.PiezasRechazadas > 0).ToList();
+                    foreach (var mp in movs)
+                    {
+                        var lnp = context.LocalidadesNumerosParte.Where(lp => lp.NoParte == mp.NoParte && lp.LocalidadId == mp.LocalidadId).FirstOrDefault();
+                        if (lnp != null)
+                        {
+                            lnp.Rechazadas += mp.PiezasRechazadas;
+
+                        }
+                        else
+                        {
+                            var nlnp = new LocalidadNumeroParte { NoParte = mp.NoParte, LocalidadId = mp.LocalidadId.Value, Existencia = 0, FechaCreacion = DateTime.Now, Rechazadas = mp.PiezasRechazadas };
+                            context.LocalidadesNumerosParte.Add(nlnp);
+                        }
+                        context.SaveChanges();
+                    }
+                    param.Valor = "0";
+                    context.SaveChanges();
+                }
+
+
             }
 
         }
