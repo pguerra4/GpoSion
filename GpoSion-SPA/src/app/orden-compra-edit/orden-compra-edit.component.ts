@@ -13,7 +13,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-orden-compra-edit",
   templateUrl: "./orden-compra-edit.component.html",
-  styleUrls: ["./orden-compra-edit.component.css"]
+  styleUrls: ["./orden-compra-edit.component.css"],
 })
 export class OrdenCompraEditComponent implements OnInit {
   ordenCompraForm: FormGroup;
@@ -36,9 +36,9 @@ export class OrdenCompraEditComponent implements OnInit {
   ngOnInit() {
     (this.bsConfig = {
       containerClass: "theme-orange",
-      dateInputFormat: "DD/MM/YYYY"
+      dateInputFormat: "DD/MM/YYYY",
     }),
-      this.route.data.subscribe(data => {
+      this.route.data.subscribe((data) => {
         // tslint:disable-next-line: no-string-literal
         this.ordenCompra = data["ordenCompra"];
         this.detalles = this.ordenCompra.numerosParte;
@@ -57,7 +57,7 @@ export class OrdenCompraEditComponent implements OnInit {
         cantidad: [0],
         fechaInicio: [now],
         fechaFin: [null],
-        observaciones: [null, Validators.required]
+        observaciones: [null, Validators.required],
       },
       { updateOn: "blur" }
     );
@@ -69,7 +69,7 @@ export class OrdenCompraEditComponent implements OnInit {
         this.numerosParte = res;
         this.filterNumerosParte(this.ordenCompra.clienteId);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -77,7 +77,7 @@ export class OrdenCompraEditComponent implements OnInit {
 
   filterNumerosParte(clienteId: number) {
     this.numerosParteCat = this.numerosParte.filter(
-      np => np.clienteId == clienteId
+      (np) => np.clienteId == clienteId
     );
   }
 
@@ -93,10 +93,10 @@ export class OrdenCompraEditComponent implements OnInit {
       noOrden: +this.ordenCompraForm.get("noOrden").value,
       piezasSurtidas: 0,
       ultimaModificacion: now,
-      observaciones: this.ordenCompraForm.get("observaciones").value
+      observaciones: this.ordenCompraForm.get("observaciones").value,
     };
 
-    if (this.detalles.find(d => d.noParte == detalle.noParte) === undefined) {
+    if (this.detalles.find((d) => d.noParte == detalle.noParte) === undefined) {
       this.ordenesService.addOrdenCompraDetalle(detalle).subscribe(
         (res: OrdenCompraDetalle) => {
           this.detalles.push(res);
@@ -107,7 +107,7 @@ export class OrdenCompraEditComponent implements OnInit {
           this.ordenCompraForm.get("fechaFin").setValue(null);
           this.ordenCompraForm.get("observaciones").setValue(null);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );
@@ -120,11 +120,11 @@ export class OrdenCompraEditComponent implements OnInit {
     this.ordenesService.deleteOrdenCompraDetalle(id).subscribe(
       () => {
         this.detalles.splice(
-          this.detalles.findIndex(d => d.id === id),
+          this.detalles.findIndex((d) => d.id === id),
           1
         );
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -133,7 +133,7 @@ export class OrdenCompraEditComponent implements OnInit {
   editOrdenCompra() {
     this.ordenCompra = Object.assign({}, this.ordenCompraForm.value);
     this.ordenCompra.numerosParte = new Array();
-    this.detalles.forEach(detalle => {
+    this.detalles.forEach((detalle) => {
       this.ordenCompra.numerosParte.push(detalle);
     });
 
@@ -144,7 +144,7 @@ export class OrdenCompraEditComponent implements OnInit {
           this.alertify.success("Guardado");
           this.router.navigate(["ordenescompra"]);
         },
-        error => {
+        (error) => {
           this.alertify.error(error);
         }
       );

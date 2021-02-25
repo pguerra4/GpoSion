@@ -98,10 +98,14 @@ namespace GpoSion.API.Controllers
 
             total += prod.Colada.Value + prod.Purga.Value;
 
-            existenciaProduccion.Existencia -= total;
 
-            var mm = new MovimientoMaterial { Fecha = prod.Fecha, Material = material, Cantidad = total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
-            _repo.Add(mm);
+            /***************** Movimos el descuento del material de producción al entregarlo a almacen, por eso estan comentadas estas lineas **************************/
+            // existenciaProduccion.Existencia -= total;
+
+            // var mm = new MovimientoMaterial { Fecha = prod.Fecha, Material = material, Cantidad = total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+            // _repo.Add(mm);
+
+            /************************************************************************************************************************************************************/
 
             if (await _repo.SaveAll())
             {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GpoSion.API.Models
@@ -31,8 +32,7 @@ namespace GpoSion.API.Models
 
         public DateTime? FechaFin { get; set; }
 
-
-
+        public virtual ICollection<HistorialOrdenCompra> Historial { get; set; }
 
     }
 }

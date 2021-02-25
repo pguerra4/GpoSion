@@ -124,8 +124,19 @@ namespace GpoSion.API.Controllers
             if (ordenDFromRepo.PiezasSurtidas > 0)
                 return BadRequest("Este número de parte ya tiene piezas surtidas.");
 
+
+
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var observacion = "Borrado del número de parte " + ordenDFromRepo.NoParte + " de la orden de compra " + ordenDFromRepo.NoOrden + " con el id " + ordenDFromRepo.Id + " Piezas autorizadas " + ordenDFromRepo.PiezasAutorizadas + " Precio " + ordenDFromRepo.Precio;
+
+            foreach (var hist in ordenDFromRepo.Historial)
+            {
+                _repo.Delete(hist);
+            }
+
+            
+
             var hoc = new HistorialOrdenCompra { NoOrden = ordenDFromRepo.NoOrden, CreadoPorId = userId, Fecha = DateTime.Now, Observaciones = observacion };
             _repo.Add(hoc);
 

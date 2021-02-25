@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpErrorResponse,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -17,10 +17,13 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError(error => {
+      catchError((error) => {
         console.error(error);
         if (error.status === 401) {
           return throwError(error.statusText);
+        }
+        if (error.status === 400) {
+          return throwError(error.error);
         }
         if (error instanceof HttpErrorResponse) {
           const applicationError = error.headers.get("Application-Error");
@@ -59,5 +62,5 @@ export class ErrorInterceptor implements HttpInterceptor {
 export const ErrorInterceptorProvider = {
   provide: HTTP_INTERCEPTORS,
   useClass: ErrorInterceptor,
-  multi: true
+  multi: true,
 };

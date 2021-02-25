@@ -148,6 +148,52 @@ namespace GpoSion.API.Controllers
             }
 
 
+            /************************************ Reducción de materia prima en producción **********************************************/
+
+            var areas = await _repo.GetAreas();
+
+            var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
+
+            var NoParte = await _repo.GetNumeroParte(movimientoToCreate.NoParte);
+            var mnps = NoParte.MaterialesNumeroParte;
+
+            foreach (var mnp in mnps)
+            {
+                var material = mnp.Material;
+                var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, material.MaterialId);
+                if (existenciaProduccion != null)
+                {
+                    // return BadRequest("No hay existencias del material " + material.ClaveMaterial + " en producción.");
+
+
+                    decimal total = 0;
+
+                    total += movimientoToCreate.PiezasCertificadas * mnp.Cantidad;
+                    total += movimientoToCreate.PiezasRechazadas * mnp.Cantidad;
+
+
+                    if (material.TipoMaterialId == 1)
+                    {
+                        total += movimientoToCreate.Colada.Value + movimientoToCreate.Purga.Value;
+                    }
+
+
+                    existenciaProduccion.Existencia -= total;
+
+                    if (existenciaProduccion.Existencia < 0)
+                        existenciaProduccion.Existencia = 0;
+
+                    var mm = new MovimientoMaterial { Fecha = movimientoToCreate.Fecha, Material = material, Cantidad = total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+                    _repo.Add(mm);
+
+
+
+
+                }
+            }
+            /*****************************************************************************************************************************/
+
+
 
             if (await _repo.SaveAll())
             {
@@ -268,6 +314,77 @@ namespace GpoSion.API.Controllers
                 }
 
 
+                /************************************ Reducción de materia prima en producción **********************************************/
+
+                var areas = await _repo.GetAreas();
+
+                var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
+
+                var NoParteOriginal = await _repo.GetNumeroParte(movimiento.NoParte);
+
+
+                var mnpos = NoParteOriginal.MaterialesNumeroParte;
+
+                foreach (var mnpo in mnpos)
+                {
+                    var materialOriginal = mnpo.Material;
+
+
+                    decimal total = 0;
+
+                    total += movimiento.PiezasCertificadas * mnpo.Cantidad;
+                    total += movimiento.PiezasRechazadas * mnpo.Cantidad;
+
+                    total += movimiento.Colada.Value + movimiento.Purga.Value;
+
+
+                    var existenciaProduccionOriginal = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, materialOriginal.MaterialId);
+                    if (existenciaProduccionOriginal == null)
+                    {
+                        existenciaProduccionOriginal = new ExistenciaMaterial { Material = materialOriginal, Area = produccion, Existencia = total, CreadoPorId = userId, FechaCreacion = DateTime.Now };
+                    }
+                    else
+                    {
+                        existenciaProduccionOriginal.Existencia += total;
+                        existenciaProduccionOriginal.ModificadoPorId = userId;
+                        existenciaProduccionOriginal.UltimaModificacion = DateTime.Now;
+                    }
+                    var mmo = new MovimientoMaterial { Fecha = movimiento.Fecha, Material = materialOriginal, Cantidad = total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+                    _repo.Add(mmo);
+                }
+
+
+                var NoParte = await _repo.GetNumeroParte(movimientoFP.NoParte);
+
+                var mnps = NoParte.MaterialesNumeroParte;
+
+                foreach (var mnp in mnps)
+                {
+                    var material = mnp.Material;
+
+                    decimal total = 0;
+
+                    total += movimientoFP.PiezasCertificadas * mnp.Cantidad;
+                    total += movimientoFP.PiezasRechazadas * mnp.Cantidad;
+
+                    total += movimientoFP.Colada.Value + movimientoFP.Purga.Value;
+
+                    var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, material.MaterialId);
+                    if (existenciaProduccion != null)
+                    {
+                        existenciaProduccion.Existencia -= total;
+                        if (existenciaProduccion.Existencia < 0)
+                            existenciaProduccion.Existencia = 0;
+
+                        existenciaProduccion.ModificadoPorId = userId;
+                        existenciaProduccion.UltimaModificacion = DateTime.Now;
+                        var mm = new MovimientoMaterial { Fecha = movimientoFP.Fecha, Material = material, Cantidad = -total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+                        _repo.Add(mm);
+                    }
+                }
+
+                /*****************************************************************************************************************************/
+
             }
             else
             {
@@ -362,6 +479,46 @@ namespace GpoSion.API.Controllers
                     epp.ModificadoPorId = userId;
                     epp.UltimaModificacion = DateTime.Now;
                 }
+
+                /************************************ Reducción de materia prima en producción **********************************************/
+
+                var areas = await _repo.GetAreas();
+
+                var produccion = areas.FirstOrDefault(a => a.NombreArea.ToLower() == "producción");
+
+
+
+                var NoParte = await _repo.GetNumeroParte(movimientoFP.NoParte);
+
+                var mnps = NoParte.MaterialesNumeroParte;
+
+                foreach (var mnp in mnps)
+                {
+                    var material = mnp.Material;
+
+                    decimal total = 0;
+
+                    total += ((movimientoFP.PiezasCertificadas * mnp.Cantidad) - (movimiento.PiezasCertificadas * mnp.Cantidad));
+                    total += ((movimientoFP.PiezasRechazadas * mnp.Cantidad) - (movimiento.PiezasRechazadas * mnp.Cantidad));
+
+                    total += movimientoFP.Colada.Value + movimientoFP.Purga.Value - movimiento.Colada.Value - movimiento.Purga.Value;
+
+                    var existenciaProduccion = await _repo.GetExistenciaPorAreaMaterial(produccion.AreaId, material.MaterialId);
+                    if (existenciaProduccion != null)
+                    {
+                        existenciaProduccion.Existencia -= total;
+                        if (existenciaProduccion.Existencia < 0)
+                            existenciaProduccion.Existencia = 0;
+
+                        existenciaProduccion.ModificadoPorId = userId;
+                        existenciaProduccion.UltimaModificacion = DateTime.Now;
+                        var mm = new MovimientoMaterial { Fecha = movimientoFP.Fecha, Material = material, Cantidad = -total, Origen = produccion, Destino = produccion, ViajeroId = null, RequerimientoMaterialMaterialId = null, RequerimientoMaterialMaterial = null, Recibo = null, FechaCreacion = DateTime.Now, CreadoPorId = userId };
+                        _repo.Add(mm);
+                    }
+                }
+
+                /*****************************************************************************************************************************/
+
             }
 
 

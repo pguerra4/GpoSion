@@ -157,21 +157,24 @@ export class EmbarqueEditComponent implements OnInit {
       (l) => l.localidadId === +this.embarqueForm.get("localidadId").value
     );
 
+    const cert =
+      this.embarqueForm.get("rechazadas").value === false ? true : false;
+
     if (
-      !this.embarqueForm.get("rechazadas").value &&
+      cert &&
       localidad.existencia < +this.embarqueForm.get("entregadas").value
     ) {
       this.alertify.error(
-        "La canidad solicitada excede las existencias en la localidad (" +
+        "La cantidad solicitada excede las existencias en la localidad (" +
           localidad.existencia +
           ")"
       );
     } else if (
-      this.embarqueForm.get("rechazadas").value &&
+      !cert &&
       localidad.rechazadas < +this.embarqueForm.get("entregadas").value
     ) {
       this.alertify.error(
-        "La canidad solicitada excede las rechazadas en la localidad (" +
+        "La cantidad solicitada excede las rechazadas en la localidad (" +
           localidad.rechazadas +
           ")"
       );
@@ -187,9 +190,6 @@ export class EmbarqueEditComponent implements OnInit {
         localidadId: +this.embarqueForm.get("localidadId").value,
         localidad: localidad.localidad,
       };
-
-      const cert =
-        this.embarqueForm.get("rechazadas").value === false ? true : false;
 
       this.numeroParteService
         .existenciasAlmacen(detalle.noParte, cert)
@@ -215,7 +215,7 @@ export class EmbarqueEditComponent implements OnInit {
               }
             } else {
               this.alertify.error(
-                "La canidad solicitada excede las existencias en almacen (" +
+                "La cantidad solicitada excede las existencias en almacen (" +
                   res +
                   ")"
               );
