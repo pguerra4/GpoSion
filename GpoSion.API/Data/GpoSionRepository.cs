@@ -139,7 +139,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Viajero>> GetViajerosPorMaterial(int materialId)
         {
-            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && mm.Viajero.Existencia > 0)
+            var viajeros = await _context.MovimientosMaterial.Where(mm => mm.Material.MaterialId == materialId && mm.ViajeroId != null && (mm.Viajero.Existencia > 0 || mm.Viajero.ExistenciaProduccion > 0))
             .Select(mm => mm.Viajero).Distinct().ToListAsync();
 
             DateTime FechaMasLejana = DateTime.Now;
@@ -210,9 +210,16 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<ExistenciaMaterial>> GetExistenciasEnAlmacen()
         {
+            //******************************** Modificación quitar candados por Carlos Ornelas 26/02/2021
+            // var existenciasAlmacen = await _context.ExistenciasMaterial
+            // .Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0
+            // && em.Material.MaterialNumerosParte.Any(mnp => mnp.NumeroParte.OrdenesCompraDetalle.Any(ocd => (ocd.PiezasAutorizadas > ocd.PiezasSurtidas || ocd.PiezasAutorizadas == 0) && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date)))).ToListAsync();
+
+
             var existenciasAlmacen = await _context.ExistenciasMaterial
-            .Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0
-            && em.Material.MaterialNumerosParte.Any(mnp => mnp.NumeroParte.OrdenesCompraDetalle.Any(ocd => (ocd.PiezasAutorizadas > ocd.PiezasSurtidas || ocd.PiezasAutorizadas == 0) && (ocd.FechaFin == null || ocd.FechaFin.Value > DateTime.Now.Date)))).ToListAsync();
+             .Where(em => em.Area.NombreArea.ToLower() == "almacen" && em.Existencia > 0).ToListAsync();
+            //********************************************************************************************
+
             return existenciasAlmacen;
         }
 

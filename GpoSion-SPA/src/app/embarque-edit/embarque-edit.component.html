@@ -117,10 +117,11 @@
                   !embarqueForm.get('noParte').value ||
                   !embarqueForm.get('entregadas').value ||
                   embarqueForm.get('entregadas').value == 0 ||
-                  !embarqueForm.get('noOrden').value ||
-                  !embarqueForm.get('noOrden2').value ||
                   !embarqueForm.get('localidadId').value
                 " (click)="addDetalle()">
+                <!-- Removido por quitar candados a petición de Carlos Ornelas 26/02/2021
+                    !embarqueForm.get('noOrden').value ||
+                !embarqueForm.get('noOrden2').value || -->
                 <span class="fa fa-plus-circle "> </span>
               </button>
                         </div>

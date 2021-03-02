@@ -4,6 +4,7 @@ export interface Viajero {
   materialId: number;
   material: string;
   existencia: number;
+  existenciaProduccion: number;
   fecha: Date;
   movimientosMaterial: MovimientoMaterial[];
   localidadId: number;

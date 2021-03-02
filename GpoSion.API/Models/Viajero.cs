@@ -15,6 +15,10 @@ namespace GpoSion.API.Models
 
         [Column(TypeName = "decimal(18, 3)")]
         public decimal Existencia { get; set; }
+
+        [Column(TypeName = "decimal(18, 4)")]
+        public decimal ExistenciaProduccion { get; set; }
+
         public DateTime Fecha { get; set; }
 
         public virtual ICollection<MovimientoMaterial> MovimientosMaterial { get; set; }

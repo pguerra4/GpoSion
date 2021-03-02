@@ -121,24 +121,41 @@ namespace GpoSion.API.Controllers
 
             _repo.Add(movimiento);
 
-
-            var orden = await _repo.GetOrdenCompra(detalleEmbarque.NoOrden.Value);
-            var ocd = orden.NumerosParte.FirstOrDefault(np => np.NoParte == detalleEmbarque.NoParte);
-            if (ocd == null)
-                return BadRequest("No existe orden de compra para el No. Parte " + detalleEmbarque.NoParte);
-
-            if (!embarque.Rechazadas)
+            //************ Modificación quitar candados por parte de Carlos O. 26/02/2021
+            if (detalleEmbarque.NoOrden.HasValue && detalleEmbarque.NoOrden != 0)
             {
-                if (ocd.PiezasAutorizadas > 0 && ocd.PiezasAutorizadas < (ocd.PiezasSurtidas + detalleEmbarque.Entregadas))
-                    return BadRequest("La orden de compra " + detalleEmbarque.NoOrden + " para el No. Parte " + detalleEmbarque.NoParte + " excede las piezas autorizadas.");
-                if (ocd.FechaFin.HasValue && ocd.FechaFin.Value.Date < DateTime.Now.Date)
-                    return BadRequest("La orden de compra " + detalleEmbarque.NoOrden + " para el No. Parte " + detalleEmbarque.NoParte + " venció el " + ocd.FechaFin.Value.ToShortDateString());
 
-                ocd.PiezasSurtidas += detalleEmbarque.Entregadas;
-                ocd.UltimaModificacion = DateTime.Now;
-                ocd.ModificadoPorId = userId;
+                var orden = await _repo.GetOrdenCompra(detalleEmbarque.NoOrden.Value);
+                var ocd = orden.NumerosParte.FirstOrDefault(np => np.NoParte == detalleEmbarque.NoParte);
+                // if (ocd == null)
+                //     return BadRequest("No existe orden de compra para el No. Parte " + detalleEmbarque.NoParte);
+
+                // if (!embarque.Rechazadas)
+                // {
+                //     if (ocd.PiezasAutorizadas > 0 && ocd.PiezasAutorizadas < (ocd.PiezasSurtidas + detalleEmbarque.Entregadas))
+                //         return BadRequest("La orden de compra " + detalleEmbarque.NoOrden + " para el No. Parte " + detalleEmbarque.NoParte + " excede las piezas autorizadas.");
+                //     if (ocd.FechaFin.HasValue && ocd.FechaFin.Value.Date < DateTime.Now.Date)
+                //         return BadRequest("La orden de compra " + detalleEmbarque.NoOrden + " para el No. Parte " + detalleEmbarque.NoParte + " venció el " + ocd.FechaFin.Value.ToShortDateString());
+
+                //     ocd.PiezasSurtidas += detalleEmbarque.Entregadas;
+                //     ocd.UltimaModificacion = DateTime.Now;
+                //     ocd.ModificadoPorId = userId;
+                // }
+
+                if (ocd != null && !embarque.Rechazadas)
+                {
+
+                    ocd.PiezasSurtidas += detalleEmbarque.Entregadas;
+                    ocd.UltimaModificacion = DateTime.Now;
+                    ocd.ModificadoPorId = userId;
+
+                }
+
             }
+            if (detalleEmbarque.NoOrden == 0)
+                detalleEmbarque.NoOrden = null;
 
+            //*****************************************************************************
 
             _repo.Add(detalleEmbarque);
 
@@ -363,42 +380,60 @@ namespace GpoSion.API.Controllers
 
             var diferencia = detalleEmbarqueToEdit.Entregadas - detalleEmbarque.Entregadas;
 
-            if (detalleEmbarque.NoOrden != detalleEmbarqueToEdit.NoOrden)
+
+
+            //************ Modificación quitar candados por parte de Carlos O. 26/02/2021
+            if (detalleEmbarque.NoOrden.HasValue && detalleEmbarque.NoOrden != 0)
             {
-                var ordenOriginal = await _repo.GetOrdenCompra(detalleEmbarque.NoOrden.Value);
-                var ocdOriginal = ordenOriginal.NumerosParte.FirstOrDefault(np => np.NoParte == detalleEmbarque.NoParte);
-
-                if (!embarque.Rechazadas)
+                if (detalleEmbarque.NoOrden != detalleEmbarqueToEdit.NoOrden)
                 {
-                    if (ocdOriginal == null)
-                        return BadRequest("No existe orden de compra para el No. Parte " + detalleEmbarque.NoParte);
+                    var ordenOriginal = await _repo.GetOrdenCompra(detalleEmbarque.NoOrden.Value);
+                    var ocdOriginal = ordenOriginal.NumerosParte.FirstOrDefault(np => np.NoParte == detalleEmbarque.NoParte);
 
-                    ocdOriginal.PiezasSurtidas -= detalleEmbarque.Entregadas;
+                    if (!embarque.Rechazadas)
+                    {
+                        // if (ocdOriginal == null)
+                        //     return BadRequest("No existe orden de compra para el No. Parte " + detalleEmbarque.NoParte);
+
+                        if (ocdOriginal != null)
+                            ocdOriginal.PiezasSurtidas -= detalleEmbarque.Entregadas;
 
 
+                    }
+
+                    diferencia = detalleEmbarqueToEdit.Entregadas;
                 }
 
-                diferencia = detalleEmbarqueToEdit.Entregadas;
+                var orden = await _repo.GetOrdenCompra(detalleEmbarqueToEdit.NoOrden.Value);
+                var ocd = orden.NumerosParte.FirstOrDefault(np => np.NoParte == detalleEmbarqueToEdit.NoParte);
+
+
+                // if (ocd == null)
+                //     return BadRequest("No existe orden de compra para el No. Parte " + detalleEmbarqueToEdit.NoParte);
+
+                // if (!embarque.Rechazadas)
+                // {
+                //     if (ocd.PiezasAutorizadas > 0 && ocd.PiezasAutorizadas < (ocd.PiezasSurtidas - diferencia))
+                //         return BadRequest("La orden de compra " + detalleEmbarqueToEdit.NoOrden + " para el No. Parte " + detalleEmbarqueToEdit.NoParte + " excede las piezas autorizadas.");
+                //     if (ocd.FechaFin.HasValue && ocd.FechaFin.Value.Date < DateTime.Now.Date)
+                //         return BadRequest("La orden de compra " + detalleEmbarqueToEdit.NoOrden + " para el No. Parte " + detalleEmbarqueToEdit.NoParte + " venció el " + ocd.FechaFin.Value.ToShortDateString());
+
+                //     ocd.PiezasSurtidas += diferencia;
+                //     ocd.UltimaModificacion = DateTime.Now;
+                //     ocd.ModificadoPorId = userId;
+                // }
+
+                if (ocd != null && !embarque.Rechazadas)
+                {
+                    ocd.PiezasSurtidas += diferencia;
+                    ocd.UltimaModificacion = DateTime.Now;
+                    ocd.ModificadoPorId = userId;
+                }
             }
+            if (detalleEmbarque.NoOrden == 0)
+                detalleEmbarque.NoOrden = null;
 
-            var orden = await _repo.GetOrdenCompra(detalleEmbarqueToEdit.NoOrden.Value);
-            var ocd = orden.NumerosParte.FirstOrDefault(np => np.NoParte == detalleEmbarqueToEdit.NoParte);
-
-
-            if (ocd == null)
-                return BadRequest("No existe orden de compra para el No. Parte " + detalleEmbarqueToEdit.NoParte);
-
-            if (!embarque.Rechazadas)
-            {
-                if (ocd.PiezasAutorizadas > 0 && ocd.PiezasAutorizadas < (ocd.PiezasSurtidas - diferencia))
-                    return BadRequest("La orden de compra " + detalleEmbarqueToEdit.NoOrden + " para el No. Parte " + detalleEmbarqueToEdit.NoParte + " excede las piezas autorizadas.");
-                if (ocd.FechaFin.HasValue && ocd.FechaFin.Value.Date < DateTime.Now.Date)
-                    return BadRequest("La orden de compra " + detalleEmbarqueToEdit.NoOrden + " para el No. Parte " + detalleEmbarqueToEdit.NoParte + " venció el " + ocd.FechaFin.Value.ToShortDateString());
-
-                ocd.PiezasSurtidas += diferencia;
-                ocd.UltimaModificacion = DateTime.Now;
-                ocd.ModificadoPorId = userId;
-            }
+            //*************************************************************************************************
 
             var localidadFinal = await _repo.GetLocalidad(detalleEmbarqueToEdit.LocalidadId.Value);
 

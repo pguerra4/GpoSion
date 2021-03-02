@@ -57,7 +57,11 @@ export class DetalleEmbarqueEditComponent implements OnInit {
         ],
         embarqueId: [this.detalleEmbarque.embarqueId, Validators.required],
         noParte: [this.detalleEmbarque.noParte, Validators.required],
-        noOrden: [this.detalleEmbarque.noOrden.toString(), Validators.required],
+        noOrden: [
+          this.detalleEmbarque.noOrden == undefined
+            ? ""
+            : this.detalleEmbarque.noOrden.toString(),
+        ],
         noOrden2: [this.detalleEmbarque.noOrden],
         localidadId: [this.detalleEmbarque.localidadId],
         cajas: [this.detalleEmbarque.cajas],

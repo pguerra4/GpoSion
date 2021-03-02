@@ -159,6 +159,7 @@ namespace GpoSion.API.Controllers
                         var viajero = await _repo.GetViajero(rmmDto.Viajero.Value);
 
                         viajero.Existencia -= rmmDto.asurtir;
+                        viajero.ExistenciaProduccion += rmmDto.asurtir;
                         viajero.UltimaModificacion = DateTime.Now;
                         viajero.ModificadoPorId = userId;
                     }
