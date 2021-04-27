@@ -116,6 +116,7 @@ import { GraficaRecibosFullComponent } from "./grafica-recibos-full/grafica-reci
 import { GraficaRecibosMaterialFullComponent } from "./grafica-recibos-material-full/grafica-recibos-material-full.component";
 import { MovimientoMaterialListComponent } from "./movimiento-material-list/movimiento-material-list.component";
 import { MovimientoProductoReportComponent } from "./movimiento-producto-report/movimiento-producto-report.component";
+import { DetalleReciboAddComponent } from "./detalle-recibo-add/detalle-recibo-add.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -160,6 +161,12 @@ export const appRoutes: Routes = [
         path: "detalleRecibo/:id",
         component: DetalleReciboEditComponent,
         resolve: { detalleRecibo: DetalleReciboEditResolver },
+        data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
+      },
+      {
+        path: "detalleReciboAdd/:id",
+        component: DetalleReciboAddComponent,
+        canDeactivate: [PreventUnsavedChanges],
         data: { roles: ["Admin", "Almacen", "AlmacenMateriaPrima"] },
       },
       {

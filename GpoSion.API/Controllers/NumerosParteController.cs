@@ -256,5 +256,38 @@ namespace GpoSion.API.Controllers
 
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteNumeroParte(string id)
+        {
+
+
+
+            var npFromRepo = await _repo.GetNumeroParte(id);
+
+            if (npFromRepo == null)
+                return NotFound();
+
+            foreach (var item in npFromRepo.MaterialesNumeroParte)
+            {
+                _repo.Delete(item);
+            }
+
+
+            foreach (var item in npFromRepo.MoldesNumeroParte)
+            {
+                _repo.Delete(item);
+            }
+
+            _repo.Delete(npFromRepo);
+
+
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            return BadRequest("Fallo el borrado del número de parte " + npFromRepo.NoParte + " probablemente ya tenga movimientos.");
+        }
     }
+
+
 }

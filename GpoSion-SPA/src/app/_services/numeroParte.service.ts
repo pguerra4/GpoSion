@@ -210,4 +210,8 @@ export class NumeroParteService {
       localidadExistencia
     );
   }
+
+  deleteNumeroParte(id: string) {
+    return this.http.delete(this.baseUrl + "numerosparte/" + id);
+  }
 }

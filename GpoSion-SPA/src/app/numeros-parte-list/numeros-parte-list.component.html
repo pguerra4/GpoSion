@@ -31,6 +31,7 @@
                 <th scope="col">Descripción</th>
                 <th scope="col">Leyenda</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Borrar</th>
               </tr>
             </thead>
             <tbody>
@@ -56,6 +57,11 @@
                     class="fa fa-edit"
                     [routerLink]="['/numerosParte/' + numeroParte.noParte]"
                   ></a>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger" (click)="deleteNumeroParte(numeroParte.noParte)">
+                  <div class="fa fa-trash"></div>
+                </button>
                         </td>
                         </tr>
                         </tbody>

@@ -263,7 +263,7 @@ namespace GpoSion.API.Data
 
         public async Task<IEnumerable<Viajero>> GetViajeros(ViajeroParams viajeroParams)
         {
-            var viajeros = await _context.Viajeros.OrderBy(v => v.Fecha).ToListAsync();
+            var viajeros = await _context.Viajeros.OrderBy(v => v.ViajeroId).ToListAsync();
             if (!viajeroParams.MostrarHistorico.HasValue || !viajeroParams.MostrarHistorico.Value)
             {
                 viajeros = viajeros.Where(v => v.Existencia > 0).ToList();

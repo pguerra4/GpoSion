@@ -185,6 +185,7 @@ import { RecibosTotalesComponent } from "./recibos-totales/recibos-totales.compo
 import { RecibosTop10Component } from "./recibos-top10/recibos-top10.component";
 import { MovimientoMaterialListComponent } from "./movimiento-material-list/movimiento-material-list.component";
 import { MovimientoProductoReportComponent } from './movimiento-producto-report/movimiento-producto-report.component';
+import { DetalleReciboAddComponent } from './detalle-recibo-add/detalle-recibo-add.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -333,7 +334,7 @@ var spanishLocaleInfo = {
 i18n.updateLocaleInfo("es", spanishLocaleInfo);
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     NavComponent,
     HomeComponent,
@@ -450,7 +451,8 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     RecibosTotalesComponent,
     RecibosTop10Component,
     MovimientoMaterialListComponent,
-      MovimientoProductoReportComponent
+      MovimientoProductoReportComponent,
+      DetalleReciboAddComponent
    ],
   imports: [
     BrowserModule,
