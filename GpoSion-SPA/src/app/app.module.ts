@@ -184,21 +184,22 @@ import { GraficaRecibosMaterialFullComponent } from "./grafica-recibos-material-
 import { RecibosTotalesComponent } from "./recibos-totales/recibos-totales.component";
 import { RecibosTop10Component } from "./recibos-top10/recibos-top10.component";
 import { MovimientoMaterialListComponent } from "./movimiento-material-list/movimiento-material-list.component";
-import { MovimientoProductoReportComponent } from './movimiento-producto-report/movimiento-producto-report.component';
-import { DetalleReciboAddComponent } from './detalle-recibo-add/detalle-recibo-add.component';
+import { MovimientoProductoReportComponent } from "./movimiento-producto-report/movimiento-producto-report.component";
+import { DetalleReciboAddComponent } from "./detalle-recibo-add/detalle-recibo-add.component";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
 
 function defineLocales() {
+  // tslint:disable-next-line: forin
   for (const locale in locales) {
     defineLocale(locales[locale].abbr, locales[locale]);
   }
 }
 defineLocales();
 
-var spanishLocaleInfo = {
+const spanishLocaleInfo = {
   englishName: "Spanish",
   displayName: "Español",
   settings: {
@@ -301,12 +302,12 @@ var spanishLocaleInfo = {
     CmdMoveToNext: "Mover al siguiente",
     CmdMoveToLast: "Mover al último",
 
-    //FilterBar
+    // FilterBar
     StrNoFilterDefined: "Sin filtros definidos",
     StrNoFilterClickToAdd:
       "Sin filtros definidos. Click para agregar nueva condición",
 
-    //DateTime macroses
+    // DateTime macroses
     Today: "Hoy",
     Yesterday: "Ayer",
     Tomorrow: "Mañana",
@@ -334,7 +335,7 @@ var spanishLocaleInfo = {
 i18n.updateLocaleInfo("es", spanishLocaleInfo);
 
 @NgModule({
-  declarations: [		
+  declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
@@ -451,9 +452,9 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     RecibosTotalesComponent,
     RecibosTop10Component,
     MovimientoMaterialListComponent,
-      MovimientoProductoReportComponent,
-      DetalleReciboAddComponent
-   ],
+    MovimientoProductoReportComponent,
+    DetalleReciboAddComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -472,7 +473,7 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     ChartsModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: tokenGetter,
+        tokenGetter,
         whitelistedDomains: ["localhost:5005"],
         blacklistedRoutes: ["localhost:5005/api/auth"],
       },

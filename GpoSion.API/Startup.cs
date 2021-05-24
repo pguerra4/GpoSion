@@ -106,7 +106,7 @@ namespace GpoSion.API
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 
                 options.Filters.Add(new AuthorizeFilter(policy));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddCors();
             services.AddSignalR();
             services.AddAutoMapper(typeof(GpoSionRepository).Assembly);

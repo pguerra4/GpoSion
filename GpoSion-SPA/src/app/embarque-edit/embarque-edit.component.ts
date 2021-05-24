@@ -140,6 +140,7 @@ export class EmbarqueEditComponent implements OnInit {
     });
 
     this.numeroParteService
+      // tslint:disable-next-line: no-string-literal
       .editEmbarque(+this.route.snapshot.params["id"], this.embarque)
       .subscribe(
         (res: Embarque) => {
