@@ -23,7 +23,7 @@
                   'is-invalid':
                     reciboDetalleForm.get('materialId').errors &&
                     reciboDetalleForm.get('material').touched
-                }" class="form-control" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" id="material" #material />
+                }" class="form-control" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" id="material" />
                             <div class="invalid-feedback">
                                 Debe seleccionar una materia prima de la lista.
                             </div>
@@ -117,11 +117,11 @@
     </div>
 
     <div *ngIf="recibo.detalle.length > 0" class="card border-primary mt-2">
-
         <div class="card-header text-primary d-flex justify-content-between">
             <span> Detalle</span>
             <a class="fa fa-plus" [routerLink]="['/detalleReciboAdd/' + recibo.reciboId]">
-        Agregar Materia Prima </a>
+        Agregar Materia Prima
+      </a>
         </div>
 
         <div class="card-body">

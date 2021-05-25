@@ -1,7 +1,9 @@
 import { AbstractControl } from "@angular/forms";
 import { map } from "rxjs/operators";
 import { NumeroParteService } from "../_services/numeroParte.service";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ValidateExistingFolioEmbarque {
   static createValidator(
     numeroParteService: NumeroParteService,

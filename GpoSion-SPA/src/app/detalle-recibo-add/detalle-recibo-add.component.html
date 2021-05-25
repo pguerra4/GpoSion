@@ -20,10 +20,10 @@
                             <label for="material">Materia Prima</label>
                             <input type="hidden" formControlName="materialId" />
                             <input autocomplete="off" [typeahead]="materiales" typeaheadOptionField="material" [isAnimated]="true" type="text" #material [ngClass]="{
-                'is-invalid':
-                  reciboDetalleForm.get('materialId').errors &&
-                  reciboDetalleForm.get('material').touched
-              }" class="form-control" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" id="material" #material />
+                  'is-invalid':
+                    reciboDetalleForm.get('materialId').errors &&
+                    reciboDetalleForm.get('material').touched
+                }" class="form-control" formControlName="material" placeholder="Material" (typeaheadOnSelect)="onSelectMaterial($event)" id="material" />
                             <div class="invalid-feedback">
                                 Debe seleccionar una materia prima de la lista.
                             </div>
@@ -31,22 +31,22 @@
                         <div class="form-group col-sm-12 col-md-6 col-lg-6">
                             <label for="viajero">Viajero</label>
                             <input type="text" [ngClass]="{
-                'is-invalid':
-                  reciboDetalleForm.get('viajero').errors &&
-                  reciboDetalleForm.get('viajero').touched
-              }" class="form-control text-right" formControlName="viajero" placeholder="Viajero" />
+                  'is-invalid':
+                    reciboDetalleForm.get('viajero').errors &&
+                    reciboDetalleForm.get('viajero').touched
+                }" class="form-control text-right" formControlName="viajero" placeholder="Viajero" />
                             <div class="invalid-feedback" *ngIf="
-                reciboDetalleForm.get('viajero').hasError('required') &&
-                reciboDetalleForm.get('viajero').touched
-              ">
+                  reciboDetalleForm.get('viajero').hasError('required') &&
+                  reciboDetalleForm.get('viajero').touched
+                ">
                                 El viajero es requerido
                             </div>
                             <div class="invalid-feedback" *ngIf="
-                reciboDetalleForm
-                  .get('viajero')
-                  .hasError('viajeroExistente') &&
-                reciboDetalleForm.get('viajero').touched
-              ">
+                  reciboDetalleForm
+                    .get('viajero')
+                    .hasError('viajeroExistente') &&
+                  reciboDetalleForm.get('viajero').touched
+                ">
                                 El viajero ya existe.
                             </div>
                         </div>
@@ -63,36 +63,36 @@
                         <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="total">Total</label>
                             <input type="text" [ngClass]="{
-                'is-invalid':
-                  reciboDetalleForm.get('total').errors &&
-                  reciboDetalleForm.get('total').touched
-              }" class="form-control text-right" formControlName="total" placeholder="Total" />
+                  'is-invalid':
+                    reciboDetalleForm.get('total').errors &&
+                    reciboDetalleForm.get('total').touched
+                }" class="form-control text-right" formControlName="total" placeholder="Total" />
                             <div class="invalid-feedback">El total es requerido</div>
                         </div>
 
                         <div class="form-group col-sm-12 col-md-3 col-lg-3">
                             <label for="unidadMedida">Unidad Medida</label>
                             <select class="form-control text-right" id="unidadMedidaId" formControlName="unidadMedidaId">
-              <option
-                *ngFor="let unidadMedida of unidadesMedida"
-                [value]="unidadMedida.unidadMedidaId"
-              >
-                {{ unidadMedida.unidad }}
-              </option>
-            </select>
+                <option
+                  *ngFor="let unidadMedida of unidadesMedida"
+                  [value]="unidadMedida.unidadMedidaId"
+                >
+                  {{ unidadMedida.unidad }}
+                </option>
+              </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="localidad">Localización</label>
                             <select class="form-control" id="localidadId" formControlName="localidadId">
-              <option
-                *ngFor="let localidad of localidades"
-                [value]="localidad.localidadId"
-              >
-                {{ localidad.localidad }}
-              </option>
-            </select>
+                <option
+                  *ngFor="let localidad of localidades"
+                  [value]="localidad.localidadId"
+                >
+                  {{ localidad.localidad }}
+                </option>
+              </select>
                         </div>
                         <div class="form-group col-sm-12 col-md-4 col-lg-4">
                             <label for="referencia2">Referencia 2</label>
@@ -107,8 +107,8 @@
                     <div class="row">
                         <div class="form-group col-sm-12 col-md-12 col-lg-4">
                             <button class="btn btn-success" [disabled]="!reciboDetalleForm.valid" type="submit">
-              Agregar
-            </button>
+                Agregar
+              </button>
                         </div>
                     </div>
                 </form>
@@ -145,16 +145,14 @@
                             </td>
 
                             <td class="text-right">
-
                                 {{ item.viajero }}
-
                             </td>
                             <td>{{ item.localidad }}</td>
                             <td>{{ item.noLote }}</td>
                             <td class="text-center">
                                 <span class="btn btn-danger btn-xs" (click)="$event.stopPropagation()" (click)="deleteMaterial(item.material)">
-                <span class="fa fa-trash"></span
-              ></span>
+                  <span class="fa fa-trash"></span
+                ></span>
                             </td>
                         </tr>
                     </tbody>
@@ -163,9 +161,9 @@
         </div>
         <div class="card-footer">
             <button class="btn btn-primary" (click)="$event.stopPropagation()" (click)="addDetalles()">
-      Guardar Detalle Recibo
-    </button>
+        Guardar Detalle Recibo
+      </button>
         </div>
     </div>
-    <a [routerLink]="['/recibos/'+ recibo.reciboId]">Regresar a recibo </a>
+    <a [routerLink]="['/recibos/' + recibo.reciboId]">Regresar a recibo </a>
 </div>

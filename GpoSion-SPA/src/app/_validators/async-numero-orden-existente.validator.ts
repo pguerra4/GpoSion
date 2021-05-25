@@ -1,7 +1,9 @@
 import { AbstractControl } from "@angular/forms";
 import { map } from "rxjs/operators";
 import { OrdenCompraService } from "../_services/orden-compra.service";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ValidateExistingNumeroOrden {
   static createValidator(
     ordenCompraService: OrdenCompraService,

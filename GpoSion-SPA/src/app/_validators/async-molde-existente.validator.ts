@@ -1,7 +1,9 @@
 import { AbstractControl } from "@angular/forms";
 import { map } from "rxjs/operators";
 import { MoldeService } from "../_services/molde.service";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class ValidateExistingMolde {
   static createValidator(moldeService: MoldeService, moldeOriginal?: string) {
     return (control: AbstractControl) => {

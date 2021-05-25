@@ -24,7 +24,7 @@ import { ValidateExistingViajero } from "../_validators/async-viajero-existente.
   styleUrls: ["./detalle-recibo-add.component.css"],
 })
 export class DetalleReciboAddComponent implements OnInit {
-  @ViewChild("material", { static: false }) materialRef: ElementRef;
+  @ViewChild("material") materialRef: ElementRef;
   reciboDetalleForm: FormGroup;
   recibo: Recibo;
   unidadesMedida: UnidadMedida[];

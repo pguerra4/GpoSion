@@ -24,7 +24,7 @@ import { Localidad } from "../_models/localidad";
   styleUrls: ["./recibo-detail.component.css"]
 })
 export class ReciboDetailComponent implements OnInit {
-  @ViewChild("material", { static: false }) materialRef: ElementRef;
+  @ViewChild("material") materialRef: ElementRef;
   reciboDetalleForm: FormGroup;
   recibo: Recibo;
   unidadesMedida: UnidadMedida[];

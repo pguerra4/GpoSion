@@ -478,7 +478,7 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
         blacklistedRoutes: ["localhost:5005/api/auth"],
       },
     }),
-    RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload" }),
+    RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload", relativeLinkResolution: 'legacy' }),
   ],
   providers: [
     ErrorInterceptorProvider,
