@@ -7,12 +7,18 @@ namespace GpoSion.API.Models
     {
         public int Id { get; set; }
         public int RequerimientoMaterialId { get; set; }
+
+        [ForeignKey("RequerimientoMaterialId")]
         public virtual RequerimientoMaterial Requerimiento { get; set; }
 
         public int MaterialId { get; set; }
+
+        [ForeignKey("MaterialId")]
         public virtual Material Material { get; set; }
 
         public int? ViajeroId { get; set; }
+
+        [ForeignKey("ViajeroId")]
         public virtual Viajero Viajero { get; set; }
 
         [Column(TypeName = "decimal(18, 3)")]
@@ -22,6 +28,8 @@ namespace GpoSion.API.Models
         public Decimal CantidadEntregada { get; set; }
 
         public int UnidadMedidaId { get; set; }
+
+        [ForeignKey("UnidadMedidaId")]
         public virtual UnidadMedida UnidadMedida { get; set; }
 
         public DateTime? FechaEntrega { get; set; }

@@ -13,9 +13,13 @@ namespace GpoSion.API.Models
         public string ClaveMolde { get; set; }
 
         public int? ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
         public virtual Cliente Cliente { get; set; }
 
         public int? UbicacionAreaId { get; set; }
+
+        [ForeignKey("UbicacionAreaId")]
         public virtual Area Ubicacion { get; set; }
 
         // public int? MaquinaMoldeadoraId { get; set; }
@@ -23,14 +27,19 @@ namespace GpoSion.API.Models
 
         public int? EstatusMoldeId { get; set; }
 
+        [ForeignKey("EstatusMoldeId")]
         public virtual EstatusMolde Estatus { get; set; }
 
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
+
+        [ForeignKey("CreadoPorId")]
         public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
+
+        [ForeignKey("ModificadoPorId")]
         public virtual User ModificadoPor { get; set; }
 
 

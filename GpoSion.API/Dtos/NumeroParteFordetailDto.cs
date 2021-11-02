@@ -9,7 +9,7 @@ namespace GpoSion.API.Dtos
         public string NoParte { get; set; }
         public int ClienteId { get; set; }
 
-        [JsonProperty(PropertyName = "cliente")]
+        [JsonProperty("cliente")]
         public string ClienteNombre { get; set; }
 
         public decimal Peso { get; set; }

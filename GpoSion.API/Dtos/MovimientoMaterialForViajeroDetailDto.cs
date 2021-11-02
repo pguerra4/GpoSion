@@ -7,21 +7,21 @@ namespace GpoSion.API.Dtos
     {
         public DateTime Fecha { get; set; }
 
-        [JsonProperty(PropertyName = "material")]
+        [JsonProperty("material")]
         public string MaterialClaveMaterial { get; set; }
 
         public decimal Cantidad { get; set; }
 
-        [JsonProperty(PropertyName = "origen")]
+        [JsonProperty("origen")]
         public string OrigenNombreArea { get; set; }
 
-        [JsonProperty(PropertyName = "destino")]
+        [JsonProperty("destino")]
         public string DestinoNombreArea { get; set; }
 
-        [JsonProperty(PropertyName = "modificadoPor")]
+        [JsonProperty("modificadoPor")]
         public string ModificadoPorUserName { get; set; }
 
-        [JsonProperty(PropertyName = "creadoPor")]
+        [JsonProperty("creadoPor")]
         public string CreadoPorUserName { get; set; }
 
         public string MotivoMovimiento { get; set; }

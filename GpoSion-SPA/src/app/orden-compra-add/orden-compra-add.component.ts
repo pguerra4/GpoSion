@@ -11,11 +11,12 @@ import { OrdenCompraDetalle } from "../_models/orden-compra-detalle";
 import { BsDatepickerConfig } from "ngx-bootstrap";
 import { Router } from "@angular/router";
 import { ValidateExistingNumeroOrden } from "../_validators/async-numero-orden-existente.validator";
+import { ValidateNotExistingNumeroParte } from "../_validators/async-numero-parte-no-existente.validator";
 
 @Component({
   selector: "app-orden-compra-add",
   templateUrl: "./orden-compra-add.component.html",
-  styleUrls: ["./orden-compra-add.component.css"]
+  styleUrls: ["./orden-compra-add.component.css"],
 })
 export class OrdenCompraAddComponent implements OnInit {
   ordenCompraForm: FormGroup;
@@ -38,7 +39,7 @@ export class OrdenCompraAddComponent implements OnInit {
   ngOnInit() {
     (this.bsConfig = {
       containerClass: "theme-orange",
-      dateInputFormat: "DD/MM/YYYY"
+      dateInputFormat: "DD/MM/YYYY",
     }),
       this.loadClientes();
     this.loadNumerosParte();
@@ -52,15 +53,21 @@ export class OrdenCompraAddComponent implements OnInit {
         noOrden: [
           null,
           [Validators.required, Validators.pattern("^[0-9]*$")],
-          [ValidateExistingNumeroOrden.createValidator(this.ordenesService)]
+          [ValidateExistingNumeroOrden.createValidator(this.ordenesService)],
         ],
         clienteId: [null, Validators.required],
         fecha: [now],
-        noParte: [null],
+        noParte: [
+          null,
+          Validators.required,
+          ValidateNotExistingNumeroParte.createValidator(
+            this.numeroParteService
+          ),
+        ],
         precio: [null],
         cantidad: [0],
         fechaInicio: [now],
-        fechaFin: [null]
+        fechaFin: [null],
       },
       { updateOn: "blur" }
     );
@@ -71,7 +78,7 @@ export class OrdenCompraAddComponent implements OnInit {
       (res: Cliente[]) => {
         this.clientes = res;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -83,7 +90,7 @@ export class OrdenCompraAddComponent implements OnInit {
         this.numerosParte = res;
         this.numerosParteCat = this.numerosParte;
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
@@ -92,7 +99,7 @@ export class OrdenCompraAddComponent implements OnInit {
   filterNumerosParte(clienteId: number) {
     console.log(this.numerosParte);
     this.numerosParteCat = this.numerosParte.filter(
-      np => np.clienteId == clienteId
+      (np) => np.clienteId == clienteId
     );
     console.log(this.numerosParteCat);
   }
@@ -108,7 +115,7 @@ export class OrdenCompraAddComponent implements OnInit {
       id: 0,
       noOrden: +this.ordenCompraForm.get("noOrden").value,
       piezasSurtidas: 0,
-      ultimaModificacion: now
+      ultimaModificacion: now,
     };
 
     if (this.detalles.indexOf(detalle) < 0) {
@@ -124,7 +131,7 @@ export class OrdenCompraAddComponent implements OnInit {
 
   deleteNumeroParte(noParte: string) {
     this.detalles.splice(
-      this.detalles.findIndex(d => d.noParte === noParte),
+      this.detalles.findIndex((d) => d.noParte === noParte),
       1
     );
   }
@@ -132,7 +139,7 @@ export class OrdenCompraAddComponent implements OnInit {
   addOrdenCompra() {
     this.ordenCompra = Object.assign({}, this.ordenCompraForm.value);
     this.ordenCompra.numerosParte = new Array();
-    this.detalles.forEach(detalle => {
+    this.detalles.forEach((detalle) => {
       this.ordenCompra.numerosParte.push(detalle);
     });
 
@@ -141,7 +148,7 @@ export class OrdenCompraAddComponent implements OnInit {
         this.alertify.success("Guardado");
         this.router.navigate(["ordenescompra"]);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );

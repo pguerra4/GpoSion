@@ -14,7 +14,7 @@ namespace GpoSion.API.Dtos
 
         public int ClienteId { get; set; }
 
-        [JsonProperty(PropertyName = "cliente")]
+        [JsonProperty("cliente")]
         public string ClienteNombre { get; set; }
 
         public string LENo { get; set; }

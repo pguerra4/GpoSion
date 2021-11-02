@@ -7,7 +7,7 @@ namespace GpoSion.API.Dtos
     {
         public int LocalidadId { get; set; }
 
-        [JsonProperty(PropertyName = "localidad")]
+        [JsonProperty("localidad")]
         public string LocalidadDescripcion { get; set; }
 
         public string NoParte { get; set; }
@@ -20,12 +20,12 @@ namespace GpoSion.API.Dtos
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
 
-        [JsonProperty(PropertyName = "creadoPor")]
+        [JsonProperty("creadoPor")]
         public string CreadoPorUserName { get; set; }
 
         public string ModificadoPorId { get; set; }
 
-        [JsonProperty(PropertyName = "modificadoPor")]
+        [JsonProperty("modificadoPor")]
         public string ModificadoPorUserName { get; set; }
     }
 }

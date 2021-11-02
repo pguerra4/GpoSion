@@ -145,6 +145,8 @@ namespace GpoSion.API.Data
 
             modelBuilder.Entity<MoldeNumeroParte>().Property(mnp => mnp.Cavidades).HasDefaultValue(1);
 
+            modelBuilder.Entity<LocalidadNumeroParte>().HasMany(lnp => lnp.AjustesInventarioProducto).WithOne(a => a.LocalidadNumeroParte)
+                    .HasForeignKey(a => new { a.LocalidadId, a.NoParte });
             // modelBuilder.Entity<ExistenciaProductoProduccion>()
             //         .HasAlternateKey(epp => epp.NoParte)
             //         .HasName("AlternateKey_ExistenciaProductoProduccionNoParte");

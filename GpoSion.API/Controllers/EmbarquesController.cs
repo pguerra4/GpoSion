@@ -73,7 +73,7 @@ namespace GpoSion.API.Controllers
                     Cajas = de.Cajas,
                     PiezasXCaja = de.PiezasXCaja,
                     TipoMovimiento = "Embarque",
-                    DetalleEmbarqueId = de.DetalleEmbarqueId,
+                    // DetalleEmbarqueId = de.DetalleEmbarqueId,
                     LocalidadId = de.LocalidadId
                 };
                 if (!embarque.Rechazadas)

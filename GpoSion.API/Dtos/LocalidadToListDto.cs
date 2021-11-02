@@ -1,3 +1,4 @@
+
 using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
@@ -7,7 +8,7 @@ namespace GpoSion.API.Dtos
 
         public int LocalidadId { get; set; }
 
-        [JsonProperty(PropertyName = "localidad")]
+        [JsonProperty("localidad")]
         public string Descripcion { get; set; }
     }
 }

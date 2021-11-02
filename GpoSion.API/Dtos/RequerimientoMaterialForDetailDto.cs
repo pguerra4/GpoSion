@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using GpoSion.API.Models;
 
 namespace GpoSion.API.Dtos
 {

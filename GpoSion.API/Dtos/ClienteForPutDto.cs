@@ -9,7 +9,7 @@ namespace GpoSion.API.Dtos
 
         public string Clave { get; set; }
 
-        [JsonProperty(PropertyName = "cliente")]
+        [JsonProperty("cliente")]
         public string Nombre { get; set; }
 
         public string Direccion { get; set; }

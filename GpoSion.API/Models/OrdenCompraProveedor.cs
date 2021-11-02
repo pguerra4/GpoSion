@@ -15,9 +15,13 @@ namespace GpoSion.API.Models
         public DateTime? FechaEntrega { get; set; }
 
         public int CompradorId { get; set; }
+
+        [ForeignKey("CompradorId")]
         public virtual Comprador Comprador { get; set; }
 
         public int ProveedorId { get; set; }
+
+        [ForeignKey("ProveedorId")]
         public virtual Proveedor Proveedor { get; set; }
 
         public string PersonaSolicita { get; set; }
@@ -33,9 +37,13 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
+
+        [ForeignKey("CreadoPorId")]
         public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
+
+        [ForeignKey("ModificadoPorId")]
         public virtual User ModificadoPor { get; set; }
 
 

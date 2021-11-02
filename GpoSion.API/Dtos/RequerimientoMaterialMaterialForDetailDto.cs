@@ -10,7 +10,7 @@ namespace GpoSion.API.Dtos
 
         public int MaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "material")]
+        [JsonProperty("material")]
         public string MaterialClaveMaterial { get; set; }
 
         public int ViajeroId { get; set; }

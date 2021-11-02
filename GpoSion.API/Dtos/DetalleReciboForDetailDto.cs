@@ -15,28 +15,28 @@ namespace GpoSion.API.Dtos
 
         public string Referencia2 { get; set; }
 
-        [JsonProperty(PropertyName = "viajero")]
+        [JsonProperty("viajero")]
         public int ViajeroId { get; set; }
         public string ReferenciaCliente { get; set; }
         public string NoLote { get; set; }
 
-        [JsonProperty(PropertyName = "reciboId")]
+        [JsonProperty("reciboId")]
         public int ReciboReciboId { get; set; }
 
-        [JsonProperty(PropertyName = "noRecibo")]
+        [JsonProperty("noRecibo")]
         public string ReciboNoRecibo { get; set; }
 
-        [JsonProperty(PropertyName = "materialId")]
+        [JsonProperty("materialId")]
         public int MaterialMaterialId { get; set; }
         public string Material { get; set; }
 
-        [JsonProperty(PropertyName = "unidadMedidaId")]
+        [JsonProperty("unidadMedidaId")]
         public int UnidadMedidaUnidadMedidaId { get; set; }
         public string Unidad { get; set; }
 
         public int? LocalidadId { get; set; }
 
-        [JsonProperty(PropertyName = "localidad")]
+        [JsonProperty("localidad")]
         public string LocalidadDescripcion { get; set; }
 
     }

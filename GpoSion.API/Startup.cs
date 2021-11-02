@@ -30,6 +30,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using GpoSion.API.hub;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SpaServices.Extensions;
 
 namespace GpoSion.API
 {
@@ -101,12 +103,12 @@ namespace GpoSion.API
                 options.AddPolicy("AlmacenProductoVentasRole", policy => policy.RequireRole("Admin", "AlmacenProducto", "Almacen", "Ventas"));
             });
 
-            services.AddMvc(options =>
+            services.AddControllers(options =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
 
                 options.Filters.Add(new AuthorizeFilter(policy));
-            }).SetCompatibilityVersion(CompatibilityVersion.Latest);
+            }).SetCompatibilityVersion(CompatibilityVersion.Latest).AddNewtonsoftJson();
             services.AddCors();
             services.AddSignalR();
             services.AddAutoMapper(typeof(GpoSionRepository).Assembly);
@@ -115,7 +117,7 @@ namespace GpoSion.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -148,6 +150,7 @@ namespace GpoSion.API
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();
+
             app.UseEasyQuery(options =>
             {
                 options.Endpoint = "/api/easyquery";
@@ -178,18 +181,20 @@ namespace GpoSion.API
                 options.UsePaging(25);
             });
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<NotifyHub>("/api/notify");
-            });
+            // app.UseSignalR(routes =>
+            // {
+            //     routes.MapHub<NotifyHub>("/api/notify");
+            // });
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Fallback", action = "Index" }
-                );
-            });
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapHub<NotifyHub>("/api/notify");
+                endpoints.MapFallbackToController("Index", "Fallback");
+
+            }).UseSpa(_ => { _.Options.DefaultPage = "/GpoSion.API/wwwroot/spa-fallback"; });
         }
     }
 }

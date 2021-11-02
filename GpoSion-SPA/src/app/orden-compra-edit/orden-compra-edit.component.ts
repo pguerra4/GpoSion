@@ -9,6 +9,7 @@ import { NumeroParteService } from "../_services/numeroParte.service";
 import { OrdenCompraService } from "../_services/orden-compra.service";
 import { AlertifyService } from "../_services/alertify.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { ValidateNotExistingNumeroParte } from "../_validators/async-numero-parte-no-existente.validator";
 
 @Component({
   selector: "app-orden-compra-edit",
@@ -52,7 +53,13 @@ export class OrdenCompraEditComponent implements OnInit {
     this.ordenCompraForm = this.fb.group(
       {
         noOrden: [this.ordenCompra.noOrden, Validators.required],
-        noParte: [null],
+        noParte: [
+          null,
+          Validators.required,
+          ValidateNotExistingNumeroParte.createValidator(
+            this.numeroParteService
+          ),
+        ],
         precio: [null],
         cantidad: [0],
         fechaInicio: [now],

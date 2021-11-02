@@ -1,9 +1,11 @@
+
 using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
 {
     public class PlaneacionProduccionToCreateDto
     {
+
         [JsonProperty("year")]
         public int año { get; set; }
 

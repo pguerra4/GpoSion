@@ -150,8 +150,10 @@ namespace GpoSion.API.Data
             }
 
 
-            var localidadesConMaterial = await _context.LocalidadesMateriales.Where(lm => lm.MaterialId == materialId && lm.Existencia > 0
-            && !viajeros.Any(v => v.LocalidadId == lm.LocalidadId && v.Existencia == lm.Existencia)).ToListAsync();
+            var localidadesConMaterial = await _context.LocalidadesMateriales.ToListAsync();
+            localidadesConMaterial = localidadesConMaterial.Where(lm => lm.MaterialId == materialId && lm.Existencia > 0
+            && !viajeros.Any(v => v.LocalidadId == lm.LocalidadId && v.Existencia == lm.Existencia)).ToList();
+            
             foreach (var lm in localidadesConMaterial)
             {
                 var existencia = viajeros.Where(v => v.LocalidadId == lm.LocalidadId).Sum(v => v.Existencia);

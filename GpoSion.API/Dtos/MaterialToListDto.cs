@@ -6,20 +6,20 @@ namespace GpoSion.API.Dtos
     {
         public int MaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "material")]
+        [JsonProperty("material")]
         public string ClaveMaterial { get; set; }
 
         public string Descripcion { get; set; }
 
-        [JsonProperty(PropertyName = "unidadMedidaId")]
+        [JsonProperty("unidadMedidaId")]
         public int UnidadMedidaUnidadMedidaId { get; set; }
 
-        [JsonProperty(PropertyName = "unidadMedida")]
+        [JsonProperty("unidadMedida")]
         public string UnidadMedidaUnidad { get; set; }
 
         public int TipoMaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "tipoMaterial")]
+        [JsonProperty("tipoMaterial")]
         public string TipoMaterialTipo { get; set; }
         public int StockMinimo { get; set; }
 

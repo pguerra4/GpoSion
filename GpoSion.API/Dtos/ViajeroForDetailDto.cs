@@ -7,13 +7,13 @@ namespace GpoSion.API.Dtos
     public class ViajeroForDetailDto
     {
 
-        [JsonProperty(PropertyName = "viajero")]
+        [JsonProperty("viajero")]
         public int ViajeroId { get; set; }
 
 
         public int MaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "material")]
+        [JsonProperty("material")]
         public string MaterialClaveMaterial { get; set; }
 
         public decimal Existencia { get; set; }
@@ -22,7 +22,7 @@ namespace GpoSion.API.Dtos
 
         public int? LocalidadId { get; set; }
 
-        [JsonProperty(PropertyName = "localidad")]
+        [JsonProperty("localidad")]
         public string LocalizacionDescripcion { get; set; }
 
         public DateTime Fecha { get; set; }

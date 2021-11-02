@@ -1,3 +1,4 @@
+
 using Newtonsoft.Json;
 
 namespace GpoSion.API.Dtos
@@ -6,7 +7,7 @@ namespace GpoSion.API.Dtos
     {
         public int MaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "material")]
+        [JsonProperty("material")]
         public string ClaveMaterial { get; set; }
 
         public string Descripcion { get; set; }

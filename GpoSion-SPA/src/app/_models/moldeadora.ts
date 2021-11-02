@@ -2,7 +2,7 @@ export interface Moldeadora {
   moldeadoraId: number;
   moldeadora: string;
   estatus: string;
-  disparosPorHora: number;
+  disparosPorHora?: number;
   moldeId?: number;
   molde: string;
   materialId?: number;

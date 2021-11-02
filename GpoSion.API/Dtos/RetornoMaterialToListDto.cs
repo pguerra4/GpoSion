@@ -12,12 +12,12 @@ namespace GpoSion.API.Dtos
 
         public int MaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "material")]
+        [JsonProperty("material")]
         public string MaterialClaveMaterial { get; set; }
 
         public int LocalidadId { get; set; }
 
-        [JsonProperty(PropertyName = "localidad")]
+        [JsonProperty("localidad")]
         public string LocalidadDescripcion { get; set; }
 
         public decimal Cantidad { get; set; }

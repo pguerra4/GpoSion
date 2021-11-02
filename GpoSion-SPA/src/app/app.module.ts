@@ -186,6 +186,8 @@ import { RecibosTop10Component } from "./recibos-top10/recibos-top10.component";
 import { MovimientoMaterialListComponent } from "./movimiento-material-list/movimiento-material-list.component";
 import { MovimientoProductoReportComponent } from "./movimiento-producto-report/movimiento-producto-report.component";
 import { DetalleReciboAddComponent } from "./detalle-recibo-add/detalle-recibo-add.component";
+import { ValidateNotExistingNumeroParte } from "./_validators/async-numero-parte-no-existente.validator";
+import { OrdenCompraReportComponent } from './orden-compra-report/orden-compra-report.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -335,7 +337,7 @@ const spanishLocaleInfo = {
 i18n.updateLocaleInfo("es", spanishLocaleInfo);
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavComponent,
     HomeComponent,
@@ -454,7 +456,8 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     MovimientoMaterialListComponent,
     MovimientoProductoReportComponent,
     DetalleReciboAddComponent,
-  ],
+      OrdenCompraReportComponent
+   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -478,7 +481,10 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
         blacklistedRoutes: ["localhost:5005/api/auth"],
       },
     }),
-    RouterModule.forRoot(appRoutes, { onSameUrlNavigation: "reload", relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(appRoutes, {
+      onSameUrlNavigation: "reload",
+      relativeLinkResolution: "legacy",
+    }),
   ],
   providers: [
     ErrorInterceptorProvider,
@@ -525,6 +531,7 @@ i18n.updateLocaleInfo("es", spanishLocaleInfo);
     DatePipe,
     PlaneacionProduccionEditResolver,
     UserProfileEditResolver,
+    ValidateNotExistingNumeroParte,
     { provide: OWL_DATE_TIME_LOCALE, useValue: "mx" },
   ],
   bootstrap: [AppComponent],

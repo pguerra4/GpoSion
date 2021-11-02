@@ -14,27 +14,27 @@ namespace GpoSion.API.Dtos
         [JsonProperty("molde")]
         public string ClaveMolde { get; set; }
 
-        [JsonProperty(PropertyName = "clienteId")]
+        [JsonProperty("clienteId")]
         public int ClienteClienteId { get; set; }
 
-        [JsonProperty(PropertyName = "cliente")]
+        [JsonProperty("cliente")]
         public string ClienteNombre { get; set; }
 
-        [JsonProperty(PropertyName = "ubicacionId")]
+        [JsonProperty("ubicacionId")]
         public int UbicacionAreaId { get; set; }
 
-        [JsonProperty(PropertyName = "ubicacion")]
+        [JsonProperty("ubicacion")]
         public string UbicacionNombreArea { get; set; }
 
-        [JsonProperty(PropertyName = "moldeadoraId")]
+        [JsonProperty("moldeadoraId")]
         public int? MoldeadoraMoldeadoraId { get; set; }
-        [JsonProperty(PropertyName = "moldeadora")]
+        [JsonProperty("moldeadora")]
         public String MoldeadoraClave { get; set; }
 
-        [JsonProperty(PropertyName = "estatusMoldeId")]
+        [JsonProperty("estatusMoldeId")]
         public int? EstatusMoldeId { get; set; }
 
-        [JsonProperty(PropertyName = "estatusMolde")]
+        [JsonProperty("estatusMolde")]
         public String EstatusEstatus { get; set; }
 
         public DateTime FechaCreacion { get; set; }

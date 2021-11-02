@@ -12,13 +12,15 @@ namespace GpoSion.API.Dtos
 
         public DateTime? FechaEntrega { get; set; }
 
+
         public int CompradorId { get; set; }
-        [JsonProperty(PropertyName = "comprador")]
+
+        [JsonProperty("comprador")]
         public string CompradorNombre { get; set; }
 
         public int ProveedorId { get; set; }
 
-        [JsonProperty(PropertyName = "proveedor")]
+        [JsonProperty("proveedor")]
         public string ProveedorNombre { get; set; }
 
 

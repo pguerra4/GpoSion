@@ -11,6 +11,8 @@ namespace GpoSion.API.Models
         [Key]
         public string NoParte { get; set; }
         public int ClienteId { get; set; }
+
+        [ForeignKey("ClienteId")]
         public virtual Cliente Cliente { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
@@ -29,14 +31,20 @@ namespace GpoSion.API.Models
         public string UrlImagenPieza { get; set; }
 
         public int? MaterialId { get; set; }
+
+        [ForeignKey("MaterialId")]
         public virtual Material Material { get; set; }
 
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
+
+        [ForeignKey("CreadoPorId")]
         public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
+
+        [ForeignKey("ModificadoPorId")]
         public virtual User ModificadoPor { get; set; }
 
 

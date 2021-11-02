@@ -9,14 +9,14 @@ namespace GpoSion.API.Dtos
 
         public int MoldeId { get; set; }
 
-        [JsonProperty(PropertyName = "molde")]
+        [JsonProperty("molde")]
         public string MoldeClaveMolde { get; set; }
 
         public DateTime Fecha { get; set; }
 
         public int EstatusMoldeId { get; set; }
 
-        [JsonProperty(PropertyName = "estatusMolde")]
+        [JsonProperty("estatusMolde")]
         public string EstatusEstatus { get; set; }
 
         public string Observaciones { get; set; }
@@ -25,7 +25,7 @@ namespace GpoSion.API.Dtos
 
         public string CreadoPorId { get; set; }
 
-        [JsonProperty(PropertyName = "creadoPor")]
+        [JsonProperty("creadoPor")]
         public string CreadoPorUserName { get; set; }
 
 

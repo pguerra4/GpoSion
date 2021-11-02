@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GpoSion.API.Models
 {
@@ -16,9 +17,13 @@ namespace GpoSion.API.Models
         public string Estatus { get; set; }
 
         public string ReceptorId { get; set; }
+
+        [ForeignKey("ReceptorId")]
         public virtual User Receptor { get; set; }
 
         public string EmisorId { get; set; }
+
+        [ForeignKey("EmisorId")]
         public virtual User Emisor { get; set; }
 
         public string Grupo { get; set; }

@@ -117,6 +117,7 @@ import { GraficaRecibosMaterialFullComponent } from "./grafica-recibos-material-
 import { MovimientoMaterialListComponent } from "./movimiento-material-list/movimiento-material-list.component";
 import { MovimientoProductoReportComponent } from "./movimiento-producto-report/movimiento-producto-report.component";
 import { DetalleReciboAddComponent } from "./detalle-recibo-add/detalle-recibo-add.component";
+import { OrdenCompraReportComponent } from "./orden-compra-report/orden-compra-report.component";
 
 export const appRoutes: Routes = [
   { path: "", component: HomeComponent },
@@ -629,6 +630,11 @@ export const appRoutes: Routes = [
         path: "reporteMovimientosProducto",
         component: MovimientoProductoReportComponent,
         data: { roles: ["Admin", "Almacen"] },
+      },
+      {
+        path: "reporteOrdenesCompra",
+        component: OrdenCompraReportComponent,
+        data: { roles: ["Admin", "Almacen", "Ventas"] },
       },
     ],
   },

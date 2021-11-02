@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GpoSion.API.Models
 {
@@ -9,6 +10,8 @@ namespace GpoSion.API.Models
         public DateTime FechaSolicitud { get; set; }
 
         public int? TurnoId { get; set; }
+
+        [ForeignKey("TurnoId")]
         public virtual Turno Turno { get; set; }
 
         public string JefaLinea { get; set; }
@@ -26,9 +29,13 @@ namespace GpoSion.API.Models
         public DateTime? FechaCreacion { get; set; }
         public DateTime? UltimaModificacion { get; set; }
         public string CreadoPorId { get; set; }
+
+        [ForeignKey("CreadoPorId")]
         public virtual User CreadoPor { get; set; }
 
         public string ModificadoPorId { get; set; }
+
+        [ForeignKey("ModificadoPorId")]
         public virtual User ModificadoPor { get; set; }
 
 

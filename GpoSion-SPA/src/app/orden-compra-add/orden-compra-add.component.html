@@ -56,7 +56,26 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <input autocomplete="off" [typeahead]="numerosParteCat" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" id="noParte" formControlName="noParte" placeholder="Número Parte" />
+                                            <input type="search" enterkeyhint="go" autocomplete="off" [typeahead]="numerosParteCat" typeaheadOptionField="noParte" [isAnimated]="true" class="form-control" id="noParte" [typeaheadHideResultsOnBlur]="false" formControlName="noParte" placeholder="Número Parte"
+                                                [ngClass]="{
+                          'is-invalid':
+                            ordenCompraForm.get('noParte').errors &&
+                            ordenCompraForm.get('noParte').touched
+                        }" />
+                                            <div class="invalid-feedback" *ngIf="
+                          ordenCompraForm.get('noParte').hasError('required') &&
+                          ordenCompraForm.get('noParte').touched
+                        ">
+                                                El No. Parte es requerido
+                                            </div>
+                                            <div class="invalid-feedback" *ngIf="
+                          ordenCompraForm
+                            .get('noParte')
+                            .hasError('numeroParteNoExistente') &&
+                          ordenCompraForm.get('noParte').touched
+                        ">
+                                                El No. Parte no existe.
+                                            </div>
                                         </div>
                                         <div class="col-md-3">
                                             <input type="number" class="form-control" id="cantidad" formControlName="cantidad" placeholder="Cantidad" />
@@ -73,8 +92,8 @@
                                             <input type="text" class="form-control" bsDatepicker [bsConfig]="bsConfig" id="fechaFin" formControlName="fechaFin" placeholder="Fecha Fin" />
                                         </div>
                                         <div class="col-md-2">
-                                            <button class="btn btn-success btn-xs" type="button" [disabled]="!ordenCompraForm.get('noParte').value" (click)="addNumeroParte()">
-                        <span class="fa fa-plus-circle "> </span>
+                                            <button class="btn btn-success btn-xs" type="button" [disabled]="!ordenCompraForm.valid" (click)="addNumeroParte()">
+                        <span class="fa fa-plus-circle"> </span>
                       </button>
                                         </div>
                                     </div>

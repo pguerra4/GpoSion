@@ -128,23 +128,23 @@
             >Dashboard Embarques</a
           >
           <a
-          class="dropdown-item"
-          [routerLink]="['/dashboardrecibos']"
-          *appHasRole="['Admin', 'Almacen']"
-          >Dashboard Recibos</a
-        >
-        <a
-        class="dropdown-item"
-        [routerLink]="['/movimientosMaterial']"
-        *appHasRole="['Admin', 'Almacen']"
-        >Movimientos Materia Prima</a
-      >
-      <a
-      class="dropdown-item"
-      [routerLink]="['/reporteMovimientosProducto']"
-      *appHasRole="['Admin', 'Almacen']"
-      >Movimientos Producto</a
-    >
+            class="dropdown-item"
+            [routerLink]="['/dashboardrecibos']"
+            *appHasRole="['Admin', 'Almacen']"
+            >Dashboard Recibos</a
+          >
+          <a
+            class="dropdown-item"
+            [routerLink]="['/movimientosMaterial']"
+            *appHasRole="['Admin', 'Almacen']"
+            >Movimientos Materia Prima</a
+          >
+          <a
+            class="dropdown-item"
+            [routerLink]="['/reporteMovimientosProducto']"
+            *appHasRole="['Admin', 'Almacen']"
+            >Movimientos Producto</a
+          >
         </div>
       </li>
       <li
@@ -257,10 +257,17 @@
             >Ordenes Compra</a
           >
           <a class="dropdown-item" [routerLink]="['/clientes']">Clientes</a>
-                </div>
-            </li>
-            <li *appHasRole="['Sistemas']" class="nav-item dropdown" routerLinkActive="active" dropdown>
-                <a class="nav-link" [routerLink]="['/easy-query']">Reporteador</a>
+                    <a class="dropdown-item" [routerLink]="['/reporteOrdenesCompra']">Reporte Ordenes</a
+          >
+        </div>
+      </li>
+      <li
+        *appHasRole="['Sistemas']"
+        class="nav-item dropdown"
+        routerLinkActive="active"
+        dropdown
+      >
+        <a class="nav-link" [routerLink]="['/easy-query']">Reporteador</a>
             </li>
             <li *appHasRole="['Admin']" class="nav-item dropdown" routerLinkActive="active" dropdown>
                 <a class="nav-link dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administración</a
@@ -278,10 +285,10 @@
           "
         >
           <a class="dropdown-item" [routerLink]="['/admin']">Usuarios</a>
-    </div>
-    </li>
-    </ul>
-    <!-- <div class="dropdown" dropdown style="float: right; padding: 13px">
+                </div>
+            </li>
+        </ul>
+        <!-- <div class="dropdown" dropdown style="float: right; padding: 13px">
         <a class="nav-link  dropdown-toggle" dropdownToggle data-toggle="dropdown" role="button" style="padding-right: 0px;">
             <i class="fa fa-bell-o" style="font-size: 20px; float: right; color: black">
         </i
@@ -336,8 +343,8 @@
         </li>
       </ul>
     </div> -->
-    <div *ngIf="loggedIn()" class="dropdown" dropdown>
-        <a class="dropdown-toggle text-light" dropdownToggle>
+        <div *ngIf="loggedIn()" class="dropdown" dropdown>
+            <a class="dropdown-toggle text-light" dropdownToggle>
         {{
           authService.decodedToken?.given_name +
             " " +
@@ -345,8 +352,8 @@
         }}
       </a>
 
-        <div class="dropdown-menu mt-3" *dropdownMenu>
-            <a class="dropdown-item" href="/users/{{ authService.decodedToken?.nameid }}"><i class="fa fa-user"></i>Editar Perfil</a
+            <div class="dropdown-menu mt-3" *dropdownMenu>
+                <a class="dropdown-item" href="/users/{{ authService.decodedToken?.nameid }}"><i class="fa fa-user"></i>Editar Perfil</a
         >
         <a
           class="dropdown-item"

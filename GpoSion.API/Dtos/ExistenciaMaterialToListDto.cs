@@ -7,16 +7,16 @@ namespace GpoSion.API.Dtos
     {
         public int ExistenciaMaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "materialId")]
+        [JsonProperty("materialId")]
         public int MaterialMaterialId { get; set; }
 
-        [JsonProperty(PropertyName = "material")]
+        [JsonProperty("material")]
         public string MaterialClaveMaterial { get; set; }
 
-        [JsonProperty(PropertyName = "areaId")]
+        [JsonProperty("areaId")]
         public int AreaAreaId { get; set; }
 
-        [JsonProperty(PropertyName = "area")]
+        [JsonProperty("area")]
         public string AreaNombreArea { get; set; }
 
         public decimal Existencia { get; set; }
@@ -26,8 +26,6 @@ namespace GpoSion.API.Dtos
         public DateTime UltimaModificacion { get; set; }
 
         public string[] NumerosParte { get; set; }
-
-        
 
     }
 }
